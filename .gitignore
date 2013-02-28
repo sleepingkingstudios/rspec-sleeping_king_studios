@@ -1,0 +1,5 @@
+.DS_Store
+.yardoc
+
+# compiled gem file
+*.gem
