@@ -1,6 +1,11 @@
+# rspec-sleeping_king_studios.gemspec
+
+puts File.expand_path "lib/rspec/sleeping_king_studios/version"
+require File.expand_path "lib/rspec/sleeping_king_studios/version"
+
 Gem::Specification.new do |gem|
   gem.name        = 'rspec-sleeping_king_studios'
-  gem.version     = '0.0.0'
+  gem.version     = RSpec::SleepingKingStudios::VERSION
   gem.date        = '2013-02-28'
   gem.summary     = 'A collection of RSpec patches and custom matchers.'
   gem.description = <<-DESCRIPTION
