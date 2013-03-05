@@ -17,65 +17,54 @@ describe "construct matcher" do
   specify { expect(instance).to respond_to(:arguments).with(0).arguments }
   specify { expect(instance.arguments).to be instance }
   
-  def self.matches_helper actual, matches, argc
-    context do
-      let :instance do super().with(argc).arguments; end unless argc.nil?
-      let :arguments do
-        argc.nil? ? '' : " with #{argc} argument#{1 == argc ? '' : 's'}"
-      end # let
-    
-      specify { expect(instance.matches? actual).to be matches }
-    
-      if matches
-        specify 'failure message' do
-          instance.matches? actual
-          expect(instance.failure_message_for_should_not)
-            .to match /expected #{actual.inspect} not to initialize#{arguments}/
-        end # specify
-      else
-        specify 'failure message' do
-          instance.matches? actual
-          expect(instance.failure_message_for_should)
-            .to match /expected #{actual.inspect} to initialize#{arguments}/
-        end # specify
-      end # if-else
-    end # context
-  end # method matches_helper
-  
-  def self.expect_to_match actual, argc = nil
-    matches_helper actual, true, argc
-  end # method expect_actual_to_match
-
-  def self.expect_not_to_match actual, argc = nil
-    matches_helper actual, false, argc
-  end # method expect_actual_not_to_match
-  
   describe 'with a non-class object' do
-    def self.actual; Object.new; end
+    let :actual do Object.new; end
     
-    expect_not_to_match actual
+    specify { expect(instance).to fail_actual(actual).
+      with_message(/expected #{actual.inspect} not to initialize/) }
   end # describe
   
   describe 'with a class with no arguments' do
-    def self.actual; Class.new; end
+    let :actual do Class.new; end
     
-    expect_to_match actual
-    expect_to_match actual, 0
-    expect_not_to_match actual, 1
+    specify { expect(instance).to pass_actual(actual).
+      with_message(/expected #{actual.inspect} to initialize/) }
+    
+    specify { expect(instance.with(0).arguments ).to pass_actual(actual).
+      with_message(/expected #{actual.inspect} to initialize with 0 arguments/) }
+    
+    specify { expect(instance.with(1).arguments ).to fail_actual(actual).
+      with_message(/expected #{actual.inspect} not to initialize with 1 argument/) }
   end # describe
   
   describe 'with a class with multiple arguments' do
-    def self.actual; Class.new do def initialize a, b, c = nil; end; end; end
+    let :actual do Class.new do def initialize a, b, c = nil; end; end; end
     
-    expect_to_match actual
-    expect_to_match actual, 2
-    expect_to_match actual, 3
-    expect_to_match actual, 2..3
+    specify { expect(instance).to pass_actual(actual).
+      with_message(/expected #{actual.inspect} to initialize/) }
     
-    expect_not_to_match actual, 0
-    expect_not_to_match actual, 1
-    expect_not_to_match actual, 4
-    expect_not_to_match actual, 0..3
-      expect_not_to_match actual, 2..4
+    specify { expect(instance.with(2).arguments ).to pass_actual(actual).
+      with_message(/expected #{actual.inspect} to initialize with 2 arguments/) }
+    
+    specify { expect(instance.with(3).arguments ).to pass_actual(actual).
+      with_message(/expected #{actual.inspect} to initialize with 3 arguments/) }
+    
+    specify { expect(instance.with(2..3).arguments ).to pass_actual(actual).
+      with_message(/expected #{actual.inspect} to initialize with 2..3 arguments/) }
+    
+    specify { expect(instance.with(0).arguments ).to fail_actual(actual).
+      with_message(/expected #{actual.inspect} not to initialize with 0 arguments/) }
+    
+    specify { expect(instance.with(1).arguments ).to fail_actual(actual).
+      with_message(/expected #{actual.inspect} not to initialize with 1 argument/) }
+    
+    specify { expect(instance.with(4).arguments ).to fail_actual(actual).
+      with_message(/expected #{actual.inspect} not to initialize with 4 arguments/) }
+    
+    specify { expect(instance.with(0..3).arguments ).to fail_actual(actual).
+      with_message(/expected #{actual.inspect} not to initialize with 0..3 arguments/) }
+    
+    specify { expect(instance.with(2..4).arguments ).to fail_actual(actual).
+      with_message(/expected #{actual.inspect} not to initialize with 2..4 arguments/) }
   end # describe
 end # describe
