@@ -76,6 +76,6 @@ describe "construct matcher" do
     expect_not_to_match actual, 1
     expect_not_to_match actual, 4
     expect_not_to_match actual, 0..3
-    expect_not_to_match actual, 2..4
+      expect_not_to_match actual, 2..4
   end # describe
 end # describe

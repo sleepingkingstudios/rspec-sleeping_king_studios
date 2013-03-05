@@ -1,7 +1,7 @@
 # spec/rspec/sleeping_king_studios/matchers/core/construct.rb
 
 RSpec::Matchers.define :construct do
-  def matches?(actual)
+  def matches? actual
     @actual = actual
     return false unless actual.respond_to? :new
     return false unless self.matches_arity?(actual)
@@ -16,7 +16,7 @@ RSpec::Matchers.define :construct do
     "expected #{@actual.inspect} not to initialize#{with_arity}"
   end # method failure_message_for_should_not
   
-  def matches_arity?(actual)
+  def matches_arity? actual
     return true unless @expected_arity
     
     parameters = actual.allocate.method(:initialize).parameters
@@ -31,7 +31,7 @@ RSpec::Matchers.define :construct do
     end # if-else
   end # method matches_arity?
   
-  def with(n)
+  def with n
     @expected_arity = n
     self
   end # method with
