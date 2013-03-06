@@ -4,6 +4,22 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec.
 
 ## The Matchers
 
+### BuiltIn
+
+These extend the built-in RSpec matchers with additional functionality.
+
+#### be\_kind\_of Matcher
+
+Now accepts an Array of types. The matcher passes if the actual object is
+any of the parameter types.
+
+Also allows nil parameter as a shortcut for NilClass.
+
+**How To Use:**
+
+    expect(instance).to be_kind_of [String, Symbol, nil]
+    #=> passes iff instance is a String, a Symbol, or is nil
+
 ### Core
 
 #### construct Matcher
