@@ -39,6 +39,37 @@ identifier.
 **Chaining:**
 * **with:** Expects one object, which is checked against the current value of
   actual.property if actual responds to :property.
+  
+#### have\_mutator Matcher
+
+Checks if the actual object responds to :property=, and optionally if setting
+object.property = value sets object.property to value.
+
+**How To Use:**
+
+    expect(instance).to have_mutator(:foo=).with("foo")
+
+**Parameters:** Property. Expects a string or symbol that is a valid
+identifier. An equals sign '=' is automatically added if the identifier does
+not already terminate in '='.
+
+**Chaining:**
+* **with:** Expects one object. The matcher attempts to set the actual's value
+  using actual.property=, then compare the value with actual.property.
+  
+  _note:_ Currently, write-only properties cannot be checked using with().
+  Attempting to do so will raise an exception.
+
+#### include\_matching Matcher
+
+Loops through an enumerable actual object and checks if any of the items
+matches the given pattern.
+
+**How To Use:**
+
+    expect(instance).to include_matching(/[01]+/)
+
+**Parameters:** Pattern. Expects a Regexp.
 
 ### RSpec
 
