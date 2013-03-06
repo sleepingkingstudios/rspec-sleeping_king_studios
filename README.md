@@ -20,13 +20,33 @@ Also allows nil parameter as a shortcut for NilClass.
     expect(instance).to be_kind_of [String, Symbol, nil]
     #=> passes iff instance is a String, a Symbol, or is nil
 
+#### respond\_to Matcher
+
+Now has additional chaining functionality to validate the number of arguments
+accepted by the method, and whether the method accepts a block argument.
+
+_Note:_ Not guaranteed to work with Ruby 2.0 keyword arguments. Caveat lector.
+
+**How To Use:**
+
+    expect(instance).to respond_to(:foo).with(2..3).arguments.and.a_block
+
+**Chaining:**
+* **a\_block:** No parameters. Verifies that the method accepts a block
+  argument. _Important note:_ Does _not_ check whether the block is called or
+  yielded.
+* **with:** Expects one Integer or Range argument. If an Integer, verifies that
+  the method accepts that number of arguments; if a Range, verifies that the
+  method accepts both the minimum and maximum number of arguments.
+
 ### Core
 
 #### construct Matcher
 
 Verifies that the actual object can be constructed using :new. Can take an
-optional number of arguments. _note:_ Not guaranteed to work with Ruby 2.0
-keyword arguments. Caveat lector.
+optional number of arguments.
+
+_Note:_ Not guaranteed to work with Ruby 2.0 keyword arguments. Caveat lector.
 
 **How To Use:**
 
@@ -97,7 +117,7 @@ Checks if the given matcher will fail to match a specified actual object. Can
 take an optional string or regular expression to check the expected failure
 message when the matcher is expected to pass, but does not.
 
-_note:_ Do not use the not\_to syntax for this matcher; instead, use the
+_Note:_ Do not use the not\_to syntax for this matcher; instead, use the
 pass_actual matcher, below.
 
 **How To Use:**
@@ -117,7 +137,7 @@ Checks if the given matcher will match a specified actual object. Can take an
 optional string or regular expression to check the expected failure message
 when the matcher is expected to fail, but does not.
 
-_note:_ Do not use the not\_to syntax for this matcher; instead, use the
+_Note:_ Do not use the not\_to syntax for this matcher; instead, use the
 fail_actual matcher, above.
 
 **How To Use:**
