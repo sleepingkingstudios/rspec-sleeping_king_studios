@@ -16,6 +16,9 @@ Gem::Specification.new do |gem|
   gem.email       = ['merlin@sleepingkingstudios.com']
   gem.homepage     = 'http://sleepingkingstudios.com'
   
+  gem.require_path = 'lib'
+  gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
+  
   gem.add_runtime_dependency 'rspec', '~> 2.13'
   gem.add_runtime_dependency 'activesupport', '~> 3.0'
   
