@@ -1,5 +1,6 @@
 .DS_Store
 .yardoc
 
-# compiled gem file
+# compiled gem files
 *.gem
+Gemfile.lock

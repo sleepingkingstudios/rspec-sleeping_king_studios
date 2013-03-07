@@ -4,6 +4,29 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec.
 
 ## The Matchers
 
+### ActiveModel
+
+These matchers validate ActiveModel functionality, such as validations.
+
+#### have\_errors Matcher
+
+Verifies that the actual object has validation errors. Optionally can specify
+individual fields to validate, or even specific messages for each attribute.
+
+**How To Use:**
+
+    expect(instance).to have_errors
+    
+    expect(instance).to have_errors.on(:name)
+    
+    expect(instance).to have_errors.on(:name).with_message('not to be nil')
+
+**Chaining:**
+* **on:** [String, Symbol] Adds a field to validate; the matcher only passes if
+  all validated fields have errors.
+* **with\_message:** [String] Adds a message to the previously-defined field
+  validation. Raises ArgumentError if no field was previously set.
+
 ### BuiltIn
 
 These extend the built-in RSpec matchers with additional functionality.
@@ -93,7 +116,7 @@ not already terminate in '='.
 * **with:** Expects one object. The matcher attempts to set the actual's value
   using actual.property=, then compare the value with actual.property.
   
-  _note:_ Currently, write-only properties cannot be checked using with().
+  _Note:_ Currently, write-only properties cannot be checked using with().
   Attempting to do so will raise an exception.
 
 #### include\_matching Matcher
