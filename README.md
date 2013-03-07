@@ -4,6 +4,15 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec.
 
 ## The Matchers
 
+To enable a custom matcher, simply require the associated file. Matchers can be
+required individually or by category:
+
+    require 'rspec/sleeping_king_studios/matchers/core'
+    #=> requires all of the core matchers
+    
+    require 'rspec/sleeping_king_studios/matchers/core/construct'
+    #=> requires only the :construct matcher
+
 ### ActiveModel
 
 These matchers validate ActiveModel functionality, such as validations.
