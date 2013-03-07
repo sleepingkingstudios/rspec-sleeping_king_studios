@@ -1,6 +1,5 @@
 # rspec-sleeping_king_studios.gemspec
 
-puts File.expand_path "lib/rspec/sleeping_king_studios/version"
 require File.expand_path "lib/rspec/sleeping_king_studios/version"
 
 Gem::Specification.new do |gem|
