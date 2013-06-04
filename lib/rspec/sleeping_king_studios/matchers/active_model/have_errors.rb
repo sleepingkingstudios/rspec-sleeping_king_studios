@@ -35,11 +35,11 @@ RSpec::Matchers.define :have_errors do
   end # method with_message
   
   def expected_errors
-    @expected_errors ||= ActiveSupport::OrderedHash.new
+    @expected_errors ||= Hash.new
   end # method expected_errors
   
   def unexpected_errors
-    @unexpected_errors ||= ActiveSupport::OrderedHash.new
+    @unexpected_errors ||= Hash.new
   end # method unexpected_errors
   
   def attributes_have_errors

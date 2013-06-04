@@ -20,7 +20,6 @@ Gem::Specification.new do |gem|
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
   
   gem.add_runtime_dependency 'rspec', '~> 2.13'
-  gem.add_runtime_dependency 'activesupport', '~> 3.0'
   
   gem.add_development_dependency 'activemodel', '~> 3.0'
 end # gemspec
