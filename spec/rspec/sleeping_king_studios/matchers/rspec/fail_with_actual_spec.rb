@@ -37,6 +37,10 @@ describe "fail with actual matcher" do
         Evaluates to true.
       And given an incorrect should message,
         Evaluates to false with message "expected message:, got message:"
+      And given a matching should_not pattern,
+        Evaluates to true.
+      And given a non-matching should_not pattern,
+        Evaluates to false with message "expected message matching, got message:"
   SCENARIOS
 
   context 'with a passing matcher' do
@@ -57,19 +61,45 @@ describe "fail with actual matcher" do
       specify { expect(instance.matches? matcher).to be true }
     end # context
 
-    context 'with a correct message' do
+    context 'with a correct should message' do
       let(:correct_message)  { "expected: true value\n     got: false" }
       let(:instance) { super().with_message correct_message }
 
       specify { expect(instance.matches? matcher).to be true }
     end # context
 
-    context 'with an incorrect message' do
+    context 'with an incorrect should message' do
       let(:incorrect_message) { "my hovercraft is full of eels" }
       let(:correct_message)   { "expected: true value\n     got: false" }
       let(:failure_message) do
         "expected message:\n#{
           incorrect_message.lines.map { |line| "#{" " * 2}#{line}" }.join
+        }\nreceived message:\n#{
+          correct_message.lines.map { |line| "#{" " * 2}#{line}" }.join
+        }"
+      end # let
+      let(:instance) { super().with_message incorrect_message }
+
+      specify { expect(instance.matches? matcher).to be false }
+      specify 'failure message' do
+        instance.matches? matcher
+        expect(instance.failure_message_for_should).to eq failure_message
+      end # specify
+    end # context
+
+    context 'with a matching should pattern' do
+      let(:correct_message)  { /got\: false/ }
+      let(:instance) { super().with_message correct_message }
+
+      specify { expect(instance.matches? matcher).to be true }
+    end # context
+
+    context 'with a non-matching should message' do
+      let(:incorrect_message) { /hovercraft is full of eels/ }
+      let(:correct_message)   { "expected: true value\n     got: false" }
+      let(:failure_message) do
+        "expected message matching:\n#{
+          incorrect_message.inspect.lines.map { |line| "#{" " * 2}#{line}" }.join
         }\nreceived message:\n#{
           correct_message.lines.map { |line| "#{" " * 2}#{line}" }.join
         }"

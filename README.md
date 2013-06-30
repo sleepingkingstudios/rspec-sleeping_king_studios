@@ -160,8 +160,8 @@ pass\_with\_actual matcher, below.
 :matches? and :failure\_message\_for\_should.
 
 **Chaining:**
-* **with\_message:** Expects one String argument, which is matched against the
-  given matcher's failure\_message\_for\_should.
+* **with\_message:** Expects one String or Regexp argument, which is matched
+  against the given matcher's failure\_message\_for\_should.
 
 #### pass\_with\_actual Matcher
 
@@ -180,5 +180,5 @@ fail\_with\_actual matcher, above.
 :matches? and :failure\_message\_for\_should\_not.
 
 **Chaining:**
-* **with\_message:** Expects one String argument, which is matched against the
-  given matcher's failure\_message\_for\_should\_not.
+* **with\_message:** Expects one String or Regexp argument, which is matched
+  against the given matcher's failure\_message\_for\_should\_not.

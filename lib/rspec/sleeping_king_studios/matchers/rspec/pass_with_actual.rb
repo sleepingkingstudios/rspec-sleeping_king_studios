@@ -8,17 +8,21 @@ RSpec::Matchers.define :pass_with_actual do |actual|
     next false unless @matches = @matcher.matches?(@actual)
     
     text = @matcher.failure_message_for_should_not
-    if @message.is_a? String
-      text == @message
+    if @message.is_a? Regexp
+      !!(text =~ @message)
+    elsif @message
+      text == @message.to_s
     else
       true
-    end # if-else
+    end # if-elsif-else
   end # match
   
   failure_message_for_should do
     if @matches = @matcher.matches?(@actual)
-      "expected message:\n#{
-        @message.lines.map { |line| "#{" " * 2}#{line}" }.join
+      message_text = @message.is_a?(Regexp) ? @message.inspect : @message.to_s
+
+      "expected message#{@message.is_a?(Regexp) ? " matching" : ""}:\n#{
+        message_text.lines.map { |line| "#{" " * 2}#{line}" }.join
       }\nreceived message:\n#{
         @matcher.failure_message_for_should_not.lines.map { |line| "#{" " * 2}#{line}" }.join
       }"
