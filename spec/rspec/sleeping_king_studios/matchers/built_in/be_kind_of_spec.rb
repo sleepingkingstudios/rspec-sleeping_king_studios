@@ -4,42 +4,71 @@ require 'rspec/sleeping_king_studios/spec_helper'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/be_kind_of'
 
-describe "be kind of matcher" do
-  let :example_group do RSpec::Core::ExampleGroup.new; end
+describe "#be_kind_of" do
+  let(:example_group) { RSpec::Core::ExampleGroup.new }
+  let(:type)          { Object }
+  let(:instance)      { example_group.be_kind_of type }
   
   specify { expect(example_group).to respond_to(:be_kind_of).with(1).arguments }
-  
-  let :type do Object; end
-  let :instance do example_group.be_kind_of type; end
-  
-  describe 'with nil' do
-    let :type do nil; end
-    
-    specify { expect(instance).to pass_with_actual(actual = nil).
-      with_message "expected #{actual.inspect} not to be nil" }
-    specify { expect(instance).to fail_with_actual(actual = Object.new).
-        with_message "expected #{actual.inspect} to be nil" }
-  end # describe
-  
-  describe 'with a class' do
-    let :type do Class.new; end
-    
-    specify { expect(instance).to pass_with_actual(actual = type.new).
-      with_message "expected #{actual.inspect} not to be a #{type}" }
-    specify { expect(instance).to fail_with_actual(actual = Object.new).
-        with_message "expected #{actual.inspect} to be a #{type}" }
-  end # describe
-  
-  describe 'with an array of types' do
-    let :type do [String, Symbol, nil]; end
-    
-    specify { expect(instance).to pass_with_actual(actual = "").
-      with_message "expected #{actual.inspect} not to be a #{type}" }
-    specify { expect(instance).to pass_with_actual(actual = :"").
-      with_message "expected #{actual.inspect} not to be a #{type}" }
-    specify { expect(instance).to pass_with_actual(actual = nil).
-      with_message "expected #{actual.inspect} not to be a #{type}" }
-    specify { expect(instance).to fail_with_actual(actual = Object.new).
-      with_message "expected #{actual.inspect} to be a #{type}" }
-  end # describe
+
+  <<-SCENARIOS
+    When given nil,
+      And actual is nil,
+        Evaluates to true with should_not message "not to be nil".
+      And actual is not nil,
+        Evaluates to false with should message "to be nil".
+    When given a Class,
+      And actual is an instance of that class,
+        Evaluates to true with should_not message "not to be a (type)".
+      And actual is not an instance of that class,
+        Evaluates to false with should message "to be a (type)".
+    When given an array of types,
+      And actual is an instance of one of the types,
+        Evaluates to true with should_not message "not to be a type, type or type".
+      And actual is not an instance of one of the types,
+        Evalutes to false with should message "to be a type, type or type".
+  SCENARIOS
+
+  context 'with nil' do
+    let(:type) { nil }
+
+    specify 'with a nil actual' do
+      expect(instance).to pass_with_actual(actual = nil).
+        with_message "expected #{actual.inspect} not to be nil"
+    end # specify
+
+    specify 'with a non-nil actual' do
+      expect(instance).to fail_with_actual(actual = Object.new).
+        with_message "expected #{actual.inspect} to be nil"
+    end # specify
+  end # context
+
+  context 'with a class' do
+    let(:type) { Class.new }
+
+    specify 'with an instance of the class' do
+      expect(instance).to pass_with_actual(actual = type.new).
+        with_message "expected #{actual.inspect} not to be a #{type}"
+    end # specify
+
+    specify 'with a non-instance object' do
+      expect(instance).to fail_with_actual(actual = Object.new).
+        with_message "expected #{actual.inspect} to be a #{type}"
+    end # specify
+  end
+
+  context 'with an array of types' do
+    let(:type)         { [String, Symbol, nil] }
+    let(:types_string) { "#{type[0..-2].map(&:inspect).join(", ")}, or #{type.last.inspect}" }
+
+    specify 'with an instance of an array member' do
+      expect(instance).to pass_with_actual(actual = "").
+        with_message "expected #{actual.inspect} not to be a #{types_string}"
+    end # specify
+
+    specify 'with a object that is not an instance of an array member' do
+      expect(instance).to fail_with_actual(actual = Object.new).
+        with_message "expected #{actual.inspect} to be a #{types_string}"
+    end # specify
+  end # context
 end # describe

@@ -32,6 +32,12 @@ module RSpec::Matchers::BuiltIn
       case
       when expected.nil?
         "nil"
+      when expected.is_a?(Enumerable) && 1 < expected.count
+        if 2 == expected.count
+          "a #{expected.first.inspect} or #{expected.last.inspect}"
+        else
+          "a #{expected[0..-2].map(&:inspect).join(", ")}, or #{expected.last.inspect}"
+        end # if-else
       else
         "a #{expected}"
       end # case

@@ -1,4 +1,5 @@
 # Local configuration
+.rspec
 .ruby-gemset
 .ruby-version
 

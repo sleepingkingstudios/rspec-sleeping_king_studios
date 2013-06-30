@@ -19,7 +19,8 @@ Gem::Specification.new do |gem|
   gem.require_path = 'lib'
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
   
-  gem.add_runtime_dependency 'rspec', '~> 2.13'
+  gem.add_runtime_dependency 'rspec', '~> 2.14.0.rc1'
   
   gem.add_development_dependency 'activemodel', '~> 3.0'
+  gem.add_development_dependency 'fuubar'
 end # gemspec

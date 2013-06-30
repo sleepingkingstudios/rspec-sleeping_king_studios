@@ -1,7 +1,5 @@
-# lib/rspec/sleeping_king_studios/matchers/core.rb
+# lib/rspec/sleeping_king_studios/matchers/rspec.rb
 
-require 'rspec/sleeping_king_studios/matchers'
-
-module RSpec::SleepingKingStudios::Matchers
-  module RSpec; end
-end # module
+Dir[File.join File.dirname(__FILE__), 'rspec', '*.rb'].each do |file|
+  require file
+end # end each

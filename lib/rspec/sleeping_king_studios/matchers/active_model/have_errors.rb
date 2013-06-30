@@ -63,21 +63,34 @@ RSpec::Matchers.define :have_errors do
     
     expected_errors.empty?
   end # method attributes_have_errors
-  
-  def failure_message_for_should
-    return "expected #{@actual} to respond to :valid?" unless @validates
-    
-    "expected #{@actual} to have errors" + expected_errors.map { |attribute, messages|
-      " on #{attribute.inspect}" +
-        (messages.empty? ? '' : ' with message ' + messages.map(&:inspect).compact.join(" and"))
-    }.compact.join(" and")
+
+  failure_message_for_should do
+    if @validates
+      "expected #{@actual} to have errors" + expected_errors.map { |attribute, messages|
+        " on #{attribute.inspect}" +
+          (messages.empty? ? '' : ' with message ' + messages.map(&:inspect).compact.join(" and"))
+      }.compact.join(" and")
+    else
+      "expected #{@actual} to respond to :valid?"
+    end # if-else
   end # method failure_message_for_should
+
+  failure_message_for_should_not do
+    if expected_errors.empty?
+      "expected #{@actual} not to have errors"
+    else
+      "expected #{@actual} not to have errors" + unexpected_errors.map { |attribute, messages|
+        " on #{attribute.inspect}" +
+          (messages.empty? ? '' : ' with message ' + messages.map(&:inspect).compact.join(" and"))
+      }.compact.join(" and") + " but received messages #{@actual.errors.messages[attribute]}"
+    end # if-else
+  end # method failure_message_for_should_not
   
   def failure_message_for_should_not
     "expected #{@actual} not to have errors" + unexpected_errors.map { |attribute, messages|
       " on #{attribute.inspect}" +
         (messages.empty? ? '' : ' with message ' + messages.map(&:inspect).compact.join(" and"))
-    }.compact.join(" and")
+    }.compact.join(" and") + "\n#{" " * 2}errors: #{@actual.errors.messages}"
   end # method failure_message_for_should_not
   
   def failure_message_for_attribute(attribute)

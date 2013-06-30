@@ -8,31 +8,35 @@ RSpec::Matchers.define :fail_with_actual do |actual|
     next false if @matches = @matcher.matches?(@actual)
     
     text = @matcher.failure_message_for_should
-    if @message.is_a? Regexp
-      !!(text =~ @message)
-    elsif @message.is_a? String
+    if @message.is_a? String
       text == @message
     else
       true
-    end # if-elsif-else
+    end # if-else
   end # match
   
   failure_message_for_should do
-    next "expected #{@matcher} not to match #{@actual}" if @matches
-    
-    "expected #{@matcher} not to match #{@actual} with message:" +
-      "\nexpected: #{@message.is_a?(Regexp) ? @message.inspect : "\"#{@message}\""}" +
-      "\nreceived: \"#{@matcher.failure_message_for_should}\""
+    if @matches = @matcher.matches?(@actual)
+      "expected #{@matcher} not to match #{@actual}"
+    else
+      "expected message:\n#{
+        @message.lines.map { |line| "#{" " * 2}#{line}" }.join
+      }\nreceived message:\n#{
+        @matcher.failure_message_for_should.lines.map { |line| "#{" " * 2}#{line}" }.join
+      }"
+    end # if-else
   end # method failure_message_for_should
   
   failure_message_for_should_not do
-    next "expected #{@matcher} to match #{@actual}" unless @matches
-    
-    "expected #{@matcher} to match #{@actual} with message:" +
-      "\nexpected: #{@message.is_a?(Regexp) ? @message.inspect : "\"#{@message}\""}" +
-      "\nreceived: \"#{@matcher.failure_message_for_should_not}\""
+    "failure: testing positive condition with negative matcher\n~>  use the :pass_with_actual matcher instead"
   end # method failure_message_for_should_not
-  
+
+  def message
+    @message
+  end # reader message
+
+  # The text of the tested matcher's :failure_message_for_should, when the
+  # tested matcher correctly fails to match the actual object.
   def with_message message
     @message = message
     self
