@@ -81,6 +81,14 @@ describe "#respond_to" do
       expect(instance.with(1).arguments).to fail_with_actual(actual).
         with_message failure_message
     end # specify
+
+    specify 'with a block' do
+      failure_message = "expected #{actual.inspect} to respond to " +
+        "#{identifier.inspect} with arguments:\n" +
+        "  unexpected block"
+      expect(instance.with.a_block).to fail_with_actual(actual).
+        with_message failure_message
+    end # specify
   end # describe
 
   describe 'with a matching method with required arguments' do
@@ -155,12 +163,42 @@ describe "#respond_to" do
       end # describe
 
       describe 'with a matching method with variadic keywords' do
-        pending
+        let(:actual) do
+          # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
+          Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :#{identifier}, lambda { |a: true, b: true, **params| }) }.new
+        end # let
+
+        specify 'with no keywords' do
+          expect(instance).to pass_with_actual(actual).
+            with_message "expected #{actual} not to respond to :#{identifier}"
+        end # specify
+
+        specify 'with valid keywords' do
+          expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
+            with_message "expected #{actual} not to respond to :#{identifier} with 0 arguments and keywords :a, :b"
+        end # specify
+
+        specify 'with random keywords' do
+          expect(instance.with(0, :c, :d)).to pass_with_actual(actual).
+            with_message "expected #{actual} not to respond to :#{identifier} with 0 arguments and keywords :c, :d"
+        end # specify
       end # describe
     end # if
 
-    describe 'with a matching method that accepts a block' do
-      pending
+    describe 'with a matching method that expects a block' do
+      let(:actual) do
+        Class.new.tap { |klass| klass.send :define_method, identifier, lambda { |&block| yield } }.new
+      end # let
+
+      specify 'with no block' do
+        expect(instance).to pass_with_actual(actual).
+          with_message "expected #{actual} not to respond to :#{identifier}"
+      end # specify
+
+      specify 'with a block' do
+        expect(instance.with.a_block).to pass_with_actual(actual).
+          with_message "expected #{actual} not to respond to :#{identifier} with a block"
+      end # specify
     end # describe
   end # describe
 end # describe

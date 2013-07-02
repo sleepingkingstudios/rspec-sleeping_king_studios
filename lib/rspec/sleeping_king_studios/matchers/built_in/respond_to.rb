@@ -58,9 +58,14 @@ module RSpec::Matchers::BuiltIn
     
     def matches_block?(actual, name)
       return true unless @expected_block
-      
+
       parameters = actual.method(name).parameters
-      0 < parameters.count { |type, | :block == type }
+      if 0 < parameters.count { |type, | :block == type }
+        true
+      else
+        (@failing_method_reasons[name] ||= {})[:expected_block] = true
+        false
+      end # if-else
     end # method matches_block?
 
     def failure_message_for_should
@@ -119,6 +124,10 @@ module RSpec::Matchers::BuiltIn
         messages << "keywords #{@expected_keywords.map(&:inspect).join(", ")}"
       end # if
 
+      if @expected_block
+        messages << "a block"
+      end # if
+
       case messages.count
       when 0..1
         messages.join(", ")
@@ -140,6 +149,10 @@ module RSpec::Matchers::BuiltIn
 
       if ary = reasons.fetch(:unexpected_keywords, false)
         messages << "  unexpected keywords #{ary.map(&:inspect).join(", ")}"
+      end # if
+
+      if reasons.fetch(:expected_block, false)
+        messages << "  unexpected block"
       end # if
 
       messages.join "\n"
