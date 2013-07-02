@@ -7,7 +7,7 @@ module RSpec
         include Comparable
 
         def initialize version_string
-          major, minor, build = version_string.split(".")
+          self.major, self.minor, self.build = version_string.split(".")
           major ||= 0
           minor ||= 0
           build ||= 0
@@ -24,10 +24,10 @@ module RSpec
         end # method to_s
 
         def <=>(other)
-          other = self.class.new(other) if other.is_a? String
+          tmp, other = nil, self.class.new(other) if other.is_a? String
 
           [:major, :minor, :build].each do |value|
-            return tmp unless 0 = (tmp = self.send(value) <=> other.send(value))
+            return tmp unless 0 == (tmp = self.send(value) <=> other.send(value))
           end # each
 
           0

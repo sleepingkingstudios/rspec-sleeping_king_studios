@@ -26,20 +26,34 @@ module RSpec::Matchers::BuiltIn
         [@expected_arity,       @expected_arity]
 
       if min < required
-        (failing_method_reasons[name] ||= [])[:not_enough_args] = true
-        false
+        (@failing_method_reasons[name] ||= {})[:not_enough_args] = { arity: min, count: required }
+        return false
       elsif 0 == variadic && max > required + optional
-        (failing_method_reasons[name] ||= [])[:too_many_args]   = true
-        false
+        (@failing_method_reasons[name] ||= {})[:too_many_args]   = { arity: max, count: required + optional }
+        return false
       end # if
 
       true
     end # method matches_arity?
 
     def matches_keywords?(actual, name)
+      return true unless ruby_version >= "2.0.0"
       return true unless @expected_keywords
 
-      true
+      parameters = actual.method(name).parameters
+      return true if 0 < parameters.count { |type, _| :keyrest == type }
+
+      mismatch = []
+      @expected_keywords.each do |keyword|
+        mismatch << keyword unless parameters.include?([:key, keyword])
+      end # each
+
+      if mismatch.empty?
+        true
+      else
+        (@failing_method_reasons[name] ||= {})[:unexpected_keywords] = mismatch
+        false
+      end # if-else
     end # method matches_keywords?
     
     def matches_block?(actual, name)
@@ -50,39 +64,33 @@ module RSpec::Matchers::BuiltIn
     end # method matches_block?
 
     def failure_message_for_should
-      @find_failing_method_names.map do |method|
-        if !@actual.respond_to?(method)
-          "expected #{@actual.inspect} to respond to #{method.inspect}"
-        else
-
+      messages = []
+      @failing_method_names.map do |method|
+        message = "expected #{@actual.inspect} to respond to #{method.inspect}"
+        if @actual.respond_to?(method)
+          message << " with arguments:\n#{format_errors_for_method method}"
         end # if-else
+        messages << message
       end # method
-
-
-
-      str = "expected #{@actual.inspect} to respond to" + @failing_method_names.map { |name|
-        s = " #{name.inspect}"
-        if @actual.respond_to?(name)
-          s << " with #{@expected_arity} argument#{@expected_arity == 1 ? '' : 's'}" if @expected_arity && !matches_arity?(@actual, name)
-          s << " with a block" if @expected_block && !matches_block?(@actual, name)
-        end # if
-        next s
-      }.compact.join(', ')
+      messages.join "\n"
     end # method failure_message_for_should_not
     
     def failure_message_for_should_not
-      str = "expected #{@actual.inspect} not to respond to" + @names.map { |name|
-        if @actual.respond_to?(name)
-          s = " #{name.inspect}"
-          s << " with #{@expected_arity} argument#{@expected_arity == 1 ? '' : 's'}" if @expected_arity && matches_arity?(@actual, name)
-          s << " with a block" if @expected_block && matches_block?(@actual, name)
-          next s
-        end # if
-      }.compact.join(', ')
+      methods, messages = @names - @failing_method_names, []
+
+      @names.map do |method|
+        message   = "expected #{@actual.inspect} not to respond to #{method.inspect}"
+        unless (formatted = format_expected_arguments).empty?
+          message << " with #{formatted}"
+        end # unless
+        messages << message
+      end # method
+      messages.join "\n"
     end # method failure_message_for_should_not
     
-    def with(n = nil)
-      @expected_arity = n unless n.nil?
+    def with(n = nil, *keywords)
+      @expected_arity    = n unless n.nil?
+      @expected_keywords = keywords
       self
     end # method with
     
@@ -94,5 +102,47 @@ module RSpec::Matchers::BuiltIn
       @expected_block = true
       self
     end # method a_block
+
+  private
+    def ruby_version
+      RSpec::SleepingKingStudios::Util::Version.new ::RUBY_VERSION
+    end # method ruby_version
+
+    def format_expected_arguments
+      messages = []
+      
+      if !@expected_arity.nil?
+        messages << "#{@expected_arity.inspect} argument#{1 == @expected_arity ? "" : "s"}"
+      end # if
+
+      if !(@expected_keywords.nil? || @expected_keywords.empty?)
+        messages << "keywords #{@expected_keywords.map(&:inspect).join(", ")}"
+      end # if
+
+      case messages.count
+      when 0..1
+        messages.join(", ")
+      when 2
+        "#{messages[0]} and #{messages[1]}"
+      else
+        "#{messages[1..-1].join(", ")}, and #{messages[0]}"
+      end # case
+    end # method format_expected_arguments
+
+    def format_errors_for_method method
+      reasons, messages = @failing_method_reasons[method], []
+      
+      if hsh = reasons.fetch(:not_enough_args, false)
+        messages << "  expected at least #{hsh[:count]} arguments, but received #{hsh[:arity]}"
+      elsif hsh = reasons.fetch(:too_many_args, false)
+        messages << "  expected at most #{hsh[:count]} arguments, but received #{hsh[:arity]}"
+      end # if-elsif
+
+      if ary = reasons.fetch(:unexpected_keywords, false)
+        messages << "  unexpected keywords #{ary.map(&:inspect).join(", ")}"
+      end # if
+
+      messages.join "\n"
+    end # method format_errors_for_method      
   end # class RespondTo
 end # module
