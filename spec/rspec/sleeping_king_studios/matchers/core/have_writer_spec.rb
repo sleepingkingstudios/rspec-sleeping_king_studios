@@ -1,10 +1,10 @@
-# spec/rspec/sleeping_king_studios/matchers/core/have_mutator_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/core/have_writer_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
 
-require 'rspec/sleeping_king_studios/matchers/core/have_mutator'
+require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
-describe "have accessor matcher" do
+describe "have writer matcher" do
   let :example_group do RSpec::Core::ExampleGroup.new; end
   
   specify { expect(example_group).to respond_to(:have_mutator).with(1).arguments }

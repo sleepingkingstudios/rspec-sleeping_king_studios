@@ -1,6 +1,6 @@
-# spec/rspec/sleeping_king_studios/matchers/core/have_accessor.rb
+# spec/rspec/sleeping_king_studios/matchers/core/have_reader.rb
 
-RSpec::Matchers.define :have_accessor do |property|
+RSpec::Matchers.define :have_reader do |property|
   match do actual
     @actual   = actual
     @property = property
@@ -20,17 +20,16 @@ RSpec::Matchers.define :have_accessor do |property|
   
   def failure_message_for_should
     unless @actual.respond_to?(@property)
-      return "expected #{@actual} to have accessor #{@property}"
+      return "expected #{@actual} to respond to #{@property.inspect}"
     end # unless
     
-    "expected #{@actual}.#{@property} to be #{@value.inspect}"
+    "unexpected value for #{@actual}\##{@property}\n" +
+        "  expected: #{@value.inspect}\n       got: #{@actual.send(@property).inspect}"
   end # method failure_message_for_should
   
   def failure_message_for_should_not
-    if @value_set and @actual.respond_to? @property
-      return "expected #{@actual}.#{@property} not to be #{@value.inspect}"
-    end # if
-    
-    return "expected #{@actual} not to have accessor #{@property}"
+    message = "expected #{@actual} not to respond to #{@property.inspect}"
+    message << " with value #{@value.inspect}" if @value_set
+    message
   end # method failure_message_for_should
 end # matcher have_accessor
