@@ -94,8 +94,6 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 Verifies that the actual object can be constructed using :new. Can take an
 optional number of arguments.
 
-_Note:_ Not guaranteed to work with Ruby 2.0 keyword arguments. Caveat lector.
-
 **How To Use:**
 
     expect(described_class).to construct.with(1).arguments
@@ -103,10 +101,28 @@ _Note:_ Not guaranteed to work with Ruby 2.0 keyword arguments. Caveat lector.
 **Parameters:** None.
 
 **Chaining:**
-* **arguments:** Expects one Integer or Range argument. If an Integer, verifies
-  that the constructor accepts that number of arguments; if a Range, verifies
-  that the constructor accepts both the minimum and maximum number of
+* **with:** Expects one Integer or Range argument. If an Integer, verifies that
+  the class's constructor accepts that number of arguments; if a Range,
+  verifies that the constructor accepts both the minimum and maximum number of
   arguments.
+
+##### Ruby 2.0
+
+Has additional functionality to support Ruby 2.0 keyword arguments.
+
+**How To Use:**
+  expect(instance).to construct.with(0, :bar, :baz)
+
+**Chaining:**
+* **with:** Expects one Integer, Range, or nil argument, and zero or more
+  Symbol arguments corresponding to optional keywords. Verifies that the
+  class's constructor accepts that keyword, or has a variadic keyword of the
+  form \*\*params.
+
+  _Important note:_ If you do not wish to validate the number of arguments,
+  make sure to use nil as the first argument to #with; otherwise, the matcher
+  will interpret your first keyword as the number of arguments to expect. And
+  then explode.
 
 #### have\_accessor Matcher
 
