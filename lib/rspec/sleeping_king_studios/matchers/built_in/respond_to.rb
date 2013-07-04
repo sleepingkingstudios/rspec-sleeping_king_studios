@@ -1,8 +1,12 @@
 # lib/rspec/sleeping_king_studios/matchers/built_in/respond_to.rb
 
+require 'rspec/sleeping_king_studios/matchers/shared/match_parameters'
+
 module RSpec::Matchers::BuiltIn
   class RespondTo
-    def find_failing_method_names(actual, filter_method)
+    include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
+
+    def find_failing_method_names actual, filter_method
       @actual = actual
       @failing_method_reasons = {}
       @failing_method_names   = @names.__send__(filter_method) do |name|
@@ -13,59 +17,37 @@ module RSpec::Matchers::BuiltIn
       end # send
     end # method find_failing_method_names
     
-    def matches_arity?(actual, name)
+    def matches_arity? actual, name
       return true unless @expected_arity
-      
-      parameters = actual.method(name).parameters
-      required   = parameters.count { |type, | :req  == type }
-      optional   = parameters.count { |type, | :opt  == type }
-      variadic   = parameters.count { |type, | :rest == type }
 
-      min, max = @expected_arity.is_a?(Range) ?
-        [@expected_arity.begin, @expected_arity.end] :
-        [@expected_arity,       @expected_arity]
-
-      if min < required
-        (@failing_method_reasons[name] ||= {})[:not_enough_args] = { arity: min, count: required }
-        return false
-      elsif 0 == variadic && max > required + optional
-        (@failing_method_reasons[name] ||= {})[:too_many_args]   = { arity: max, count: required + optional }
+      if result = check_method_arity(actual.method(name), @expected_arity)
+        (@failing_method_reasons[name] ||= {}).update result
         return false
       end # if
 
       true
     end # method matches_arity?
 
-    def matches_keywords?(actual, name)
-      return true unless ruby_version >= "2.0.0"
+    def matches_keywords? actual, name
       return true unless @expected_keywords
 
-      parameters = actual.method(name).parameters
-      return true if 0 < parameters.count { |type, _| :keyrest == type }
+      if result = check_method_keywords(actual.method(name), @expected_keywords)
+        (@failing_method_reasons[name] ||= {}).update result
+        return false
+      end # if
 
-      mismatch = []
-      @expected_keywords.each do |keyword|
-        mismatch << keyword unless parameters.include?([:key, keyword])
-      end # each
-
-      if mismatch.empty?
-        true
-      else
-        (@failing_method_reasons[name] ||= {})[:unexpected_keywords] = mismatch
-        false
-      end # if-else
+      true
     end # method matches_keywords?
     
-    def matches_block?(actual, name)
+    def matches_block? actual, name
       return true unless @expected_block
 
-      parameters = actual.method(name).parameters
-      if 0 < parameters.count { |type, | :block == type }
-        true
-      else
-        (@failing_method_reasons[name] ||= {})[:expected_block] = true
-        false
-      end # if-else
+      if result = check_method_block(@actual.method(name))
+        (@failing_method_reasons[name] ||= {}).update result
+        return false
+      end # if
+
+      true
     end # method matches_block?
 
     def failure_message_for_should
@@ -93,7 +75,7 @@ module RSpec::Matchers::BuiltIn
       messages.join "\n"
     end # method failure_message_for_should_not
     
-    def with(n = nil, *keywords)
+    def with n = nil, *keywords
       @expected_arity    = n unless n.nil?
       @expected_keywords = keywords
       self
@@ -109,10 +91,6 @@ module RSpec::Matchers::BuiltIn
     end # method a_block
 
   private
-    def ruby_version
-      RSpec::SleepingKingStudios::Util::Version.new ::RUBY_VERSION
-    end # method ruby_version
-
     def format_expected_arguments
       messages = []
       
