@@ -82,8 +82,6 @@ RSpec::Matchers.define :construct do
 
   def format_errors
     reasons, messages = @failing_method_reasons, []
-
-    puts "#format_errors, reasons = #{reasons}"
     
     if hsh = reasons.fetch(:not_enough_args, false)
       messages << "  expected at least #{hsh[:count]} arguments, but received #{hsh[:arity]}"

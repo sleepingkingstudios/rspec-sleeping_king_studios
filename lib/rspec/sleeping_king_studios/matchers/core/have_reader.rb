@@ -24,7 +24,8 @@ RSpec::Matchers.define :have_reader do |property|
     end # unless
     
     "unexpected value for #{@actual}\##{@property}\n" +
-        "  expected: #{@value.inspect}\n       got: #{@actual.send(@property).inspect}"
+        "  expected: #{@value.inspect}\n" +
+        "       got: #{@actual.send(@property).inspect}"
   end # method failure_message_for_should
   
   def failure_message_for_should_not

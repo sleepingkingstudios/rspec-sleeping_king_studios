@@ -30,7 +30,8 @@ describe '#have_reader' do
   SCENARIOS
 
   describe 'with an object responding to :property' do
-    let(:actual) { Class.new.tap { |klass| klass.send :define_method, property, -> { 42 } }.new }
+    let(:value)  { 42 }
+    let(:actual) { Struct.new(property).new(value) }
 
     specify 'with no argument set' do
       expect(instance).to pass_with_actual(actual).
@@ -38,13 +39,13 @@ describe '#have_reader' do
     end # specify
 
     specify 'with a correct argument set' do
-      expect(instance.with 42).to pass_with_actual(actual).
-        with_message "expected #{actual} not to respond to #{property.inspect} with value 42"
+      expect(instance.with value).to pass_with_actual(actual).
+        with_message "expected #{actual} not to respond to #{property.inspect} with value #{value}"
     end # specify
 
     specify 'with an incorrect argument set' do
       failure_message = "unexpected value for #{actual}\##{property}\n" +
-        "  expected: nil\n       got: 42"
+        "  expected: nil\n       got: #{value}"
       expect(instance.with nil).to fail_with_actual(actual).
         with_message failure_message
     end # specify
