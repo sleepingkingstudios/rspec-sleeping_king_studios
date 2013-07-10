@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/matchers/core/have_reader.rb
+# lib/rspec/sleeping_king_studios/matchers/core/have_reader.rb
 
 RSpec::Matchers.define :have_reader do |property|
   match do actual

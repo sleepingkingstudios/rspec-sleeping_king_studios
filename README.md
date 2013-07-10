@@ -2,6 +2,27 @@
 
 A collection of matchers and extensions to ease TDD/BDD using RSpec.
 
+## The Extensions
+
+To enable an extension, simply require the associated file.
+
+### Mocks
+
+These extensions support the creation and use of mock objects.
+
+#### custom\_double
+
+    require 'rspec/sleeping_king_studios/mocks/custom_double'
+
+As the built-in 'double' method, but accepts a block that is passed to
+Class.new when the double is created, allowing you to create functional class
+and instance methods on the double. Useful when you need to test a function or
+sequence that repeatedly updates or checks the state of the injected object.
+
+**How To Use:**
+
+    custom_double('My Double', :foo => "Foo") { attr_accessor :bar }
+
 ## The Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be
@@ -15,9 +36,13 @@ required individually or by category:
 
 ### ActiveModel
 
+    require 'rspec/sleeping_king_studios/matchers/active_model'
+
 These matchers validate ActiveModel functionality, such as validations.
 
 #### have\_errors Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/active_model/have_errors'
 
 Verifies that the actual object has validation errors. Optionally can specify
 individual fields to validate, or even specific messages for each attribute.
@@ -38,9 +63,13 @@ individual fields to validate, or even specific messages for each attribute.
 
 ### BuiltIn
 
+    require 'rspec/sleeping_king_studios/matchers/active_model/built_in'
+
 These extend the built-in RSpec matchers with additional functionality.
 
 #### be\_kind\_of Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/active_model/built_in/be_kind_of'
 
 Now accepts an Array of types. The matcher passes if the actual object is
 any of the parameter types.
@@ -53,6 +82,8 @@ Also allows nil parameter as a shortcut for NilClass.
     #=> passes iff instance is a String, a Symbol, or is nil
 
 #### respond\_to Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/active_model/built_in/respond_to'
 
 Now has additional chaining functionality to validate the number of arguments
 accepted by the method, and whether the method accepts a block argument.
@@ -89,7 +120,11 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 
 ### Core
 
+    require 'rspec/sleeping_king_studios/matchers/active_model/core'
+
 #### construct Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/active_model/core/construct'
 
 Verifies that the actual object can be constructed using :new. Can take an
 optional number of arguments.
@@ -124,14 +159,16 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
   will interpret your first keyword as the number of arguments to expect. And
   then explode.
 
-#### have\_accessor Matcher
+#### have\_reader Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/active_model/core/have_reader'
 
 Checks if the actual object responds to :property, and optionally if the
 current value of actual.property is equal to a specified value.
 
 **How To Use:**
 
-    expect(instance).to have_accessor(:foo).with("foo")
+    expect(instance).to have_reader(:foo).with("foo")
 
 **Parameters:** Property. Expects a string or symbol that is a valid
 identifier.
@@ -140,14 +177,16 @@ identifier.
 * **with:** Expects one object, which is checked against the current value of
   actual.property if actual responds to :property.
   
-#### have\_mutator Matcher
+#### have\_writer Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/active_model/core/have_writer'
 
 Checks if the actual object responds to :property=, and optionally if setting
 object.property = value sets object.property to value.
 
 **How To Use:**
 
-    expect(instance).to have_mutator(:foo=).with("foo")
+    expect(instance).to have_writer(:foo=).with("foo")
 
 **Parameters:** Property. Expects a string or symbol that is a valid
 identifier. An equals sign '=' is automatically added if the identifier does
@@ -162,6 +201,8 @@ not already terminate in '='.
 
 #### include\_matching Matcher
 
+    require 'rspec/sleeping_king_studios/matchers/active_model/core/include_matching'
+
 Loops through an enumerable actual object and checks if any of the items
 matches the given pattern.
 
@@ -173,9 +214,13 @@ matches the given pattern.
 
 ### RSpec
 
+    require 'rspec/sleeping_king_studios/matchers/active_model/rspec'
+
 These meta-matchers are used to test other custom matchers.
 
 #### fail\_with\_actual Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/active_model/rspec/fail_with_actual'
 
 Checks if the given matcher will fail to match a specified actual object. Can
 take an optional string to check the expected failure message when the matcher
@@ -197,6 +242,8 @@ pass\_with\_actual matcher, below.
 
 #### pass\_with\_actual Matcher
 
+    require 'rspec/sleeping_king_studios/matchers/active_model/rspec/pass_with_actual'
+
 Checks if the given matcher will match a specified actual object. Can take an
 optional string to check the expected failure message when the matcher is
 expected to fail, but does not.
@@ -206,7 +253,7 @@ fail\_with\_actual matcher, above.
 
 **How To Use:**
 
-  expect(matcher).to pass\_with\_actual(actual)
+    expect(matcher).to pass\_with\_actual(actual)
   
 **Parameters:** Matcher. Expects an object that, at minimum, responds to
 :matches? and :failure\_message\_for\_should\_not.
