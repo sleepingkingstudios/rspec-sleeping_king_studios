@@ -12,7 +12,7 @@ RSpec::Matchers.define :have_property do |property|
 
     if @value_set
       @actual.send :"#{@property}=", @value
-      return false unless @actual.send(@property) == @value
+      next false unless @actual.send(@property) == @value
     end # if
     
     true
@@ -28,7 +28,14 @@ RSpec::Matchers.define :have_property do |property|
     methods = []
     methods << ":#{@property}"  unless @match_reader
     methods << ":#{@property}=" unless @match_writer
-    "expected #{@actual.inspect} to respond to #{methods.join " and "}"
+
+    unless methods.empty?
+      next "expected #{@actual.inspect} to respond to #{methods.join " and "}"
+    end # unless
+
+    "unexpected value for #{@actual.inspect}\##{@property}" +
+      "\n  expected: #{@value.inspect}" +
+      "\n       got: #{@actual.send(@property).inspect}"
   end # failure_message_for_should
 
   failure_message_for_should_not do

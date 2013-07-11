@@ -1,6 +1,7 @@
 # spec/rspec/sleeping_king_studios/matchers/core/have_property_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/mocks/custom_double'
 
 require 'rspec/sleeping_king_studios/matchers/core/have_property'
 
@@ -32,30 +33,32 @@ describe '#have_reader' do
   SCENARIOS
 
   describe 'with an object responding to :property and :property=' do
-    let(:actual) { Struct.new(property).new }
-    let(:value)  { 42 }
+    let(:actual) do
+      struct = Struct.new(property).new
+      allow(struct).to receive(:inspect).and_return("<struct>")
+      struct
+    end # let
+    let(:value) { 42 }
 
     specify 'with no expected value' do
       expect(instance).to pass_with_actual(actual).
-        with_message "expected #{actual} not to respond to #{property.inspect} or #{property.inspect}="
+        with_message "expected #{actual.inspect} not to respond to #{property.inspect} or #{property.inspect}="
     end # specify
 
     specify 'with a correct expected value' do
       allow(actual).to receive(:to_s).and_return("<struct>").twice
       expect(instance.with 42).to pass_with_actual(actual).
-        with_message "expected #{actual} not to respond to #{property.inspect} or #{property.inspect}= with value #{value}"
+        with_message "expected #{actual.inspect} not to respond to #{property.inspect} or #{property.inspect}= with value #{value}"
     end # specify
 
     specify 'with an incorrect expected value' do
-      allow(instance).to receive(property).and_return(nil)
-      failure_message = "unexpected value for #{actual}\##{property}\n" +
+      allow(actual).to receive(property).and_return(nil)
+      failure_message = "unexpected value for #{actual.inspect}\##{property}\n" +
         "  expected: #{value.inspect}\n" +
         "       got: #{actual.send(property).inspect}"
       expect(instance.with 42).to fail_with_actual(actual).
         with_message failure_message
     end # specify
-
-    pending
   end # describe
 
   describe 'with an object responding only to :property' do

@@ -120,11 +120,11 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 
 ### Core
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/core'
+    require 'rspec/sleeping_king_studios/matchers/core'
 
 #### construct Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/core/construct'
+    require 'rspec/sleeping_king_studios/matchers/core/construct'
 
 Verifies that the actual object can be constructed using :new. Can take an
 optional number of arguments.
@@ -159,9 +159,28 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
   will interpret your first keyword as the number of arguments to expect. And
   then explode.
 
+#### have\_property Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/have_property'
+
+Checks if the actual object responds to :property and :property=, and
+optionally if a value written to actual.property= can then be read by
+actual.property.
+
+**How To Use:**
+
+    expect(instance).to have_property(:foo).with("foo")
+
+**Parameters:** Property. Expects a string or symbol that is a valid
+identifier.
+
+**Chaining:**
+* **with:** Expects one object, which is written to actual.property= and then
+  read from actual.property.
+
 #### have\_reader Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/core/have_reader'
+    require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 
 Checks if the actual object responds to :property, and optionally if the
 current value of actual.property is equal to a specified value.
@@ -179,7 +198,7 @@ identifier.
   
 #### have\_writer Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/core/have_writer'
+    require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
 Checks if the actual object responds to :property=, and optionally if setting
 object.property = value sets object.property to value.
@@ -201,7 +220,7 @@ not already terminate in '='.
 
 #### include\_matching Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/core/include_matching'
+    require 'rspec/sleeping_king_studios/matchers/core/include_matching'
 
 Loops through an enumerable actual object and checks if any of the items
 matches the given pattern.
@@ -214,13 +233,13 @@ matches the given pattern.
 
 ### RSpec
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/rspec'
+    require 'rspec/sleeping_king_studios/matchers/rspec'
 
 These meta-matchers are used to test other custom matchers.
 
 #### fail\_with\_actual Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/rspec/fail_with_actual'
+    require 'rspec/sleeping_king_studios/matchers/rspec/fail_with_actual'
 
 Checks if the given matcher will fail to match a specified actual object. Can
 take an optional string to check the expected failure message when the matcher
@@ -242,7 +261,7 @@ pass\_with\_actual matcher, below.
 
 #### pass\_with\_actual Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/rspec/pass_with_actual'
+    require 'rspec/sleeping_king_studios/matchers/rspec/pass_with_actual'
 
 Checks if the given matcher will match a specified actual object. Can take an
 optional string to check the expected failure message when the matcher is
