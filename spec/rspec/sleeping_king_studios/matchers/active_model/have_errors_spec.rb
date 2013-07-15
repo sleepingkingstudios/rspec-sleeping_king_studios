@@ -3,35 +3,15 @@
 require 'active_model'
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors'
 
-describe "have_errors matcher" do
-  let(:model) do Class.new do
-    include ActiveModel::Validations
-    
-    def initialize(params = nil)
-      (params || {}).each do |key, value|
-        self.send :"#{key}=", value
-      end # each
-    end # method initialize
-    
-    attr_accessor :foo, :bar, :baz
-    
-    validates_each :foo, :bar do |record, attr, value|
-      record.errors.add attr, 'not to be nil' if value.nil?
-    end # validates
-    
-    validates_each :foo do |record, attr, value|
-      record.errors.add attr, 'to be 1s and 0s' if
-        value.nil? || value != value.gsub(/[^01]/,'')
-    end # validates
-  end; end # class; let
-
-  let(:example_group) { RSpec::Core::ExampleGroup.new }
+describe "#have_errors" do
+  let(:example_group) { self }
   let(:instance)      { example_group.have_errors }
   
-  specify { expect(example_group).to respond_to(:have_errors).with(1).arguments }
+  specify { expect(example_group).to respond_to(:have_errors).with(0).arguments }
 
   describe "#on" do
     specify { expect(instance).to respond_to(:on).with(1).arguments }
@@ -43,6 +23,13 @@ describe "have_errors matcher" do
     specify { expect { instance.with_message 'xyzzy' }.to raise_error ArgumentError,
       /no attribute specified for error message/i }
     specify { expect(instance.on(:foo).with_message 'xyzzy').to be instance }
+  end # describe
+
+  describe '#with_messages' do
+    specify { expect(instance).to respond_to(:with_messages).with(1..9001).arguments }
+    specify { expect { instance.with_messages 'bar', /baz/ }.to raise_error ArgumentError,
+      /no attribute specified for error message/i }
+    specify { expect(instance.on(:foo).with_messages 'bar', /baz/).to be instance }
   end # describe
 
   <<-SCENARIOS
@@ -67,56 +54,93 @@ describe "have_errors matcher" do
   context 'with a non-record object' do
     let(:actual) { Object.new }
     
-    specify { expect(instance).to fail_with_actual(actual).
-      with_message "expected #{actual} to respond to :valid?" }
+    specify 'fails' do
+      expect(instance).to fail_with_actual(actual).
+        with_message "expected #{actual} to respond to :valid?"
+    end # specify
   end # context
 
   context 'with a valid record' do
-    let(:actual) { model.new :foo => '10010011101', :bar => 'bar' }
+    let(:actual) { FactoryGirl.build :active_model, :foo => '10010011101', :bar => 'bar' }
 
-    specify { expect(instance).to fail_with_actual(actual).
-      with_message "expected #{actual} to have errors" }
+    specify 'fails' do
+      expect(instance).to fail_with_actual(actual).
+        with_message "expected #{actual.inspect} to have errors"
+    end # specify
   end # context
 
   context 'with an invalid record' do
-    let(:actual) { model.new }
+    let(:actual) { FactoryGirl.build :active_model }
     let(:errors) { actual.tap(&:valid?).errors.messages }
+    let(:received_errors_message) do
+      "\n  received errors:" + errors.map do |attr, ary|
+        "\n    #{attr}: " + ary.map(&:inspect).join(", ")
+      end.join # map
+    end # let
 
-    specify { expect(instance).to pass_with_actual(actual).
-      with_message "expected #{actual} not to have errors\n  errors: #{errors}" }
+    specify 'passes' do
+      expect(instance).to pass_with_actual(actual).
+        with_message "expected #{actual.inspect} not to have errors#{received_errors_message}"
+    end # specify
 
     context 'with an attribute with no errors' do
       let(:attribute) { :baz }
       let(:instance)  { super().on(attribute) }
+      let(:expected_errors_message) do
+        "\n  expected errors:\n    #{attribute}: (any)"
+      end # let
+      let(:failure_message) do
+        "expected #{actual.inspect} to have errors#{expected_errors_message}#{received_errors_message}"
+      end # let
 
-      specify { expect(instance).to fail_with_actual(actual).
-        with_message "expected #{actual} to have errors on #{attribute.inspect}"}
+      specify 'fails' do
+        expect(instance).to fail_with_actual(actual).
+          with_message failure_message
+      end # specify
     end # context
 
     context 'with an attribute with errors' do
       let(:attribute) { :bar }
-      let(:instance) { super().on(attribute) }
+      let(:instance)  { super().on(attribute) }
+      let(:expected_errors_message) do
+        "\n  expected errors:\n    #{attribute}: (any)"
+      end # let
+      let(:failure_message) do
+        "expected #{actual.inspect} not to have errors#{expected_errors_message}#{received_errors_message}"
+      end # let
 
-      specify { expect(instance).to pass_with_actual(actual).
-        with_message "expected #{actual} not to have errors on #{attribute.inspect}\n  errors: #{errors}" }
+      specify 'passes' do
+        expect(instance).to pass_with_actual(actual).
+          with_message failure_message
+      end # specify
 
       context 'with a correct message' do
         let(:expected_error) { "not to be nil" }
         let(:instance) { super().with_message(expected_error) }
+        let(:expected_errors_message) do
+          "\n  expected errors:\n    #{attribute}: #{expected_error.inspect}"
+        end # let
         
-        specify { expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual} not to have errors on #{attribute.inspect} with message \"#{expected_error}\"\n  errors: #{errors}" }
+        specify 'passes' do
+          expect(instance).to pass_with_actual(actual).
+            with_message failure_message
+        end # specify
       end # context
 
       context 'with an incorrect message' do
         let(:expected_error) { "to be 1s and 0s" }
-        let(:failure_message) do
-          "expected #{actual} to have errors on #{attribute.inspect} with message \"#{expected_error}\""
-        end # let
         let(:instance) { super().with_message(expected_error) }
+        let(:expected_errors_message) do
+          "\n  expected errors:\n    #{attribute}: #{expected_error.inspect}"
+        end # let
+        let(:failure_message) do
+          "expected #{actual.inspect} to have errors#{expected_errors_message}#{received_errors_message}"
+        end # let
         
-        specify { expect(instance).to fail_with_actual(actual).
-          with_message(failure_message) }
+        specify 'fails' do
+          expect(instance).to fail_with_actual(actual).
+            with_message failure_message
+        end # specify
       end # context
     end # context
   end # context
