@@ -1,20 +1,22 @@
 # spec/rspec/sleeping_king_studios/matchers/core/construct_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 require 'rspec/sleeping_king_studios/matchers/core/construct'
 
-describe "construct matcher" do
-  def self.ruby_version
-    RSpec::SleepingKingStudios::Util::Version.new ::RUBY_VERSION
-  end # class method ruby_version
+describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
+  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
 
-  let(:example_group) { RSpec::Core::ExampleGroup.new }
-  let(:instance)      { example_group.construct }
-  let(:ruby_version)  { Version.new *RUBY_VERSION.split(".") }
-
+  let(:example_group) { self }
+  
   specify { expect(example_group).to respond_to(:construct).with(0).arguments }
+  specify { expect(example_group.construct).to be_a described_class }
+
+  let(:instance) { described_class.new }
+
+  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   describe '#with' do
     specify { expect(instance).to respond_to(:with).with(0..2).arguments }
@@ -102,7 +104,7 @@ describe "construct matcher" do
     end # specify
   end # describe
 
-  if ruby_version >= "2.0.0"
+  if RUBY_VERSION >= "2.0.0"
     describe 'with a ::new method with keywords' do
       let(:actual) do
         # class-eval hackery to avoid syntax errors on pre-2.0.0 systems

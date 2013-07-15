@@ -29,11 +29,11 @@ module RSpec::SleepingKingStudios::Matchers::Core
       "expected #{@actual.inspect} not to be true or false"
     end # method failure_message_for_should_not
   end # class
+end # module
 
-  module RSpec::SleepingKingStudios::Matchers
-    # @see RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher#matches?
-    def be_boolean
-      RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher.new
-    end # method have_errors
-  end # module
+module RSpec::SleepingKingStudios::Matchers
+  # @see RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher#matches?
+  def be_boolean
+    RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher.new
+  end # method have_errors
 end # module

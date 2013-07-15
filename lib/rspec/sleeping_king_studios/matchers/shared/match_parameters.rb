@@ -1,14 +1,19 @@
 # lib/rspec/sleeping_king_studios/matchers/shared/parameters_matcher.rb
 
-require 'rspec/sleeping_king_studios/matchers/shared'
-require 'rspec/sleeping_king_studios/util/version'
+require 'rspec/sleeping_king_studios/matchers/shared/require'
 
 module RSpec::SleepingKingStudios::Matchers::Shared
+  # Helper methods for checking the parameters and keywords (Ruby 2.0 only) of
+  # a method.
   module MatchParameters
-    def ruby_version
-      RSpec::SleepingKingStudios::Util::Version.new ::RUBY_VERSION
-    end # method ruby_version
-
+    # Checks whether the method accepts the specified number or range of
+    # arguments.
+    # 
+    # @param [Method] method the method to check
+    # @param [Integer, Range] arity the expected number or range of parameters
+    # 
+    # @return [Boolean] true if the method accepts the specified number or both
+    #   the specified minimum and maximum number of parameters; otherwise false
     def check_method_arity method, arity
       parameters = method.parameters
       required   = parameters.count { |type, | :req  == type }
@@ -28,8 +33,15 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       nil
     end # method check_method_arity
 
+    # Checks whether the method accepts the specified keywords.
+    # 
+    # @param [Method] method the method to check
+    # @param [Array<String, Symbol>] keywords the expected keywords
+    # 
+    # @return [Boolean] true if the method accepts the specified keywords;
+    #   otherwise false
     def check_method_keywords method, keywords
-      return nil unless ruby_version >= "2.0.0"
+      return nil unless RUBY_VERSION >= "2.0.0"
 
       parameters = method.parameters
       return nil if 0 < parameters.count { |type, _| :keyrest == type }
@@ -42,10 +54,16 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       mismatch.empty? ? nil : { :unexpected_keywords => mismatch }
     end # method check_method_keywords
 
+    # Checks whether the method expects a block.
+    # 
+    # @param [Method] method the method to check
+    # 
+    # @return [Boolean] true if the method expects a block argument; otherwise
+    #   false
     def check_method_block method
       0 == method.parameters.count { |type, | :block == type } ? { :expected_block => true } : nil
     end # method check_method_block
 
-    private :check_method_arity, :check_method_block, :check_method_keywords, :ruby_version
+    private :check_method_arity, :check_method_block, :check_method_keywords
   end # module
 end # module

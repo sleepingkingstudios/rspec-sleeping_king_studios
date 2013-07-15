@@ -1,98 +1,137 @@
 # spec/rspec/sleeping_king_studios/matchers/core/construct.rb
 
+require 'rspec/sleeping_king_studios/matchers/base_matcher'
+require 'rspec/sleeping_king_studios/matchers/core/require'
+
 require 'rspec/sleeping_king_studios/matchers/shared/match_parameters'
 
-RSpec::Matchers.define :construct do
-  include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
+module RSpec::SleepingKingStudios::Matchers::Core
+  # Matcher for checking whether an object can be constructed via #new and
+  # #initialize, and the parameters accepted by #initialize.
+  # 
+  # @since 1.0.0
+  class ConstructMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
 
-  def matches? actual
-    @actual = actual
-    @failing_method_reasons = {}
-    @actual.respond_to?(:new) &&
-      matches_arity?(actual) &&
-      matches_keywords?(actual)
-  end # method matches?
-
-  def matches_arity? actual
-    return true unless @expected_arity
+    # Checks if the object responds to :new. If so, allocates an instance and
+    # checks the parameters expected by #initialize against the expected
+    # parameters, if any.
+    # 
+    # @param [Object] actual the object to check
+    # 
+    # @return [Boolean] true if the object is true or false, otherwise false
+    def matches? actual
+      @actual = actual
+      @failing_method_reasons = {}
+      @actual.respond_to?(:new) &&
+        matches_arity?(actual) &&
+        matches_keywords?(actual)
+    end # method matches?
     
-    if result = check_method_arity(actual.allocate.method(:initialize), @expected_arity)
-      @failing_method_reasons.update result
-      return false
-    end # if
+    # Adds a parameter count expectation and/or one or more keyword
+    # expectations (Ruby 2.0 only).
+    # 
+    # @param [Integer, Range, nil] count the number of expected parameters; can
+    #   be an integer, a range, or nil (parameter count is ignored)
+    # @param [Array<String, Symbol>] keywords list of keyword arguments
+    #   accepted by the method
+    # 
+    # @return [ConstructMatcher] self
+    def with count = nil, *keywords
+      @expected_arity    = count unless count.nil?
+      @expected_keywords = keywords
+      self
+    end # method with
 
-    true
-  end # method matches_arity?
+    # Convenience method for more fluent specs. Does nothing and returns self.
+    # 
+    # @return [ConstructMatcher] self
+    def arguments
+      self
+    end # method arguments
 
-  def matches_keywords? actual
-    return true unless @expected_keywords
+    # @see BaseMatcher#failure_message_for_should
+    def failure_message_for_should
+      message = "expected #{@actual.inspect} to construct"
+      message << " with arguments:\n#{format_errors}" if @actual.respond_to?(:new)
+      message
+    end # method failure_message_for_should
 
-    if result = check_method_keywords(actual.allocate.method(:initialize), @expected_keywords)
-      @failing_method_reasons.update result
-      return false
-    end # if
+    # @see BaseMatcher#failure_message_for_should_not
+    def failure_message_for_should_not
+      message = "expected #{@actual.inspect} not to construct"
+      unless (formatted = format_expected_arguments).empty?
+        message << " with #{formatted}" 
+      end # unless
+      message
+    end # method failure_message_for_should_not
 
-    true
-  end # method matches_keywords?
-  
-  def with n = nil, *keywords
-    @expected_arity    = n unless n.nil?
-    @expected_keywords = keywords
-    self
-  end # method with
-  
-  def arguments
-    self
-  end # method arguments
-  
-  def failure_message_for_should
-    message = "expected #{@actual.inspect} to construct"
-    message << " with arguments:\n#{format_errors}" if @actual.respond_to?(:new)
-    message
-  end # method failure_message_for_should
+    private
 
-  def failure_message_for_should_not
-    message = "expected #{@actual.inspect} not to construct"
-    unless (formatted = format_expected_arguments).empty?
-      message << " with #{formatted}" 
-    end # unless
-    message
-  end # method failure_message_for_should_not
-  
-  def format_expected_arguments
-    messages = []
+    def matches_arity? actual
+      return true unless @expected_arity
+      
+      if result = check_method_arity(actual.allocate.method(:initialize), @expected_arity)
+        @failing_method_reasons.update result
+        return false
+      end # if
 
-    if !@expected_arity.nil?
-      messages << "#{@expected_arity.inspect} argument#{1 == @expected_arity ? "" : "s"}"
-    end # if
+      true
+    end # method matches_arity?
 
-    if !(@expected_keywords.nil? || @expected_keywords.empty?)
-      messages << "keywords #{@expected_keywords.map(&:inspect).join(", ")}"
-    end # if
+    def matches_keywords? actual
+      return true unless @expected_keywords
 
-    case messages.count
-    when 0..1
-      messages.join(", ")
-    when 2
-      "#{messages[0]} and #{messages[1]}"
-    else
-      "#{messages[1..-1].join(", ")}, and #{messages[0]}"
-    end # case
-  end # method format_expected_arguments
+      if result = check_method_keywords(actual.allocate.method(:initialize), @expected_keywords)
+        @failing_method_reasons.update result
+        return false
+      end # if
 
-  def format_errors
-    reasons, messages = @failing_method_reasons, []
-    
-    if hsh = reasons.fetch(:not_enough_args, false)
-      messages << "  expected at least #{hsh[:count]} arguments, but received #{hsh[:arity]}"
-    elsif hsh = reasons.fetch(:too_many_args, false)
-      messages << "  expected at most #{hsh[:count]} arguments, but received #{hsh[:arity]}"
-    end # if-elsif
+      true
+    end # method matches_keywords?
 
-    if ary = reasons.fetch(:unexpected_keywords, false)
-      messages << "  unexpected keywords #{ary.map(&:inspect).join(", ")}"
-    end # if
+    def format_expected_arguments
+      messages = []
 
-    messages.join "\n"
-  end # method format_errors
-end # matcher
+      if !@expected_arity.nil?
+        messages << "#{@expected_arity.inspect} argument#{1 == @expected_arity ? "" : "s"}"
+      end # if
+
+      if !(@expected_keywords.nil? || @expected_keywords.empty?)
+        messages << "keywords #{@expected_keywords.map(&:inspect).join(", ")}"
+      end # if
+
+      case messages.count
+      when 0..1
+        messages.join(", ")
+      when 2
+        "#{messages[0]} and #{messages[1]}"
+      else
+        "#{messages[1..-1].join(", ")}, and #{messages[0]}"
+      end # case
+    end # method format_expected_arguments
+
+    def format_errors
+      reasons, messages = @failing_method_reasons, []
+      
+      if hsh = reasons.fetch(:not_enough_args, false)
+        messages << "  expected at least #{hsh[:count]} arguments, but received #{hsh[:arity]}"
+      elsif hsh = reasons.fetch(:too_many_args, false)
+        messages << "  expected at most #{hsh[:count]} arguments, but received #{hsh[:arity]}"
+      end # if-elsif
+
+      if ary = reasons.fetch(:unexpected_keywords, false)
+        messages << "  unexpected keywords #{ary.map(&:inspect).join(", ")}"
+      end # if
+
+      messages.join "\n"
+    end # method format_errors
+  end # class
+end # module
+
+module RSpec::SleepingKingStudios::Matchers
+  # @see RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher#matches?
+  def construct
+    RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher.new
+  end # method have_errors
+end # module
