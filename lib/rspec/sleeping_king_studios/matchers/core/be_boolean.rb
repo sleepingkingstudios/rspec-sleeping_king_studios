@@ -10,7 +10,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
   class BeBooleanMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
     # Checks if the object is true or false.
     # 
-    # @param [Object] actual
+    # @param [Object] actual the object to check
     # 
     # @return [Boolean] true if the object is true or false, otherwise false
     def matches? actual

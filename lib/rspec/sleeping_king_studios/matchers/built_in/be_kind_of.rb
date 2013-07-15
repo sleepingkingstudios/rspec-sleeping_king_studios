@@ -4,14 +4,26 @@ require 'rspec/sleeping_king_studios/matchers/built_in/require'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   class BeAKindOfMatcher < RSpec::Matchers::BuiltIn::BeAKindOf
+    # Checks if the object matches one of the specified types. Allows an
+    # expected value of nil as a shortcut for expecting an instance of
+    # NilClass.
+    # 
+    # @param [Module, nil, Array<Module, nil>] expected the type or types to
+    #   check the object against
+    # @param [Object] actual the object to check
+    # 
+    # @return [Boolean] true if the object matches one of the specified types,
+    #   otherwise false
     def match expected, actual
       match_type? expected
     end # method match
 
+    # @see BaseMatcher#failure_message_for_should
     def failure_message_for_should
       "expected #{@actual.inspect} to be #{type_string}"
     end # method failure_message_for_should
     
+    # @see BaseMatcher#failure_message_for_should_not
     def failure_message_for_should_not
       "expected #{@actual.inspect} not to be #{type_string}"
     end # method failure_message_for_should_not
@@ -46,7 +58,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
   end # class
 
   module RSpec::SleepingKingStudios::Matchers
-    # @see RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#matches?
+    # @see RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#match
     def be_kind_of expected
       RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher.new expected
     end # method have_errors
