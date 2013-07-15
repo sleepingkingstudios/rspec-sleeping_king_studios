@@ -12,6 +12,8 @@ module RSpec::Matchers::BuiltIn
       case
       when expected.nil?
         @actual.nil?
+      when expected === true || expected === false
+        @actual === actual
       when expected.is_a?(Enumerable)
         expected.reduce(false) { |memo, obj| memo || match_type?(obj) }
       else

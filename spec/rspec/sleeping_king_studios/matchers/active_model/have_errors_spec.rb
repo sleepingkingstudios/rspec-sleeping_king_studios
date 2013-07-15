@@ -3,15 +3,22 @@
 require 'active_model'
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors'
 
-describe "#have_errors" do
+describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher do
+  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
+
   let(:example_group) { self }
-  let(:instance)      { example_group.have_errors }
   
   specify { expect(example_group).to respond_to(:have_errors).with(0).arguments }
+  specify { expect(example_group.have_errors).to be_a described_class }
+
+  let(:instance) { described_class.new }
+
+  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   describe "#on" do
     specify { expect(instance).to respond_to(:on).with(1).arguments }

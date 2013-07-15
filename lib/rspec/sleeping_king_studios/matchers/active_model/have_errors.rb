@@ -203,6 +203,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     end # method expected_errors_message
 
     def received_errors_message
+      return "" unless @validates
       "\n  received errors:" + @actual.errors.messages.map do |attr, ary|
         "\n    #{attr}: " + ary.map(&:inspect).join(", ")
       end.join # map
