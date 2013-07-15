@@ -5,14 +5,7 @@ require 'rspec/sleeping_king_studios/matchers/built_in/require'
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   class BeAKindOfMatcher < RSpec::Matchers::BuiltIn::BeAKindOf
     def match expected, actual
-      case
-      when expected.nil?
-        @actual.nil?
-      when expected.is_a?(Enumerable)
-        expected.reduce(false) { |memo, obj| memo || match_type?(obj) }
-      else
-        @actual.kind_of? expected
-      end # case
+      match_type? expected
     end # method match
 
     def failure_message_for_should
@@ -25,6 +18,17 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     private
     
+    def match_type? expected
+      case
+      when expected.nil?
+        @actual.nil?
+      when expected.is_a?(Enumerable)
+        expected.reduce(false) { |memo, obj| memo || match_type?(obj) }
+      else
+        @actual.kind_of? expected
+      end # case
+    end # method match_type?
+
     def type_string
       case
       when @expected.nil?
@@ -40,4 +44,13 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       end # case
     end # method type_string
   end # class
+
+  module RSpec::SleepingKingStudios::Matchers
+    # @see RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#matches?
+    def be_kind_of expected
+      RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher.new expected
+    end # method have_errors
+
+    alias_method :be_a, :be_kind_of
+  end # module
 end # module

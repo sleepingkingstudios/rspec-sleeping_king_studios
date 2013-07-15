@@ -44,6 +44,15 @@ describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
     end # specify
   end # context
 
+  context 'with nil' do
+    let(:actual) { nil }
+
+    specify 'fails' do
+      expect(instance).to fail_with_actual(actual).
+        with_message "expected #{actual.inspect} to be true or false"
+    end # specify
+  end # context
+
   context 'with a non Boolean object' do
     let(:actual) { Object.new }
 

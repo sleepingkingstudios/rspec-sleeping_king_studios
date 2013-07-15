@@ -1,15 +1,25 @@
 # spec/rspec/sleeping_king_studios/matchers/built_in/be_kind_of_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/be_kind_of'
 
-describe "#be_kind_of" do
-  let(:example_group) { RSpec::Core::ExampleGroup.new }
+describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
+  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
+
+  let(:example_group) { self }
   let(:type)          { Object }
-  let(:instance)      { example_group.be_kind_of type }
   
   specify { expect(example_group).to respond_to(:be_kind_of).with(1).arguments }
+  specify { expect(example_group.be_kind_of type).to be_a described_class }
+
+  specify { expect(example_group).to respond_to(:be_a).with(1).arguments }
+  specify { expect(example_group.be_a type).to be_a described_class }
+
+  let(:instance) { described_class.new type }
+
+  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   <<-SCENARIOS
     When given nil,
