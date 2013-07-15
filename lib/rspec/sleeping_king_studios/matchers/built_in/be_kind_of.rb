@@ -1,26 +1,20 @@
 # lib/rspec/sleeping_king_studios/matchers/built_in/be_kind_of.rb
 
-module RSpec::Matchers::BuiltIn
-  class BeAKindOf < BaseMatcher
-    def match(expected, actual)
-      @actual = actual
-      
-      self.match_type? expected
-    end # method match
-    
-    def match_type?(expected)
+require 'rspec/sleeping_king_studios/matchers/built_in/require'
+
+module RSpec::SleepingKingStudios::Matchers::BuiltIn
+  class BeAKindOfMatcher < RSpec::Matchers::BuiltIn::BeAKindOf
+    def match expected, actual
       case
       when expected.nil?
         @actual.nil?
-      when expected === true || expected === false
-        @actual === actual
       when expected.is_a?(Enumerable)
         expected.reduce(false) { |memo, obj| memo || match_type?(obj) }
       else
         @actual.kind_of? expected
       end # case
-    end # method match_type
-    
+    end # method match
+
     def failure_message_for_should
       "expected #{@actual.inspect} to be #{type_string}"
     end # method failure_message_for_should
@@ -28,13 +22,14 @@ module RSpec::Matchers::BuiltIn
     def failure_message_for_should_not
       "expected #{@actual.inspect} not to be #{type_string}"
     end # method failure_message_for_should_not
+
+    private
     
-  private
     def type_string
       case
-      when expected.nil?
-        "nil"
-      when expected.is_a?(Enumerable) && 1 < expected.count
+      when @expected.nil?
+        @expected.inspect
+      when @expected.is_a?(Enumerable) && 1 < @expected.count
         if 2 == expected.count
           "a #{expected.first.inspect} or #{expected.last.inspect}"
         else

@@ -56,6 +56,7 @@ individual fields to validate, or even specific messages for each attribute.
     expect(instance).to have_errors.on(:name).with_message('not to be nil')
 
 **Chaining:**
+
 * **on:** [String, Symbol] Adds a field to validate; the matcher only passes if
   all validated fields have errors.
 * **with\_message:** [String] Adds a message to the previously-defined field
@@ -93,6 +94,7 @@ accepted by the method, and whether the method accepts a block argument.
     expect(instance).to respond_to(:foo).with(2..3).arguments.and.a_block
 
 **Chaining:**
+
 * **a\_block:** No parameters. Verifies that the method requires a block
   argument of the form &my_argument. _Important note:_ A negative result does
   _not* mean the method cannot accept a block, merely that it does not require
@@ -109,6 +111,7 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
   expect(instance).to respond_to(:foo).with(0, :bar, :baz)
 
 **Chaining:**
+
 * **with:** Expects one Integer, Range, or nil argument, and zero or more
   Symbol arguments corresponding to optional keywords. Verifies that the method
   accepts that keyword, or has a variadic keyword of the form \*\*params.
@@ -121,6 +124,21 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 ### Core
 
     require 'rspec/sleeping_king_studios/matchers/core'
+
+These matchers check core functionality, such as object boolean-ness, the
+existence of properties, and so on.
+
+#### be_boolean Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
+
+Checks if the provided object is true or false.
+
+**How To Use:**
+
+    expect(object).to be_boolean
+
+**Parameters:** None.
 
 #### construct Matcher
 
@@ -136,6 +154,7 @@ optional number of arguments.
 **Parameters:** None.
 
 **Chaining:**
+
 * **with:** Expects one Integer or Range argument. If an Integer, verifies that
   the class's constructor accepts that number of arguments; if a Range,
   verifies that the constructor accepts both the minimum and maximum number of
@@ -149,6 +168,7 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
   expect(instance).to construct.with(0, :bar, :baz)
 
 **Chaining:**
+
 * **with:** Expects one Integer, Range, or nil argument, and zero or more
   Symbol arguments corresponding to optional keywords. Verifies that the
   class's constructor accepts that keyword, or has a variadic keyword of the
@@ -175,6 +195,7 @@ actual.property.
 identifier.
 
 **Chaining:**
+
 * **with:** Expects one object, which is written to actual.property= and then
   read from actual.property.
 
@@ -193,6 +214,7 @@ current value of actual.property is equal to a specified value.
 identifier.
 
 **Chaining:**
+
 * **with:** Expects one object, which is checked against the current value of
   actual.property if actual responds to :property.
   
@@ -212,6 +234,7 @@ identifier. An equals sign '=' is automatically added if the identifier does
 not already terminate in '='.
 
 **Chaining:**
+
 * **with:** Expects one object. The matcher attempts to set the actual's value
   using actual.property=, then compare the value with actual.property.
   
@@ -256,6 +279,7 @@ pass\_with\_actual matcher, below.
 :matches? and :failure\_message\_for\_should.
 
 **Chaining:**
+
 * **with\_message:** Expects one String or Regexp argument, which is matched
   against the given matcher's failure\_message\_for\_should.
 
@@ -278,5 +302,6 @@ fail\_with\_actual matcher, above.
 :matches? and :failure\_message\_for\_should\_not.
 
 **Chaining:**
+
 * **with\_message:** Expects one String or Regexp argument, which is matched
   against the given matcher's failure\_message\_for\_should\_not.

@@ -124,7 +124,8 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       end # if-else
     end # method failure_message_for_should_not
 
-  private
+    private
+    
     def attributes_have_errors?
       # Iterate through the received errors and match them against the expected
       # errors and messages.
@@ -211,6 +212,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
   end # class
 
   module RSpec::SleepingKingStudios::Matchers
+    # @see RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher#matches?
     def have_errors
       RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher.new
     end # method have_errors

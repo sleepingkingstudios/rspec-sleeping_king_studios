@@ -1,14 +1,14 @@
 # spec/rspec/sleeping_king_studios/matchers/base_matcher_spec.rb
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
-require 'rspec/sleeping_king_studios/matchers/built_in/be_kind_of'
+require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
 
 module RSpec::SleepingKingStudios::Matchers
   module BaseMatcherHelpers
     shared_examples_for RSpec::SleepingKingStudios::Matchers::BaseMatcher do
       describe '#matches?' do
         specify { expect(instance).to respond_to(:matches?).with(1).arguments }
-        specify { expect(instance.matches? nil).to be_a [true, false] }
+        specify { expect(instance.matches? nil).to be_boolean }
       end # describe
 
       describe 'description' do
