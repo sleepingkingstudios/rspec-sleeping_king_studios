@@ -1,15 +1,22 @@
 # spec/rspec/sleeping_king_studios/matchers/core/have_reader_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 
-describe '#have_reader' do
-  let(:example_group) { RSpec::Core::ExampleGroup.new }
-  let(:property)      { :foo }
-  let(:instance)      { example_group.have_reader property }
+describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
+  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
 
+  let(:example_group) { self }
+  let(:property)    { :foo }
+  
   specify { expect(example_group).to respond_to(:have_reader).with(1).arguments }
+  specify { expect(example_group.have_reader property).to be_a described_class }
+
+  let(:instance) { described_class.new property }
+
+  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   describe '#with' do
     specify { expect(instance).to respond_to(:with).with(1).arguments }
