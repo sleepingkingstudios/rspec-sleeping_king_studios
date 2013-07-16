@@ -36,4 +36,6 @@ module RSpec::SleepingKingStudios::Matchers
   def be_boolean
     RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher.new
   end # method be_boolean
+
+  alias_method :be_bool, :be_boolean
 end # module

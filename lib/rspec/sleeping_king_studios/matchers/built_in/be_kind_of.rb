@@ -56,13 +56,13 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       end # case
     end # method type_string
   end # class
+end # module
 
-  module RSpec::SleepingKingStudios::Matchers
-    # @see RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#match
-    def be_kind_of expected
-      RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher.new expected
-    end # method be_kind_of
+module RSpec::SleepingKingStudios::Matchers
+  # @see RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#match
+  def be_kind_of expected
+    RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher.new expected
+  end # method be_kind_of
 
-    alias_method :be_a, :be_kind_of
-  end # module
+  alias_method :be_a, :be_kind_of
 end # module

@@ -13,6 +13,9 @@ describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
   specify { expect(example_group).to respond_to(:be_boolean).with(0).arguments }
   specify { expect(example_group.be_boolean).to be_a described_class }
 
+  specify { expect(example_group).to respond_to(:be_bool).with(0).arguments }
+  specify { expect(example_group.be_bool).to be_a described_class }
+
   let(:instance) { described_class.new }
 
   it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher

@@ -64,13 +64,13 @@ individual fields to validate, or even specific messages for each attribute.
 
 ### BuiltIn
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/built_in'
+    require 'rspec/sleeping_king_studios/matchers/built_in'
 
 These extend the built-in RSpec matchers with additional functionality.
 
 #### be\_kind\_of Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/built_in/be_kind_of'
+    require 'rspec/sleeping_king_studios/matchers/built_in/be_kind_of'
 
 Now accepts an Array of types. The matcher passes if the actual object is
 any of the parameter types.
@@ -82,9 +82,21 @@ Also allows nil parameter as a shortcut for NilClass.
     expect(instance).to be_kind_of [String, Symbol, nil]
     #=> passes iff instance is a String, a Symbol, or is nil
 
+#### include Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/built_in/include'
+
+Now accepts Proc parameters; items in the actual object are passed into
+proc#call, with a truthy response considered a match to the item. In addition,
+now accepts an optional block as a shortcut for adding a proc expectation.
+
+**How To Use:**
+
+    expect(instance).to include { |item| item =~ /pattern/ }
+
 #### respond\_to Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/active_model/built_in/respond_to'
+    require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 Now has additional chaining functionality to validate the number of arguments
 accepted by the method, and whether the method accepts a block argument.
