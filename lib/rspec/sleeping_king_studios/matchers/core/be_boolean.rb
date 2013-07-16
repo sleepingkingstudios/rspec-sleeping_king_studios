@@ -35,5 +35,5 @@ module RSpec::SleepingKingStudios::Matchers
   # @see RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher#matches?
   def be_boolean
     RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher.new
-  end # method have_errors
+  end # method be_boolean
 end # module

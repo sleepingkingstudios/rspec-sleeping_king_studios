@@ -61,7 +61,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     # @see RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#match
     def be_kind_of expected
       RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher.new expected
-    end # method have_errors
+    end # method be_kind_of
 
     alias_method :be_a, :be_kind_of
   end # module

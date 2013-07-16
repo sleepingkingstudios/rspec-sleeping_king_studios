@@ -19,7 +19,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # 
     # @param [Object] actual the object to check
     # 
-    # @return [Boolean] true if the object is true or false, otherwise false
+    # @return [Boolean] true if the object responds to :new and accepts the
+    #   specified parameters for #initialize; otherwise false
     def matches? actual
       @actual = actual
       @failing_method_reasons = {}
@@ -133,5 +134,5 @@ module RSpec::SleepingKingStudios::Matchers
   # @see RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher#matches?
   def construct
     RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher.new
-  end # method have_errors
+  end # method construct
 end # module

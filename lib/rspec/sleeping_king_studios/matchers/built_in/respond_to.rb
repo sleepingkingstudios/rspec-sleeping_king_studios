@@ -1,10 +1,92 @@
 # lib/rspec/sleeping_king_studios/matchers/built_in/respond_to.rb
 
+require 'rspec/sleeping_king_studios/matchers/base_matcher'
+require 'rspec/sleeping_king_studios/matchers/built_in/require'
 require 'rspec/sleeping_king_studios/matchers/shared/match_parameters'
 
-module RSpec::Matchers::BuiltIn
-  class RespondTo
+module RSpec::SleepingKingStudios::Matchers::BuiltIn
+  class RespondToMatcher < RSpec::Matchers::BuiltIn::RespondTo
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
+
+    # Checks if the object responds to the specified message. If so, checks the
+    # parameters against the expected parameters, if any.
+    # 
+    # @param [Object] actual the object to check
+    # 
+    # @return [Boolean] true if the object responds to the message and accepts
+    #   the specified parameters; otherwise false
+    def matches? actual
+      super
+    end # method matches?
+
+    # Adds a parameter count expectation and/or one or more keyword
+    # expectations (Ruby 2.0 only).
+    # 
+    # @param [Integer, Range, nil] count the number of expected parameters; can
+    #   be an integer, a range, or nil (parameter count is ignored)
+    # @param [Array<String, Symbol>] keywords list of keyword arguments
+    #   accepted by the method
+    # 
+    # @return [RespondToMatcher] self
+    def with count = nil, *keywords
+      @expected_arity    = count unless count.nil?
+      @expected_keywords = keywords
+      self
+    end # method with
+
+    # Adds a block expectation. The actual object will only match a block
+    # expectation if it expects a parameter of the form &block.
+    # 
+    # @return [RespondToMatcher] self
+    def a_block
+      @expected_block = true
+      self
+    end # method a_block
+
+    # Convenience method for more fluent specs. Does nothing and returns self.
+    # 
+    # @return [RespondToMatcher] self
+    def arguments
+      self
+    end # method arguments
+
+    # Convenience method for more fluent specs. Does nothing and returns self.
+    # 
+    # @return [RespondToMatcher] self
+    def and
+      self
+    end # method arguments
+
+    # @see BaseMatcher#failure_message_for_should
+    def failure_message_for_should
+      messages = []
+      @failing_method_names ||= []
+      @failing_method_names.map do |method|
+        message = "expected #{@actual.inspect} to respond to #{method.inspect}"
+        if @actual.respond_to?(method)
+          message << " with arguments:\n#{format_errors_for_method method}"
+        end # if-else
+        messages << message
+      end # method
+      messages.join "\n"
+    end # method failure_message_for_should
+
+    # @see BaseMatcher#failure_message_for_should_not
+    def failure_message_for_should_not
+      @failing_method_names ||= []
+      methods, messages = @names - @failing_method_names, []
+
+      @names.map do |method|
+        message   = "expected #{@actual.inspect} not to respond to #{method.inspect}"
+        unless (formatted = format_expected_arguments).empty?
+          message << " with #{formatted}"
+        end # unless
+        messages << message
+      end # method
+      messages.join "\n"
+    end # method failure_message_for_should_not
+
+    private
 
     def find_failing_method_names actual, filter_method
       @actual = actual
@@ -16,7 +98,7 @@ module RSpec::Matchers::BuiltIn
           matches_block?(actual, name)
       end # send
     end # method find_failing_method_names
-    
+
     def matches_arity? actual, name
       return true unless @expected_arity
 
@@ -50,47 +132,6 @@ module RSpec::Matchers::BuiltIn
       true
     end # method matches_block?
 
-    def failure_message_for_should
-      messages = []
-      @failing_method_names.map do |method|
-        message = "expected #{@actual.inspect} to respond to #{method.inspect}"
-        if @actual.respond_to?(method)
-          message << " with arguments:\n#{format_errors_for_method method}"
-        end # if-else
-        messages << message
-      end # method
-      messages.join "\n"
-    end # method failure_message_for_should_not
-    
-    def failure_message_for_should_not
-      methods, messages = @names - @failing_method_names, []
-
-      @names.map do |method|
-        message   = "expected #{@actual.inspect} not to respond to #{method.inspect}"
-        unless (formatted = format_expected_arguments).empty?
-          message << " with #{formatted}"
-        end # unless
-        messages << message
-      end # method
-      messages.join "\n"
-    end # method failure_message_for_should_not
-    
-    def with n = nil, *keywords
-      @expected_arity    = n unless n.nil?
-      @expected_keywords = keywords
-      self
-    end # method with
-    
-    def and
-      self
-    end # method and
-    
-    def a_block
-      @expected_block = true
-      self
-    end # method a_block
-
-  private
     def format_expected_arguments
       messages = []
       
@@ -134,6 +175,13 @@ module RSpec::Matchers::BuiltIn
       end # if
 
       messages.join "\n"
-    end # method format_errors_for_method      
-  end # class RespondTo
+    end # method format_errors_for_method  
+  end # class
+end # module
+
+module RSpec::SleepingKingStudios::Matchers
+  # @see RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#matches?
+  def respond_to expected
+    RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher.new expected
+  end # method respond_to
 end # module

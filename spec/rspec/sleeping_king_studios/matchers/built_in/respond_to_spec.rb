@@ -1,22 +1,23 @@
 # spec/rspec/sleeping_king_studios/matchers/built_in/respond_to_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
-require 'rspec/sleeping_king_studios/util/version'
 
-describe "#respond_to" do
-  def self.ruby_version
-    RSpec::SleepingKingStudios::Util::Version.new ::RUBY_VERSION
-  end # class method ruby_version
+describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
+  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
 
-  let(:example_group) { RSpec::Core::ExampleGroup.new }
+  let(:example_group) { self }
   let(:identifier)    { :foo }
-  let(:instance)      { example_group.respond_to identifier }
-  let(:ruby_version)  { Version.new *RUBY_VERSION.split(".") }
   
   # Paging Douglas Hofstadter, or possibly Xzibit...
   specify { expect(example_group).to respond_to(:respond_to).with(1).arguments }
+  specify { expect(example_group.respond_to identifier).to be_a described_class }
+
+  let(:instance) { described_class.new identifier }
+
+  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   describe "#with" do
     specify { expect(instance).to respond_to(:with).with(0..2).arguments }
@@ -137,7 +138,7 @@ describe "#respond_to" do
     end # specify
   end # describe
 
-  if ruby_version >= "2.0.0"
+  if RUBY_VERSION >= "2.0.0"
     describe 'with a matching method with keywords' do
       let(:actual) do
         # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
