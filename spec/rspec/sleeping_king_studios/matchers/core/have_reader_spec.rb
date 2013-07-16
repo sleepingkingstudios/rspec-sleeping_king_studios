@@ -9,7 +9,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
   include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
 
   let(:example_group) { self }
-  let(:property)    { :foo }
+  let(:property)      { :foo }
   
   specify { expect(example_group).to respond_to(:have_reader).with(1).arguments }
   specify { expect(example_group.have_reader property).to be_a described_class }

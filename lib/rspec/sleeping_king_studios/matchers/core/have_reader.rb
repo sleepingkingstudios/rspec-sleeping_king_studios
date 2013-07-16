@@ -23,7 +23,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # @param [Object] actual the object to check
     # 
     # @return [Boolean] true if the object responds to :expected and matches
-    #    the value expectation (if any); otherwise failure_message_for_should
+    #    the value expectation (if any); otherwise false
     def matches? actual
       super
 

@@ -11,8 +11,8 @@ describe "core matchers" do
     end # end each
   end # class method matchers
   
-  let :matchers do self.class.matchers; end
-  let :example_group do RSpec::Core::ExampleGroup.new; end
+  let(:matchers)      { self.class.matchers }
+  let(:example_group) { self }
   
   matchers.each do |matcher|
     context do

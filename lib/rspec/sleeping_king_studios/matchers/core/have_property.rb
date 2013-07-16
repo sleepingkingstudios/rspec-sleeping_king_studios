@@ -4,7 +4,9 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/core/require'
 
 module RSpec::SleepingKingStudios::Matchers::Core
-  # Matcher for testing whether an object has a specific property.
+  # Matcher for testing whether an object has a specific property, e.g.
+  # responds to :property and :property= and :property= updates the value of
+  # :property.
   # 
   # @since 1.0.0
   class HavePropertyMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
