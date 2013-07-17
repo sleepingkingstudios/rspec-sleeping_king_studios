@@ -1,27 +1,34 @@
 # spec/rspec/sleeping_king_studios/matchers/rspec/pass_with_actual_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 
-require 'rspec/sleeping_king_studios/matchers/rspec/pass_with_actual'
+require 'rspec/sleeping_king_studios/matchers/meta/pass_with_actual'
 
-describe "#pass_with_actual" do
-  let(:example_group) { RSpec::Core::ExampleGroup.new }
+describe RSpec::SleepingKingStudios::Matchers::Meta::PassWithActualMatcher do
+  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
+
+  let(:example_group) { self }
   let(:actual)        { nil }
-  let(:matcher)       { example_group.be_true }
-  subject(:instance)  { example_group.pass_with_actual actual }
   
   specify { expect(example_group).to respond_to(:pass_with_actual).with(1).arguments }
-  
-  describe 'error message for should not' do
-    let(:invalid_message) { "failure: testing negative condition with positive matcher\n~>  use the :fail_with_actual matcher instead" }
+  specify { expect(example_group.pass_with_actual actual).to be_a described_class }
 
-    specify { expect(instance.failure_message_for_should_not).to be == invalid_message }
+  let(:instance) { described_class.new actual }
+
+  context do
+    let(:actual) { example_group.be_true }
+
+    it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
   end # context
+
+  describe '#message' do
+    specify { expect(instance).to respond_to(:message).with(0).arguments }
+  end # describe
 
   describe "#with_message" do
     let(:expected_message) { "my hovercraft is full of eels" }
 
-    specify { expect(instance).to respond_to(:message).with(0).arguments }
     specify { expect(instance).to respond_to(:with_message).with(1).arguments }
     specify { expect(instance.with_message expected_message).to be instance }
     specify { expect(instance.with_message(expected_message).message).to be == expected_message }
@@ -42,6 +49,14 @@ describe "#pass_with_actual" do
     When given a matcher that evaluates to false,
       Evaluates to false with message "expected to match".
   SCENARIOS
+
+  let(:matcher) { example_group.be_true }
+
+  describe 'error message for should not' do
+    let(:invalid_message) { "failure: testing negative condition with positive matcher\n~>  use the :fail_with_actual matcher instead" }
+
+    specify { expect(instance.failure_message_for_should_not).to be == invalid_message }
+  end # context
 
   context 'with a passing matcher' do
     let(:actual) { true }

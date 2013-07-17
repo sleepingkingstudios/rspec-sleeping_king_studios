@@ -266,15 +266,15 @@ matches the given pattern.
 
 **Parameters:** Pattern. Expects a Regexp.
 
-### RSpec
+### Meta
 
-    require 'rspec/sleeping_king_studios/matchers/rspec'
+    require 'rspec/sleeping_king_studios/matchers/meta'
 
 These meta-matchers are used to test other custom matchers.
 
 #### fail\_with\_actual Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/rspec/fail_with_actual'
+    require 'rspec/sleeping_king_studios/matchers/meta/fail_with_actual'
 
 Checks if the given matcher will fail to match a specified actual object. Can
 take an optional string to check the expected failure message when the matcher
@@ -285,7 +285,7 @@ pass\_with\_actual matcher, below.
 
 **How To Use:**
 
-    expect(matcher).to fail\_with\_actual(actual).with\_message(/expected to/)
+    expect(matcher).to fail_with_actual(actual).with_message(/expected to/)
     
 **Parameters:** Matcher. Expects an object that, at minimum, responds to
 :matches? and :failure\_message\_for\_should.
@@ -297,7 +297,7 @@ pass\_with\_actual matcher, below.
 
 #### pass\_with\_actual Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/rspec/pass_with_actual'
+    require 'rspec/sleeping_king_studios/matchers/meta/pass_with_actual'
 
 Checks if the given matcher will match a specified actual object. Can take an
 optional string to check the expected failure message when the matcher is
@@ -308,7 +308,7 @@ fail\_with\_actual matcher, above.
 
 **How To Use:**
 
-    expect(matcher).to pass\_with\_actual(actual)
+    expect(matcher).to pass_with_actual(actual)
   
 **Parameters:** Matcher. Expects an object that, at minimum, responds to
 :matches? and :failure\_message\_for\_should\_not.

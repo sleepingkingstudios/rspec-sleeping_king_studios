@@ -1,8 +1,8 @@
-# spec/rspec/sleeping_king_studios/matchers/rspec/fail_with_actual_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/meta/fail_with_actual_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
 
-require 'rspec/sleeping_king_studios/matchers/rspec/fail_with_actual'
+require 'rspec/sleeping_king_studios/matchers/meta/fail_with_actual'
 
 describe "fail with actual matcher" do
   let(:example_group) { RSpec::Core::ExampleGroup.new }
