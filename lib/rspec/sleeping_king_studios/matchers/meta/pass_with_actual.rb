@@ -34,7 +34,6 @@ module RSpec::SleepingKingStudios::Matchers::Meta
     #   otherwise false
     def matches? actual
       super
-
       return false unless @matches = @actual.matches?(@expected)
 
       if @message.is_a? Regexp

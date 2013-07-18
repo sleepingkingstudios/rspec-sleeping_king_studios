@@ -1,6 +1,6 @@
 # lib/rspec/sleeping_king_studios/matchers/require.rb
 
-require 'rspec/sleeping_king_studios'
+require 'rspec/sleeping_king_studios/require'
 
 module RSpec::SleepingKingStudios
   # Custom matchers for use with RSpec::Expectations.

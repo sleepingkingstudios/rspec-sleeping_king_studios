@@ -4,7 +4,7 @@ require 'rspec/sleeping_king_studios/spec_helper'
 
 require 'rspec/sleeping_king_studios/matchers/active_model'
 
-describe "ActiveModel matchers" do
+describe RSpec::SleepingKingStudios::Matchers::ActiveModel do
   def self.matchers
     Dir[File.join File.dirname(__FILE__), 'active_model', '*_spec.rb'].map do |file|
       File.split(file).last.gsub(/_spec.rb/,'')

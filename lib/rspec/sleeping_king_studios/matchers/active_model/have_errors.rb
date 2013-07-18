@@ -1,8 +1,7 @@
 # lib/rspec/sleeping_king_studios/matchers/active_model/have_errors.rb
 
-require 'active_support'
-
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
+require 'rspec/sleeping_king_studios/matchers/active_model/require'
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/error_expectation'
 
 module RSpec::SleepingKingStudios::Matchers::ActiveModel

@@ -1,7 +1,5 @@
 # lib/rspec/sleeping_king_studios.rb
 
-require 'rspec'
+require 'rspec/sleeping_king_studios/matchers'
 
-module RSpec
-  module SleepingKingStudios; end
-end # module
+require 'rspec/sleeping_king_studios/mocks/custom_double'

@@ -4,7 +4,7 @@ require 'rspec/sleeping_king_studios/spec_helper'
 
 require 'rspec/sleeping_king_studios/matchers/built_in'
 
-describe "built-in matchers" do
+describe RSpec::SleepingKingStudios::Matchers::BuiltIn do
   def self.matchers
     Dir[File.join File.dirname(__FILE__), 'built_in', '*_spec.rb'].map do |file|
       File.split(file).last.gsub(/_spec.rb/,'')

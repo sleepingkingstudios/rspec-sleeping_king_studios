@@ -2,6 +2,6 @@
 
 module RSpec
   module SleepingKingStudios
-    VERSION = '1.0.0.pre'
+    VERSION = '1.0.0.rc.0'
   end # module
 end # module

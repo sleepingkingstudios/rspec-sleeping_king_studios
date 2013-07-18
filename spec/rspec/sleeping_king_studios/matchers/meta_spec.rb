@@ -1,12 +1,12 @@
-# spec/rspec/sleeping_king_studios/matchers/core_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/meta_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
 
-require 'rspec/sleeping_king_studios/matchers/core'
+require 'rspec/sleeping_king_studios/matchers/meta'
 
-describe RSpec::SleepingKingStudios::Matchers::Core do
+describe RSpec::SleepingKingStudios::Matchers::Meta do
   def self.matchers
-    Dir[File.join File.dirname(__FILE__), 'core', '*_spec.rb'].map do |file|
+    Dir[File.join File.dirname(__FILE__), 'meta', '*_spec.rb'].map do |file|
       File.split(file).last.gsub(/_spec.rb/,'')
     end # end each
   end # class method matchers
