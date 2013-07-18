@@ -14,7 +14,8 @@ Gem::Specification.new do |gem|
   DESCRIPTION
   gem.authors     = ['Rob "Merlin" Smith']
   gem.email       = ['merlin@sleepingkingstudios.com']
-  gem.homepage     = 'http://sleepingkingstudios.com'
+  gem.homepage    = 'http://sleepingkingstudios.com'
+  gem.license     = 'MIT'
   
   gem.require_path = 'lib'
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]

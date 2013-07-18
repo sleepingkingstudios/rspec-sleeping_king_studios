@@ -317,3 +317,7 @@ fail\_with\_actual matcher, above.
 
 * **with\_message:** Expects one String or Regexp argument, which is matched
   against the given matcher's failure\_message\_for\_should\_not.
+
+## License
+
+RSpec::SleepingKingStudios is released under the [MIT License](http://www.opensource.org/licenses/MIT).
