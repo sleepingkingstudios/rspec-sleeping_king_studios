@@ -51,7 +51,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # evaluates the block and the value is compared to the specified value
     # instead of using :property.
     # 
-    # @params [Object] value the value to compare
+    # @param [Object] value the value to compare
     # 
     # @yield if a block is provided, the block is used to check the value after
     #   setting :property= instead of using :property.

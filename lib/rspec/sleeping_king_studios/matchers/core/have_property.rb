@@ -45,7 +45,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # specified value using :property=, then compare the value from :property
     # with the specified value.
     # 
-    # @params [Object] value the value to set and then compare
+    # @param [Object] value the value to set and then compare
     # 
     # @return [HavePropertyMatcher] self
     def with value

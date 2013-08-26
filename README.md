@@ -124,14 +124,9 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 
 **Chaining:**
 
-* **with:** Expects one Integer, Range, or nil argument, and zero or more
+* **with:** Expects at most one Integer or Range argument, and zero or more
   Symbol arguments corresponding to optional keywords. Verifies that the method
   accepts that keyword, or has a variadic keyword of the form \*\*params.
-
-  _Important note:_ If you do not wish to validate the number of arguments,
-  make sure to use nil as the first argument to #with; otherwise, the matcher
-  will interpret your first keyword as the number of arguments to expect. And
-  then explode.
 
 ### Core
 

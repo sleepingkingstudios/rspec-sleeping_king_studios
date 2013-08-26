@@ -39,7 +39,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # Sets a value expectation. The matcher will compare the value from
     # :property with the specified value.
     # 
-    # @params [Object] value the value to compare
+    # @param [Object] value the value to compare
     # 
     # @return [HaveReaderMatcher] self
     def with value

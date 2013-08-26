@@ -19,17 +19,32 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       super
     end # method matches?
 
-    # Adds a parameter count expectation and/or one or more keyword
-    # expectations (Ruby 2.0 only).
+    # @overload with count
+    #   Adds a parameter count expectation.
     # 
-    # @param [Integer, Range, nil] count the number of expected parameters; can
-    #   be an integer, a range, or nil (parameter count is ignored)
-    # @param [Array<String, Symbol>] keywords list of keyword arguments
-    #   accepted by the method
+    #   @param [Integer, Range, nil] count (optional) The number of expected
+    #     parameters.
     # 
-    # @return [RespondToMatcher] self
-    def with count = nil, *keywords
-      @expected_arity    = count unless count.nil?
+    #   @return [RespondToMatcher] self
+    # @overload with *keywords
+    #   Adds one or more keyword expectations (Ruby 2.0 only).
+    # 
+    #   @param [Array<String, Symbol>] keywords List of keyword arguments
+    #     accepted by the method.
+    # 
+    #   @return [RespondToMatcher] self
+    # @overload with count, *keywords
+    #   Adds a parameter count expectation and one or more keyword
+    #   expectations (Ruby 2.0 only).
+    # 
+    #   @param [Integer, Range, nil] count (optional) The number of expected
+    #     parameters.
+    #   @param [Array<String, Symbol>] keywords List of keyword arguments
+    #     accepted by the method.
+    # 
+    #   @return [RespondToMatcher] self
+    def with *keywords
+      @expected_arity    = keywords.shift if Integer === keywords.first || Range === keywords.first
       @expected_keywords = keywords
       self
     end # method with

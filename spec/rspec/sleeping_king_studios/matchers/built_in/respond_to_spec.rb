@@ -162,6 +162,19 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
         expect(instance.with(0, :c, :d)).to fail_with_actual(actual).
           with_message failure_message
       end # specify
+
+      specify 'with valid keywords and unspecified arguments' do
+        expect(instance.with(:a, :b)).to pass_with_actual(actual).
+          with_message "expected #{actual} not to respond to :#{identifier} with keywords :a, :b"
+      end # specify
+
+      specify 'with invalid keywords and unspecified arguments' do
+        failure_message = "expected #{actual.inspect} to respond to " +
+          "#{identifier.inspect} with arguments:\n" +
+          "  unexpected keywords :c, :d"
+        expect(instance.with(:c, :d)).to fail_with_actual(actual).
+          with_message failure_message
+      end # specify
     end # describe
 
     describe 'with a matching method with variadic keywords' do
