@@ -16,11 +16,9 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
 
   let(:instance) { described_class.new actual }
 
-  context do
+  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     let(:actual) { example_group.be_false }
-
-    it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
-  end # context
+  end # shared behavior
 
   describe '#message' do
     specify { expect(instance).to respond_to(:message).with(0).arguments }

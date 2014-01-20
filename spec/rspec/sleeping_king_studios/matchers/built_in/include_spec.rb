@@ -17,12 +17,10 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
   let(:instance) { described_class.new expectations }
 
-  context do
+  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     let(:actual)   { [] }
     let(:instance) { super().tap { |matcher| matcher.matches? actual } }
-
-    it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
-  end # context
+  end # shared behavior
 
   <<-SCENARIOS
     When given a non-enumerable actual,
