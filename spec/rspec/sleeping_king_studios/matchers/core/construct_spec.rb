@@ -151,4 +151,78 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       end # specify
     end # describe
   end # if
+
+  if RUBY_VERSION >= "2.1.0"
+    describe 'with a ::new method with keywords' do
+      let(:actual) do
+        # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
+        Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, c:, d:| }) }
+      end # let
+
+      specify 'with no keywords' do
+        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
+          "  missing keywords :c, :d"
+        expect(instance).to fail_with_actual(actual).
+          with_message failure_message
+      end # specify
+
+      specify 'with missing keywords' do
+        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
+          "  missing keywords :c, :d"
+        expect(instance.with(0, :a, :b)).to fail_with_actual(actual).
+          with_message failure_message
+      end # specify
+
+      specify 'with valid keywords' do
+        expect(instance.with(0, :a, :b, :c, :d)).to pass_with_actual(actual).
+          with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
+      end # specify
+
+      specify 'with invalid keywords' do
+        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
+          "  unexpected keywords :e, :f"
+        expect(instance.with(0, :c, :d, :e, :f)).to fail_with_actual(actual).
+          with_message failure_message
+      end # specify
+
+      specify 'with invalid and missing keywords' do
+        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
+          "  missing keywords :c, :d\n" +
+          "  unexpected keywords :e, :f"
+        expect(instance.with(0, :e, :f)).to fail_with_actual(actual).
+          with_message failure_message
+      end # specify
+    end # describe
+
+    describe 'with a matching method with variadic keywords' do
+      let(:actual) do
+        # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
+        Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, c:, d:, **params| }) }
+      end # let
+
+      specify 'with no keywords' do
+        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
+          "  missing keywords :c, :d"
+        expect(instance).to fail_with_actual(actual).
+          with_message failure_message
+      end # specify
+
+      specify 'with missing keywords' do
+        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
+          "  missing keywords :c, :d"
+        expect(instance.with(0, :a, :b)).to fail_with_actual(actual).
+          with_message failure_message
+      end # specify
+
+      specify 'with valid keywords' do
+        expect(instance.with(0, :a, :b, :c, :d)).to pass_with_actual(actual).
+          with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
+      end # specify
+
+      specify 'with random keywords' do
+        expect(instance.with(0, :a, :b, :c, :d, :e, :f)).to pass_with_actual(actual).
+          with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d, :e, :f"
+      end # specify
+    end # describe
+  end # if
 end # describe

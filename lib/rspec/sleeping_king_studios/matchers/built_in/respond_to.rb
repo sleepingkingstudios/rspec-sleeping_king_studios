@@ -126,7 +126,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     end # method matches_arity?
 
     def matches_keywords? actual, name
-      return true unless @expected_keywords
+      return true unless @expected_keywords || RUBY_VERSION >= "2.1.0"
 
       if result = check_method_keywords(actual.method(name), @expected_keywords)
         (@failing_method_reasons[name] ||= {}).update result
@@ -134,6 +134,15 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       end # if
 
       true
+    rescue NameError => error
+      if error.name == name
+        # Actual responds to name, but doesn't actually have a method defined
+        # there. Possibly using #method_missing or a test double. We obviously
+        # can't test that, so bail.
+        true
+      else
+        raise error
+      end # if-else
     end # method matches_keywords?
     
     def matches_block? actual, name
@@ -180,6 +189,10 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       elsif hsh = reasons.fetch(:too_many_args, false)
         messages << "  expected at most #{hsh[:count]} arguments, but received #{hsh[:arity]}"
       end # if-elsif
+
+      if ary = reasons.fetch(:missing_keywords, false)
+        messages << "  missing keywords #{ary.map(&:inspect).join(", ")}"
+      end # if
 
       if ary = reasons.fetch(:unexpected_keywords, false)
         messages << "  unexpected keywords #{ary.map(&:inspect).join(", ")}"

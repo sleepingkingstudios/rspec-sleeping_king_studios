@@ -1,6 +1,11 @@
 # RSpec::SleepingKingStudios
 
-A collection of matchers and extensions to ease TDD/BDD using RSpec.
+A collection of matchers and extensions to ease TDD/BDD using RSpec. 
+Currently, the following versions of Ruby are officially supported:
+
+* 1.9.3
+* 2.0.0
+* 2.1.0
 
 ## The Extensions
 
@@ -126,7 +131,9 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 
 * **with:** Expects at most one Integer or Range argument, and zero or more
   Symbol arguments corresponding to optional keywords. Verifies that the method
-  accepts that keyword, or has a variadic keyword of the form \*\*params.
+  accepts that keyword, or has a variadic keyword of the form \*\*params. As 
+  of 2.1.0 and required keywords, verifies that all required keywords are 
+  provided.
 
 ### Core
 
@@ -179,12 +186,8 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 * **with:** Expects one Integer, Range, or nil argument, and zero or more
   Symbol arguments corresponding to optional keywords. Verifies that the
   class's constructor accepts that keyword, or has a variadic keyword of the
-  form \*\*params.
-
-  _Important note:_ If you do not wish to validate the number of arguments,
-  make sure to use nil as the first argument to #with; otherwise, the matcher
-  will interpret your first keyword as the number of arguments to expect. And
-  then explode.
+  form \*\*params.  As of 2.1.0 and required keywords, verifies that all 
+  required keywords are provided.
 
 #### have\_property Matcher
 
