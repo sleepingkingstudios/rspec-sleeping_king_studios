@@ -222,10 +222,8 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       end # let
 
       specify 'with no keywords' do
-        failure_message = "expected #{actual} to respond to :#{identifier} " +
-          "with arguments:\n  missing keywords :c, :d"
-        expect(instance).to fail_with_actual(actual).
-          with_message failure_message
+        expect(instance).to pass_with_actual(actual).
+          with_message "expected #{actual} not to respond to :#{identifier}"
       end # specify
 
       specify 'with missing keywords' do
@@ -295,10 +293,8 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       end # let
 
       specify 'with no keywords' do
-        failure_message = "expected #{actual} to respond to :#{identifier} " +
-          "with arguments:\n  missing keywords :c, :d"
-        expect(instance).to fail_with_actual(actual).
-          with_message failure_message
+        expect(instance).to pass_with_actual(actual).
+          with_message "expected #{actual} not to respond to :#{identifier}"
       end # specify
 
       specify 'with missing keywords' do

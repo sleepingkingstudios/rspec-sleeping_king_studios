@@ -1,6 +1,9 @@
 # RSpec::SleepingKingStudios
 
-A collection of matchers and extensions to ease TDD/BDD using RSpec. 
+A collection of matchers and extensions to ease TDD/BDD using RSpec.
+
+## Supported Ruby Versions
+
 Currently, the following versions of Ruby are officially supported:
 
 * 1.9.3

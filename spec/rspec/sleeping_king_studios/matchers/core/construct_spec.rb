@@ -160,10 +160,8 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       end # let
 
       specify 'with no keywords' do
-        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-          "  missing keywords :c, :d"
-        expect(instance).to fail_with_actual(actual).
-          with_message failure_message
+        expect(instance).to pass_with_actual(actual).
+          with_message "expected #{actual} not to construct"
       end # specify
 
       specify 'with missing keywords' do
@@ -201,10 +199,8 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       end # let
 
       specify 'with no keywords' do
-        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-          "  missing keywords :c, :d"
-        expect(instance).to fail_with_actual(actual).
-          with_message failure_message
+        expect(instance).to pass_with_actual(actual).
+          with_message "expected #{actual} not to construct"
       end # specify
 
       specify 'with missing keywords' do

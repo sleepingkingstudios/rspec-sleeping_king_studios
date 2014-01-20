@@ -126,7 +126,8 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     end # method matches_arity?
 
     def matches_keywords? actual, name
-      return true unless @expected_keywords || RUBY_VERSION >= "2.1.0"
+      return true unless @expected_keywords ||
+        (@expected_arity && RUBY_VERSION >= "2.1.0")
 
       if result = check_method_keywords(actual.method(name), @expected_keywords)
         (@failing_method_reasons[name] ||= {}).update result

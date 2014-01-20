@@ -24,6 +24,6 @@ Gem::Specification.new do |gem|
   
   gem.add_development_dependency 'activemodel',  '~> 3.0'
   gem.add_development_dependency 'factory_girl', '~> 4.2'
-  gem.add_development_dependency 'fuubar'
-  gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'fuubar',       '~> 1.1.1'
+  gem.add_development_dependency 'pry',          '~> 0.9.12'
 end # gemspec
