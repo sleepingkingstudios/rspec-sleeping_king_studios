@@ -38,8 +38,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
     #   accepted by the method
     # 
     # @return [ConstructMatcher] self
-    def with count = nil, *keywords
-      @expected_arity    = count unless count.nil?
+    def with *keywords
+      @expected_arity    = keywords.shift if Integer === keywords.first || Range === keywords.first
       @expected_keywords = keywords
       self
     end # method with
@@ -81,7 +81,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end # method matches_arity?
 
     def matches_keywords? actual
-      return true unless @expected_keywords
+      return true unless @expected_keywords || RUBY_VERSION >= "2.1.0"
 
       if result = check_method_keywords(actual.allocate.method(:initialize), @expected_keywords)
         @failing_method_reasons.update result
@@ -120,6 +120,10 @@ module RSpec::SleepingKingStudios::Matchers::Core
       elsif hsh = reasons.fetch(:too_many_args, false)
         messages << "  expected at most #{hsh[:count]} arguments, but received #{hsh[:arity]}"
       end # if-elsif
+
+      if ary = reasons.fetch(:missing_keywords, false)
+        messages << "  missing keywords #{ary.map(&:inspect).join(", ")}"
+      end # if
 
       if ary = reasons.fetch(:unexpected_keywords, false)
         messages << "  unexpected keywords #{ary.map(&:inspect).join(", ")}"
