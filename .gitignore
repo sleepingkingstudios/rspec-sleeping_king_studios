@@ -3,6 +3,9 @@
 .ruby-gemset
 .ruby-version
 
+# Local scripting
+bin/spec.*
+
 .DS_Store
 
 # Documentation

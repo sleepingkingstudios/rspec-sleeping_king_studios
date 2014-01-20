@@ -43,15 +43,32 @@ module RSpec::SleepingKingStudios::Matchers::Shared
     def check_method_keywords method, keywords
       return nil unless RUBY_VERSION >= "2.0.0"
 
+      keywords ||= []
       parameters = method.parameters
-      return nil if 0 < parameters.count { |type, _| :keyrest == type }
+      reasons    = {}
 
-      mismatch = []
-      keywords.each do |keyword|
-        mismatch << keyword unless parameters.include?([:key, keyword])
-      end # each
+      # Check for missing required keywords.
+      if RUBY_VERSION >= "2.1.0"
+        missing = []
+        parameters.select { |type, _| :keyreq == type }.each do |_, keyword|
+          missing << keyword unless keywords.include?(keyword)
+        end # each
+        
+        reasons[:missing_keywords] = missing unless missing.empty?
+      end # if
 
-      mismatch.empty? ? nil : { :unexpected_keywords => mismatch }
+      unless 0 < parameters.count { |type, _| :keyrest == type }
+        mismatch = []
+        keywords.each do |keyword|
+          mismatch << keyword unless
+            parameters.include?([:key,    keyword]) ||
+            parameters.include?([:keyreq, keyword])
+        end # each
+
+        reasons[:unexpected_keywords] = mismatch unless mismatch.empty?
+      end # unless
+
+      reasons.empty? ? nil : reasons
     end # method check_method_keywords
 
     # Checks whether the method expects a block.
