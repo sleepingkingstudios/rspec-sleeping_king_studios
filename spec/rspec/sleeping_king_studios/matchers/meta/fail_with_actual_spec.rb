@@ -17,7 +17,7 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
   let(:instance) { described_class.new actual }
 
   it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher do
-    let(:actual) { example_group.be_false }
+    let(:actual) { example_group.be_falsy }
   end # shared behavior
 
   describe '#message' do
@@ -48,7 +48,7 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
         Evaluates to false with message "expected message matching, got message:"
   SCENARIOS
 
-  let(:matcher) { example_group.be_true }
+  let(:matcher) { example_group.be_truthy }
 
   describe 'error message for should not' do
     let(:invalid_message) { "failure: testing positive condition with negative matcher\n~>  use the :pass_with_actual matcher instead" }
@@ -75,7 +75,7 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
     end # context
 
     context 'with a correct should message' do
-      let(:correct_message)  { "expected: true value\n     got: false" }
+      let(:correct_message)  { "expected: truthy value\n     got: false" }
       let(:instance) { super().with_message correct_message }
 
       specify { expect(instance.matches? matcher).to be true }
@@ -83,7 +83,7 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
 
     context 'with an incorrect should message' do
       let(:incorrect_message) { "my hovercraft is full of eels" }
-      let(:correct_message)   { "expected: true value\n     got: false" }
+      let(:correct_message)   { "expected: truthy value\n     got: false" }
       let(:failure_message) do
         "expected message:\n#{
           incorrect_message.lines.map { |line| "#{" " * 2}#{line}" }.join
@@ -105,11 +105,11 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
       let(:instance) { super().with_message correct_message }
 
       specify { expect(instance.matches? matcher).to be true }
-    end # context
+    end # context 
 
     context 'with a non-matching should message' do
       let(:incorrect_message) { /hovercraft is full of eels/ }
-      let(:correct_message)   { "expected: true value\n     got: false" }
+      let(:correct_message)   { "expected: truthy value\n     got: false" }
       let(:failure_message) do
         "expected message matching:\n#{
           incorrect_message.inspect.lines.map { |line| "#{" " * 2}#{line}" }.join
