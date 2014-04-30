@@ -111,17 +111,17 @@ accepted by the method, and whether the method accepts a block argument.
 
 **How To Use:**
 
-    expect(instance).to respond_to(:foo).with(2..3).arguments.and.a_block
+    expect(instance).to respond_to(:foo).with(2..3).arguments.with_a_block
 
 **Chaining:**
 
-* **a\_block:** No parameters. Verifies that the method requires a block
-  argument of the form &my_argument. _Important note:_ A negative result does
-  _not* mean the method cannot accept a block, merely that it does not require
-  one. Also, does _not_ check whether the block is called or yielded.
 * **with:** Expects one Integer or Range argument. If an Integer, verifies that
   the method accepts that number of arguments; if a Range, verifies that the
   method accepts both the minimum and maximum number of arguments.
+* **with\_a\_block:** No parameters. Verifies that the method requires a block
+  argument of the form &my_argument. _Important note:_ A negative result does
+  _not* mean the method cannot accept a block, merely that it does not require
+  one. Also, does _not_ check whether the block is called or yielded.
 
 ##### Ruby 2.0
 

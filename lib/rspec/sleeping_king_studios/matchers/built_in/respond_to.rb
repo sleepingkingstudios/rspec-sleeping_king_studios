@@ -51,12 +51,26 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     # Adds a block expectation. The actual object will only match a block
     # expectation if it expects a parameter of the form &block.
+    #
+    # @deprecated Use #with_a_block instead.
+    #
+    # @raise [RSpec::Core::DeprecationError]
     # 
     # @return [RespondToMatcher] self
     def a_block
+      RSpec.deprecate 'RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#a_block',
+        :replacement => 'RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#with_a_block'
+      self.with_a_block
+    end # method a_block
+
+    # Adds a block expectation. The actual object will only match a block
+    # expectation if it expects a parameter of the form &block.
+    # 
+    # @return [RespondToMatcher] self
+    def with_a_block
       @expected_block = true
       self
-    end # method a_block
+    end # method with_a_block
 
     # Convenience method for more fluent specs. Does nothing and returns self.
     # 
@@ -66,9 +80,14 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     end # method arguments
 
     # Convenience method for more fluent specs. Does nothing and returns self.
+    #
+    # @deprecated Conflicts with RSpec 3 chained matchers.
+    #
+    # @raise [RSpec::Core::DeprecationError]
     # 
     # @return [RespondToMatcher] self
     def and
+      RSpec.deprecate 'RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#and', {}
       self
     end # method arguments
 

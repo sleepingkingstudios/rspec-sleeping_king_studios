@@ -26,12 +26,30 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
   
   describe "#and" do
     specify { expect(instance).to respond_to(:and).with(0).arguments }
-    specify { expect(instance.and).to be instance }
+    it 'raises a deprecation error' do
+      expect { instance.and }.to raise_error RSpec::Core::DeprecationError
+    end
   end # describe
   
-  describe "#a_block" do
-    specify { expect(instance).to respond_to(:a_block).with(0).arguments }
-    specify { expect(instance.a_block).to be instance }
+  describe "#with_a_block" do
+    specify { expect(instance).to respond_to(:with_a_block).with(0).arguments }
+    specify { expect(instance.with_a_block).to be instance }
+  end # describe
+
+  describe '#a_block' do
+    it { expect(instance).to respond_to(:a_block).with(0).arguments }
+
+    it 'delegates to #with_a_block' do
+      expect(instance).to respond_to(:with_a_block)
+      begin
+        instance.a_block
+      rescue RSpec::Core::DeprecationError
+      end
+    end
+
+    it 'raises a deprecation error' do
+      expect { instance.a_block }.to raise_error RSpec::Core::DeprecationError
+    end
   end # describe
 
   <<-SCENARIOS
@@ -87,7 +105,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       failure_message = "expected #{actual.inspect} to respond to " +
         "#{identifier.inspect} with arguments:\n" +
         "  unexpected block"
-      expect(instance.with.a_block).to fail_with_actual(actual).
+      expect(instance.with_a_block).to fail_with_actual(actual).
         with_message failure_message
     end # specify
   end # describe
@@ -327,7 +345,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
     end # specify
 
     specify 'with a block' do
-      expect(instance.with.a_block).to pass_with_actual(actual).
+      expect(instance.with_a_block).to pass_with_actual(actual).
         with_message "expected #{actual} not to respond to :#{identifier} with a block"
     end # specify
   end # describe

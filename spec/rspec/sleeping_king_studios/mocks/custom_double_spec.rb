@@ -9,7 +9,7 @@ describe '#custom_double' do
   let(:example_group) { self }
 
   specify do
-    expect(example_group).to respond_to(:custom_double).with(0..9001).arguments.and.a_block
+    expect(example_group).to respond_to(:custom_double).with(0..9001).arguments.with_a_block
   end # specify
 
   <<-SCENARIOS
