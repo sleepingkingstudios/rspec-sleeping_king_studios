@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.require_path = 'lib'
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
   
-  gem.add_runtime_dependency 'rspec', '~> 2.14'
+  gem.add_runtime_dependency 'rspec', '~> 2.99.beta.2'
   
   gem.add_development_dependency 'activemodel',  '~> 3.0'
   gem.add_development_dependency 'factory_girl', '~> 4.2'
