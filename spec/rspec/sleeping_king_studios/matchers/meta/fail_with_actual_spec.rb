@@ -11,8 +11,8 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
   let(:example_group) { self }
   let(:actual)        { nil }
   
-  specify { expect(example_group).to respond_to(:fail_with_actual).with(1).arguments }
-  specify { expect(example_group.fail_with_actual actual).to be_a described_class }
+  it { expect(example_group).to respond_to(:fail_with_actual).with(1).arguments }
+  it { expect(example_group.fail_with_actual actual).to be_a described_class }
 
   let(:instance) { described_class.new actual }
 
@@ -21,15 +21,15 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
   end # shared behavior
 
   describe '#message' do
-    specify { expect(instance).to respond_to(:message).with(0).arguments }
+    it { expect(instance).to respond_to(:message).with(0).arguments }
   end # describe
 
   describe "#with_message" do
     let(:expected_message) { "my hovercraft is full of eels" }
 
-    specify { expect(instance).to respond_to(:with_message).with(1).arguments }
-    specify { expect(instance.with_message expected_message).to be instance }
-    specify { expect(instance.with_message(expected_message).message).to be == expected_message }
+    it { expect(instance).to respond_to(:with_message).with(1).arguments }
+    it { expect(instance.with_message expected_message).to be instance }
+    it { expect(instance.with_message(expected_message).message).to be == expected_message }
   end # describe
   
   <<-SCENARIOS
@@ -53,35 +53,35 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
   describe 'error message for should not' do
     let(:invalid_message) { "failure: testing positive condition with negative matcher\n~>  use the :pass_with_actual matcher instead" }
 
-    specify { expect(instance.failure_message_for_should_not).to be == invalid_message }
+    it { expect(instance.failure_message_when_negated).to be == invalid_message }
   end # context
 
-  context 'with a passing matcher' do
+  describe 'with a passing matcher' do
     let(:actual)          { true }
     let(:failure_message) { "expected #{matcher} not to match #{actual}" }
 
-    specify { expect(instance.matches? matcher).to be false }
-    specify 'failure message' do
+    it { expect(instance.matches? matcher).to be false }
+    it 'has the expected failure message' do
       instance.matches? matcher
-      expect(instance.failure_message_for_should).to eq failure_message
-    end # specify
+      expect(instance.failure_message).to eq failure_message
+    end # it
   end # context
 
-  context 'with a failing matcher' do
+  describe 'with a failing matcher' do
     let(:actual) { false }
 
-    context 'with no message' do
-      specify { expect(instance.matches? matcher).to be true }
+    describe 'with no message' do
+      it { expect(instance.matches? matcher).to be true }
     end # context
 
-    context 'with a correct should message' do
+    describe 'with a correct should message' do
       let(:correct_message)  { "expected: truthy value\n     got: false" }
       let(:instance) { super().with_message correct_message }
 
-      specify { expect(instance.matches? matcher).to be true }
+      it { expect(instance.matches? matcher).to be true }
     end # context
 
-    context 'with an incorrect should message' do
+    describe 'with an incorrect should message' do
       let(:incorrect_message) { "my hovercraft is full of eels" }
       let(:correct_message)   { "expected: truthy value\n     got: false" }
       let(:failure_message) do
@@ -93,21 +93,21 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
       end # let
       let(:instance) { super().with_message incorrect_message }
 
-      specify { expect(instance.matches? matcher).to be false }
-      specify 'failure message' do
+      it { expect(instance.matches? matcher).to be false }
+      it 'has the expected failure message' do
         instance.matches? matcher
-        expect(instance.failure_message_for_should).to eq failure_message
-      end # specify
+        expect(instance.failure_message).to eq failure_message
+      end # it
     end # context
 
-    context 'with a matching should pattern' do
+    describe 'with a matching should pattern' do
       let(:correct_message)  { /got\: false/ }
       let(:instance) { super().with_message correct_message }
 
-      specify { expect(instance.matches? matcher).to be true }
+      it { expect(instance.matches? matcher).to be true }
     end # context 
 
-    context 'with a non-matching should message' do
+    describe 'with a non-matching should message' do
       let(:incorrect_message) { /hovercraft is full of eels/ }
       let(:correct_message)   { "expected: truthy value\n     got: false" }
       let(:failure_message) do
@@ -119,11 +119,11 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
       end # let
       let(:instance) { super().with_message incorrect_message }
 
-      specify { expect(instance.matches? matcher).to be false }
-      specify 'failure message' do
+      it { expect(instance.matches? matcher).to be false }
+      it 'has the expected failure message' do
         instance.matches? matcher
-        expect(instance.failure_message_for_should).to eq failure_message
-      end # specify
+        expect(instance.failure_message).to eq failure_message
+      end # it
     end # context
   end # context
 end # describe

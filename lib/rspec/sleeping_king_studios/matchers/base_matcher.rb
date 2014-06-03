@@ -7,14 +7,17 @@ module RSpec::SleepingKingStudios::Matchers
   # 
   # @since 1.0.0
   class BaseMatcher
-    def initialize *args
-    end # constructor
+    include RSpec::Matchers::Pretty
 
-    # A short string that describes the purpose of the matcher.
+    attr_reader :actual
+
+    # A short string that describes the purpose of the matcher. Borrowed from
+    # RSpec::Matchers::BuiltIn::BaseMatcher.
     # 
     # @return [String] the matcher description
     def description
-      "match"
+      return name_to_sentence unless defined?(@expected)
+      "#{name_to_sentence}#{to_sentence @expected}"
     end # method description
 
     # Tests the actual object to see if it matches the defined condition(s).
@@ -30,14 +33,14 @@ module RSpec::SleepingKingStudios::Matchers
 
     # Message for when the object does not match, but was expected to. Make
     # sure to always call #matches? first to set up the matcher state.
-    def failure_message_for_should
+    def failure_message
       "expected #{@actual.inspect} to #{description}"
-    end # method failure_message_for_should
+    end # method failure_message
 
     # Message for when the object matches, but was expected not to. Make sure
     # to always call #matches? first to set up the matcher state.
-    def failure_message_for_should_not
+    def failure_message_when_negated
       "expected #{@actual.inspect} not to #{description}"
-    end # method failure_message_for_should_not
+    end # method failure_message_when_negated
   end # class
 end # module
