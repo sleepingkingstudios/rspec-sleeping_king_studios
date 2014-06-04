@@ -6,8 +6,6 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/meta/pass_with_actual'
 
 describe RSpec::SleepingKingStudios::Matchers::Meta::PassWithActualMatcher do
-  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
-
   let(:example_group) { self }
   let(:actual)        { nil }
   
@@ -15,10 +13,6 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::PassWithActualMatcher do
   specify { expect(example_group.pass_with_actual actual).to be_a described_class }
 
   let(:instance) { described_class.new actual }
-
-  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher do
-    let(:actual) { example_group.be_truthy }
-  end # shared behavior
 
   describe '#message' do
     specify { expect(instance).to respond_to(:message).with(0).arguments }
@@ -53,7 +47,7 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::PassWithActualMatcher do
   describe 'error message for should not' do
     let(:invalid_message) { "failure: testing negative condition with positive matcher\n~>  use the :fail_with_actual matcher instead" }
 
-    specify { expect(instance.failure_message_for_should_not).to be == invalid_message }
+    specify { expect(instance.failure_message_when_negated).to be == invalid_message }
   end # context
 
   context 'with a passing matcher' do
@@ -83,7 +77,7 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::PassWithActualMatcher do
       specify { expect(instance.matches? matcher).to be false }
       specify 'failure message' do
         instance.matches? matcher
-        expect(instance.failure_message_for_should).to eq failure_message
+        expect(instance.failure_message).to eq failure_message
       end # specify
     end # context
 
@@ -109,7 +103,7 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::PassWithActualMatcher do
       specify { expect(instance.matches? matcher).to be false }
       specify 'failure message' do
         instance.matches? matcher
-        expect(instance.failure_message_for_should).to eq failure_message
+        expect(instance.failure_message).to eq failure_message
       end # specify
     end # context
   end # context
@@ -126,7 +120,7 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::PassWithActualMatcher do
     specify { expect(instance.matches? matcher).to be false }
     specify 'failure message' do
       instance.matches? matcher
-      expect(instance.failure_message_for_should).to eq expected_message
+      expect(instance.failure_message).to eq expected_message
     end # specify
   end # context
 end # describe
