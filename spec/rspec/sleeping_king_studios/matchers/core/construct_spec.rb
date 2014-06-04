@@ -7,16 +7,12 @@ require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 require 'rspec/sleeping_king_studios/matchers/core/construct'
 
 describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
-  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
-
   let(:example_group) { self }
   
   specify { expect(example_group).to respond_to(:construct).with(0).arguments }
   specify { expect(example_group.construct).to be_a described_class }
 
   let(:instance) { described_class.new }
-
-  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   describe '#with' do
     specify { expect(instance).to respond_to(:with).with(0..2).arguments }

@@ -51,21 +51,21 @@ module RSpec::SleepingKingStudios::Matchers::Core
       self
     end # method arguments
 
-    # @see BaseMatcher#failure_message_for_should
-    def failure_message_for_should
+    # @see BaseMatcher#failure_message
+    def failure_message
       message = "expected #{@actual.inspect} to construct"
       message << " with arguments:\n#{format_errors}" if @actual.respond_to?(:new)
       message
-    end # method failure_message_for_should
+    end # method failure_message
 
-    # @see BaseMatcher#failure_message_for_should_not
-    def failure_message_for_should_not
+    # @see BaseMatcher#failure_message_when_negated
+    def failure_message_when_negated
       message = "expected #{@actual.inspect} not to construct"
       unless (formatted = format_expected_arguments).empty?
         message << " with #{formatted}" 
       end # unless
       message
-    end # method failure_message_for_should_not
+    end # method failure_message_when_negated
 
     private
 
