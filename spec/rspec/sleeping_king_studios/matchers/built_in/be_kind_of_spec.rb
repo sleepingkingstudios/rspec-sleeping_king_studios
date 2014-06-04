@@ -6,8 +6,6 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/built_in/be_kind_of'
 
 describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
-  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
-
   let(:example_group) { self }
   let(:type)          { Object }
   
@@ -18,8 +16,6 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
   specify { expect(example_group.be_a type).to be_a described_class }
 
   let(:instance) { described_class.new type }
-
-  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   <<-SCENARIOS
     When given nil,

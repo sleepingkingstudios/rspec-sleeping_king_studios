@@ -18,15 +18,15 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       match_type? expected
     end # method match
 
-    # @see BaseMatcher#failure_message_for_should
-    def failure_message_for_should
+    # @see BaseMatcher#failure_message
+    def failure_message
       "expected #{@actual.inspect} to be #{type_string}"
-    end # method failure_message_for_should
+    end # method failure_message
     
-    # @see BaseMatcher#failure_message_for_should_not
-    def failure_message_for_should_not
+    # @see BaseMatcher#failure_message_when_negated
+    def failure_message_when_negated
       "expected #{@actual.inspect} not to be #{type_string}"
-    end # method failure_message_for_should_not
+    end # method failure_message_when_negated
 
     private
     
