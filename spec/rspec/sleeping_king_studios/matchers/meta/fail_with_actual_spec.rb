@@ -6,8 +6,6 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/meta/fail_with_actual'
 
 describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
-  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
-
   let(:example_group) { self }
   let(:actual)        { nil }
   
@@ -15,10 +13,6 @@ describe RSpec::SleepingKingStudios::Matchers::Meta::FailWithActualMatcher do
   it { expect(example_group.fail_with_actual actual).to be_a described_class }
 
   let(:instance) { described_class.new actual }
-
-  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher do
-    let(:actual) { example_group.be_falsy }
-  end # shared behavior
 
   describe '#message' do
     it { expect(instance).to respond_to(:message).with(0).arguments }
