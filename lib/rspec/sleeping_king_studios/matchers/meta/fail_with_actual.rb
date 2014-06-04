@@ -33,7 +33,8 @@ module RSpec::SleepingKingStudios::Matchers::Meta
     #   (if any); otherwise false
     def matches? actual
       super
-      return false if @matches = @actual.matches?(@expected)
+
+      return false if matches_actual?
 
       if @message.is_a? Regexp
         !!(@actual.failure_message =~ @message)
@@ -81,6 +82,20 @@ module RSpec::SleepingKingStudios::Matchers::Meta
       @message = message
       self
     end # method with_message
+
+    private
+
+    # Handles the actual matching through #does_not_match? if the matcher
+    # supports that method, otherwise falls back to @matches?.
+    # 
+    # @return [Boolean]
+    def matches_actual?
+      if @actual.respond_to?(:does_not_match?)
+        @matches = !@actual.does_not_match?(@expected)
+      else
+        @matches = @actual.matches?(@expected)
+      end # if-else
+    end # method matches_actual?
   end # class
 end # module
 
@@ -90,52 +105,3 @@ module RSpec::SleepingKingStudios::Matchers
     Meta::FailWithActualMatcher.new expected
   end # method fail_with_actual
 end # module
-
-=begin
-RSpec::Matchers.define :fail_with_actual do |actual|
-  match do |matcher|
-    @matcher = matcher
-    @actual  = actual
-    
-    next false if @matches = @matcher.matches?(@actual)
-    
-    text = @matcher.failure_message
-    if @message.is_a? Regexp
-      !!(text =~ @message)
-    elsif @message
-      text == @message.to_s
-    else
-      true
-    end # if-elsif-else
-  end # match
-  
-  failure_message do
-    if @matches = @matcher.matches?(@actual)
-      "expected #{@matcher} not to match #{@actual}"
-    else
-      message_text = @message.is_a?(Regexp) ? @message.inspect : @message.to_s
-
-      "expected message#{@message.is_a?(Regexp) ? " matching" : ""}:\n#{
-        message_text.lines.map { |line| "#{" " * 2}#{line}" }.join
-      }\nreceived message:\n#{
-        @matcher.failure_message.lines.map { |line| "#{" " * 2}#{line}" }.join
-      }"
-    end # if-else
-  end # method failure_message
-  
-  failure_message_when_negated do
-    "failure: testing positive condition with negative matcher\n~>  use the :pass_with_actual matcher instead"
-  end # method failure_message_when_negated
-
-  def message
-    @message
-  end # reader message
-
-  # The text of the tested matcher's :failure_message, when the
-  # tested matcher correctly fails to match the actual object.
-  def with_message message
-    @message = message
-    self
-  end # method with_message
-end # matcher pass
-=end
