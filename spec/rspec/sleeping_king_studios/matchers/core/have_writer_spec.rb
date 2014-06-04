@@ -6,8 +6,6 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
 describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
-  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
-
   let(:example_group) { self }
   let(:property)      { :foo }
   
@@ -15,8 +13,6 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
   specify { expect(example_group.have_writer property).to be_a described_class }
 
   let(:instance) { described_class.new property }
-
-  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   describe '#with' do
     specify { expect(instance).to respond_to(:with).with(1).arguments }

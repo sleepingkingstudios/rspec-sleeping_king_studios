@@ -6,8 +6,6 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
 
 describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
-  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
-
   let(:example_group) { self }
   
   specify { expect(example_group).to respond_to(:be_boolean).with(0).arguments }
@@ -17,8 +15,6 @@ describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
   specify { expect(example_group.be_bool).to be_a described_class }
 
   let(:instance) { described_class.new }
-
-  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
 
   <<-SCENARIOS
     When the object is true,

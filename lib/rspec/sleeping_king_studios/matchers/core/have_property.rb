@@ -13,7 +13,6 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # @param [String, Symbol] expected the property to check for on the actual
     #   object
     def initialize expected
-      super
       @expected = expected.intern
     end # method initialize
 
@@ -54,8 +53,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
       self
     end # method with
 
-    # @see BaseMatcher#failure_message_for_should
-    def failure_message_for_should
+    # @see BaseMatcher#failure_message
+    def failure_message
       methods = []
       methods << ":#{@expected}"  unless @match_reader
       methods << ":#{@expected}=" unless @match_writer
@@ -65,14 +64,14 @@ module RSpec::SleepingKingStudios::Matchers::Core
       "unexpected value for #{@actual.inspect}\##{@expected}" +
         "\n  expected: #{@value.inspect}" +
         "\n       got: #{@actual.send(@expected).inspect}"
-    end # failure_message_for_should
+    end # failure_message
 
-    # @see BaseMatcher#failure_message_for_should_not
-    def failure_message_for_should_not
+    # @see BaseMatcher#failure_message_when_negated
+    def failure_message_when_negated
       message = "expected #{@actual.inspect} not to respond to :#{@expected} or :#{@expected}="
       message << " with value #{@value.inspect}" if @value_set
       message
-    end # failure_message_for_should_not
+    end # failure_message_when_negated
   end # class
 end # module
 
