@@ -17,69 +17,58 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       super *expected
     end # constructor
 
-    # Checks if the object includes the specified objects. Proc expectations
-    # are evaluated by passing each item to proc#call.
-    # 
-    # @param [Object] actual the object to check
-    # 
-    # @return [Boolean] true if for each item expectation, the object contains
-    #   an item matching that expectation; otherwise false
-    def matches? actual
-      super
-    end # method matches?
-
     # @private
-    def name
-      "include"
-    end # method name
-
-    # @private
-    def to_word item
+    def to_word expected_item
       case
-      when is_matcher_with_description?(item)
-        item.description
-      when Proc === item
-        "matching block"
+      when is_matcher_with_description?(expected_item)
+        expected_item.description
+      when Proc === expected_item
+        "an item matching the block"
       else
-        item.inspect
+        expected_item.inspect
       end # case
     end # method to_word
 
-    # @see BaseMatcher#failure_message_for_should
-    def failure_message_for_should
+    # @see BaseMatcher#failure_message
+    def failure_message
       return "expected #{@actual.inspect} to respond to :include?" if false === @includes
 
       super
     end # method failure_message_for_should
 
-    # @see BaseMatcher#failure_message_for_should_not
-    def failure_message_for_should_not
+    # @see BaseMatcher#failure_message_when_negated
+    def failure_message_when_negated
       super
     end # method
 
     private
 
-    def perform_match predicate, hash_predicate, actuals, expecteds
-      expecteds.__send__(predicate) do |expected|
-        if comparing_proc? actuals, expected
-          !!actuals.detect { |actual| expected.call(actual) }
-        elsif comparing_hash_values?(actuals, expected)
-          expected.__send__(hash_predicate) { |k,v|
-            actuals.has_key?(k) && actuals[k] == v
-          }
-        elsif comparing_hash_keys?(actuals, expected)
-          actuals.has_key?(expected)
-        elsif comparing_with_matcher?(actual, expected)
-          actual.any? { |value| expected.matches?(value) }
+    def perform_match(predicate, hash_subset_predicate)
+      expected.__send__(predicate) do |expected_item|
+        if comparing_proc?(expected_item)
+          actual_matches_proc?(expected_item)
+        elsif comparing_hash_to_a_subset?(expected_item)
+          expected_item.__send__(hash_subset_predicate) do |(key, value)|
+            actual_hash_includes?(key, value)
+          end
+        elsif comparing_hash_keys?(expected_item)
+          actual_hash_has_key?(expected_item)
         else
-          @includes = actuals.respond_to?(:include?)
-          @includes && actuals.include?(expected)
-        end # if-elsif-end
-      end # send
-    end # method perform_match
+          actual_collection_includes?(expected_item)
+        end
+      end
+    end
 
-    def comparing_proc? actual, expected
-      expected.is_a?(Proc)
+    def actual_collection_includes? expected_item
+      (@includes = actual.respond_to?(:include?)) && super
+    end # method actual_collection_includes?
+
+    def actual_matches_proc? expected_item
+      !!actual.detect(&expected_item)
+    end # method actual_matches_proc?
+
+    def comparing_proc? expected_item
+      expected_item.is_a?(Proc)
     end # method comparing_proc?
   end # class
 end # module

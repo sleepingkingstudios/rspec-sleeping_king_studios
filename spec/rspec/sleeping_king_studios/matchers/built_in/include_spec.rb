@@ -1,14 +1,11 @@
 # spec/rspec/sleeping_king_studios/matchers/built_in/include_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
-require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/include'
 
 describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
-  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
-
   let(:example_group) { self }
   let(:expectations)  { "String" }
   
@@ -16,11 +13,6 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
   specify { expect(example_group.include expectations).to be_a described_class }
 
   let(:instance) { described_class.new expectations }
-
-  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher do
-    let(:actual)   { [] }
-    let(:instance) { super().tap { |matcher| matcher.matches? actual } }
-  end # shared behavior
 
   <<-SCENARIOS
     When given a non-enumerable actual,
@@ -54,7 +46,8 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
   end # context
 
   context 'with a Hash' do
-    let(:actual) { { :foo => "foo", :bar => "bar", :baz => "baz" } }
+    let(:actual)        { { :foo => "foo", :bar => "bar", :baz => "baz" } }
+    let(:actual_string) { actual.inspect.gsub(/(\S)=>(\S)/, '\1 => \2') }
 
     context 'with a matching block expectation' do
       let(:expectations) { ->((_, str)){ str =~ /ba/ } }
@@ -62,7 +55,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
       specify 'passes' do
         expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual.inspect} not to include matching block"
+          with_message "expected #{actual_string} not to include an item matching the block"
       end # specify
     end # context
 
@@ -72,7 +65,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
       specify 'fails' do
         expect(instance).to fail_with_actual(actual).
-          with_message "expected #{actual.inspect} to include matching block"
+          with_message "expected #{actual_string} to include an item matching the block"
       end # specify
     end # context
 
@@ -81,7 +74,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
       specify 'passes' do
         expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual.inspect} not to include matching block"
+          with_message "expected #{actual_string} not to include an item matching the block"
       end # specify
     end # context
 
@@ -90,7 +83,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
       specify 'fails' do
         expect(instance).to fail_with_actual(actual).
-          with_message "expected #{actual.inspect} to include matching block"
+          with_message "expected #{actual_string} to include an item matching the block"
       end # specify
     end # context
   end # context
@@ -104,7 +97,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
       specify 'passes' do
         expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual.inspect} not to include matching block"
+          with_message "expected #{actual.inspect} not to include an item matching the block"
       end # specify
     end # context
 
@@ -114,7 +107,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
       specify 'fails' do
         expect(instance).to fail_with_actual(actual).
-          with_message "expected #{actual.inspect} to include matching block"
+          with_message "expected #{actual.inspect} to include an item matching the block"
       end # specify
     end # context
 
@@ -123,7 +116,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
       specify 'passes' do
         expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual.inspect} not to include matching block"
+          with_message "expected #{actual.inspect} not to include an item matching the block"
       end # specify
     end # context
 
@@ -132,7 +125,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
       specify 'fails' do
         expect(instance).to fail_with_actual(actual).
-          with_message "expected #{actual.inspect} to include matching block"
+          with_message "expected #{actual.inspect} to include an item matching the block"
       end # specify
     end # context
   end # context
