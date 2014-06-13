@@ -8,17 +8,6 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
   class RespondToMatcher < RSpec::Matchers::BuiltIn::RespondTo
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
 
-    # Checks if the object responds to the specified message. If so, checks the
-    # parameters against the expected parameters, if any.
-    # 
-    # @param [Object] actual the object to check
-    # 
-    # @return [Boolean] true if the object responds to the message and accepts
-    #   the specified parameters; otherwise false
-    def matches? actual
-      super
-    end # method matches?
-
     # @overload with count
     #   Adds a parameter count expectation.
     # 
@@ -51,20 +40,6 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     # Adds a block expectation. The actual object will only match a block
     # expectation if it expects a parameter of the form &block.
-    #
-    # @deprecated Use #with_a_block instead.
-    #
-    # @raise [RSpec::Core::DeprecationError]
-    # 
-    # @return [RespondToMatcher] self
-    def a_block
-      RSpec.deprecate 'RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#a_block',
-        :replacement => 'RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#with_a_block'
-      self.with_a_block
-    end # method a_block
-
-    # Adds a block expectation. The actual object will only match a block
-    # expectation if it expects a parameter of the form &block.
     # 
     # @return [RespondToMatcher] self
     def with_a_block
@@ -72,30 +47,12 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       self
     end # method with_a_block
 
-    # Convenience method for more fluent specs. Does nothing and returns self.
-    # 
-    # @return [RespondToMatcher] self
-    def arguments
-      self
-    end # method arguments
-
-    # Convenience method for more fluent specs. Does nothing and returns self.
-    #
-    # @deprecated Conflicts with RSpec 3 chained matchers.
-    #
-    # @raise [RSpec::Core::DeprecationError]
-    # 
-    # @return [RespondToMatcher] self
-    def and
-      RSpec.deprecate 'RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#and', {}
-      self
-    end # method arguments
-
-    # @see BaseMatcher#failure_message_for_should
-    def failure_message_for_should
-      messages = []
+    # @see BaseMatcher#failure_message
+    def failure_message
       @failing_method_names ||= []
-      @failing_method_names.map do |method|
+      methods, messages = @names - @failing_method_names, []
+
+      methods.map do |method|
         message = "expected #{@actual.inspect} to respond to #{method.inspect}"
         if @actual.respond_to?(method)
           message << " with arguments:\n#{format_errors_for_method method}"
@@ -103,14 +60,14 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         messages << message
       end # method
       messages.join "\n"
-    end # method failure_message_for_should
+    end # method failure_message
 
-    # @see BaseMatcher#failure_message_for_should_not
-    def failure_message_for_should_not
+    # @see BaseMatcher#failure_message_when_negated
+    def failure_message_when_negated
       @failing_method_names ||= []
       methods, messages = @names - @failing_method_names, []
 
-      @names.map do |method|
+      methods.map do |method|
         message   = "expected #{@actual.inspect} not to respond to #{method.inspect}"
         unless (formatted = format_expected_arguments).empty?
           message << " with #{formatted}"
@@ -118,7 +75,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         messages << message
       end # method
       messages.join "\n"
-    end # method failure_message_for_should_not
+    end # method failure_message_when_negated
 
     private
 
