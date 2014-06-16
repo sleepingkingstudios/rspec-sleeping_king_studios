@@ -22,8 +22,4 @@ describe RSpec::SleepingKingStudios do
       specify { expect(example_group).to respond_to matcher }
     end # context
   end # each
-
-  specify do
-    expect(example_group).to respond_to(:custom_double).with(0..9001).arguments.with_a_block
-  end # specify
 end # describe

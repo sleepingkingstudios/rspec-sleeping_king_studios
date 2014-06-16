@@ -10,27 +10,6 @@ Currently, the following versions of Ruby are officially supported:
 * 2.0.0
 * 2.1.0
 
-## The Extensions
-
-To enable an extension, simply require the associated file.
-
-### Mocks
-
-These extensions support the creation and use of mock objects.
-
-#### custom\_double
-
-    require 'rspec/sleeping_king_studios/mocks/custom_double'
-
-As the built-in 'double' method, but accepts a block that is passed to
-Class.new when the double is created, allowing you to create functional class
-and instance methods on the double. Useful when you need to test a function or
-sequence that repeatedly updates or checks the state of the injected object.
-
-**How To Use:**
-
-    custom_double('My Double', :foo => "Foo") { attr_accessor :bar }
-
 ## The Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be
