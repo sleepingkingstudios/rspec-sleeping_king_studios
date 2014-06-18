@@ -16,7 +16,7 @@ Currently, the following versions of Ruby are officially supported:
 
 ### A Note From The Developer
 
-Hi, I'm Rob Smith, I'm the developer of this library. As a professional Ruby
+Hi, I'm Rob Smith, the maintainer of this library. As a professional Ruby
 developer, I use these tools every day. If you find this project helpful in
 your own work, or if you have any questions, suggestions or critiques, please
 feel free to get in touch! I can be reached on GitHub (see above, and feel
