@@ -10,10 +10,26 @@ Currently, the following versions of Ruby are officially supported:
 * 2.0.0
 * 2.1.0
 
+## Contribute
+
+- https://github.com/sleepingkingstudios/rspec-sleeping_king_studios
+
+### A Note From The Developer
+
+Hi, I'm Rob Smith, I'm the developer of this library. As a professional Ruby
+developer, I use these tools every day. If you find this project helpful in
+your own work, or if you have any questions, suggestions or critiques, please
+feel free to get in touch! I can be reached on GitHub (see above, and feel
+encouraged to submit bug reports or merge requests there) or via email at
+merlin@sleepingkingstudios.com. I look forward to hearing from you!
+
 ## The Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be
 required individually or by category:
+
+    require 'rspec/sleeping_king_studios'
+    #=> requires all features, including matchers
 
     require 'rspec/sleeping_king_studios/matchers/core'
     #=> requires all of the core matchers
@@ -102,7 +118,7 @@ accepted by the method, and whether the method accepts a block argument.
   _not* mean the method cannot accept a block, merely that it does not require
   one. Also, does _not_ check whether the block is called or yielded.
 
-##### Ruby 2.0
+##### Ruby 2.0+
 
 Has additional functionality to support Ruby 2.0 keyword arguments.
 
@@ -156,7 +172,7 @@ optional number of arguments.
   verifies that the constructor accepts both the minimum and maximum number of
   arguments.
 
-##### Ruby 2.0
+##### Ruby 2.0+
 
 Has additional functionality to support Ruby 2.0 keyword arguments.
 
@@ -268,12 +284,12 @@ pass\_with\_actual matcher, below.
     expect(matcher).to fail_with_actual(actual).with_message(/expected to/)
     
 **Parameters:** Matcher. Expects an object that, at minimum, responds to
-:matches? and :failure\_message\_for\_should.
+:matches? and :failure\_message.
 
 **Chaining:**
 
 * **with\_message:** Expects one String or Regexp argument, which is matched
-  against the given matcher's failure\_message\_for\_should.
+  against the given matcher's failure\_message.
 
 #### pass\_with\_actual Matcher
 
@@ -288,15 +304,15 @@ fail\_with\_actual matcher, above.
 
 **How To Use:**
 
-    expect(matcher).to pass_with_actual(actual)
+    expect(matcher).to pass_with_actual(actual).with_message(/expected not to/)
   
 **Parameters:** Matcher. Expects an object that, at minimum, responds to
-:matches? and :failure\_message\_for\_should\_not.
+:matches? and :failure\_message\_when\_negated.
 
 **Chaining:**
 
 * **with\_message:** Expects one String or Regexp argument, which is matched
-  against the given matcher's failure\_message\_for\_should\_not.
+  against the given matcher's failure\_message\_when\_negated.
 
 ## License
 
