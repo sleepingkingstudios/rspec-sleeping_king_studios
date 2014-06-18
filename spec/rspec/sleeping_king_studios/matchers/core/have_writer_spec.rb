@@ -9,14 +9,14 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
   let(:example_group) { self }
   let(:property)      { :foo }
   
-  specify { expect(example_group).to respond_to(:have_writer).with(1).arguments }
-  specify { expect(example_group.have_writer property).to be_a described_class }
+  it { expect(example_group).to respond_to(:have_writer).with(1).arguments }
+  it { expect(example_group.have_writer property).to be_a described_class }
 
   let(:instance) { described_class.new property }
 
   describe '#with' do
-    specify { expect(instance).to respond_to(:with).with(1).arguments }
-    specify { expect(instance.with 5).to be instance }
+    it { expect(instance).to respond_to(:with).with(1).arguments }
+    it { expect(instance.with 5).to be instance }
   end # describe with
 
   <<-SCENARIOS
@@ -45,10 +45,10 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
     let(:value)  { 42 }
     let(:actual) { Struct.new(property).new }
 
-    specify 'with no argument set' do
+    it 'with no argument set' do
       expect(instance).to pass_with_actual(actual).
         with_message "expected #{actual} not to respond to #{property.inspect}="
-    end # specify
+    end # it
 
     describe 'and responds to :property' do
       let(:actual) do
@@ -58,18 +58,18 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
         end.new
       end # let
 
-      specify 'with a valid response' do
+      it 'with a valid response' do
         expect(instance.with value).to pass_with_actual(actual).
           with_message "expected #{actual} not to respond to #{property.inspect}= with value #{value}"
-      end # specify
+      end # it
 
-      specify 'with an invalid response' do
+      it 'with an invalid response' do
         allow(actual).to receive(property).and_return(value)
         failure_message = "unexpected value for #{actual}\##{property}=\n" +
           "  expected: nil\n       got: #{value}"
         expect(instance.with nil).to fail_with_actual(actual).
           with_message failure_message
-      end # specify
+      end # it
     end # describe
 
     describe 'but does not respond to :property' do
@@ -81,28 +81,28 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
       end # let
 
       describe 'with no block added to #with' do
-        specify do
+        it 'fails' do
           failure_message = "unable to test #{property.inspect}= because " +
             "#{actual} does not respond to #{property.inspect}; try adding a " +
             "test block to #with"
           expect(instance.with value).to fail_with_actual(actual).
             with_message failure_message
-        end # specify
+        end # it
       end # describe
 
       describe 'with a block added to #with' do
-        specify 'with a valid response' do
+        it 'with a valid response' do
           expect(instance.with(value) { instance_variable_get "@foo" }).to pass_with_actual(actual).
             with_message "expected #{actual} not to respond to #{property.inspect}= with value #{value}"
-        end # specify
+        end # it
 
-        specify 'with an invalid response' do
+        it 'with an invalid response' do
           allow(actual).to receive(property).and_return(value)
           failure_message = "unexpected value for #{actual}\##{property}=\n" +
             "  expected: #{value}\n       got: nil"
           expect(instance.with(value) { nil }).to fail_with_actual(actual).
             with_message failure_message
-        end # specify
+        end # it
       end # describe
     end # describe
   end # describe
@@ -110,9 +110,9 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
   describe 'with an object that does not respond to :property=' do
     let(:actual) { Object.new }
 
-    specify do
+    it 'fails' do
       expect(instance).to fail_with_actual(actual).
         with_message "expected #{actual} to respond to #{property.inspect}="
-    end # specify
+    end # it
   end # describe
 end # describe

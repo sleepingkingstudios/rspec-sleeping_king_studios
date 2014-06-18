@@ -9,14 +9,14 @@ require 'rspec/sleeping_king_studios/matchers/core/construct'
 describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
   let(:example_group) { self }
   
-  specify { expect(example_group).to respond_to(:construct).with(0).arguments }
-  specify { expect(example_group.construct).to be_a described_class }
+  it { expect(example_group).to respond_to(:construct).with(0).arguments }
+  it { expect(example_group.construct).to be_a described_class }
 
   let(:instance) { described_class.new }
 
   describe '#with' do
-    specify { expect(instance).to respond_to(:with).with(0..2).arguments }
-    specify { expect(instance.with).to be instance }
+    it { expect(instance).to respond_to(:with).with(0..2).arguments }
+    it { expect(instance.with).to be instance }
   end # describe
 
   <<-SCENARIOS
@@ -41,63 +41,63 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
   describe 'with no ::new method' do
     let(:actual) { Object.new }
 
-    specify { expect(instance).to fail_with_actual(actual).
+    it { expect(instance).to fail_with_actual(actual).
       with_message "expected #{actual.inspect} to construct" }
   end # describe
 
   describe 'with a ::new method with no arguments' do
     let(:actual) { Class.new { def initialize; end } }
 
-    specify 'with no arguments' do
+    it 'with no arguments' do
       expect(instance).to pass_with_actual(actual).
         with_message "expected #{actual.inspect} not to construct"
-    end # specify
+    end # it
 
-    specify 'with too many arguments' do
+    it 'with too many arguments' do
       failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
         "  expected at most 0 arguments, but received 1"
       expect(instance.with(1).arguments).to fail_with_actual(actual).
         with_message failure_message
-    end # specify
+    end # it
   end # describe
 
   describe 'with a ::new method with required arguments' do
     let(:actual) { Class.new { def initialize(a, b, c = nil); end } }
 
-    specify 'with not enough arguments' do
+    it 'with not enough arguments' do
       failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
         "  expected at least 2 arguments, but received 1"
       expect(instance.with(1).arguments).to fail_with_actual(actual).
         with_message failure_message
-    end # specify
+    end # it
 
-    specify 'with enough arguments' do
+    it 'with enough arguments' do
       expect(instance.with(3).arguments).to pass_with_actual(actual).
         with_message "expected #{actual} not to construct with 3 arguments"
-    end # specify
+    end # it
 
-    specify 'with too many arguments' do
+    it 'with too many arguments' do
       failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
         "  expected at most 3 arguments, but received 5"
       expect(instance.with(5).arguments).to fail_with_actual(actual).
         with_message failure_message
-    end # specify
+    end # it
   end # describe
 
   describe 'with a ::new method with variadic arguments' do
     let(:actual) { Class.new { def initialize(a, b, c, *rest); end } }
 
-    specify 'with not enough arguments' do
+    it 'with not enough arguments' do
       failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
         "  expected at least 3 arguments, but received 2"
       expect(instance.with(2).arguments).to fail_with_actual(actual).
         with_message failure_message
-    end # specify
+    end # it
 
-    specify 'with an excessive number of arguments' do
+    it 'with an excessive number of arguments' do
       expect(instance.with(9001).arguments).to pass_with_actual(actual).
         with_message "expected #{actual} not to construct with 9001 arguments"
-    end # specify
+    end # it
   end # describe
 
   if RUBY_VERSION >= "2.0.0"
@@ -107,22 +107,22 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
         Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true| }) }
       end # let
 
-      specify 'with no keywords' do
+      it 'with no keywords' do
         expect(instance).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct"
-      end # specify
+      end # it
 
-      specify 'with valid keywords' do
+      it 'with valid keywords' do
         expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
-      end # specify
+      end # it
 
-      specify 'with invalid keywords' do
+      it 'with invalid keywords' do
         failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
           "  unexpected keywords :c, :d"
         expect(instance.with(0, :c, :d)).to fail_with_actual(actual).
           with_message failure_message
-      end # specify
+      end # it
     end # describe
 
     describe 'with a matching method with variadic keywords' do
@@ -131,20 +131,20 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
         Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, **params| }) }
       end # let
 
-      specify 'with no keywords' do
+      it 'with no keywords' do
         expect(instance).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct"
-      end # specify
+      end # it
 
-      specify 'with valid keywords' do
+      it 'with valid keywords' do
         expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
-      end # specify
+      end # it
 
-      specify 'with random keywords' do
+      it 'with random keywords' do
         expect(instance.with(0, :c, :d)).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct with 0 arguments and keywords :c, :d"
-      end # specify
+      end # it
     end # describe
   end # if
 
@@ -155,37 +155,37 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
         Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, c:, d:| }) }
       end # let
 
-      specify 'with no keywords' do
+      it 'with no keywords' do
         expect(instance).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct"
-      end # specify
+      end # it
 
-      specify 'with missing keywords' do
+      it 'with missing keywords' do
         failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
           "  missing keywords :c, :d"
         expect(instance.with(0, :a, :b)).to fail_with_actual(actual).
           with_message failure_message
-      end # specify
+      end # it
 
-      specify 'with valid keywords' do
+      it 'with valid keywords' do
         expect(instance.with(0, :a, :b, :c, :d)).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
-      end # specify
+      end # it
 
-      specify 'with invalid keywords' do
+      it 'with invalid keywords' do
         failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
           "  unexpected keywords :e, :f"
         expect(instance.with(0, :c, :d, :e, :f)).to fail_with_actual(actual).
           with_message failure_message
-      end # specify
+      end # it
 
-      specify 'with invalid and missing keywords' do
+      it 'with invalid and missing keywords' do
         failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
           "  missing keywords :c, :d\n" +
           "  unexpected keywords :e, :f"
         expect(instance.with(0, :e, :f)).to fail_with_actual(actual).
           with_message failure_message
-      end # specify
+      end # it
     end # describe
 
     describe 'with a matching method with variadic keywords' do
@@ -194,27 +194,27 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
         Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, c:, d:, **params| }) }
       end # let
 
-      specify 'with no keywords' do
+      it 'with no keywords' do
         expect(instance).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct"
-      end # specify
+      end # it
 
-      specify 'with missing keywords' do
+      it 'with missing keywords' do
         failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
           "  missing keywords :c, :d"
         expect(instance.with(0, :a, :b)).to fail_with_actual(actual).
           with_message failure_message
-      end # specify
+      end # it
 
-      specify 'with valid keywords' do
+      it 'with valid keywords' do
         expect(instance.with(0, :a, :b, :c, :d)).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
-      end # specify
+      end # it
 
-      specify 'with random keywords' do
+      it 'with random keywords' do
         expect(instance.with(0, :a, :b, :c, :d, :e, :f)).to pass_with_actual(actual).
           with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d, :e, :f"
-      end # specify
+      end # it
     end # describe
   end # if
 end # describe

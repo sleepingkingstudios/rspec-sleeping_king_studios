@@ -8,11 +8,11 @@ require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
 describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
   let(:example_group) { self }
   
-  specify { expect(example_group).to respond_to(:be_boolean).with(0).arguments }
-  specify { expect(example_group.be_boolean).to be_a described_class }
+  it { expect(example_group).to respond_to(:be_boolean).with(0).arguments }
+  it { expect(example_group.be_boolean).to be_a described_class }
 
-  specify { expect(example_group).to respond_to(:be_bool).with(0).arguments }
-  specify { expect(example_group.be_bool).to be_a described_class }
+  it { expect(example_group).to respond_to(:be_bool).with(0).arguments }
+  it { expect(example_group.be_bool).to be_a described_class }
 
   let(:instance) { described_class.new }
 
@@ -25,39 +25,39 @@ describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
       Evaluates to false with should message "to be true or false".
   SCENARIOS
 
-  context 'with true' do
+  describe 'with true' do
     let(:actual) { true }
 
-    specify 'passes' do
+    it 'passes' do
       expect(instance).to pass_with_actual(actual).
         with_message "expected #{actual.inspect} not to be true or false"
-    end # specify
-  end # context
+    end # it
+  end # describe
 
-  context 'with false' do
+  describe 'with false' do
     let(:actual) { false }
 
-    specify 'passes' do
+    it 'passes' do
       expect(instance).to pass_with_actual(actual).
         with_message "expected #{actual.inspect} not to be true or false"
-    end # specify
-  end # context
+    end # it
+  end # describe
 
-  context 'with nil' do
+  describe 'with nil' do
     let(:actual) { nil }
 
-    specify 'fails' do
+    it 'fails' do
       expect(instance).to fail_with_actual(actual).
         with_message "expected #{actual.inspect} to be true or false"
-    end # specify
-  end # context
+    end # it
+  end # describe
 
-  context 'with a non Boolean object' do
+  describe 'with a non Boolean object' do
     let(:actual) { Object.new }
 
-    specify 'fails' do
+    it 'fails' do
       expect(instance).to fail_with_actual(actual).
         with_message "expected #{actual.inspect} to be true or false"
-    end # specify
-  end # context
+    end # it
+  end # describe
 end # describe
