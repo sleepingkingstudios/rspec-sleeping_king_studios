@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0.alpha
+## 2.0.0
 
 Update the entire library to support RSpec 3. Most of the updates are purely
 internal, but there are a few changes that are not backward compatible to be

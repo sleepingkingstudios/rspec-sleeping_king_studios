@@ -2,6 +2,6 @@
 
 module RSpec
   module SleepingKingStudios
-    VERSION = '2.0.0.alpha'
+    VERSION = '2.0.0.beta.0'
   end # module
 end # module
