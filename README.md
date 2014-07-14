@@ -1,6 +1,9 @@
-# RSpec::SleepingKingStudios
+# RSpec::SleepingKingStudios [![Build Status](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios.svg?branch=master)](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios)
 
-A collection of matchers and extensions to ease TDD/BDD using RSpec.
+A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends
+built-in matchers with new functionality, such as support for Ruby 2.0+ keyword
+arguments, and adds new matchers for testing boolean-ness, object reader/writer
+properties, object constructor arguments, ActiveModel validations, and more.
 
 ## Supported Ruby Versions
 
@@ -10,31 +13,26 @@ Currently, the following versions of Ruby are officially supported:
 * 2.0.0
 * 2.1.0
 
-## The Extensions
+## Contribute
 
-To enable an extension, simply require the associated file.
+- https://github.com/sleepingkingstudios/rspec-sleeping_king_studios
 
-### Mocks
+### A Note From The Developer
 
-These extensions support the creation and use of mock objects.
-
-#### custom\_double
-
-    require 'rspec/sleeping_king_studios/mocks/custom_double'
-
-As the built-in 'double' method, but accepts a block that is passed to
-Class.new when the double is created, allowing you to create functional class
-and instance methods on the double. Useful when you need to test a function or
-sequence that repeatedly updates or checks the state of the injected object.
-
-**How To Use:**
-
-    custom_double('My Double', :foo => "Foo") { attr_accessor :bar }
+Hi, I'm Rob Smith, the maintainer of this library. As a professional Ruby
+developer, I use these tools every day. If you find this project helpful in
+your own work, or if you have any questions, suggestions or critiques, please
+feel free to get in touch! I can be reached on GitHub (see above, and feel
+encouraged to submit bug reports or merge requests there) or via email at
+merlin@sleepingkingstudios.com. I look forward to hearing from you!
 
 ## The Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be
 required individually or by category:
+
+    require 'rspec/sleeping_king_studios'
+    #=> requires all features, including matchers
 
     require 'rspec/sleeping_king_studios/matchers/core'
     #=> requires all of the core matchers
@@ -111,19 +109,19 @@ accepted by the method, and whether the method accepts a block argument.
 
 **How To Use:**
 
-    expect(instance).to respond_to(:foo).with(2..3).arguments.and.a_block
+    expect(instance).to respond_to(:foo).with(2..3).arguments.with_a_block
 
 **Chaining:**
 
-* **a\_block:** No parameters. Verifies that the method requires a block
-  argument of the form &my_argument. _Important note:_ A negative result does
-  _not* mean the method cannot accept a block, merely that it does not require
-  one. Also, does _not_ check whether the block is called or yielded.
 * **with:** Expects one Integer or Range argument. If an Integer, verifies that
   the method accepts that number of arguments; if a Range, verifies that the
   method accepts both the minimum and maximum number of arguments.
+* **with\_a\_block:** No parameters. Verifies that the method requires a block
+  argument of the form &my_argument. _Important note:_ A negative result does
+  _not* mean the method cannot accept a block, merely that it does not require
+  one. Also, does _not_ check whether the block is called or yielded.
 
-##### Ruby 2.0
+##### Ruby 2.0+
 
 Has additional functionality to support Ruby 2.0 keyword arguments.
 
@@ -177,7 +175,7 @@ optional number of arguments.
   verifies that the constructor accepts both the minimum and maximum number of
   arguments.
 
-##### Ruby 2.0
+##### Ruby 2.0+
 
 Has additional functionality to support Ruby 2.0 keyword arguments.
 
@@ -289,12 +287,12 @@ pass\_with\_actual matcher, below.
     expect(matcher).to fail_with_actual(actual).with_message(/expected to/)
     
 **Parameters:** Matcher. Expects an object that, at minimum, responds to
-:matches? and :failure\_message\_for\_should.
+:matches? and :failure\_message.
 
 **Chaining:**
 
 * **with\_message:** Expects one String or Regexp argument, which is matched
-  against the given matcher's failure\_message\_for\_should.
+  against the given matcher's failure\_message.
 
 #### pass\_with\_actual Matcher
 
@@ -309,15 +307,15 @@ fail\_with\_actual matcher, above.
 
 **How To Use:**
 
-    expect(matcher).to pass_with_actual(actual)
+    expect(matcher).to pass_with_actual(actual).with_message(/expected not to/)
   
 **Parameters:** Matcher. Expects an object that, at minimum, responds to
-:matches? and :failure\_message\_for\_should\_not.
+:matches? and :failure\_message\_when\_negated.
 
 **Chaining:**
 
 * **with\_message:** Expects one String or Regexp argument, which is matched
-  against the given matcher's failure\_message\_for\_should\_not.
+  against the given matcher's failure\_message\_when\_negated.
 
 ## License
 

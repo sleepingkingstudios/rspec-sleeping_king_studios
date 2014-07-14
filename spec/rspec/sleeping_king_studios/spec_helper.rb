@@ -12,5 +12,5 @@ require "rspec/sleeping_king_studios/matchers/meta/pass_with_actual.rb"
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
-  config.color_enabled = true
+  config.raise_errors_for_deprecations!
 end # config

@@ -6,21 +6,17 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 
 describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
-  include RSpec::SleepingKingStudios::Matchers::BaseMatcherHelpers
-
   let(:example_group) { self }
   let(:property)      { :foo }
   
-  specify { expect(example_group).to respond_to(:have_reader).with(1).arguments }
-  specify { expect(example_group.have_reader property).to be_a described_class }
+  it { expect(example_group).to respond_to(:have_reader).with(1).arguments }
+  it { expect(example_group.have_reader property).to be_a described_class }
 
   let(:instance) { described_class.new property }
 
-  it_behaves_like RSpec::SleepingKingStudios::Matchers::BaseMatcher
-
   describe '#with' do
-    specify { expect(instance).to respond_to(:with).with(1).arguments }
-    specify { expect(instance.with 5).to be instance }
+    it { expect(instance).to respond_to(:with).with(1).arguments }
+    it { expect(instance.with 5).to be instance }
   end # describe with
 
   <<-SCENARIOS
@@ -40,30 +36,30 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
     let(:value)  { 42 }
     let(:actual) { Struct.new(property).new(value) }
 
-    specify 'with no argument set' do
+    it 'with no argument set' do
       expect(instance).to pass_with_actual(actual).
         with_message "expected #{actual} not to respond to #{property.inspect}"
-    end # specify
+    end # it
 
-    specify 'with a correct argument set' do
+    it 'with a correct argument set' do
       expect(instance.with value).to pass_with_actual(actual).
         with_message "expected #{actual} not to respond to #{property.inspect} with value #{value}"
-    end # specify
+    end # it
 
-    specify 'with an incorrect argument set' do
+    it 'with an incorrect argument set' do
       failure_message = "unexpected value for #{actual}\##{property}\n" +
         "  expected: nil\n       got: #{value}"
       expect(instance.with nil).to fail_with_actual(actual).
         with_message failure_message
-    end # specify
+    end # it
   end # describe
 
   describe 'with an object that does not respond to :property' do
     let(:actual) { Object.new }
 
-    specify do
+    it 'fails' do
       expect(instance).to fail_with_actual(actual).
         with_message "expected #{actual} to respond to #{property.inspect}"
-    end # specify
+    end # it
   end # describe
 end # describe

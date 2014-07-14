@@ -19,7 +19,7 @@ describe RSpec::SleepingKingStudios::Matchers do
 
   matchers.each do |matcher|
     context do
-      specify { expect(example_group).to respond_to matcher }
+      it { expect(example_group).to respond_to matcher }
     end # context
   end # each
 end # describe

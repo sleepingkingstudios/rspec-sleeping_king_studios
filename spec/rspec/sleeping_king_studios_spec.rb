@@ -19,11 +19,7 @@ describe RSpec::SleepingKingStudios do
 
   matchers.each do |matcher|
     context do
-      specify { expect(example_group).to respond_to matcher }
+      it { expect(example_group).to respond_to matcher }
     end # context
   end # each
-
-  specify do
-    expect(example_group).to respond_to(:custom_double).with(0..9001).arguments.and.a_block
-  end # specify
 end # describe

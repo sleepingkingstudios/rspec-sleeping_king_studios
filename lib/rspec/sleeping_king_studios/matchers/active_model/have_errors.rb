@@ -34,7 +34,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
 
       return false unless @validates = actual.respond_to?(:valid?)
 
-      @actual.invalid? && attributes_have_errors?
+      !@actual.valid? && attributes_have_errors?
     end # method matches?
 
     # Adds an error expectation. If the actual object does not have an error on
@@ -89,8 +89,8 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       self
     end # method with_message
 
-    # @see BaseMatcher#failure_message_for_should
-    def failure_message_for_should
+    # @see BaseMatcher#failure_message
+    def failure_message
       # Failure cases:
       # * object is not a model ("to respond to valid")
       # * expected one or more errors, but received none ("to have errors")
@@ -104,10 +104,10 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       else
         "expected #{@actual.inspect} to have errors#{expected_errors_message}#{received_errors_message}"
       end # if-elsif-else
-    end # method failure_message_for_should
+    end # method failure_message
 
-    # @see BaseMatcher#failure_message_for_should_not
-    def failure_message_for_should_not
+    # @see BaseMatcher#failure_message_when_negated
+    def failure_message_when_negated
       # Failure cases:
       # * expected one or more errors, received one or more ("not to have
       #   errors")
@@ -121,7 +121,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       else
         return "expected #{@actual.inspect} not to have errors#{expected_errors_message}#{received_errors_message}"
       end # if-else
-    end # method failure_message_for_should_not
+    end # method failure_message_when_negated
 
     private
     
