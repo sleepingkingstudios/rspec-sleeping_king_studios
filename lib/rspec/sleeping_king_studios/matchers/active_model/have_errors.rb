@@ -34,7 +34,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
 
       return false unless @validates = actual.respond_to?(:valid?)
 
-      @actual.invalid? && attributes_have_errors?
+      !@actual.valid? && attributes_have_errors?
     end # method matches?
 
     # Adds an error expectation. If the actual object does not have an error on
