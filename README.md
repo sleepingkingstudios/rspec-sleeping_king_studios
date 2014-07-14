@@ -1,6 +1,9 @@
-# RSpec::SleepingKingStudios
+# RSpec::SleepingKingStudios [![Build Status](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios.svg?branch=master)](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios)
 
-A collection of matchers and extensions to ease TDD/BDD using RSpec.
+A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends
+built-in matchers with new functionality, such as support for Ruby 2.0+ keyword
+arguments, and adds new matchers for testing boolean-ness, object reader/writer
+properties, object constructor arguments, ActiveModel validations, and more.
 
 ## Supported Ruby Versions
 
