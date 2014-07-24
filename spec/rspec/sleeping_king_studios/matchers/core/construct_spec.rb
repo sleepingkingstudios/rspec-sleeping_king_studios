@@ -16,7 +16,26 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
   describe '#with' do
     it { expect(instance).to respond_to(:with).with(0..2).arguments }
-    it { expect(instance.with).to be instance }
+
+    it 'returns self' do
+      expect(instance.with).to be instance
+    end # it
+  end # describe
+
+  describe '#argument' do
+    it { expect(instance).to respond_to(:argument).with(0).arguments }
+
+    it 'returns self' do
+      expect(instance.argument).to be instance
+    end # if
+  end # describe
+
+  describe '#arguments' do
+    it { expect(instance).to respond_to(:arguments).with(0).arguments }
+
+    it 'returns self' do
+      expect(instance.arguments).to be instance
+    end # if
   end # describe
 
   <<-SCENARIOS

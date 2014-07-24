@@ -14,6 +14,14 @@ All matchers have been updated to support the RSpec 3 matcher API.
 
 Now correctly handles the #does_not_match? case for the new matcher API.
 
+#### construct Matcher
+
+Now has a fluent method for both #argument and #arguments to support the
+singular and plural use cases, similar to the built-in respond_to matcher.
+
+    expect(FooClass).to construct.with(1).argument
+    expect(BarClass).to construct.with(3).arguments
+
 #### respond\_to Matcher
 
 The #and fluent method has been removed, and the #a_block method for verifying

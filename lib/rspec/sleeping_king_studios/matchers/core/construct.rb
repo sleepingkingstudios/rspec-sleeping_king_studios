@@ -28,16 +28,33 @@ module RSpec::SleepingKingStudios::Matchers::Core
         matches_arity?(actual) &&
         matches_keywords?(actual)
     end # method matches?
-    
-    # Adds a parameter count expectation and/or one or more keyword
-    # expectations (Ruby 2.0 only).
+
+    # @overload with(count)
+    #   Adds a parameter count expectation and removes any keyword expectations
+    #   (Ruby 2.0+ only).
     # 
-    # @param [Integer, Range, nil] count the number of expected parameters; can
-    #   be an integer, a range, or nil (parameter count is ignored)
-    # @param [Array<String, Symbol>] keywords list of keyword arguments
-    #   accepted by the method
+    #   @param [Integer, Range] count the number of expected parameters
     # 
-    # @return [ConstructMatcher] self
+    #   @return [ConstructMatcher] self
+    # 
+    # @overload with(count, *keywords)
+    #   Adds a parameter count expectation and one or more keyword expectations
+    #   (Ruby 2.0 only).
+    # 
+    #   @param [Integer, Range] count the number of expected parameters
+    #   @param [Array<String, Symbol>] keywords list of keyword arguments
+    #     accepted by the method
+    # 
+    #   @return [ConstructMatcher] self
+    # 
+    # @overload with(*keywords)
+    #   Removes a parameter count expectation (if any) and adds one or more
+    #   keyword expectations (Ruby 2.0 only).
+    # 
+    #   @param [Array<String, Symbol>] keywords list of keyword arguments
+    #     accepted by the method
+    # 
+    #   @return [ConstructMatcher] self
     def with *keywords
       @expected_arity    = keywords.shift if Integer === keywords.first || Range === keywords.first
       @expected_keywords = keywords
@@ -47,9 +64,12 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # Convenience method for more fluent specs. Does nothing and returns self.
     # 
     # @return [ConstructMatcher] self
-    def arguments
+    # 
+    # @since 2.0.0
+    def argument
       self
-    end # method arguments
+    end # method argument
+    alias_method :arguments, :argument
 
     # @see BaseMatcher#failure_message
     def failure_message
