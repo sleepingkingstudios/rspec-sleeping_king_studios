@@ -10,6 +10,7 @@ bin/spec.*
 .DS_Store
 
 # Documentation
+DEVELOPMENT.md
 /doc
 .yardoc
 
@@ -17,4 +18,3 @@ bin/spec.*
 *.gem
 .bundle
 Gemfile.lock
-
