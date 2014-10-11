@@ -41,8 +41,6 @@ module RSpec::SleepingKingStudios::Matchers::Shared
     # @return [Boolean] true if the method accepts the specified keywords;
     #   otherwise false
     def check_method_keywords method, keywords
-      return nil unless RUBY_VERSION >= "2.0.0"
-
       keywords ||= []
       parameters = method.parameters
       reasons    = {}
