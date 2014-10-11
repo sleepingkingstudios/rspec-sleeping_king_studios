@@ -31,19 +31,27 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     # @see BaseMatcher#failure_message
     def failure_message
-      return "expected #{@actual.inspect} to respond to :include?" if false === @includes
+      message = super
 
-      super
+      message << ", but it does not respond to `include?`" unless actual.respond_to?(:include?) || message =~ /does not respond to/
+
+      message
     end # method failure_message_for_should
 
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
-      super
+      message = super
+
+      message << ", but it does not respond to `include?`" unless actual.respond_to?(:include?) || message =~ /does not respond to/
+
+      message
     end # method
 
     private
 
     def perform_match(predicate, hash_subset_predicate)
+      return false unless actual.respond_to?(:include?)
+
       expected.__send__(predicate) do |expected_item|
         if comparing_proc?(expected_item)
           actual_matches_proc?(expected_item)
@@ -58,10 +66,6 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         end
       end
     end
-
-    def actual_collection_includes? expected_item
-      (@includes = actual.respond_to?(:include?)) && super
-    end # method actual_collection_includes?
 
     def actual_matches_proc? expected_item
       !!actual.detect(&expected_item)

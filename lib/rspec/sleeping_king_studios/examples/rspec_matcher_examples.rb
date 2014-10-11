@@ -23,7 +23,11 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       if defined?(failure_message)
         instance.matches?(actual)
 
-        expect(instance.failure_message).to match failure_message
+        expected = failure_message.is_a?(String) ?
+          Regexp.escape(failure_message) :
+          failure_message
+
+        expect(instance.failure_message).to match expected
       else
         message = <<-MESSAGE
           expected to match #{instance.class}#failure_message, but the expected
@@ -69,7 +73,11 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       if defined?(failure_message_when_negated)
         instance.respond_to?(:does_not_match?) ? instance.does_not_match?(actual) : instance.matches?(actual)
 
-        expect(instance.failure_message_when_negated).to match failure_message_when_negated
+        expected = failure_message_when_negated.is_a?(String) ?
+          Regexp.escape(failure_message_when_negated) :
+          failure_message_when_negated
+
+        expect(instance.failure_message_when_negated).to match expected
       else
         message = <<-MESSAGE
           expected to match #{instance.class}#failure_message_when_negated, but

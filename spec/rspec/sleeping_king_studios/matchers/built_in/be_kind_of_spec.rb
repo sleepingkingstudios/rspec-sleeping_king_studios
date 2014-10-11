@@ -10,7 +10,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
 
   let(:example_group) { self }
   let(:type)          { Object }
-  
+
   it { expect(example_group).to respond_to(:be_kind_of).with(1).arguments }
 
   it { expect(example_group.be_kind_of type).to be_a described_class }
