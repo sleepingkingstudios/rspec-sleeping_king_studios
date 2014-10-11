@@ -143,7 +143,7 @@ describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher do
 
       context 'with a correct message' do
         let(:expected_error) { "not to be nil" }
-        let(:instance) { super().with_message(expected_error) }
+        let(:instance)       { super().with_message(expected_error) }
         let(:expected_errors_message) do
           "\n  expected errors:\n    #{attribute}: #{expected_error.inspect}"
         end # let
@@ -155,7 +155,7 @@ describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher do
 
       context 'with an incorrect message' do
         let(:expected_error) { "to be 1s and 0s" }
-        let(:instance) { super().with_message(expected_error) }
+        let(:instance)       { super().with_message(expected_error) }
         let(:expected_errors_message) do
           "\n  expected errors:\n    #{attribute}: #{expected_error.inspect}"
         end # let
