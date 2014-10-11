@@ -42,4 +42,10 @@ RSpec.configure do |config|
     # a real object. This is generally recommended.
     mocks.verify_partial_doubles = true
   end # mock_with
+
+  config.sleeping_king_studios do |config|
+    config.examples do |config|
+      config.handle_missing_failure_message_with = :pending
+    end # config
+  end # config
 end # config

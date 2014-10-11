@@ -54,5 +54,12 @@ module RSpec::SleepingKingStudios::Matchers
     def failure_message_when_negated
       "expected #{@actual.inspect} not to #{description}"
     end # method failure_message_when_negated
+
+    private
+
+    # @api private
+    def name_to_sentence
+      'match'
+    end # method name_to_sentence
   end # class
 end # module

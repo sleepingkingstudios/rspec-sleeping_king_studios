@@ -43,7 +43,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
     let(:type) { nil }
 
     describe 'with a nil actual' do
-      let(:failure_message) do
+      let(:failure_message_when_negated) do
         "expected #{actual.inspect} not to be nil"
       end # let
       let(:actual) { nil }
@@ -54,7 +54,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
     end # it
 
     describe 'with a non-nil actual' do
-      let(:failure_message_when_negated) do
+      let(:failure_message) do
         "expected #{actual.inspect} to be nil"
       end # let
       let(:actual) { Object.new }
@@ -69,7 +69,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
     let(:type) { Class.new }
 
     describe 'with an instance of the class' do
-      let(:failure_message) do
+      let(:failure_message_when_negated) do
         "expected #{actual.inspect} not to be a #{type}"
       end # let
       let(:actual) { type.new }
@@ -80,7 +80,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
     end # describe
 
     describe 'with a non-instance object' do
-      let(:failure_message_when_negated) do
+      let(:failure_message) do
         "expected #{actual.inspect} to be a #{type}"
       end # let
       let(:actual) { Object.new }
@@ -96,7 +96,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
     let(:types_string) { "#{type[0..-2].map(&:inspect).join(", ")}, or #{type.last.inspect}" }
 
     describe 'with an instance of an array member' do
-      let(:failure_message) do
+      let(:failure_message_when_negated) do
         "expected #{actual.inspect} not to be a #{types_string}"
       end # let
       let(:actual) { 'Greetings, programs!' }
@@ -107,7 +107,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
     end # describe
 
     describe 'with a object that is not an instance of an array member' do
-      let(:failure_message_when_negated) do
+      let(:failure_message) do
         "expected #{actual.inspect} to be a #{types_string}"
       end # let
       let(:actual) { Object.new }

@@ -131,7 +131,7 @@ describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher do
       let(:attribute) { :bar }
       let(:instance)  { super().on(attribute) }
       let(:expected_errors_message) do
-        "\n  expected errors:\n    #{attribute}: (any)"
+        "\n  expected errors:\n    #{attribute}: (none)"
       end # let
       let(:failure_message_when_negated) do
         "expected #{actual.inspect} not to have errors#{expected_errors_message}#{received_errors_message}"

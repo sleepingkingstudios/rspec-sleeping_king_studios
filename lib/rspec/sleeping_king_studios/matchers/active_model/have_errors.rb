@@ -31,7 +31,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     # 
     # @see #matches?
     def does_not_match? actual
-      super
+      @negative_expectation = true
 
       return false unless @validates = actual.respond_to?(:valid?)
 
@@ -220,7 +220,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     def expected_errors_message
       "\n  expected errors:" + expected_errors.map do |error_expectation|
         "\n    #{error_expectation.attribute}: " + (error_expectation.messages.empty? ?
-          "(any)" :
+          "(#{@negative_expectation ? 'none' : 'any'})" :
           error_expectation.messages.expected.map(&:message).map(&:inspect).join(", "))
       end.join # map
     end # method expected_errors_message

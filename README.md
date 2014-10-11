@@ -1,9 +1,6 @@
-# RSpec::SleepingKingStudios [![Build Status](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios.svg?branch=master)](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios)
+F# RSpec::SleepingKingStudios [![Build Status](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios.svg?branch=master)](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios)
 
-A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends
-built-in matchers with new functionality, such as support for Ruby 2.0+ keyword
-arguments, and adds new matchers for testing boolean-ness, object reader/writer
-properties, object constructor arguments, ActiveModel validations, and more.
+A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends built-in matchers with new functionality, such as support for Ruby 2.0+ keyword arguments, and adds new matchers for testing boolean-ness, object reader/writer properties, object constructor arguments, ActiveModel validations, and more. Also defines shared example groups for more expressive testing.
 
 ## Supported Ruby Versions
 
@@ -25,7 +22,19 @@ feel free to get in touch! I can be reached on GitHub (see above, and feel
 encouraged to submit bug reports or merge requests there) or via email at
 merlin@sleepingkingstudios.com. I look forward to hearing from you!
 
-## The Matchers
+## Configuration
+
+RSpec::SleepingKingStudios now has configuration options available through `RSpec.configuration`. For example, to set the behavior of the matcher examples when a failure message expectation is undefined (see RSpec Matcher Examples, below), put the following in your `spec_helper` or other configuration file:
+
+    RSpec.configure do |config|
+      config.sleeping_king_studios do |config|
+        config.examples do |config|
+          config.handle_missing_failure_message_with = :ignore
+        end # config
+      end # config
+    end # config
+
+## Custom Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be
 required individually or by category:
@@ -320,6 +329,114 @@ fail\_with\_actual matcher, above.
 
 * **with\_message:** Expects one String or Regexp argument, which is matched
   against the given matcher's failure\_message\_when\_negated.
+
+## Shared Examples
+
+To use a custom example group, `require` the associated file and then `include`
+the module in your example group:
+
+    require 'rspec/sleeping_king_studios/examples/some_examples'
+
+    RSpec.describe MyCustomMatcher do
+      include RSpec::SleepingKingStudios::Examples::SomeExamples
+
+      # You can use the custom shared examples here.
+      include_examples 'some examples'
+    end # describe
+
+Unless otherwise noted, these shared examples expect the example group to define either an explicit `#instance` method (using `let(:instance) {}`) or an implicit `subject`. Their behavior is **undefined** if neither `#instance` nor `subject` is defined.
+
+### RSpec Matcher Examples
+
+These examples are used for validating custom RSpec matchers. They are used
+internally by RSpec::SleepingKingStudios to verify the functionality of the
+new and modified matchers.
+
+    require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
+
+    RSpec.describe MyCustomMatcher do
+      include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
+      # You can use the custom shared examples here.
+    end # describe
+
+The `#instance` or `subject` for these examples should be an instance of a class matching the RSpec matcher API. For example, consider a matcher that checks if a number is a multiple of another number. This matcher would be used as follows:
+
+    expect(12).to be_a_multiple_of(3)
+    #=> true
+
+    expect(14).to be_a_multiple_of(3)
+    #=> false
+
+Therefore, the `#instance` or `subject` should be defined as `BeAMultipleMatcher.new(3)`. If the custom matcher has additional fluent methods or options, these can be added to the instance as well, e.g. `expect(15).to be_a_multiple_of(3).and_of(5)` would be tested as `BeAMultipleMatcher.new(3).and_of(5)`.
+
+In addition, all of these examples require a defined `#actual` method in the example group containing the object to be tested. The actual object is the object used in the expectation. In the above examples, the actual object is `12` in the first example, and `14` in the second. You can define the `#actual` method using `#let()`, e.g. `let(:actual) { Object.new }`.
+
+Putting it all together:
+
+    require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
+
+    RSpec.describe BeAMultipleOfMatcher do
+      include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
+      let(:instance) { BeAMultipleOfMatcher.new(3) }
+
+      describe 'with a valid number' do
+        let(:actual) { 15 }
+
+        # Include examples here.
+
+        describe 'with a second factor' do
+          let(:instance) { BeAMultipleOfMatcher.new(3).and_of(5) }
+
+          # Include examples here.
+        end # describe
+      end # describe
+    end # describe
+
+#### Passes With A Positive Expectation
+
+    include_examples 'passes with a positive expectation'
+
+Verifies that the instance matcher will pass with a positive expectation (e.g. `expect().to`). Equivalent to verifying the result of the following:
+
+    expect(actual).to match_my_custom_matcher(*expected_values)
+    #=> passes
+
+#### Passes With A Negative Expectation
+
+    include_examples 'passes with a negative expectation'
+
+Verifies that the instance matcher will pass with a negative expectation (e.g. `expect().not_to`). Equivalent to verifying the result of the following:
+
+    expect(actual).not_to match_my_custom_matcher(*expected_values)
+    #=> passes
+
+#### Fails With A Positive Expectation
+
+    include_examples 'fails with a positive expectation'
+
+Verifies that the instance matcher will fail with a positive expectation (e.g. `expect().to`), and have the expected failure message. Equivalent to verifying the result of the following:
+
+    expect(actual).to match_my_custom_matcher(*expected_values)
+    #=> fails
+
+In addition, verifies the `#failure_message` of the matcher by comparing it against a `#failure_message` method in the example group. This should be defined using `let(:failure_message) { 'expected to match' }`.
+
+The behavior if the example group does not define `#failure_message` depends on the value of the `RSpec.configure.sleeping_king_studios.examples.handle_missing_failure_message_with` option (see Configuration, above). Accepted values are `:ignore`, `:pending` (default; marks the example as pending), and `:exception` (raises an exception).
+
+#### Fails With A Negative Expectation
+
+    include_examples 'fails with a negative expectation'
+
+Verifies that the instance matcher will fail with a negative expectation (e.g. `expect().not_to`), and have the expected failure message. Equivalent to verifying the result of the following:
+
+    expect(actual).not_to match_my_custom_matcher(*expected_values)
+    #=> fails
+
+In addition, verifies the `#failure_message_when_negated` of the matcher by comparing it against a `#failure_message_when_negated` method in the example group. This should be defined using `let(:failure_message_when_negated) { 'expected not to match' }`.
+
+See Fails With A Positive Expectatio, above, for behavior when the example group does not define `#failure_message_when_negated`.
 
 ## License
 
