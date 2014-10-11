@@ -1,7 +1,7 @@
 # spec/rspec/sleeping_king_studios/matchers/core/construct.rb
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
-require 'rspec/sleeping_king_studios/matchers/core/require'
+require 'rspec/sleeping_king_studios/matchers/core'
 
 require 'rspec/sleeping_king_studios/matchers/shared/match_parameters'
 

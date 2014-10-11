@@ -1,3 +1,7 @@
 # lib/rspec/sleeping_king_studios.rb
 
-require 'rspec/sleeping_king_studios/matchers'
+require 'rspec/core'
+
+module RSpec
+  module SleepingKingStudios; end
+end # module

@@ -1,6 +1,6 @@
 # lib/rspec/sleeping_king_studios/matchers/shared/parameters_matcher.rb
 
-require 'rspec/sleeping_king_studios/matchers/shared/require'
+require 'rspec/sleeping_king_studios/matchers'
 
 module RSpec::SleepingKingStudios::Matchers::Shared
   # Helper methods for checking the parameters and keywords (Ruby 2.0 only) of

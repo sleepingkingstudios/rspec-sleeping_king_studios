@@ -1,7 +1,7 @@
 # lib/rspec/sleeping_king_studios/matchers/built_in/respond_to.rb
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
-require 'rspec/sleeping_king_studios/matchers/built_in/require'
+require 'rspec/sleeping_king_studios/matchers/built_in'
 require 'rspec/sleeping_king_studios/matchers/shared/match_parameters'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
