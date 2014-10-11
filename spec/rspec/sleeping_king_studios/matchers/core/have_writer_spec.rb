@@ -1,7 +1,6 @@
 # spec/rspec/sleeping_king_studios/matchers/core/have_writer_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
-require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
@@ -97,7 +96,6 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
         end # it
 
         it 'with an invalid response' do
-          allow(actual).to receive(property).and_return(value)
           failure_message = "unexpected value for #{actual}\##{property}=\n" +
             "  expected: #{value}\n       got: nil"
           expect(instance.with(value) { nil }).to fail_with_actual(actual).

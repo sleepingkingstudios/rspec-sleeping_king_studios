@@ -1,7 +1,6 @@
 # spec/rspec/sleeping_king_studios/matchers/core/construct_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
-require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 require 'rspec/sleeping_king_studios/matchers/core/construct'

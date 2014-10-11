@@ -1,7 +1,6 @@
 # lib/rspec/sleeping_king_studios/matchers/core/be_boolean.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
-require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
 
 require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
 
