@@ -1,6 +1,6 @@
 # lib/rspec/sleeping_king_studios/matchers/built_in/be_kind_of.rb
 
-require 'rspec/sleeping_king_studios/matchers/built_in/require'
+require 'rspec/sleeping_king_studios/matchers/built_in'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   class IncludeMatcher < RSpec::Matchers::BuiltIn::Include

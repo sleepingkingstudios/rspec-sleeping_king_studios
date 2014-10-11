@@ -1,6 +1,6 @@
 # lib/rspec/sleeping_king_studios/matchers/base_matcher.rb
 
-require 'rspec/sleeping_king_studios/matchers/require'
+require 'rspec/sleeping_king_studios/matchers'
 
 module RSpec::SleepingKingStudios::Matchers
   # Minimal implementation of the RSpec matcher interface.

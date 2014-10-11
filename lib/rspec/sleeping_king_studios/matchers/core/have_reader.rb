@@ -1,7 +1,7 @@
 # lib/rspec/sleeping_king_studios/matchers/core/have_reader.rb
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
-require 'rspec/sleeping_king_studios/matchers/core/require'
+require 'rspec/sleeping_king_studios/matchers/core'
 
 module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for testing whether an object has a specific property reader, e.g.

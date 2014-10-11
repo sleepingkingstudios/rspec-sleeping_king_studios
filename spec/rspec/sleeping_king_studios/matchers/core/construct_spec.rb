@@ -119,53 +119,51 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # it
   end # describe
 
-  if RUBY_VERSION >= "2.0.0"
-    describe 'with a ::new method with keywords' do
-      let(:actual) do
-        # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
-        Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true| }) }
-      end # let
+  describe 'with a ::new method with keywords' do
+    let(:actual) do
+      # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
+      Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true| }) }
+    end # let
 
-      it 'with no keywords' do
-        expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct"
-      end # it
+    it 'with no keywords' do
+      expect(instance).to pass_with_actual(actual).
+        with_message "expected #{actual} not to construct"
+    end # it
 
-      it 'with valid keywords' do
-        expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
-      end # it
+    it 'with valid keywords' do
+      expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
+        with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
+    end # it
 
-      it 'with invalid keywords' do
-        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-          "  unexpected keywords :c, :d"
-        expect(instance.with(0, :c, :d)).to fail_with_actual(actual).
-          with_message failure_message
-      end # it
-    end # describe
+    it 'with invalid keywords' do
+      failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
+        "  unexpected keywords :c, :d"
+      expect(instance.with(0, :c, :d)).to fail_with_actual(actual).
+        with_message failure_message
+    end # it
+  end # describe
 
-    describe 'with a matching method with variadic keywords' do
-      let(:actual) do
-        # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
-        Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, **params| }) }
-      end # let
+  describe 'with a matching method with variadic keywords' do
+    let(:actual) do
+      # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
+      Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, **params| }) }
+    end # let
 
-      it 'with no keywords' do
-        expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct"
-      end # it
+    it 'with no keywords' do
+      expect(instance).to pass_with_actual(actual).
+        with_message "expected #{actual} not to construct"
+    end # it
 
-      it 'with valid keywords' do
-        expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
-      end # it
+    it 'with valid keywords' do
+      expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
+        with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
+    end # it
 
-      it 'with random keywords' do
-        expect(instance.with(0, :c, :d)).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct with 0 arguments and keywords :c, :d"
-      end # it
-    end # describe
-  end # if
+    it 'with random keywords' do
+      expect(instance.with(0, :c, :d)).to pass_with_actual(actual).
+        with_message "expected #{actual} not to construct with 0 arguments and keywords :c, :d"
+    end # it
+  end # describe
 
   if RUBY_VERSION >= "2.1.0"
     describe 'with a ::new method with keywords' do

@@ -1,7 +1,6 @@
 # lib/rspec/sleeping_king_studios/matchers/active_model/have_errors/message_expectation.rb
 
-require 'rspec/sleeping_king_studios/matchers/base_matcher'
-require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/require'
+require 'rspec/sleeping_king_studios/matchers/active_model'
 
 module RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors
   # Stores an expectation of receiving a specified error message.

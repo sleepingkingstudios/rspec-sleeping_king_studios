@@ -9,7 +9,6 @@ properties, object constructor arguments, ActiveModel validations, and more.
 
 Currently, the following versions of Ruby are officially supported:
 
-* 1.9.3
 * 2.0.0
 * 2.1.0
 
@@ -31,10 +30,10 @@ merlin@sleepingkingstudios.com. I look forward to hearing from you!
 To enable a custom matcher, simply require the associated file. Matchers can be
 required individually or by category:
 
-    require 'rspec/sleeping_king_studios'
+    require 'rspec/sleeping_king_studios/all'
     #=> requires all features, including matchers
 
-    require 'rspec/sleeping_king_studios/matchers/core'
+    require 'rspec/sleeping_king_studios/matchers/core/all'
     #=> requires all of the core matchers
     
     require 'rspec/sleeping_king_studios/matchers/core/construct'
@@ -42,7 +41,7 @@ required individually or by category:
 
 ### ActiveModel
 
-    require 'rspec/sleeping_king_studios/matchers/active_model'
+    require 'rspec/sleeping_king_studios/matchers/active_model/all'
 
 These matchers validate ActiveModel functionality, such as validations.
 
@@ -70,7 +69,7 @@ individual fields to validate, or even specific messages for each attribute.
 
 ### BuiltIn
 
-    require 'rspec/sleeping_king_studios/matchers/built_in'
+    require 'rspec/sleeping_king_studios/matchers/built_in/all'
 
 These extend the built-in RSpec matchers with additional functionality.
 
@@ -138,7 +137,7 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 
 ### Core
 
-    require 'rspec/sleeping_king_studios/matchers/core'
+    require 'rspec/sleeping_king_studios/matchers/core/all'
 
 These matchers check core functionality, such as object boolean-ness, the
 existence of properties, and so on.
@@ -267,7 +266,7 @@ matches the given pattern.
 
 ### Meta
 
-    require 'rspec/sleeping_king_studios/matchers/meta'
+    require 'rspec/sleeping_king_studios/matchers/meta/all'
 
 These meta-matchers are used to test other custom matchers.
 

@@ -1,7 +1,7 @@
 # lib/rspec/sleeping_king_studios/matchers/meta/pass_with_actual.rb
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
-require 'rspec/sleeping_king_studios/matchers/meta/require'
+require 'rspec/sleeping_king_studios/matchers/meta'
 
 module RSpec::SleepingKingStudios::Matchers::Meta
   # Matcher for testing whether an RSpec matcher will pass with a given actual

@@ -1,7 +1,7 @@
 # lib/rspec/sleeping_king_studios/matchers/core/be_boolean.rb
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
-require 'rspec/sleeping_king_studios/matchers/core/require'
+require 'rspec/sleeping_king_studios/matchers/core'
 
 module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for testing whether an object is true or false.
