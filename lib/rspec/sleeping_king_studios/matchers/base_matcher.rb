@@ -20,6 +20,10 @@ module RSpec::SleepingKingStudios::Matchers
       "#{name_to_sentence}#{to_sentence @expected}"
     end # method description
 
+    def does_not_match? actual
+      !matches?(actual)
+    end # method does_not_match?
+
     # Tests the actual object to see if it matches the defined condition(s).
     # Invoked by RSpec expectations.
     #
@@ -28,6 +32,7 @@ module RSpec::SleepingKingStudios::Matchers
     # @return [Boolean] true if the object matches, otherwise false
     def matches? actual
       @actual = actual
+
       true
     end # method matches?
 

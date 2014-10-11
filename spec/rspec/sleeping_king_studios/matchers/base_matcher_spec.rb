@@ -14,45 +14,63 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
 
   describe '#description' do
     it { expect(instance).to respond_to(:description).with(0).arguments }
+
     it { expect(instance.description).to be_a String }
+  end # describe
+
+  describe '#does_not_match?' do
+    it { expect(instance).to respond_to(:matches?).with(1).arguments }
+
+    context 'with a successful match' do
+      before(:each) { allow(instance).to receive(:does_not_match?).and_return(false) }
+
+      expect_behavior 'fails with a negative expectation'
+    end # context
+
+    context 'with a failing match' do
+      before(:each) { allow(instance).to receive(:does_not_match?).and_return(true) }
+
+      expect_behavior 'passes with a negative expectation'
+    end # context
   end # describe
 
   describe '#failure_message' do
     it { expect(instance).to respond_to(:failure_message).with(0).arguments }
+
     it 'returns a String' do
       instance.matches? actual
+
       expect(instance.failure_message).to be_a String
     end # it
   end # describe
 
   describe '#failure_message_when_negated' do
     it { expect(instance).to respond_to(:failure_message_when_negated).with(0).arguments }
+
     it 'returns a String' do
       instance.matches? actual
+
       expect(instance.failure_message_when_negated).to be_a String
     end # it
   end # describe
 
   describe '#matches?' do
     it { expect(instance).to respond_to(:matches?).with(1).arguments }
-    it { expect([true, false]).to include(instance.matches? actual) }
+
+    context 'with a successful match' do
+      before(:each) { allow(instance).to receive(:matches?).and_return(true) }
+
+      expect_behavior 'passes with a positive expectation'
+
+      expect_behavior 'fails with a negative expectation'
+    end # context
+
+    context 'with a failing match' do
+      before(:each) { allow(instance).to receive(:matches?).and_return(false) }
+
+      expect_behavior 'fails with a positive expectation'
+
+      expect_behavior 'passes with a negative expectation'
+    end # context
   end # describe
-
-  it 'returns true on successful match' do
-    original_matches = instance.method(:matches?)
-    allow(instance).to receive(:matches?) do |actual|
-      original_matches.call actual
-      true
-    end # receive
-    expect(instance.matches? actual).to be true
-  end # it
-
-  it 'returns false on an unsuccessful match' do
-    original_matches = instance.method(:matches?)
-    allow(instance).to receive(:matches?) do |actual|
-      original_matches.call actual
-      false
-    end # receive
-    expect(instance.matches? actual).to be false
-  end # it
 end # describe
