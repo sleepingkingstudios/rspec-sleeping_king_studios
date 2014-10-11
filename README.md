@@ -64,8 +64,13 @@ individual fields to validate, or even specific messages for each attribute.
 
 * **on:** [String, Symbol] Adds a field to validate; the matcher only passes if
   all validated fields have errors.
+* **with:** [Array<String>] Adds one or more messages to the previously-defined
+  field validation. Raises ArgumentError if no field was previously set.
 * **with\_message:** [String] Adds a message to the previously-defined field
   validation. Raises ArgumentError if no field was previously set.
+* **with\_messages:** [Array<String>] Adds one or more messages to the
+  previously-defined field validation. Raises ArgumentError if no field was
+  previously set.
 
 ### BuiltIn
 

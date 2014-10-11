@@ -10,10 +10,6 @@ aware of.
 
 All matchers have been updated to support the RSpec 3 matcher API.
 
-#### fail_with_actual Matcher
-
-Now correctly handles the #does_not_match? case for the new matcher API.
-
 #### construct Matcher
 
 Now has a fluent method for both #argument and #arguments to support the
@@ -21,6 +17,20 @@ singular and plural use cases, similar to the built-in respond_to matcher.
 
     expect(FooClass).to construct.with(1).argument
     expect(BarClass).to construct.with(3).arguments
+
+#### fail_with_actual Matcher
+
+Now correctly handles the #does_not_match? case for the new matcher API.
+
+#### have_errors Matcher
+
+Adds the #with fluent method as an alias to #with_messages, as follows:
+
+    expect(model).to have_errors.on(:my_field).with("can't be blank")
+
+In addition, the have_errors matcher will fail on both a positive expectation
+(expect().to) and a negative expectation (expect().not_to or expect().to_not)
+if the actual object does not respond to :valid?.
 
 #### respond\_to Matcher
 

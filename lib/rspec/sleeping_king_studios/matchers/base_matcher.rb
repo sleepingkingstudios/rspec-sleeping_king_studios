@@ -20,6 +20,13 @@ module RSpec::SleepingKingStudios::Matchers
       "#{name_to_sentence}#{to_sentence @expected}"
     end # method description
 
+    # Inverse of #matches? method.
+    #
+    # @param [Object] actual the object to test against the matcher
+    # 
+    # @return [Boolean] false if the object matches, otherwise true
+    # 
+    # @see #matches?
     def does_not_match? actual
       !matches?(actual)
     end # method does_not_match?

@@ -25,6 +25,25 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     # 
     # @param [Object] actual the object to test against the matcher
     # 
+    # @return [Boolean] true if the object responds to :valid? and is valid
+    #   or object.errors does not match the specified errors and messages (if
+    #   any); otherwise false
+    # 
+    # @see #matches?
+    def does_not_match? actual
+      super
+
+      return false unless @validates = actual.respond_to?(:valid?)
+
+      !matches?(actual)
+    end # method does_not_match?
+
+    # Checks if the object can be validated, whether the object is valid, and
+    # checks the errors on the object against the expected errors and messages
+    # from #on and #with_message, if any.
+    # 
+    # @param [Object] actual the object to test against the matcher
+    # 
     # @return [Boolean] true if the object responds to :valid?, is not valid,
     #   and object.errors matches the specified errors and messages (if any);
     #   otherwise false
@@ -88,6 +107,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       
       self
     end # method with_message
+    alias_method :with, :with_messages
 
     # @see BaseMatcher#failure_message
     def failure_message
@@ -109,6 +129,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
       # Failure cases:
+      # * object is not a model ("to respond to valid")
       # * expected one or more errors, received one or more ("not to have
       #   errors")
       # * expected one or more messages on attribute, received one or more
@@ -116,7 +137,9 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       # * expected specific messages on attribute, received all ("not to have
       #   errors on")
       
-      if expected_errors.empty?
+      if !@validates
+        "expected #{@actual.inspect} to respond to :valid?"
+      elsif expected_errors.empty?
         return "expected #{@actual.inspect} not to have errors#{received_errors_message}"
       else
         return "expected #{@actual.inspect} not to have errors#{expected_errors_message}#{received_errors_message}"
