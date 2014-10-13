@@ -1,11 +1,14 @@
 # spec/rspec/sleeping_king_studios/matchers/core/construct_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 require 'rspec/sleeping_king_studios/matchers/core/construct'
 
 describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
+  include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
   let(:example_group) { self }
   
   it { expect(example_group).to respond_to(:construct).with(0).arguments }
@@ -57,111 +60,167 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
   SCENARIOS
 
   describe 'with no ::new method' do
+    let(:failure_message) { "expected #{actual.inspect} to construct" }
     let(:actual) { Object.new }
 
-    it { expect(instance).to fail_with_actual(actual).
-      with_message "expected #{actual.inspect} to construct" }
+    include_examples 'fails with a positive expectation'
+
+    include_examples 'passes with a negative expectation'
   end # describe
 
   describe 'with a ::new method with no arguments' do
     let(:actual) { Class.new { def initialize; end } }
 
-    it 'with no arguments' do
-      expect(instance).to pass_with_actual(actual).
-        with_message "expected #{actual.inspect} not to construct"
-    end # it
+    describe 'with no arguments' do
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to construct" }
 
-    it 'with too many arguments' do
-      failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-        "  expected at most 0 arguments, but received 1"
-      expect(instance.with(1).arguments).to fail_with_actual(actual).
-        with_message failure_message
-    end # it
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with too many arguments' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to construct with arguments:\n  expected"\
+        " at most 0 arguments, but received 1"
+      end # let
+      let(:instance) { super().with(1).arguments }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
   end # describe
 
   describe 'with a ::new method with required arguments' do
     let(:actual) { Class.new { def initialize(a, b, c = nil); end } }
 
-    it 'with not enough arguments' do
-      failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-        "  expected at least 2 arguments, but received 1"
-      expect(instance.with(1).arguments).to fail_with_actual(actual).
-        with_message failure_message
-    end # it
+    describe 'with not enough arguments' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to construct with arguments:\n  expected"\
+        " at least 2 arguments, but received 1"
+      end # let
+      let(:instance) { super().with(1).argument }
 
-    it 'with enough arguments' do
-      expect(instance.with(3).arguments).to pass_with_actual(actual).
-        with_message "expected #{actual} not to construct with 3 arguments"
-    end # it
+      include_examples 'fails with a positive expectation'
 
-    it 'with too many arguments' do
-      failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-        "  expected at most 3 arguments, but received 5"
-      expect(instance.with(5).arguments).to fail_with_actual(actual).
-        with_message failure_message
-    end # it
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with a valid number of arguments' do
+      let(:failure_message_when_negated) { "expected #{actual} not to construct with 3 arguments" }
+      let(:instance) { super().with(3).arguments }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with too many arguments' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to construct with arguments:\n  expected"\
+        " at most 3 arguments, but received 5"
+      end # let
+      let(:instance) { super().with(5).arguments }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
   end # describe
 
   describe 'with a ::new method with variadic arguments' do
     let(:actual) { Class.new { def initialize(a, b, c, *rest); end } }
 
-    it 'with not enough arguments' do
-      failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-        "  expected at least 3 arguments, but received 2"
-      expect(instance.with(2).arguments).to fail_with_actual(actual).
-        with_message failure_message
-    end # it
+    describe 'with not enough arguments' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to construct with arguments:\n  expected"\
+        " at least 3 arguments, but received 2"
+      end # let
+      let(:instance) { super().with(2).arguments }
 
-    it 'with an excessive number of arguments' do
-      expect(instance.with(9001).arguments).to pass_with_actual(actual).
-        with_message "expected #{actual} not to construct with 9001 arguments"
-    end # it
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with an excessive number of arguments' do
+      let(:failure_message_when_negated) { "expected #{actual} not to construct with 9001 arguments" }
+      let(:instance) { super().with(9001).arguments }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
   end # describe
 
   describe 'with a ::new method with keywords' do
     let(:actual) do
-      # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
-      Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true| }) }
+      Class.new.tap { |klass| klass.send :define_method, :initialize, lambda { |a: true, b: true| } }
     end # let
 
-    it 'with no keywords' do
-      expect(instance).to pass_with_actual(actual).
-        with_message "expected #{actual} not to construct"
-    end # it
+    describe 'with no keywords' do
+      let(:failure_message_when_negated) { "expected #{actual} not to construct" }
 
-    it 'with valid keywords' do
-      expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
-        with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
-    end # it
+      include_examples 'passes with a positive expectation'
 
-    it 'with invalid keywords' do
-      failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-        "  unexpected keywords :c, :d"
-      expect(instance.with(0, :c, :d)).to fail_with_actual(actual).
-        with_message failure_message
-    end # it
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with valid keywords' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
+      end # let
+      let(:instance) { super().with(0, :a, :b) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with invalid keywords' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to construct with arguments:"\
+        "\n  unexpected keywords :c, :d"
+      end # let
+      let(:instance) { super().with(0, :c, :d) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
   end # describe
 
   describe 'with a matching method with variadic keywords' do
     let(:actual) do
-      # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
-      Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, **params| }) }
+      Class.new.tap { |klass| klass.send :define_method, :initialize, lambda { |a: true, b: true, **params| } }
     end # let
 
-    it 'with no keywords' do
-      expect(instance).to pass_with_actual(actual).
-        with_message "expected #{actual} not to construct"
-    end # it
+    describe 'with no keywords' do
+      let(:failure_message_when_negated) { "expected #{actual} not to construct" }
 
-    it 'with valid keywords' do
-      expect(instance.with(0, :a, :b)).to pass_with_actual(actual).
-        with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
-    end # it
+      include_examples 'passes with a positive expectation'
 
-    it 'with random keywords' do
-      expect(instance.with(0, :c, :d)).to pass_with_actual(actual).
-        with_message "expected #{actual} not to construct with 0 arguments and keywords :c, :d"
-    end # it
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with valid keywords' do
+      let(:failure_message_when_negated) { "expected #{actual} not to construct with 0 arguments and keywords :a, :b" }
+      let(:instance) { super().with(0, :a, :b) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with random keywords' do
+      let(:failure_message_when_negated) { "expected #{actual} not to construct with 0 arguments and keywords :c, :d" }
+      let(:instance) { super().with(0, :c, :d) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
   end # describe
 
   if RUBY_VERSION >= "2.1.0"
@@ -171,37 +230,61 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
         Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, c:, d:| }) }
       end # let
 
-      it 'with no keywords' do
-        expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct"
-      end # it
+      describe 'with no keywords' do
+        let(:failure_message_when_negated) { "expected #{actual} not to construct" }
 
-      it 'with missing keywords' do
-        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-          "  missing keywords :c, :d"
-        expect(instance.with(0, :a, :b)).to fail_with_actual(actual).
-          with_message failure_message
-      end # it
+        include_examples 'passes with a positive expectation'
 
-      it 'with valid keywords' do
-        expect(instance.with(0, :a, :b, :c, :d)).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
-      end # it
+        include_examples 'fails with a negative expectation'
+      end # describe
 
-      it 'with invalid keywords' do
-        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-          "  unexpected keywords :e, :f"
-        expect(instance.with(0, :c, :d, :e, :f)).to fail_with_actual(actual).
-          with_message failure_message
-      end # it
+      describe 'with missing keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to construct with arguments:"\
+          "\n  missing keywords :c, :d"
+        end # let
+        let(:instance) { super().with(0, :a, :b) }
 
-      it 'with invalid and missing keywords' do
-        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-          "  missing keywords :c, :d\n" +
-          "  unexpected keywords :e, :f"
-        expect(instance.with(0, :e, :f)).to fail_with_actual(actual).
-          with_message failure_message
-      end # it
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with valid keywords' do
+        let(:failure_message_when_negated) do
+          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
+        end # let
+        let(:instance) { super().with(0, :a, :b, :c, :d) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with invalid keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to construct with arguments:"\
+          "\n  unexpected keywords :e, :f"
+        end # let
+        let(:instance) { super().with(:c, :d, :e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with invalid and missing keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to construct with arguments:"\
+          "\n  missing keywords :c, :d"\
+          "\n  unexpected keywords :e, :f"
+        end # let
+        let(:instance) { super().with(0, :e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
     end # describe
 
     describe 'with a matching method with variadic keywords' do
@@ -210,27 +293,47 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
         Class.new.tap { |klass| klass.send :class_eval, %Q(klass.send :define_method, :initialize, lambda { |a: true, b: true, c:, d:, **params| }) }
       end # let
 
-      it 'with no keywords' do
-        expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct"
-      end # it
+      describe 'with no keywords' do
+        let(:failure_message_when_negated) { "expected #{actual} not to construct" }
 
-      it 'with missing keywords' do
-        failure_message = "expected #{actual.inspect} to construct with arguments:\n" +
-          "  missing keywords :c, :d"
-        expect(instance.with(0, :a, :b)).to fail_with_actual(actual).
-          with_message failure_message
-      end # it
+        include_examples 'passes with a positive expectation'
 
-      it 'with valid keywords' do
-        expect(instance.with(0, :a, :b, :c, :d)).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
-      end # it
+        include_examples 'fails with a negative expectation'
+      end # describe
 
-      it 'with random keywords' do
-        expect(instance.with(0, :a, :b, :c, :d, :e, :f)).to pass_with_actual(actual).
-          with_message "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d, :e, :f"
-      end # it
+      describe 'with missing keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to construct with arguments:"\
+          "\n  missing keywords :c, :d"
+        end # let
+        let(:instance) { super().with(0, :a, :b) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with valid keywords' do
+        let(:failure_message_when_negated) do
+          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
+        end # let
+        let(:instance) { super().with(0, :a, :b, :c, :d) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with random keywords' do
+        let(:failure_message_when_negated) do
+          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d, :e, :f"
+        end # let
+        let(:instance) { super().with(0, :a, :b, :c, :d, :e, :f) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
     end # describe
   end # if
 end # describe

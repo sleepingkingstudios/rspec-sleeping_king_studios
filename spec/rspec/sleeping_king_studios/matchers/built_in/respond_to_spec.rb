@@ -171,7 +171,6 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
   
   describe 'with a matching method with keywords' do
     let(:actual) do
-      # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
       Class.new.tap { |klass| klass.send :define_method, identifier, lambda { |a: true, b: true| } }.new
     end # let
 
@@ -234,7 +233,6 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
 
   describe 'with a matching method with variadic keywords' do
     let(:actual) do
-      # class-eval hackery to avoid syntax errors on pre-2.0.0 systems
       Class.new.tap { |klass| klass.send :define_method, identifier, lambda { |a: true, b: true, **params| } }.new
     end # let
 
