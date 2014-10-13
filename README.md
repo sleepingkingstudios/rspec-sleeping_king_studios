@@ -1,4 +1,4 @@
-F# RSpec::SleepingKingStudios [![Build Status](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios.svg?branch=master)](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios)
+# RSpec::SleepingKingStudios [![Build Status](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios.svg?branch=master)](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios)
 
 A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends built-in matchers with new functionality, such as support for Ruby 2.0+ keyword arguments, and adds new matchers for testing boolean-ness, object reader/writer properties, object constructor arguments, ActiveModel validations, and more. Also defines shared example groups for more expressive testing.
 
@@ -222,9 +222,10 @@ identifier.
 
 **Chaining:**
 
-* **with:** Expects one object, which is checked against the current value of
-  actual.property if actual responds to :property.
-  
+* **with:** Expects one object, which is checked against the current value of actual.property if actual responds to :property. Can also be used with an RSpec matcher:
+
+    expect(instance).to have_reader(:bar).with(an_instance_of(String))
+
 #### have\_writer Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_writer'

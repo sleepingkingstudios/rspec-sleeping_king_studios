@@ -29,7 +29,11 @@ module RSpec::SleepingKingStudios::Matchers::Core
       return false unless @match_reader = @actual.respond_to?(@expected)
 
       if @value_set
-        return false unless @match_value = @actual.send(@expected) == @value
+        if @value.respond_to?(:matches?)
+          return false unless @match_value = @value.matches?(@actual.send(@expected))
+        else
+          return false unless @match_value = @actual.send(@expected) == @value
+        end # if-else
       end # if
       
       true
@@ -46,6 +50,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @value_set = true
       self
     end # method with
+    alias_method :with_value, :with
 
     # @see BaseMatcher#failure_message
     def failure_message
@@ -54,16 +59,24 @@ module RSpec::SleepingKingStudios::Matchers::Core
       end # unless
       
       "unexpected value for #{@actual}\##{@expected}\n" +
-          "  expected: #{@value.inspect}\n" +
+          "  expected: #{value_to_string}\n" +
           "       got: #{@actual.send(@expected).inspect}"
     end # method failure_message
 
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
       message = "expected #{@actual} not to respond to #{@expected.inspect}"
-      message << " with value #{@value.inspect}" if @value_set
+      message << " and return #{value_to_string}" if @value_set
       message
     end # method failure_message
+
+    private
+
+    def value_to_string
+      return @value.description if @value.respond_to?(:matches?)
+
+      @value.inspect
+    end # method value_to_string
   end # class
 end # module
 
