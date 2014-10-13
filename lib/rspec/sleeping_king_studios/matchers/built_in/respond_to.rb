@@ -50,7 +50,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     # @see BaseMatcher#failure_message
     def failure_message
       @failing_method_names ||= []
-      methods, messages = @names - @failing_method_names, []
+      methods, messages = @failing_method_names, []
 
       methods.map do |method|
         message = "expected #{@actual.inspect} to respond to #{method.inspect}"
@@ -59,21 +59,23 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         end # if-else
         messages << message
       end # method
+
       messages.join "\n"
     end # method failure_message
 
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
       @failing_method_names ||= []
-      methods, messages = @names - @failing_method_names, []
+      methods, messages = @failing_method_names, []
 
       methods.map do |method|
-        message   = "expected #{@actual.inspect} not to respond to #{method.inspect}"
+        message = "expected #{@actual.inspect} not to respond to #{method.inspect}"
         unless (formatted = format_expected_arguments).empty?
           message << " with #{formatted}"
         end # unless
         messages << message
       end # method
+
       messages.join "\n"
     end # method failure_message_when_negated
 
