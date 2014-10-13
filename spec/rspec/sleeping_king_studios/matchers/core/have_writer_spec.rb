@@ -1,10 +1,13 @@
 # spec/rspec/sleeping_king_studios/matchers/core/have_writer_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
 describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
+  include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
   let(:example_group) { self }
   let(:property)      { :foo }
   
@@ -13,104 +16,33 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher do
 
   let(:instance) { described_class.new property }
 
-  describe '#with' do
-    it { expect(instance).to respond_to(:with).with(1).arguments }
-    it { expect(instance.with 5).to be instance }
-  end # describe with
-
   <<-SCENARIOS
     When the object responds to :property=,
-      And there is no expected value set,
-        Evaluates to true with should_not message "expected not to respond to".
-      And there is an expected value set,
-        And the object responds to :property,
-          And the expected value matches the actual value,
-            Evaluates to true with should_not message "expected not to respond to with value".
-          And the expected value does not match the actual value,
-            Evaluates to false with should message "unexpected value for, expected, received".
-        And the object does not respond to :property,
-          And there a block was declared to evaluate :property,
-            And the expected value matches the actual value,
-              Evaluates to true with should_not message "expected not to respond to with value".
-            And the expected value does not match the actual value,
-              Evaluates to false with should message "unexpected value for, expected, received".
-          And there was not a block declared to evaluate :property,
-            Evaluates to false with should message "unable to evaluate, please define block".
+      Evaluates to true with should_not message "expected not to respond to".
     When the object does not respond to :property=,
       Evaluates to false with should message "expected to respond to".
   SCENARIOS
 
   describe 'with an object that responds to :property=' do
+    let(:failure_message_when_negated) do
+      "expected #{actual} not to respond to :#{property}="
+    end # let
     let(:value)  { 42 }
     let(:actual) { Struct.new(property).new }
 
-    it 'with no argument set' do
-      expect(instance).to pass_with_actual(actual).
-        with_message "expected #{actual} not to respond to #{property.inspect}="
-    end # it
+    include_examples 'passes with a positive expectation'
 
-    describe 'and responds to :property' do
-      let(:actual) do
-        Struct.new(property) do
-          def inspect; to_s; end
-          def to_s; "<struct>"; end
-        end.new
-      end # let
-
-      it 'with a valid response' do
-        expect(instance.with value).to pass_with_actual(actual).
-          with_message "expected #{actual} not to respond to #{property.inspect}= with value #{value}"
-      end # it
-
-      it 'with an invalid response' do
-        allow(actual).to receive(property).and_return(value)
-        failure_message = "unexpected value for #{actual}\##{property}=\n" +
-          "  expected: nil\n       got: #{value}"
-        expect(instance.with nil).to fail_with_actual(actual).
-          with_message failure_message
-      end # it
-    end # describe
-
-    describe 'but does not respond to :property' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :attr_writer, property
-          klass.send :define_method, :inspect, ->{ to_s }
-        end.new
-      end # let
-
-      describe 'with no block added to #with' do
-        it 'fails' do
-          failure_message = "unable to test #{property.inspect}= because " +
-            "#{actual} does not respond to #{property.inspect}; try adding a " +
-            "test block to #with"
-          expect(instance.with value).to fail_with_actual(actual).
-            with_message failure_message
-        end # it
-      end # describe
-
-      describe 'with a block added to #with' do
-        it 'with a valid response' do
-          expect(instance.with(value) { instance_variable_get "@foo" }).to pass_with_actual(actual).
-            with_message "expected #{actual} not to respond to #{property.inspect}= with value #{value}"
-        end # it
-
-        it 'with an invalid response' do
-          failure_message = "unexpected value for #{actual}\##{property}=\n" +
-            "  expected: #{value}\n       got: nil"
-          expect(instance.with(value) { nil }).to fail_with_actual(actual).
-            with_message failure_message
-        end # it
-      end # describe
-    end # describe
+    include_examples 'fails with a negative expectation'
   end # describe
 
   describe 'with an object that does not respond to :property=' do
+    let(:failure_message) do
+      "expected #{actual} to respond to :#{property}=, but did not respond to :#{property}="
+    end # let
     let(:actual) { Object.new }
 
-    it 'fails' do
-      expect(instance).to fail_with_actual(actual).
-        with_message "expected #{actual} to respond to #{property.inspect}="
-    end # it
+    include_examples 'fails with a positive expectation'
+
+    include_examples 'passes with a negative expectation'
   end # describe
 end # describe

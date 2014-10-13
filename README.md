@@ -230,24 +230,15 @@ identifier.
 
     require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
-Checks if the actual object responds to :property=, and optionally if setting
-object.property = value sets object.property to value.
+Checks if the actual object responds to :property=.
 
 **How To Use:**
 
-    expect(instance).to have_writer(:foo=).with("foo")
+    expect(instance).to have_writer(:foo=)
 
 **Parameters:** Property. Expects a string or symbol that is a valid
 identifier. An equals sign '=' is automatically added if the identifier does
 not already terminate in '='.
-
-**Chaining:**
-
-* **with:** Expects one object. The matcher attempts to set the actual's value
-  using actual.property=, then compare the value with actual.property.
-  
-  _Note:_ Currently, write-only properties cannot be checked using with().
-  Attempting to do so will raise an exception.
 
 #### include\_matching Matcher
 

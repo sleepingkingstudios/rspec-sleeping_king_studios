@@ -45,7 +45,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
 
     describe 'with no value set' do
       let(:failure_message_when_negated) do
-        "expected #{actual} not to respond to #{property.inspect}"
+        "expected #{actual} not to respond to :#{property}"
       end # let
 
       include_examples 'passes with a positive expectation'
@@ -55,7 +55,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
 
     describe 'with a correct value set' do
       let(:failure_message_when_negated) do
-        "expected #{actual} not to respond to #{property.inspect} and return #{value}"
+        "expected #{actual} not to respond to :#{property} and return #{value}"
       end # let
       let(:instance) { super().with(value) }
 
@@ -67,11 +67,9 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
     describe 'with a matcher that matches the value' do
       let(:matcher) { an_instance_of(Fixnum) }
       let(:failure_message_when_negated) do
-        "expected #{actual} not to respond to #{property.inspect} and return #{matcher.description}"
+        "expected #{actual} not to respond to :#{property} and return #{matcher.description}"
       end # let
       let(:instance) { super().with(matcher) }
-
-      # fit { binding.pry }
 
       include_examples 'passes with a positive expectation'
 
@@ -80,9 +78,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
 
     describe 'with an incorrect value set' do
       let(:failure_message) do
-        "unexpected value for #{actual}\##{property}"\
-        "\n  expected: nil"\
-        "\n       got: #{value}"
+        "expected #{actual} to respond to :#{property} and return nil, but returned #{value.inspect}"
       end # let
       let(:instance) { super().with(nil) }
 
@@ -94,9 +90,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
     describe 'with a matcher that does not match the value' do
       let(:matcher) { an_instance_of(String) }
       let(:failure_message) do
-        "unexpected value for #{actual}\##{property}"\
-        "\n  expected: #{matcher.description}"\
-        "\n       got: #{value}"
+        "expected #{actual} to respond to :#{property} and return #{matcher.description}, but returned #{value.inspect}"
       end # let
       let(:instance) { super().with(matcher) }
 
@@ -107,11 +101,23 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
   end # describe
 
   describe 'with an object that does not respond to :property' do
-    let(:failure_message) { "expected #{actual} to respond to #{property.inspect}" }
+    let(:failure_message) { "expected #{actual} to respond to :#{property}, but did not respond to :#{property}" }
     let(:actual) { Object.new }
 
     include_examples 'fails with a positive expectation'
 
     include_examples 'passes with a negative expectation'
+
+    describe 'with a value set' do
+      let(:failure_message) do
+        "expected #{actual} to respond to :#{property} and return #{value.inspect}, but did not respond to :#{property}"
+      end # let
+      let(:value)    { 42 }
+      let(:instance) { super().with(value) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
   end # describe
 end # describe

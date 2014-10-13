@@ -39,6 +39,12 @@ Now supports composable matchers, as follows:
 
 The error messages have also been edited for clarity.
 
+#### `have_writer` Matcher
+
+Removed the functionality checking the value of `:property` after `:property=` has been invoked. The syntax for doing so was not expressive, and the feature was rarely used (and would only work when a `#has_property` matcher would also match the object). To verify that invoking `:property=` will change `:property` to the desired value, either use a `#has_property` matcher or set up the change expectation directly using a `#change` matcher.
+
+The error messages have also been edited for clarity.
+
 #### `respond_to` Matcher
 
 The `#and` fluent method has been removed, and the `#a_block` method for verifying the presence of a block argument has been renamed to `#with_a_block`. In addition, by passing in `true` as the last argument, can check for the presence and arguments of protected or private methods, similar to the Ruby `Object#respond_to?` method.
