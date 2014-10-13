@@ -2,17 +2,20 @@
 
 require 'rspec/sleeping_king_studios/spec_helper'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
+require 'rspec/sleeping_king_studios/matchers/core/construct'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
+  it { expect(described_class).to construct.with(1..9001).arguments }
+
   let(:example_group) { self }
   let(:identifier)    { :foo }
   
   # Paging Douglas Hofstadter, or possibly Xzibit...
-  it { expect(example_group).to respond_to(:respond_to).with(1).arguments }
+  it { expect(example_group).to respond_to(:respond_to).with(1..9001).arguments }
   it { expect(example_group.respond_to identifier).to be_a described_class }
 
   let(:instance) { described_class.new identifier }
@@ -269,6 +272,84 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
     end # describe
   end # describe
 
+  describe 'with a matching method that expects a block' do
+    let(:actual) do
+      Class.new.tap { |klass| klass.send :define_method, identifier, lambda { |&block| yield } }.new
+    end # let
+
+    describe 'with no block' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{identifier}"
+      end # let
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with a block' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{identifier} with a block"
+      end # let
+      let(:instance) { super().with_a_block }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+  end # describe
+
+  describe 'with a matching private method with no arguments' do
+    let(:failure_message) { "expected #{actual.inspect} to respond to #{identifier.inspect}" }
+    let(:actual) do
+      Class.new.tap do |klass|
+        klass.send :define_method, identifier, lambda {}
+        klass.send :private, identifier
+      end.new
+    end # let
+
+    include_examples 'fails with a positive expectation'
+
+    include_examples 'passes with a negative expectation'
+
+    describe 'with include_all => true' do
+      let(:instance) { described_class.new identifier, true }
+
+      describe 'with zero arguments expected' do
+        let(:failure_message_when_negated) { "expected #{actual} not to respond to :#{identifier} with 0 arguments" }
+        let(:instance) { super().with(0).arguments }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with too many arguments expected' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+          " arguments:\n  expected at most 0 arguments, but received 1"
+        end # let
+        let(:instance) { super().with(1).arguments }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with a block' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+          " arguments:\n  unexpected block"
+        end # let
+        let(:instance) { super().with_a_block }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+    end # describe
+  end # describe
+
   if RUBY_VERSION >= "2.1.0"
     describe 'with a matching method with optional and required keywords' do
       let(:actual) do
@@ -436,31 +517,4 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       end # describe
     end # describe
   end # if
-
-  describe 'with a matching method that expects a block' do
-    let(:actual) do
-      Class.new.tap { |klass| klass.send :define_method, identifier, lambda { |&block| yield } }.new
-    end # let
-
-    describe 'with no block' do
-      let(:failure_message_when_negated) do
-        "expected #{actual} not to respond to :#{identifier}"
-      end # let
-
-      include_examples 'passes with a positive expectation'
-
-      include_examples 'fails with a negative expectation'
-    end # describe
-
-    describe 'with a block' do
-      let(:failure_message_when_negated) do
-        "expected #{actual} not to respond to :#{identifier} with a block"
-      end # let
-      let(:instance) { super().with_a_block }
-
-      include_examples 'passes with a positive expectation'
-
-      include_examples 'fails with a negative expectation'
-    end # describe
-  end # describe
 end # describe

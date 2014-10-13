@@ -36,8 +36,7 @@ In addition, the have_errors matcher will fail on both a positive expectation (`
 
 #### respond\_to Matcher
 
-The #and fluent method has been removed, and the #a_block method for verifying
-the presence of a block argument has been renamed to #with_a_block.
+The `#and` fluent method has been removed, and the `#a_block` method for verifying the presence of a block argument has been renamed to `#with_a_block`. In addition, by passing in `true` as the last argument, can check for the presence and arguments of protected or private methods, similar to the Ruby `Object#respond_to?` method.
 
 ### Mocks
 

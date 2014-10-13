@@ -117,37 +117,20 @@ now accepts an optional block as a shortcut for adding a proc expectation.
 
     require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
-Now has additional chaining functionality to validate the number of arguments
-accepted by the method, and whether the method accepts a block argument.
+Now has additional chaining functionality to validate the number of arguments accepted by the method, the keyword arguments (if any) accepted by the method, and whether the method accepts a block argument.
 
 **How To Use:**
 
+    # With a variable number of arguments.
     expect(instance).to respond_to(:foo).with(2..3).arguments.with_a_block
 
-**Chaining:**
-
-* **with:** Expects one Integer or Range argument. If an Integer, verifies that
-  the method accepts that number of arguments; if a Range, verifies that the
-  method accepts both the minimum and maximum number of arguments.
-* **with\_a\_block:** No parameters. Verifies that the method requires a block
-  argument of the form &my_argument. _Important note:_ A negative result does
-  _not* mean the method cannot accept a block, merely that it does not require
-  one. Also, does _not_ check whether the block is called or yielded.
-
-##### Ruby 2.0+
-
-Has additional functionality to support Ruby 2.0 keyword arguments.
-
-**How To Use:**
-  expect(instance).to respond_to(:foo).with(0, :bar, :baz)
+    # With keyword arguments.
+    expect(instance).to respond_to(:foo).with(0, :bar, :baz)
 
 **Chaining:**
 
-* **with:** Expects at most one Integer or Range argument, and zero or more
-  Symbol arguments corresponding to optional keywords. Verifies that the method
-  accepts that keyword, or has a variadic keyword of the form \*\*params. As 
-  of 2.1.0 and required keywords, verifies that all required keywords are 
-  provided.
+* **with:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
+* **with\_a\_block:** No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
 
 ### Core
 
