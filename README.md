@@ -254,58 +254,6 @@ matches the given pattern.
 
 **Parameters:** Pattern. Expects a Regexp.
 
-### Meta
-
-    require 'rspec/sleeping_king_studios/matchers/meta/all'
-
-These meta-matchers are used to test other custom matchers.
-
-#### fail\_with\_actual Matcher
-
-    require 'rspec/sleeping_king_studios/matchers/meta/fail_with_actual'
-
-Checks if the given matcher will fail to match a specified actual object. Can
-take an optional string to check the expected failure message when the matcher
-is expected to pass, but does not.
-
-_Note:_ Do not use the not\_to syntax for this matcher; instead, use the
-pass\_with\_actual matcher, below.
-
-**How To Use:**
-
-    expect(matcher).to fail_with_actual(actual).with_message(/expected to/)
-    
-**Parameters:** Matcher. Expects an object that, at minimum, responds to
-:matches? and :failure\_message.
-
-**Chaining:**
-
-* **with\_message:** Expects one String or Regexp argument, which is matched
-  against the given matcher's failure\_message.
-
-#### pass\_with\_actual Matcher
-
-    require 'rspec/sleeping_king_studios/matchers/meta/pass_with_actual'
-
-Checks if the given matcher will match a specified actual object. Can take an
-optional string to check the expected failure message when the matcher is
-expected to fail, but does not.
-
-_Note:_ Do not use the not\_to syntax for this matcher; instead, use the
-fail\_with\_actual matcher, above.
-
-**How To Use:**
-
-    expect(matcher).to pass_with_actual(actual).with_message(/expected not to/)
-  
-**Parameters:** Matcher. Expects an object that, at minimum, responds to
-:matches? and :failure\_message\_when\_negated.
-
-**Chaining:**
-
-* **with\_message:** Expects one String or Regexp argument, which is matched
-  against the given matcher's failure\_message\_when\_negated.
-
 ## Shared Examples
 
 To use a custom example group, `require` the associated file and then `include`

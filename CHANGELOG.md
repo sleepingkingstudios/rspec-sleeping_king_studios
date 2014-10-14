@@ -21,7 +21,7 @@ Now has a fluent method for both `#argument` and `#arguments` to support the sin
 
 #### `fail_with_actual` Matcher
 
-Now correctly handles the `#does_not_match?` case for the new matcher API.
+Removed. To test custom matchers, use the new shared examples (see Shared Examples, below).
 
 #### `have_errors` Matcher
 
@@ -55,6 +55,10 @@ Removed the functionality checking the value of `:property` after `:property=` h
 
 The error messages have also been edited for clarity.
 
+#### `pass_with_actual` Matcher
+
+Removed. To test custom matchers, use the new shared examples (see Shared Examples, below).
+
 #### `respond_to` Matcher
 
 The `#and` fluent method has been removed, and the `#a_block` method for verifying the presence of a block argument has been renamed to `#with_a_block`. In addition, by passing in `true` as the last argument, can check for the presence and arguments of protected or private methods, similar to the Ruby `Object#respond_to?` method.
@@ -66,6 +70,15 @@ The #custom_double mock method has been completely removed. The recommended solu
 ### Shared Examples
 
 Adds a new category of features, Shared Example groups, that can be included for easier or more expressive spec definitions.
+
+#### Examples for Custom RSpec Matchers
+
+Added four new shared examples to test custom matchers:
+
+    include_examples 'passes with a positive expectation'
+    include_examples 'passes with a negative expectation'
+    include_examples 'fails with a positive expectation'
+    include_examples 'fails with a negative expectation'
 
 ## 1.0.1
 
