@@ -2,6 +2,7 @@
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/core'
+require 'rspec/sleeping_king_studios/matchers/shared/match_property'
 
 module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for testing whether an object has a specific property, e.g.
@@ -10,11 +11,19 @@ module RSpec::SleepingKingStudios::Matchers::Core
   # 
   # @since 1.0.0
   class HavePropertyMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::SleepingKingStudios::Matchers::Shared::MatchProperty
+
     # @param [String, Symbol] expected the property to check for on the actual
     #   object
     def initialize expected
       @expected = expected.intern
     end # method initialize
+
+    def does_not_match? actual
+      super
+
+      matches_property?(:none?)
+    end # method does_not_match?
 
     # Checks if the object responds to :expected and :expected=. Additionally,
     # if a value expectation is set, assigns the value via :expected= and
@@ -27,17 +36,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     def matches? actual
       super
 
-      @match_reader = @actual.respond_to? @expected
-      @match_writer = @actual.respond_to? :"#{@expected}="
-      
-      return false unless @match_reader && @match_writer
-
-      if @value_set
-        @actual.send :"#{@expected}=", @value
-        return false unless @actual.send(@expected) == @value
-      end # if
-      
-      true
+      matches_property?(:all?)
     end # method matches?
 
     # Sets a value expectation. The matcher will set the object's value to the
@@ -52,26 +51,50 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @value_set = true
       self
     end # method with
+    alias_method :with_value, :with
 
     # @see BaseMatcher#failure_message
     def failure_message
       methods = []
-      methods << ":#{@expected}"  unless @match_reader
-      methods << ":#{@expected}=" unless @match_writer
+      methods << ":#{@expected}"  unless @matches_reader
+      methods << ":#{@expected}=" unless @matches_writer
 
-      return "expected #{@actual.inspect} to respond to #{methods.join " and "}" unless methods.empty?
+      message = "expected #{@actual.inspect} to respond to :#{@expected} and :#{@expected}="
+      message << " and return #{value_to_string}" if @value_set
 
-      "unexpected value for #{@actual.inspect}\##{@expected}" +
-        "\n  expected: #{@value.inspect}" +
-        "\n       got: #{@actual.send(@expected).inspect}"
+      errors = []
+      errors << "did not respond to #{methods.join " or "}" unless methods.empty?
+      errors << "returned #{@actual.send(@expected).inspect}" unless @matches_reader_value || !@value_set
+
+      message << ", but #{errors.join(" and ")}"
+      message
     end # failure_message
 
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
+      methods = []
+      methods << ":#{@expected}"  if @matches_reader
+      methods << ":#{@expected}=" if @matches_writer
+
       message = "expected #{@actual.inspect} not to respond to :#{@expected} or :#{@expected}="
-      message << " with value #{@value.inspect}" if @value_set
+      message << " and return #{value_to_string}" if @value_set
+
+      errors = []
+      errors << "responded to #{methods.join " and "}" unless methods.empty?
+      errors << "returned #{@actual.send(@expected).inspect}" if @matches_reader_value
+
+      message << ", but #{errors.join(" and ")}"
       message
     end # failure_message_when_negated
+
+    private
+
+    def matches_property? filter
+      [ responds_to_reader?,
+        responds_to_writer?,
+        matches_reader_value?
+      ].send(filter) { |bool| bool }
+    end # method matches_property?
   end # class
 end # module
 

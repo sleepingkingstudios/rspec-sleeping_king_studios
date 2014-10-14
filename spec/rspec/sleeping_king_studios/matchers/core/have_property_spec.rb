@@ -1,10 +1,13 @@
 # spec/rspec/sleeping_king_studios/matchers/core/have_property_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
 require 'rspec/sleeping_king_studios/matchers/core/have_property'
 
 describe RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher do
+  include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
   let(:example_group) { self }
   let(:property)    { :foo }
   
@@ -16,6 +19,11 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher do
   describe '#with' do
     it { expect(instance).to respond_to(:with).with(1).arguments }
     it { expect(instance.with 5).to be instance }
+  end # describe with
+
+  describe '#with_value' do
+    it { expect(instance).to respond_to(:with_value).with(1).arguments }
+    it { expect(instance.with_value 5).to be instance }
   end # describe with
 
   <<-SCENARIOS
@@ -34,58 +42,130 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher do
   SCENARIOS
 
   describe 'with an object responding to :property and :property=' do
-    let(:actual) do
-      struct = Struct.new(property).new
-      allow(struct).to receive(:inspect).and_return("<struct>")
-      struct
-    end # let
     let(:value) { 42 }
+    let(:actual) do
+      Struct.new(property).new(value).tap do |struct|
+        allow(struct).to receive(:inspect).and_return("<struct>")
+      end # tap
+    end # let
 
-    it 'with no expected value' do
-      expect(instance).to pass_with_actual(actual).
-        with_message "expected #{actual.inspect} not to respond to #{property.inspect} or #{property.inspect}="
-    end # it
+    describe 'with no expected value' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to :#{property} or"\
+        " :#{property}=, but responded to :#{property} and :#{property}="
+      end # let
 
-    it 'with a correct expected value' do
-      allow(actual).to receive(:to_s).and_return("<struct>").twice
-      expect(instance.with 42).to pass_with_actual(actual).
-        with_message "expected #{actual.inspect} not to respond to #{property.inspect} or #{property.inspect}= with value #{value}"
-    end # it
+      include_examples 'passes with a positive expectation'
 
-    it 'with an incorrect expected value' do
-      allow(actual).to receive(property).and_return(nil)
-      failure_message = "unexpected value for #{actual.inspect}\##{property}\n" +
-        "  expected: #{value.inspect}\n" +
-        "       got: #{actual.send(property).inspect}"
-      expect(instance.with 42).to fail_with_actual(actual).
-        with_message failure_message
-    end # it
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with a correct expected value' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to :#{property} or"\
+        " :#{property}= and return #{value.inspect}, but responded to"\
+        " :#{property} and :#{property}= and returned #{value.inspect}"
+      end # let
+      let(:instance) { super().with(value) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with a matcher that matches the value' do
+      let(:matcher) { an_instance_of(Fixnum) }
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to :#{property} or"\
+        " :#{property}= and return #{matcher.description}, but responded to"\
+        " :#{property} and :#{property}= and returned #{value.inspect}"
+      end # let
+      let(:instance) { super().with(matcher) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with an incorrect expected value' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to :#{property} or"\
+        " :#{property}= and return #{15151}, but responded to"\
+        " :#{property} and :#{property}="
+      end # let
+      let(:failure_message) do
+        "expected #{actual.inspect} to respond to :#{property} and"\
+        " :#{property}= and return #{15151}, but returned #{value.inspect}"
+      end # let
+      let(:instance) { super().with(15151) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with a matcher that does not match the value' do
+      let(:matcher) { an_instance_of(String) }
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to :#{property} or"\
+        " :#{property}= and return #{matcher.description}, but responded to"\
+        " :#{property} and :#{property}="
+      end # let
+      let(:failure_message) do
+        "expected #{actual.inspect} to respond to :#{property} and"\
+        " :#{property}= and return #{matcher.description}, but returned"\
+        " #{value.inspect}"
+      end # let
+      let(:instance) { super().with(matcher) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
   end # describe
 
   describe 'with an object responding only to :property' do
+    let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to :#{property} or"\
+        " :#{property}=, but responded to :#{property}"
+      end # let
+    let(:failure_message) do
+      "expected #{actual.inspect} to respond to :#{property} and"\
+        " :#{property}=, but did not respond to :#{property}="
+    end # let
     let(:actual) { Class.new.tap { |klass| klass.send :attr_reader, property }.new }
 
-    it 'fails' do
-      expect(instance).to fail_with_actual(actual).
-        with_message "expected #{actual} to respond to #{property.inspect}="
-    end # it
+    include_examples 'fails with a positive expectation'
+
+    include_examples 'fails with a negative expectation'
   end # describe
 
   describe 'with an object responding only to :property=' do
+    let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to :#{property} or"\
+        " :#{property}=, but responded to :#{property}="
+      end # let
+    let(:failure_message) do
+      "expected #{actual.inspect} to respond to :#{property} and"\
+        " :#{property}=, but did not respond to :#{property}"
+    end # let
     let(:actual) { Class.new.tap { |klass| klass.send :attr_writer, property }.new }
 
-    it 'fails' do
-      expect(instance).to fail_with_actual(actual).
-        with_message "expected #{actual} to respond to #{property.inspect}"
-    end # it
+    include_examples 'fails with a positive expectation'
+
+    include_examples 'fails with a negative expectation'
   end # describe
 
   describe 'with an object not responding to :property or :property=' do
+    let(:failure_message) do
+      "expected #{actual.inspect} to respond to :#{property} and"\
+        " :#{property}=, but did not respond to :#{property} or"\
+        " :#{property}="
+    end # let
     let(:actual) { Object.new }
 
-    it 'fails' do
-      expect(instance).to fail_with_actual(actual).
-        with_message "expected #{actual} to respond to #{property.inspect} and #{property.inspect}="
-    end # it
+    include_examples 'fails with a positive expectation'
+
+    include_examples 'passes with a negative expectation'
   end # describe
 end # describe

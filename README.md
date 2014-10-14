@@ -190,21 +190,21 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 
     require 'rspec/sleeping_king_studios/matchers/core/have_property'
 
-Checks if the actual object responds to :property and :property=, and
-optionally if a value written to actual.property= can then be read by
-actual.property.
+Checks if the actual object responds to :property and :property=, and optionally if the curernt value of actual.property is equal to a specified value.
 
 **How To Use:**
 
     expect(instance).to have_property(:foo).with("foo")
 
-**Parameters:** Property. Expects a string or symbol that is a valid
-identifier.
+**Parameters:** Property. Expects a string or symbol that is a valid identifier.
 
 **Chaining:**
 
-* **with:** Expects one object, which is written to actual.property= and then
-  read from actual.property.
+* **with:** Expects one object, which is checked against the current value of actual.property if actual responds to :property. Can also be used with an RSpec matcher:
+
+    expect(instance).to have_property(:bar).with(an_instance_of(String))
+
+* **with_value:** Alias for `#with`, above.
 
 #### have\_reader Matcher
 
@@ -217,14 +217,15 @@ current value of actual.property is equal to a specified value.
 
     expect(instance).to have_reader(:foo).with("foo")
 
-**Parameters:** Property. Expects a string or symbol that is a valid
-identifier.
+**Parameters:** Property. Expects a string or symbol that is a valid identifier.
 
 **Chaining:**
 
 * **with:** Expects one object, which is checked against the current value of actual.property if actual responds to :property. Can also be used with an RSpec matcher:
 
     expect(instance).to have_reader(:bar).with(an_instance_of(String))
+
+* **with_value:** Alias for `#with`, above.
 
 #### have\_writer Matcher
 

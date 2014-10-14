@@ -12,7 +12,8 @@ module RSpec::SleepingKingStudios::Matchers::Shared
     # @return [Boolean] true if the value matches the expected value; otherwise
     #   false.
     def matches_reader_value?
-      return true unless @value_set
+      return false unless responds_to_reader?
+      return true  unless @value_set
 
       actual_value = @actual.send(@expected)
 

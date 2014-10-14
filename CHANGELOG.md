@@ -31,17 +31,27 @@ Adds the `#with` fluent method as an alias to `#with_messages`, as follows:
 
 In addition, the have_errors matcher will fail on both a positive expectation (`expect().to`) and a negative expectation (`expect().not_to` or `expect().to_not`) if the actual object does not respond to `#valid?`. The failure message has also been clarified for cases like `expect().not_to have_errors.on(attribute)`.
 
+#### `have_property` Matcher
+
+Removed the functionality checking the value of `:property` after `:property=` has been invoked. The syntax for doing so was not expressive, and the feature was rarely used. To verify that invoking `:property=` will change `:property` to the desired value, set up the change expectation directly using a `#change` matcher.
+
+Now supports composable matchers, as follows:
+
+    expect(object).to have_property(:my_method).with(an_instance_of(Fixnum))
+
+Also added `#with_value` as an alias for `with`, and the error messages have been edited for clarity.
+
 #### `have_reader` Matcher
 
 Now supports composable matchers, as follows:
 
     expect(object).to have_reader(:my_method).with(an_instance_of(String))
 
-The error messages have also been edited for clarity.
+Also added `#with_value` as an alias for `with`, and the error messages have been edited for clarity.
 
 #### `have_writer` Matcher
 
-Removed the functionality checking the value of `:property` after `:property=` has been invoked. The syntax for doing so was not expressive, and the feature was rarely used (and would only work when a `#has_property` matcher would also match the object). To verify that invoking `:property=` will change `:property` to the desired value, either use a `#has_property` matcher or set up the change expectation directly using a `#change` matcher.
+Removed the functionality checking the value of `:property` after `:property=` has been invoked. The syntax for doing so was not expressive, and the feature was rarely used. To verify that invoking `:property=` will change `:property` to the desired value, set up the change expectation directly using a `#change` matcher.
 
 The error messages have also been edited for clarity.
 
