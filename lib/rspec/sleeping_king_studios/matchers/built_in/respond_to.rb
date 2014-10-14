@@ -8,6 +8,12 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
   class RespondToMatcher < RSpec::Matchers::BuiltIn::RespondTo
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
 
+    def initialize *expected
+      @include_all = [true, false].include?(expected.last) ? expected.pop : false
+
+      super(*expected)
+    end # constructor
+
     # @overload with count
     #   Adds a parameter count expectation.
     # 
@@ -35,6 +41,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     def with *keywords
       @expected_arity    = keywords.shift if Integer === keywords.first || Range === keywords.first
       @expected_keywords = keywords
+
       self
     end # method with
 
@@ -50,30 +57,32 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     # @see BaseMatcher#failure_message
     def failure_message
       @failing_method_names ||= []
-      methods, messages = @names - @failing_method_names, []
+      methods, messages = @failing_method_names, []
 
       methods.map do |method|
         message = "expected #{@actual.inspect} to respond to #{method.inspect}"
-        if @actual.respond_to?(method)
+        if @actual.respond_to?(method, @include_all)
           message << " with arguments:\n#{format_errors_for_method method}"
         end # if-else
         messages << message
       end # method
+
       messages.join "\n"
     end # method failure_message
 
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
       @failing_method_names ||= []
-      methods, messages = @names - @failing_method_names, []
+      methods, messages = @failing_method_names, []
 
       methods.map do |method|
-        message   = "expected #{@actual.inspect} not to respond to #{method.inspect}"
+        message = "expected #{@actual.inspect} not to respond to #{method.inspect}"
         unless (formatted = format_expected_arguments).empty?
           message << " with #{formatted}"
         end # unless
         messages << message
       end # method
+
       messages.join "\n"
     end # method failure_message_when_negated
 
@@ -83,7 +92,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       @actual = actual
       @failing_method_reasons = {}
       @failing_method_names   = @names.__send__(filter_method) do |name|
-        @actual.respond_to?(name) &&
+        @actual.respond_to?(name, @include_all) &&
           matches_arity?(actual, name) &&
           matches_keywords?(actual, name) &&
           matches_block?(actual, name)
@@ -186,7 +195,7 @@ end # module
 
 module RSpec::SleepingKingStudios::Matchers
   # @see RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#matches?
-  def respond_to expected
-    RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher.new expected
+  def respond_to *expected
+    RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher.new *expected
   end # method respond_to
 end # module

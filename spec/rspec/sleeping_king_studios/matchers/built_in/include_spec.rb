@@ -1,11 +1,14 @@
 # spec/rspec/sleeping_king_studios/matchers/built_in/include_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/include'
 
 describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
+  include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
   let(:example_group) { self }
   let(:expectations)  { "String" }
   
@@ -37,12 +40,13 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
   SCENARIOS
 
   describe 'with a non-enumerable object' do
+    let(:failure_message) { 'but it does not respond to `include?`' }
+    let(:failure_message_when_negated) { failure_message }
     let(:actual) { Object.new }
 
-    it 'fails' do
-      expect(instance).to fail_with_actual(actual).
-        with_message "expected #{actual.inspect} to respond to :include?"
-    end # it
+    include_examples 'fails with a positive expectation'
+
+    include_examples 'fails with a negative expectation'
   end # describe
 
   describe 'with a Hash' do
@@ -50,41 +54,41 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
     let(:actual_string) { actual.inspect.gsub(/(\S)=>(\S)/, '\1 => \2') }
 
     describe 'with a matching block expectation' do
+      let(:failure_message_when_negated) { "expected #{actual_string} not to include an item matching the block" }
       let(:expectations) { ->((_, str)){ str =~ /ba/ } }
       let(:instance) { described_class.new &expectations }
 
-      it 'passes' do
-        expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual_string} not to include an item matching the block"
-      end # it
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
     end # describe
 
     describe 'with a non-matching proc expectation' do
+      let(:failure_message) { "expected #{actual_string} to include an item matching the block" }
       let(:expectations) { ->((_, str)){ str =~ /xy/ } }
       let(:instance) { described_class.new &expectations }
 
-      it 'fails' do
-        expect(instance).to fail_with_actual(actual).
-          with_message "expected #{actual_string} to include an item matching the block"
-      end # it
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
     end # describe
 
     describe 'with a matching proc expectation' do
+      let(:failure_message_when_negated) { "expected #{actual_string} not to include an item matching the block" }
       let(:expectations) { ->((_, str)){ str =~ /ba/ } }
 
-      it 'passes' do
-        expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual_string} not to include an item matching the block"
-      end # it
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
     end # describe
 
     describe 'with a non-matching proc expectation' do
+      let(:failure_message) { "expected #{actual_string} to include an item matching the block" }
       let(:expectations) { ->((_, str)){ str =~ /xy/ } }
 
-      it 'fails' do
-        expect(instance).to fail_with_actual(actual).
-          with_message "expected #{actual_string} to include an item matching the block"
-      end # it
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
     end # describe
   end # describe
 
@@ -92,41 +96,41 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
     let(:actual) { %w(foo bar baz) }
 
     describe 'with a matching block expectation' do
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to include an item matching the block" }
       let(:expectations) { ->(str){ str =~ /ba/ } }
       let(:instance) { described_class.new &expectations }
 
-      it 'passes' do
-        expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual.inspect} not to include an item matching the block"
-      end # it
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
     end # describe
 
-    describe 'with a non-matching proc expectation' do
+    describe 'with a non-matching block expectation' do
+      let(:failure_message) { "expected #{actual.inspect} to include an item matching the block" }
       let(:expectations) { ->(str){ str =~ /xy/ } }
       let(:instance) { described_class.new &expectations }
 
-      it 'fails' do
-        expect(instance).to fail_with_actual(actual).
-          with_message "expected #{actual.inspect} to include an item matching the block"
-      end # it
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
     end # describe
 
     describe 'with a matching proc expectation' do
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to include an item matching the block" }
       let(:expectations) { ->(str){ str =~ /ba/ } }
 
-      it 'passes' do
-        expect(instance).to pass_with_actual(actual).
-          with_message "expected #{actual.inspect} not to include an item matching the block"
-      end # it
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
     end # describe
 
     describe 'with a non-matching proc expectation' do
+      let(:failure_message) { "expected #{actual.inspect} to include an item matching the block" }
       let(:expectations) { ->(str){ str =~ /xy/ } }
 
-      it 'fails' do
-        expect(instance).to fail_with_actual(actual).
-          with_message "expected #{actual.inspect} to include an item matching the block"
-      end # it
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
     end # describe
   end # describe
 end # describe

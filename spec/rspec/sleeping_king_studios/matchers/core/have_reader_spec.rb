@@ -1,11 +1,13 @@
 # spec/rspec/sleeping_king_studios/matchers/core/have_reader_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
-require 'rspec/sleeping_king_studios/matchers/base_matcher_helpers'
+require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 
 describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
+  include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
   let(:example_group) { self }
   let(:property)      { :foo }
   
@@ -17,6 +19,11 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
   describe '#with' do
     it { expect(instance).to respond_to(:with).with(1).arguments }
     it { expect(instance.with 5).to be instance }
+  end # describe with
+
+  describe '#with_value' do
+    it { expect(instance).to respond_to(:with_value).with(1).arguments }
+    it { expect(instance.with_value 5).to be instance }
   end # describe with
 
   <<-SCENARIOS
@@ -36,30 +43,81 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher do
     let(:value)  { 42 }
     let(:actual) { Struct.new(property).new(value) }
 
-    it 'with no argument set' do
-      expect(instance).to pass_with_actual(actual).
-        with_message "expected #{actual} not to respond to #{property.inspect}"
-    end # it
+    describe 'with no value set' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{property}"
+      end # let
 
-    it 'with a correct argument set' do
-      expect(instance.with value).to pass_with_actual(actual).
-        with_message "expected #{actual} not to respond to #{property.inspect} with value #{value}"
-    end # it
+      include_examples 'passes with a positive expectation'
 
-    it 'with an incorrect argument set' do
-      failure_message = "unexpected value for #{actual}\##{property}\n" +
-        "  expected: nil\n       got: #{value}"
-      expect(instance.with nil).to fail_with_actual(actual).
-        with_message failure_message
-    end # it
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with a correct value set' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{property} and return #{value}"
+      end # let
+      let(:instance) { super().with(value) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with a matcher that matches the value' do
+      let(:matcher) { an_instance_of(Fixnum) }
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{property} and return #{matcher.description}"
+      end # let
+      let(:instance) { super().with(matcher) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with an incorrect value set' do
+      let(:failure_message) do
+        "expected #{actual} to respond to :#{property} and return nil, but returned #{value.inspect}"
+      end # let
+      let(:instance) { super().with(nil) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with a matcher that does not match the value' do
+      let(:matcher) { an_instance_of(String) }
+      let(:failure_message) do
+        "expected #{actual} to respond to :#{property} and return #{matcher.description}, but returned #{value.inspect}"
+      end # let
+      let(:instance) { super().with(matcher) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
   end # describe
 
   describe 'with an object that does not respond to :property' do
+    let(:failure_message) { "expected #{actual} to respond to :#{property}, but did not respond to :#{property}" }
     let(:actual) { Object.new }
 
-    it 'fails' do
-      expect(instance).to fail_with_actual(actual).
-        with_message "expected #{actual} to respond to #{property.inspect}"
-    end # it
+    include_examples 'fails with a positive expectation'
+
+    include_examples 'passes with a negative expectation'
+
+    describe 'with a value set' do
+      let(:failure_message) do
+        "expected #{actual} to respond to :#{property} and return #{value.inspect}, but did not respond to :#{property}"
+      end # let
+      let(:value)    { 42 }
+      let(:instance) { super().with(value) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
   end # describe
 end # describe

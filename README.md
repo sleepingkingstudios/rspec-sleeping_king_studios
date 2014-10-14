@@ -1,9 +1,6 @@
 # RSpec::SleepingKingStudios [![Build Status](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios.svg?branch=master)](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios)
 
-A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends
-built-in matchers with new functionality, such as support for Ruby 2.0+ keyword
-arguments, and adds new matchers for testing boolean-ness, object reader/writer
-properties, object constructor arguments, ActiveModel validations, and more.
+A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends built-in matchers with new functionality, such as support for Ruby 2.0+ keyword arguments, and adds new matchers for testing boolean-ness, object reader/writer properties, object constructor arguments, ActiveModel validations, and more. Also defines shared example groups for more expressive testing.
 
 ## Supported Ruby Versions
 
@@ -25,7 +22,19 @@ feel free to get in touch! I can be reached on GitHub (see above, and feel
 encouraged to submit bug reports or merge requests there) or via email at
 merlin@sleepingkingstudios.com. I look forward to hearing from you!
 
-## The Matchers
+## Configuration
+
+RSpec::SleepingKingStudios now has configuration options available through `RSpec.configuration`. For example, to set the behavior of the matcher examples when a failure message expectation is undefined (see RSpec Matcher Examples, below), put the following in your `spec_helper` or other configuration file:
+
+    RSpec.configure do |config|
+      config.sleeping_king_studios do |config|
+        config.examples do |config|
+          config.handle_missing_failure_message_with = :ignore
+        end # config
+      end # config
+    end # config
+
+## Custom Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be
 required individually or by category:
@@ -64,8 +73,13 @@ individual fields to validate, or even specific messages for each attribute.
 
 * **on:** [String, Symbol] Adds a field to validate; the matcher only passes if
   all validated fields have errors.
+* **with:** [Array<String>] Adds one or more messages to the previously-defined
+  field validation. Raises ArgumentError if no field was previously set.
 * **with\_message:** [String] Adds a message to the previously-defined field
   validation. Raises ArgumentError if no field was previously set.
+* **with\_messages:** [Array<String>] Adds one or more messages to the
+  previously-defined field validation. Raises ArgumentError if no field was
+  previously set.
 
 ### BuiltIn
 
@@ -103,37 +117,20 @@ now accepts an optional block as a shortcut for adding a proc expectation.
 
     require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
-Now has additional chaining functionality to validate the number of arguments
-accepted by the method, and whether the method accepts a block argument.
+Now has additional chaining functionality to validate the number of arguments accepted by the method, the keyword arguments (if any) accepted by the method, and whether the method accepts a block argument.
 
 **How To Use:**
 
+    # With a variable number of arguments.
     expect(instance).to respond_to(:foo).with(2..3).arguments.with_a_block
 
-**Chaining:**
-
-* **with:** Expects one Integer or Range argument. If an Integer, verifies that
-  the method accepts that number of arguments; if a Range, verifies that the
-  method accepts both the minimum and maximum number of arguments.
-* **with\_a\_block:** No parameters. Verifies that the method requires a block
-  argument of the form &my_argument. _Important note:_ A negative result does
-  _not* mean the method cannot accept a block, merely that it does not require
-  one. Also, does _not_ check whether the block is called or yielded.
-
-##### Ruby 2.0+
-
-Has additional functionality to support Ruby 2.0 keyword arguments.
-
-**How To Use:**
-  expect(instance).to respond_to(:foo).with(0, :bar, :baz)
+    # With keyword arguments.
+    expect(instance).to respond_to(:foo).with(0, :bar, :baz)
 
 **Chaining:**
 
-* **with:** Expects at most one Integer or Range argument, and zero or more
-  Symbol arguments corresponding to optional keywords. Verifies that the method
-  accepts that keyword, or has a variadic keyword of the form \*\*params. As 
-  of 2.1.0 and required keywords, verifies that all required keywords are 
-  provided.
+* **with:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
+* **with\_a\_block:** No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
 
 ### Core
 
@@ -193,21 +190,21 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 
     require 'rspec/sleeping_king_studios/matchers/core/have_property'
 
-Checks if the actual object responds to :property and :property=, and
-optionally if a value written to actual.property= can then be read by
-actual.property.
+Checks if the actual object responds to :property and :property=, and optionally if the curernt value of actual.property is equal to a specified value.
 
 **How To Use:**
 
     expect(instance).to have_property(:foo).with("foo")
 
-**Parameters:** Property. Expects a string or symbol that is a valid
-identifier.
+**Parameters:** Property. Expects a string or symbol that is a valid identifier.
 
 **Chaining:**
 
-* **with:** Expects one object, which is written to actual.property= and then
-  read from actual.property.
+* **with:** Expects one object, which is checked against the current value of actual.property if actual responds to :property. Can also be used with an RSpec matcher:
+
+    expect(instance).to have_property(:bar).with(an_instance_of(String))
+
+* **with_value:** Alias for `#with`, above.
 
 #### have\_reader Matcher
 
@@ -220,36 +217,29 @@ current value of actual.property is equal to a specified value.
 
     expect(instance).to have_reader(:foo).with("foo")
 
-**Parameters:** Property. Expects a string or symbol that is a valid
-identifier.
+**Parameters:** Property. Expects a string or symbol that is a valid identifier.
 
 **Chaining:**
 
-* **with:** Expects one object, which is checked against the current value of
-  actual.property if actual responds to :property.
-  
+* **with:** Expects one object, which is checked against the current value of actual.property if actual responds to :property. Can also be used with an RSpec matcher:
+
+    expect(instance).to have_reader(:bar).with(an_instance_of(String))
+
+* **with_value:** Alias for `#with`, above.
+
 #### have\_writer Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
-Checks if the actual object responds to :property=, and optionally if setting
-object.property = value sets object.property to value.
+Checks if the actual object responds to :property=.
 
 **How To Use:**
 
-    expect(instance).to have_writer(:foo=).with("foo")
+    expect(instance).to have_writer(:foo=)
 
 **Parameters:** Property. Expects a string or symbol that is a valid
 identifier. An equals sign '=' is automatically added if the identifier does
 not already terminate in '='.
-
-**Chaining:**
-
-* **with:** Expects one object. The matcher attempts to set the actual's value
-  using actual.property=, then compare the value with actual.property.
-  
-  _Note:_ Currently, write-only properties cannot be checked using with().
-  Attempting to do so will raise an exception.
 
 #### include\_matching Matcher
 
@@ -264,57 +254,113 @@ matches the given pattern.
 
 **Parameters:** Pattern. Expects a Regexp.
 
-### Meta
+## Shared Examples
 
-    require 'rspec/sleeping_king_studios/matchers/meta/all'
+To use a custom example group, `require` the associated file and then `include`
+the module in your example group:
 
-These meta-matchers are used to test other custom matchers.
+    require 'rspec/sleeping_king_studios/examples/some_examples'
 
-#### fail\_with\_actual Matcher
+    RSpec.describe MyCustomMatcher do
+      include RSpec::SleepingKingStudios::Examples::SomeExamples
 
-    require 'rspec/sleeping_king_studios/matchers/meta/fail_with_actual'
+      # You can use the custom shared examples here.
+      include_examples 'some examples'
+    end # describe
 
-Checks if the given matcher will fail to match a specified actual object. Can
-take an optional string to check the expected failure message when the matcher
-is expected to pass, but does not.
+Unless otherwise noted, these shared examples expect the example group to define either an explicit `#instance` method (using `let(:instance) {}`) or an implicit `subject`. Their behavior is **undefined** if neither `#instance` nor `subject` is defined.
 
-_Note:_ Do not use the not\_to syntax for this matcher; instead, use the
-pass\_with\_actual matcher, below.
+### RSpec Matcher Examples
 
-**How To Use:**
+These examples are used for validating custom RSpec matchers. They are used
+internally by RSpec::SleepingKingStudios to verify the functionality of the
+new and modified matchers.
 
-    expect(matcher).to fail_with_actual(actual).with_message(/expected to/)
-    
-**Parameters:** Matcher. Expects an object that, at minimum, responds to
-:matches? and :failure\_message.
+    require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
-**Chaining:**
+    RSpec.describe MyCustomMatcher do
+      include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
-* **with\_message:** Expects one String or Regexp argument, which is matched
-  against the given matcher's failure\_message.
+      # You can use the custom shared examples here.
+    end # describe
 
-#### pass\_with\_actual Matcher
+The `#instance` or `subject` for these examples should be an instance of a class matching the RSpec matcher API. For example, consider a matcher that checks if a number is a multiple of another number. This matcher would be used as follows:
 
-    require 'rspec/sleeping_king_studios/matchers/meta/pass_with_actual'
+    expect(12).to be_a_multiple_of(3)
+    #=> true
 
-Checks if the given matcher will match a specified actual object. Can take an
-optional string to check the expected failure message when the matcher is
-expected to fail, but does not.
+    expect(14).to be_a_multiple_of(3)
+    #=> false
 
-_Note:_ Do not use the not\_to syntax for this matcher; instead, use the
-fail\_with\_actual matcher, above.
+Therefore, the `#instance` or `subject` should be defined as `BeAMultipleMatcher.new(3)`. If the custom matcher has additional fluent methods or options, these can be added to the instance as well, e.g. `expect(15).to be_a_multiple_of(3).and_of(5)` would be tested as `BeAMultipleMatcher.new(3).and_of(5)`.
 
-**How To Use:**
+In addition, all of these examples require a defined `#actual` method in the example group containing the object to be tested. The actual object is the object used in the expectation. In the above examples, the actual object is `12` in the first example, and `14` in the second. You can define the `#actual` method using `#let()`, e.g. `let(:actual) { Object.new }`.
 
-    expect(matcher).to pass_with_actual(actual).with_message(/expected not to/)
-  
-**Parameters:** Matcher. Expects an object that, at minimum, responds to
-:matches? and :failure\_message\_when\_negated.
+Putting it all together:
 
-**Chaining:**
+    require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
-* **with\_message:** Expects one String or Regexp argument, which is matched
-  against the given matcher's failure\_message\_when\_negated.
+    RSpec.describe BeAMultipleOfMatcher do
+      include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
+      let(:instance) { BeAMultipleOfMatcher.new(3) }
+
+      describe 'with a valid number' do
+        let(:actual) { 15 }
+
+        # Include examples here.
+
+        describe 'with a second factor' do
+          let(:instance) { BeAMultipleOfMatcher.new(3).and_of(5) }
+
+          # Include examples here.
+        end # describe
+      end # describe
+    end # describe
+
+#### Passes With A Positive Expectation
+
+    include_examples 'passes with a positive expectation'
+
+Verifies that the instance matcher will pass with a positive expectation (e.g. `expect().to`). Equivalent to verifying the result of the following:
+
+    expect(actual).to match_my_custom_matcher(*expected_values)
+    #=> passes
+
+#### Passes With A Negative Expectation
+
+    include_examples 'passes with a negative expectation'
+
+Verifies that the instance matcher will pass with a negative expectation (e.g. `expect().not_to`). Equivalent to verifying the result of the following:
+
+    expect(actual).not_to match_my_custom_matcher(*expected_values)
+    #=> passes
+
+#### Fails With A Positive Expectation
+
+    include_examples 'fails with a positive expectation'
+
+Verifies that the instance matcher will fail with a positive expectation (e.g. `expect().to`), and have the expected failure message. Equivalent to verifying the result of the following:
+
+    expect(actual).to match_my_custom_matcher(*expected_values)
+    #=> fails
+
+In addition, verifies the `#failure_message` of the matcher by comparing it against a `#failure_message` method in the example group. This should be defined using `let(:failure_message) { 'expected to match' }`.
+
+The behavior if the example group does not define `#failure_message` depends on the value of the `RSpec.configure.sleeping_king_studios.examples.handle_missing_failure_message_with` option (see Configuration, above). Accepted values are `:ignore`, `:pending` (default; marks the example as pending), and `:exception` (raises an exception).
+
+#### Fails With A Negative Expectation
+
+    include_examples 'fails with a negative expectation'
+
+Verifies that the instance matcher will fail with a negative expectation (e.g. `expect().not_to`), and have the expected failure message. Equivalent to verifying the result of the following:
+
+    expect(actual).not_to match_my_custom_matcher(*expected_values)
+    #=> fails
+
+In addition, verifies the `#failure_message_when_negated` of the matcher by comparing it against a `#failure_message_when_negated` method in the example group. This should be defined using `let(:failure_message_when_negated) { 'expected not to match' }`.
+
+See Fails With A Positive Expectatio, above, for behavior when the example group does not define `#failure_message_when_negated`.
 
 ## License
 

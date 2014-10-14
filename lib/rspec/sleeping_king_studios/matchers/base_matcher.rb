@@ -20,6 +20,17 @@ module RSpec::SleepingKingStudios::Matchers
       "#{name_to_sentence}#{to_sentence @expected}"
     end # method description
 
+    # Inverse of #matches? method.
+    #
+    # @param [Object] actual the object to test against the matcher
+    # 
+    # @return [Boolean] false if the object matches, otherwise true
+    # 
+    # @see #matches?
+    def does_not_match? actual
+      !matches?(actual)
+    end # method does_not_match?
+
     # Tests the actual object to see if it matches the defined condition(s).
     # Invoked by RSpec expectations.
     #
@@ -28,6 +39,7 @@ module RSpec::SleepingKingStudios::Matchers
     # @return [Boolean] true if the object matches, otherwise false
     def matches? actual
       @actual = actual
+
       true
     end # method matches?
 
@@ -42,5 +54,12 @@ module RSpec::SleepingKingStudios::Matchers
     def failure_message_when_negated
       "expected #{@actual.inspect} not to #{description}"
     end # method failure_message_when_negated
+
+    private
+
+    # @api private
+    def name_to_sentence
+      'match'
+    end # method name_to_sentence
   end # class
 end # module

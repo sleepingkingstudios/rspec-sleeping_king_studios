@@ -2,6 +2,7 @@
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/core'
+require 'rspec/sleeping_king_studios/matchers/shared/match_property'
 
 module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for testing whether an object has a specific property reader, e.g.
@@ -9,6 +10,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
   # 
   # @since 1.0.0
   class HaveReaderMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::SleepingKingStudios::Matchers::Shared::MatchProperty
+
     # @param [String, Symbol] expected the property to check for on the actual
     #   object
     def initialize expected
@@ -26,13 +29,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     def matches? actual
       super
 
-      return false unless @match_reader = @actual.respond_to?(@expected)
-
-      if @value_set
-        return false unless @match_value = @actual.send(@expected) == @value
-      end # if
-      
-      true
+      responds_to_reader? && matches_reader_value?
     end # method matches?
 
     # Sets a value expectation. The matcher will compare the value from
@@ -46,22 +43,26 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @value_set = true
       self
     end # method with
+    alias_method :with_value, :with
 
     # @see BaseMatcher#failure_message
     def failure_message
-      unless @match_reader
-        return "expected #{@actual} to respond to #{@expected.inspect}"
-      end # unless
-      
-      "unexpected value for #{@actual}\##{@expected}\n" +
-          "  expected: #{@value.inspect}\n" +
-          "       got: #{@actual.send(@expected).inspect}"
+      message = "expected #{@actual} to respond to :#{@expected}"
+      message << " and return #{value_to_string}" if @value_set
+
+      if !@matches_reader
+        message << ", but did not respond to :#{@expected}"
+      elsif !@matches_reader_value
+        message << ", but returned #{@actual.send(@expected).inspect}"
+      end # if
+
+      message
     end # method failure_message
 
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
-      message = "expected #{@actual} not to respond to #{@expected.inspect}"
-      message << " with value #{@value.inspect}" if @value_set
+      message = "expected #{@actual} not to respond to :#{@expected}"
+      message << " and return #{value_to_string}" if @value_set
       message
     end # method failure_message
   end # class
