@@ -8,6 +8,10 @@ Update the entire library to support RSpec 3. Most of the updates are purely int
 
 Support for Ruby 1.9.3 is officially dropped.
 
+### Concerns
+
+Added module RSpec::SleepingKingStudios::Examples::SharedExampleGroup as a mixin for defining scoped shared example groups. Extend into a module to define shared example groups scoped to that module (and automatically included in example groups when the module is included), or extend into an example group to allow aliasing shared example groups with alternate or more expressive names.
+
 ### Custom Examples
 
 Added custom shared example groups for easier/more expressive tests.

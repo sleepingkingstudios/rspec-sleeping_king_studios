@@ -4,6 +4,7 @@ require 'rspec/sleeping_king_studios/examples'
 require 'rspec/sleeping_king_studios/examples/shared_example_group'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
+require 'rspec/sleeping_king_studios/support'
 
 module RSpec::SleepingKingStudios::Examples::PropertyExamples
   extend RSpec::SleepingKingStudios::Examples::SharedExampleGroup
@@ -24,7 +25,7 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
         args = [self, expected_value]
         args.push actual_value unless 0 == expected_value.arity
 
-        expected_value = RSpec::SleepingKingStudios::Examples::PropertyExamples.apply *args
+        expected_value = RSpec::SleepingKingStudios::Support.apply *args
       end # if
 
       case expected_value

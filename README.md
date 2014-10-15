@@ -15,7 +15,7 @@ Currently, the following versions of Ruby are officially supported:
 
 ### A Note From The Developer
 
-Hi, I'm Rob Smith, the maintainer of this library and a professional Ruby developer. I use these tools every day, but they're not just written for me. If you find this project helpful in your own work, or if you have any questions, suggestions or critiques, please feel free to get in touch! I can be reached on GitHub (see above, and feel encouraged to submit bug reports or merge requests there) or via email at `merlin@sleepingkingstudios.com`. I look forward to hearing from you!
+Hi, I'm Rob Smith, a Ruby Engineer and the developer of this library. I use these tools every day, but they're not just written for me. If you find this project helpful in your own work, or if you have any questions, suggestions or critiques, please feel free to get in touch! I can be reached on GitHub (see above, and feel encouraged to submit bug reports or merge requests there) or via email at `merlin@sleepingkingstudios.com`. I look forward to hearing from you!
 
 ## Configuration
 
@@ -34,6 +34,33 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
 #### Handle Missing Failure Message With
 
 This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:skip`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
+
+## Concerns
+
+RSpec::SleepingKingStudios defines a few concerns that can be included in or extended into modules or example groups for additional functionality.
+
+### Shared Example Groups
+
+    require 'rspec/sleeping_king_studios/examples/shared_example_group'
+
+    module MyCustomExamples
+      extend RSpec::SleepingKingStudios::Examples::SharedExampleGroup
+
+      shared_examples 'has custom behavior' do
+        # Define expectations here...
+      end # shared_examples
+      alias_shared_examples 'should have custom behavior', 'has custom behavior'
+    end # module
+
+Utility functions for defining shared examples. If included in a module, any shared examples defined in that module are scoped to the module, rather than placed in a global scope. This allows you to define different shared examples with the same name in different contexts, similar to the current behavior when defining a shared example inside an example group. To use the defined examples, simply `include` the module in an example group. **Important Note:** Shared examples and aliases must be defined **before** including the module in an example group. Any shared examples or aliases defined afterword will not be available inside the example group.
+
+### `::alias_shared_examples`
+
+Aliases a defined shared example group, allowing it to be accessed using a new name. The example group must be defined in the current context using `shared_examples`. The aliases must be defined before including the module into an example group, or they will not be available in the example group.
+
+### `::shared_examples`
+
+Defines a shared example group within the context of the current module. Unlike a top-level example group defined using RSpec#shared_examples, these examples are not globally available, and must be mixed into an example group by including the module. The shared examples must be defined before including the module, or they will not be available in the example group.
 
 ## Custom Matchers
 

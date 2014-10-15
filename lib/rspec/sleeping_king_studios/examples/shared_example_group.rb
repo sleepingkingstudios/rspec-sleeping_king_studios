@@ -4,11 +4,16 @@ require 'rspec/sleeping_king_studios/examples'
 
 module RSpec::SleepingKingStudios::Examples
   module SharedExampleGroup
-    def included other
-      merge_shared_example_groups other
-    end # method included
-
-    # @api private
+    # Aliases a defined shared example group, allowing it to be accessed using
+    # a new name. The example group must be defined in the current context
+    # using `shared_examples`. The aliases must be defined before including the
+    # module into an example group, or they will not be available in the
+    # example group.
+    #
+    # @param [String] new_name The new name to alias the shared example group
+    #   as.
+    # @param [String] old_name The name under which the shared example group is
+    #   currently defined.
     def alias_shared_examples new_name, old_name
       proc = shared_example_groups[self][old_name]
 
@@ -16,19 +21,26 @@ module RSpec::SleepingKingStudios::Examples
     end # method alias_shared_examples
 
     # @api private
-    def apply base, proc, *args, &block
-      method_name = :__temporary_method_for_applying_proc__
-      metaclass   = class << base; self; end
-      metaclass.send :define_method, method_name, &proc
+    def included other
+      merge_shared_example_groups other
+    end # method included
 
-      value = base.send method_name, *args, &block
-
-      metaclass.send :remove_method, method_name
-
-      value
-    end # method apply
-
-    # @api private
+    # @overload shared_examples(name, &block)
+    #   @param [String] name Identifer to use when looking up this shared group.
+    #   @param block Used to create the shared example group definition.
+    # @overload shared_examples(name, metadata, &block)
+    #   @param [String] name Identifer to use when looking up this shared group.
+    #   @param metadata [Array<Symbol>, Hash] Metadata to attach to this group;
+    #     any example group with matching metadata will automatically include
+    #     this shared example group.
+    #   @param block Used to create the shared example group definition.
+    #
+    # Defines a shared example group within the context of the current module.
+    # Unlike a top-level example group defined using RSpec#shared_examples,
+    # these examples are not globally available, and must be mixed into an
+    # example group by including the module. The shared examples must be
+    # defined before including the module, or they will not be available in the
+    # example group.
     def shared_examples name, *metadata_args, &block
       RSpec.world.shared_example_group_registry.add(self, name, *metadata_args, &block)
     end # method shared_examples
