@@ -79,5 +79,21 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
     describe 'has writer' do
       include_examples 'has writer', property
     end # describe
+
+    describe 'has property' do
+      include_examples 'has property', property
+
+      describe 'with a literal value' do
+        include_examples 'has property', property, value
+      end # describe
+
+      describe 'with a proc value' do
+        include_examples 'has property', property, ->() { be_a(Fixnum) }
+      end # describe
+
+      describe 'with a proc that takes an argument' do
+        include_examples 'has property', property, ->(value) { value > 0 }
+      end # describe
+    end # describe
   end # describe
 end # describe

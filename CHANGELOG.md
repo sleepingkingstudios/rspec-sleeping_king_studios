@@ -12,6 +12,14 @@ Support for Ruby 1.9.3 is officially dropped.
 
 Added custom shared example groups for easier/more expressive tests.
 
+#### Property Examples
+
+Added 'has reader', 'has writer', and 'has property' examples as shorthand for defining property and attribute expectations.
+
+#### RSpec Matcher Examples
+
+Added custom examples for testing RSpec matchers. Replaces the (now removed) `pass_with_actual` and `fail_with_actual` matchers, which were fiddly and confusing (even for me) and couldn't handle all cases (such as failing on both `expect().to` and `expect().not_to`).
+
 ### Custom Matchers
 
 All matchers have been updated to support the RSpec 3 matcher API.

@@ -280,6 +280,16 @@ Unless otherwise noted, these shared examples expect the example group to define
 
 These examples are shorthand for defining a reader and/or writer expectation.
 
+#### Has Property
+
+    include_examples 'has property', :foo, 42
+
+Delegates to the `#has_reader` and `#has_writer` matchers (see Core/Has Reader and Core/Has Writer, above) and passes if the actual object responds to the specified property and property writer methods. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'has property', :bar, ->() { an_instance_of(String) }
+
+    include_examples 'has property', :baz, ->(value) { value.count = 3 }
+
 #### Has Reader
 
     include_examples 'has reader', :foo, 42
@@ -294,7 +304,7 @@ Delegates to the `#has_reader` matcher (see Core/Has Reader, above) and passes i
 
     include_examples 'has writer', :foo=
 
-Delegates to the `#has_writer` matcher (see Core/Has Reader, above) and passes if the actual object responds to the specified property writer.
+Delegates to the `#has_writer` matcher (see Core/Has Writer, above) and passes if the actual object responds to the specified property writer.
 
 ### RSpec Matcher Examples
 

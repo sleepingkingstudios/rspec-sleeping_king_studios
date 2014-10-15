@@ -57,4 +57,10 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
       expect(object).to have_writer(property)
     end # it
   end # shared_examples
+
+  shared_examples 'has property' do |property, expected_value = UNDEFINED_PROPERTY_EXPECTATION|
+    include_examples 'has reader', property, expected_value
+
+    include_examples 'has writer', property
+  end # shared_examples
 end # module
