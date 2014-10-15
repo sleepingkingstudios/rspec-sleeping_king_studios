@@ -34,6 +34,12 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
       end # config
     end # config
 
+### Configuration Options
+
+#### Handle Missing Failure Message With
+
+This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:skip`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
+
 ## Custom Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be
@@ -44,7 +50,7 @@ required individually or by category:
 
     require 'rspec/sleeping_king_studios/matchers/core/all'
     #=> requires all of the core matchers
-    
+
     require 'rspec/sleeping_king_studios/matchers/core/construct'
     #=> requires only the :construct matcher
 
@@ -64,9 +70,9 @@ individual fields to validate, or even specific messages for each attribute.
 **How To Use:**
 
     expect(instance).to have_errors
-    
+
     expect(instance).to have_errors.on(:name)
-    
+
     expect(instance).to have_errors.on(:name).with_message('not to be nil')
 
 **Chaining:**
@@ -183,7 +189,7 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 * **with:** Expects one Integer, Range, or nil argument, and zero or more
   Symbol arguments corresponding to optional keywords. Verifies that the
   class's constructor accepts that keyword, or has a variadic keyword of the
-  form \*\*params.  As of 2.1.0 and required keywords, verifies that all 
+  form \*\*params.  As of 2.1.0 and required keywords, verifies that all
   required keywords are provided.
 
 #### have\_property Matcher
@@ -269,6 +275,20 @@ the module in your example group:
     end # describe
 
 Unless otherwise noted, these shared examples expect the example group to define either an explicit `#instance` method (using `let(:instance) {}`) or an implicit `subject`. Their behavior is **undefined** if neither `#instance` nor `subject` is defined.
+
+### Property Examples
+
+These examples are shorthand for defining a reader and/or writer expectation.
+
+#### Has Reader
+
+    include_examples 'has reader', :foo, 42
+
+Delegates to the `#has_reader` matcher (see Core/Has Reader, above) and passes if the actual object responds to the specified property. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'has reader', :bar, ->() { an_instance_of(String) }
+
+    include_examples 'has reader', :baz, ->(value) { value.count = 3 }
 
 ### RSpec Matcher Examples
 
@@ -360,7 +380,7 @@ Verifies that the instance matcher will fail with a negative expectation (e.g. `
 
 In addition, verifies the `#failure_message_when_negated` of the matcher by comparing it against a `#failure_message_when_negated` method in the example group. This should be defined using `let(:failure_message_when_negated) { 'expected not to match' }`.
 
-See Fails With A Positive Expectatio, above, for behavior when the example group does not define `#failure_message_when_negated`.
+See Fails With A Positive Expectation, above, for behavior when the example group does not define `#failure_message_when_negated`.
 
 ## License
 

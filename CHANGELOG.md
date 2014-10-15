@@ -8,6 +8,10 @@ Update the entire library to support RSpec 3. Most of the updates are purely int
 
 Support for Ruby 1.9.3 is officially dropped.
 
+### Custom Examples
+
+Added custom shared example groups for easier/more expressive tests.
+
 ### Custom Matchers
 
 All matchers have been updated to support the RSpec 3 matcher API.
@@ -86,7 +90,7 @@ Added four new shared examples to test custom matchers:
 
 * The #construct and #respond_to matchers now support 2.1.0 required keyword
   arguments, of the form def foo(bar:, baz:). If the class constructor or
-  method requires one or more keyword arguments, and one or more of those 
+  method requires one or more keyword arguments, and one or more of those
   keywords are not provided when checking arguments using the #with
   method, the matcher will fail with the message "missing keywords" and a list
   of the keywords that were not provided as arguments to #with.
