@@ -25,6 +25,8 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
     describe 'has reader' do
       include_examples 'has reader', property
 
+      include_examples 'should have reader', property
+
       describe 'with a literal value' do
         include_examples 'has reader', property, value
       end # describe
@@ -48,6 +50,8 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
 
     describe 'has writer' do
       include_examples 'has writer', property
+
+      include_examples 'should have writer', property
     end # describe
   end # describe
 
@@ -62,6 +66,8 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
 
     describe 'has reader' do
       include_examples 'has reader', property
+
+      include_examples 'should have reader', property
 
       describe 'with a literal value' do
         include_examples 'has reader', property, value
@@ -78,10 +84,14 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
 
     describe 'has writer' do
       include_examples 'has writer', property
+
+      include_examples 'should have writer', property
     end # describe
 
     describe 'has property' do
       include_examples 'has property', property
+
+      include_examples 'should have property', property
 
       describe 'with a literal value' do
         include_examples 'has property', property, value

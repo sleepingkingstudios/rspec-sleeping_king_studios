@@ -1,26 +1,14 @@
-# subl lib/rspec/sleeping_king_studios/examples/property_examples.rb
+# lib/rspec/sleeping_king_studios/examples/property_examples.rb
 
 require 'rspec/sleeping_king_studios/examples'
+require 'rspec/sleeping_king_studios/examples/shared_example_group'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
 module RSpec::SleepingKingStudios::Examples::PropertyExamples
+  extend RSpec::SleepingKingStudios::Examples::SharedExampleGroup
+
   UNDEFINED_PROPERTY_EXPECTATION = Object.new.freeze
-
-  class << self
-    # @api private
-    def apply base, proc, *args, &block
-      method_name = :__temporary_method_for_applying_proc__
-      metaclass   = class << base; self; end
-      metaclass.send :define_method, method_name, &proc
-
-      value = base.send method_name, *args, &block
-
-      metaclass.send :remove_method, method_name
-
-      value
-    end # class method apply
-  end # class << self
 
   shared_examples 'has reader' do |property, expected_value = UNDEFINED_PROPERTY_EXPECTATION|
     it "has reader :#{property}" do
@@ -49,6 +37,7 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
       end # case
     end # it
   end # shared_examples
+  alias_shared_examples 'should have reader', 'has reader'
 
   shared_examples 'has writer' do |property|
     it "has writer :#{property}=" do
@@ -57,10 +46,12 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
       expect(object).to have_writer(property)
     end # it
   end # shared_examples
+  alias_shared_examples 'should have writer', 'has writer'
 
   shared_examples 'has property' do |property, expected_value = UNDEFINED_PROPERTY_EXPECTATION|
     include_examples 'has reader', property, expected_value
 
     include_examples 'has writer', property
   end # shared_examples
+  alias_shared_examples 'should have property', 'has property'
 end # module
