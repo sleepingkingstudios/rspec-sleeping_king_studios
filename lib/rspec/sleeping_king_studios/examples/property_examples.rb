@@ -2,6 +2,7 @@
 
 require 'rspec/sleeping_king_studios/examples'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
+require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
 module RSpec::SleepingKingStudios::Examples::PropertyExamples
   UNDEFINED_PROPERTY_EXPECTATION = Object.new.freeze
@@ -46,6 +47,14 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
       else
         expect(actual_value).to be == expected_value
       end # case
+    end # it
+  end # shared_examples
+
+  shared_examples 'has writer' do |property|
+    it "has writer :#{property}=" do
+      object = defined?(instance) ? instance : subject
+
+      expect(object).to have_writer(property)
     end # it
   end # shared_examples
 end # module

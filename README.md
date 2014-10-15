@@ -290,6 +290,12 @@ Delegates to the `#has_reader` matcher (see Core/Has Reader, above) and passes i
 
     include_examples 'has reader', :baz, ->(value) { value.count = 3 }
 
+#### Has Writer
+
+    include_examples 'has writer', :foo=
+
+Delegates to the `#has_writer` matcher (see Core/Has Reader, above) and passes if the actual object responds to the specified property writer.
+
 ### RSpec Matcher Examples
 
 These examples are used for validating custom RSpec matchers. They are used
