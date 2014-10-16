@@ -15,12 +15,7 @@ Currently, the following versions of Ruby are officially supported:
 
 ### A Note From The Developer
 
-Hi, I'm Rob Smith, the maintainer of this library. As a professional Ruby
-developer, I use these tools every day. If you find this project helpful in
-your own work, or if you have any questions, suggestions or critiques, please
-feel free to get in touch! I can be reached on GitHub (see above, and feel
-encouraged to submit bug reports or merge requests there) or via email at
-merlin@sleepingkingstudios.com. I look forward to hearing from you!
+Hi, I'm Rob Smith, a Ruby Engineer and the developer of this library. I use these tools every day, but they're not just written for me. If you find this project helpful in your own work, or if you have any questions, suggestions or critiques, please feel free to get in touch! I can be reached on GitHub (see above, and feel encouraged to submit bug reports or merge requests there) or via email at `merlin@sleepingkingstudios.com`. I look forward to hearing from you!
 
 ## Configuration
 
@@ -34,6 +29,39 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
       end # config
     end # config
 
+### Configuration Options
+
+#### Handle Missing Failure Message With
+
+This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:skip`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
+
+## Concerns
+
+RSpec::SleepingKingStudios defines a few concerns that can be included in or extended into modules or example groups for additional functionality.
+
+### Shared Example Groups
+
+    require 'rspec/sleeping_king_studios/examples/shared_example_group'
+
+    module MyCustomExamples
+      extend RSpec::SleepingKingStudios::Examples::SharedExampleGroup
+
+      shared_examples 'has custom behavior' do
+        # Define expectations here...
+      end # shared_examples
+      alias_shared_examples 'should have custom behavior', 'has custom behavior'
+    end # module
+
+Utility functions for defining shared examples. If included in a module, any shared examples defined in that module are scoped to the module, rather than placed in a global scope. This allows you to define different shared examples with the same name in different contexts, similar to the current behavior when defining a shared example inside an example group. To use the defined examples, simply `include` the module in an example group. **Important Note:** Shared examples and aliases must be defined **before** including the module in an example group. Any shared examples or aliases defined afterword will not be available inside the example group.
+
+### `::alias_shared_examples`
+
+Aliases a defined shared example group, allowing it to be accessed using a new name. The example group must be defined in the current context using `shared_examples`. The aliases must be defined before including the module into an example group, or they will not be available in the example group.
+
+### `::shared_examples`
+
+Defines a shared example group within the context of the current module. Unlike a top-level example group defined using RSpec#shared_examples, these examples are not globally available, and must be mixed into an example group by including the module. The shared examples must be defined before including the module, or they will not be available in the example group.
+
 ## Custom Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be
@@ -44,7 +72,7 @@ required individually or by category:
 
     require 'rspec/sleeping_king_studios/matchers/core/all'
     #=> requires all of the core matchers
-    
+
     require 'rspec/sleeping_king_studios/matchers/core/construct'
     #=> requires only the :construct matcher
 
@@ -64,9 +92,9 @@ individual fields to validate, or even specific messages for each attribute.
 **How To Use:**
 
     expect(instance).to have_errors
-    
+
     expect(instance).to have_errors.on(:name)
-    
+
     expect(instance).to have_errors.on(:name).with_message('not to be nil')
 
 **Chaining:**
@@ -183,7 +211,7 @@ Has additional functionality to support Ruby 2.0 keyword arguments.
 * **with:** Expects one Integer, Range, or nil argument, and zero or more
   Symbol arguments corresponding to optional keywords. Verifies that the
   class's constructor accepts that keyword, or has a variadic keyword of the
-  form \*\*params.  As of 2.1.0 and required keywords, verifies that all 
+  form \*\*params.  As of 2.1.0 and required keywords, verifies that all
   required keywords are provided.
 
 #### have\_property Matcher
@@ -269,6 +297,36 @@ the module in your example group:
     end # describe
 
 Unless otherwise noted, these shared examples expect the example group to define either an explicit `#instance` method (using `let(:instance) {}`) or an implicit `subject`. Their behavior is **undefined** if neither `#instance` nor `subject` is defined.
+
+### Property Examples
+
+These examples are shorthand for defining a reader and/or writer expectation.
+
+#### Has Property
+
+    include_examples 'has property', :foo, 42
+
+Delegates to the `#has_reader` and `#has_writer` matchers (see Core/Has Reader and Core/Has Writer, above) and passes if the actual object responds to the specified property and property writer methods. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'has property', :bar, ->() { an_instance_of(String) }
+
+    include_examples 'has property', :baz, ->(value) { value.count = 3 }
+
+#### Has Reader
+
+    include_examples 'has reader', :foo, 42
+
+Delegates to the `#has_reader` matcher (see Core/Has Reader, above) and passes if the actual object responds to the specified property. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'has reader', :bar, ->() { an_instance_of(String) }
+
+    include_examples 'has reader', :baz, ->(value) { value.count = 3 }
+
+#### Has Writer
+
+    include_examples 'has writer', :foo=
+
+Delegates to the `#has_writer` matcher (see Core/Has Writer, above) and passes if the actual object responds to the specified property writer.
 
 ### RSpec Matcher Examples
 
@@ -360,7 +418,7 @@ Verifies that the instance matcher will fail with a negative expectation (e.g. `
 
 In addition, verifies the `#failure_message_when_negated` of the matcher by comparing it against a `#failure_message_when_negated` method in the example group. This should be defined using `let(:failure_message_when_negated) { 'expected not to match' }`.
 
-See Fails With A Positive Expectatio, above, for behavior when the example group does not define `#failure_message_when_negated`.
+See Fails With A Positive Expectation, above, for behavior when the example group does not define `#failure_message_when_negated`.
 
 ## License
 

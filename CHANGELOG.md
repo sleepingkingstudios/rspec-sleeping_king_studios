@@ -8,6 +8,22 @@ Update the entire library to support RSpec 3. Most of the updates are purely int
 
 Support for Ruby 1.9.3 is officially dropped.
 
+### Concerns
+
+Added module RSpec::SleepingKingStudios::Examples::SharedExampleGroup as a mixin for defining scoped shared example groups. Extend into a module to define shared example groups scoped to that module (and automatically included in example groups when the module is included), or extend into an example group to allow aliasing shared example groups with alternate or more expressive names.
+
+### Custom Examples
+
+Added custom shared example groups for easier/more expressive tests.
+
+#### Property Examples
+
+Added 'has reader', 'has writer', and 'has property' examples as shorthand for defining property and attribute expectations.
+
+#### RSpec Matcher Examples
+
+Added custom examples for testing RSpec matchers. Replaces the (now removed) `pass_with_actual` and `fail_with_actual` matchers, which were fiddly and confusing (even for me) and couldn't handle all cases (such as failing on both `expect().to` and `expect().not_to`).
+
 ### Custom Matchers
 
 All matchers have been updated to support the RSpec 3 matcher API.
@@ -86,7 +102,7 @@ Added four new shared examples to test custom matchers:
 
 * The #construct and #respond_to matchers now support 2.1.0 required keyword
   arguments, of the form def foo(bar:, baz:). If the class constructor or
-  method requires one or more keyword arguments, and one or more of those 
+  method requires one or more keyword arguments, and one or more of those
   keywords are not provided when checking arguments using the #with
   method, the matcher will fail with the message "missing keywords" and a list
   of the keywords that were not provided as arguments to #with.
