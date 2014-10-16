@@ -1,9 +1,12 @@
 # lib/rspec/sleeping_king_studios/examples/rspec_matcher_examples.rb
 
 require 'rspec/sleeping_king_studios/examples'
+require 'rspec/sleeping_king_studios/examples/shared_example_group'
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 
 module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+  extend RSpec::SleepingKingStudios::Examples::SharedExampleGroup
+
   shared_examples 'passes with a positive expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
 
@@ -11,6 +14,7 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       expect(matcher_being_examined.matches? actual).to be true
     end # it
   end # shared_examples
+  alias_shared_examples 'should pass with a positive expectation', 'passes with a positive expectation'
 
   shared_examples 'fails with a positive expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
@@ -45,6 +49,7 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       end # if
     end # it
   end # shared_examples
+  alias_shared_examples 'should fail with a positive expectation', 'fails with a positive expectation'
 
   shared_examples 'passes with a negative expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
@@ -57,6 +62,7 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       end # if-else
     end # it
   end # shared_examples
+  alias_shared_examples 'should pass with a negative expectation', 'passes with a negative expectation'
 
   shared_examples 'fails with a negative expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
@@ -95,4 +101,5 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       end # if
     end # it
   end # shared_examples
+  alias_shared_examples 'should fail with a negative expectation', 'fails with a negative expectation'
 end # module

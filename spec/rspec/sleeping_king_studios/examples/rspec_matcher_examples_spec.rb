@@ -17,7 +17,11 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples do
 
     include_examples 'passes with a positive expectation'
 
+    include_examples 'should pass with a positive expectation'
+
     include_examples 'fails with a negative expectation'
+
+    include_examples 'should fail with a negative expectation'
   end # describe
 
   describe 'with a failing matcher' do
@@ -28,6 +32,10 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples do
 
     include_examples 'fails with a positive expectation'
 
+    include_examples 'should fail with a positive expectation'
+
     include_examples 'passes with a negative expectation'
+
+    include_examples 'should pass with a negative expectation'
   end # describe
 end # describe

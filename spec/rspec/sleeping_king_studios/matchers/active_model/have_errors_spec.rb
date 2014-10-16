@@ -12,7 +12,7 @@ describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher do
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
   let(:example_group) { self }
-  
+
   it { expect(example_group).to respond_to(:have_errors).with(0).arguments }
 
   it { expect(example_group.have_errors).to be_a described_class }
@@ -70,7 +70,7 @@ describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher do
         And when given an incorrect message,
           Evaluates to false with should message "expected to have errors on with message".
   SCENARIOS
-  
+
   describe 'with a non-record object' do
     let(:failure_message) do
       'to respond to :valid?'

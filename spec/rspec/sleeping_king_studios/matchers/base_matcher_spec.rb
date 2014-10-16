@@ -1,10 +1,13 @@
 # spec/rspec/sleeping_king_studios/matchers/base_matcher_spec.rb
 
 require 'rspec/sleeping_king_studios/spec_helper'
+require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 
 describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
+  include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+
   let(:instance) { described_class.new }
   let(:actual)   { Object.new }
 
