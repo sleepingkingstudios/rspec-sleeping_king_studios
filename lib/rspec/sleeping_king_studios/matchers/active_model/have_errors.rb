@@ -6,7 +6,7 @@ require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/error_exp
 
 module RSpec::SleepingKingStudios::Matchers::ActiveModel
   # Matcher for testing ActiveModel object validations.
-  # 
+  #
   # @since 1.0.0
   class HaveErrorsMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
     include RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors
@@ -19,16 +19,37 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       @error_expectations = []
     end # constructor
 
+    def description
+      message = 'have errors'
+
+      attribute_messages = @error_expectations.select(&:expected).map do |expectation|
+        attribute_message = ":#{expectation.attribute}"
+
+        error_messages = expectation.messages.select(&:expected).map do |message_expectation|
+          %{"#{message_expectation.message}"}
+        end # map
+
+        unless error_messages.empty?
+          attribute_message << " with #{error_messages.count == 1 ? 'message' : 'messages'} #{error_messages.join ', and '}"
+        end # unless
+
+        attribute_message
+      end # each
+      message << " on #{attribute_messages.join(", and on ")}" unless attribute_messages.empty?
+
+      message
+    end # method description
+
     # Checks if the object can be validated, whether the object is valid, and
     # checks the errors on the object against the expected errors and messages
     # from #on and #with_message, if any.
-    # 
+    #
     # @param [Object] actual the object to test against the matcher
-    # 
+    #
     # @return [Boolean] true if the object responds to :valid? and is valid
     #   or object.errors does not match the specified errors and messages (if
     #   any); otherwise false
-    # 
+    #
     # @see #matches?
     def does_not_match? actual
       @negative_expectation = true
@@ -41,9 +62,9 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     # Checks if the object can be validated, whether the object is valid, and
     # checks the errors on the object against the expected errors and messages
     # from #on and #with_message, if any.
-    # 
+    #
     # @param [Object] actual the object to test against the matcher
-    # 
+    #
     # @return [Boolean] true if the object responds to :valid?, is not valid,
     #   and object.errors matches the specified errors and messages (if any);
     #   otherwise false
@@ -58,53 +79,53 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
 
     # Adds an error expectation. If the actual object does not have an error on
     # the specified attribute, #matches? will return false.
-    # 
+    #
     # @param [String, Symbol] attribute
-    # 
+    #
     # @return [HaveErrorsMatcher] self
-    # 
+    #
     # @example Setting an error expectation
     #   expect(actual).to have_errors.on(:foo)
     def on attribute
       @error_expectations << ErrorExpectation.new(attribute)
-      
+
       self
     end # method on
 
     # Adds a message expectation for the most recently added error attribute.
     # If the actual object does not have an error on the that attribute with
     # the specified message, #matches? will return false.
-    # 
+    #
     # @param [String, Regexp] message the expected error message. If a string,
     #   matcher will check for an exact match; if a regular expression, matcher
     #   will check if the message matches the regexp
-    # 
+    #
     # @raise [ArgumentError] if no error attribute has been added
-    # 
+    #
     # @return [HaveErrorsMatcher] self
-    # 
+    #
     # @example Setting an error and a message expectation
     #   expect(actual).to have_errors.on(:foo).with("can't be blank")
-    # 
+    #
     # @see #on
     def with_message message
       raise ArgumentError.new "no attribute specified for error message" if
         @error_expectations.empty?
-        
+
       @error_expectations.last.messages << MessageExpectation.new(message)
-      
+
       self
     end # method with_message
 
     # Adds a set of message expectations for the most recently added error
     # attribute.
-    # 
+    #
     # @param [Array<String, Regexp>] messages
-    # 
+    #
     # @see #with_message
     def with_messages *messages
       messages.each do |message| self.with_message(message); end
-      
+
       self
     end # method with_message
     alias_method :with, :with_messages
@@ -136,7 +157,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       #   ("not to have errors on")
       # * expected specific messages on attribute, received all ("not to have
       #   errors on")
-      
+
       if !@validates
         "expected #{@actual.inspect} to respond to :valid?"
       elsif expected_errors.empty?
@@ -147,7 +168,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     end # method failure_message_when_negated
 
     private
-    
+
     def attributes_have_errors?
       # Iterate through the received errors and match them against the expected
       # errors and messages.
@@ -178,7 +199,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
               else
                 error_expectation.messages << MessageExpectation.new(message, false, true)
               end # if-else
-            end # each  
+            end # each
           end # unless
         else
           error_expectation = ErrorExpectation.new attribute, false, true
@@ -198,7 +219,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
         error_expectation.expected
       end # select
     end # method expected_errors
-    
+
     def missing_errors
       @error_expectations.select do |error_expectation|
         error_expectation.expected && !error_expectation.received
