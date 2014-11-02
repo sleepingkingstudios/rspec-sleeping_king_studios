@@ -49,4 +49,21 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers do
       end # describe
     end # describe
   end # describe
+
+  describe '#include Matcher' do
+    let(:passing_actual) { %w(foo bar baz) }
+    let(:failing_actual) { %w() }
+
+    describe 'with a value' do
+      it { expect(passing_actual).to include 'foo' }
+
+      it { expect(failing_actual).not_to include 'foo' }
+    end # describe
+
+    describe 'with a block' do
+      it { expect(passing_actual).to include { |value| value.length == 3 } }
+
+      it { expect(failing_actual).not_to include { |value| value.length == 3 } }
+    end # describe
+  end # describe
 end # describe

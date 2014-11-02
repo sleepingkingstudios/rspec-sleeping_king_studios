@@ -6,7 +6,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
   class IncludeMatcher < RSpec::Matchers::BuiltIn::Include
     # @param [Array<Hash, Proc, Object>] expected the items expected to be
     #   matched by the actual object
-    # 
+    #
     # @yield if a block is provided, the block is converted to a proc and
     #   appended to the item expectations
     # @yieldparam [Object] item an item from the actual object; yield(item)
@@ -14,6 +14,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     #    predicate
     def initialize *expected, &block
       expected << block if block_given?
+
       super *expected
     end # constructor
 
