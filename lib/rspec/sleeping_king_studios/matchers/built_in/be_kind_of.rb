@@ -1,17 +1,27 @@
 # lib/rspec/sleeping_king_studios/matchers/built_in/be_kind_of.rb
 
 require 'rspec/sleeping_king_studios/matchers/built_in'
+require 'sleeping_king_studios/tools/enumerable_tools'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   class BeAKindOfMatcher < RSpec::Matchers::BuiltIn::BeAKindOf
+    include SleepingKingStudios::Tools::EnumerableTools
+
+    # Generates a description of the matcher expectation.
+    #
+    # @return [String] The matcher description.
+    def description
+      message = "be #{type_string}"
+    end # method description
+
     # Checks if the object matches one of the specified types. Allows an
     # expected value of nil as a shortcut for expecting an instance of
     # NilClass.
-    # 
+    #
     # @param [Module, nil, Array<Module, nil>] expected the type or types to
     #   check the object against
     # @param [Object] actual the object to check
-    # 
+    #
     # @return [Boolean] true if the object matches one of the specified types,
     #   otherwise false
     def match expected, actual
@@ -22,14 +32,14 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     def failure_message
       "expected #{@actual.inspect} to be #{type_string}"
     end # method failure_message
-    
+
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
       "expected #{@actual.inspect} not to be #{type_string}"
     end # method failure_message_when_negated
 
     private
-    
+
     def match_type? expected
       case
       when expected.nil?
@@ -46,11 +56,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       when @expected.nil?
         @expected.inspect
       when @expected.is_a?(Enumerable) && 1 < @expected.count
-        if 2 == expected.count
-          "a #{expected.first.inspect} or #{expected.last.inspect}"
-        else
-          "a #{expected[0..-2].map(&:inspect).join(", ")}, or #{expected.last.inspect}"
-        end # if-else
+        "a #{humanize_list @expected.map { |value| value.nil? ? 'nil' : value }, :last_separator => ' or '}"
       else
         "a #{expected}"
       end # case

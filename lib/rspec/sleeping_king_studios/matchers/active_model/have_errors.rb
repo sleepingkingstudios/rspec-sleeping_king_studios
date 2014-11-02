@@ -23,6 +23,9 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       @error_expectations = []
     end # constructor
 
+    # Generates a description of the matcher expectation.
+    #
+    # @return [String] The matcher description.
     def description
       message = 'have errors'
 

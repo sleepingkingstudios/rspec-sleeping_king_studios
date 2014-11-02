@@ -1,6 +1,7 @@
 # rspec-sleeping_king_studios.gemspec
 
-require File.expand_path "lib/rspec/sleeping_king_studios/version"
+$: << './lib'
+require 'rspec/sleeping_king_studios/version'
 
 Gem::Specification.new do |gem|
   gem.name        = 'rspec-sleeping_king_studios'
@@ -20,8 +21,8 @@ Gem::Specification.new do |gem|
   gem.require_path = 'lib'
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
 
-  gem.add_runtime_dependency 'rspec',                       '~> 3.0'
-  gem.add_runtime_dependency 'sleeping_king_studios-tools', '~> 0.1'
+  gem.add_runtime_dependency 'rspec',                       '~> 3.1'
+  gem.add_runtime_dependency 'sleeping_king_studios-tools', '~> 0.1', '>= 0.1.2'
 
   gem.add_development_dependency 'rake',         '~> 10.3'
   gem.add_development_dependency 'activemodel',  '~> 3.0'
