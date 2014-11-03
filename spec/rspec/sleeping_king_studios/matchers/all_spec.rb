@@ -136,6 +136,15 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers do
     end # describe
   end # describe
 
+  describe '#have_writer Matcher' do
+    let(:passing_actual) { Struct.new(:foo).new('foo') }
+    let(:failing_actual) { Object.new }
+
+    it { expect(passing_actual).to have_writer :foo }
+
+    it { expect(failing_actual).not_to have_writer :foo }
+  end # describe
+
   describe '#include Matcher' do
     let(:passing_actual) { %w(foo bar baz) }
     let(:failing_actual) { %w() }
