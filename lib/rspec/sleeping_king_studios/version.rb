@@ -8,7 +8,7 @@ module RSpec
       MINOR = 0
       PATCH = 0
       PRERELEASE = 'beta'
-      BUILD = 1
+      BUILD = 2
 
       def self.to_gem_version
         str = "#{MAJOR}.#{MINOR}.#{PATCH}"
