@@ -10,7 +10,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
   let(:example_group) { self }
-  
+
   it { expect(example_group).to respond_to(:construct).with(0).arguments }
   it { expect(example_group.construct).to be_a described_class }
 
@@ -169,7 +169,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
     describe 'with valid keywords' do
       let(:failure_message_when_negated) do
-        "expected #{actual} not to construct with 0 arguments and keywords :a, :b"
+        "expected #{actual} not to construct with 0 arguments and keywords :a and :b"
       end # let
       let(:instance) { super().with(0, :a, :b) }
 
@@ -181,7 +181,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     describe 'with invalid keywords' do
       let(:failure_message) do
         "expected #{actual.inspect} to construct with arguments:"\
-        "\n  unexpected keywords :c, :d"
+        "\n  unexpected keywords :c and :d"
       end # let
       let(:instance) { super().with(0, :c, :d) }
 
@@ -205,7 +205,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # describe
 
     describe 'with valid keywords' do
-      let(:failure_message_when_negated) { "expected #{actual} not to construct with 0 arguments and keywords :a, :b" }
+      let(:failure_message_when_negated) { "expected #{actual} not to construct with 0 arguments and keywords :a and :b" }
       let(:instance) { super().with(0, :a, :b) }
 
       include_examples 'passes with a positive expectation'
@@ -214,7 +214,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # describe
 
     describe 'with random keywords' do
-      let(:failure_message_when_negated) { "expected #{actual} not to construct with 0 arguments and keywords :c, :d" }
+      let(:failure_message_when_negated) { "expected #{actual} not to construct with 0 arguments and keywords :c and :d" }
       let(:instance) { super().with(0, :c, :d) }
 
       include_examples 'passes with a positive expectation'
@@ -241,7 +241,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       describe 'with missing keywords' do
         let(:failure_message) do
           "expected #{actual.inspect} to construct with arguments:"\
-          "\n  missing keywords :c, :d"
+          "\n  missing keywords :c and :d"
         end # let
         let(:instance) { super().with(0, :a, :b) }
 
@@ -252,7 +252,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
       describe 'with valid keywords' do
         let(:failure_message_when_negated) do
-          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
+          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, and :d"
         end # let
         let(:instance) { super().with(0, :a, :b, :c, :d) }
 
@@ -264,7 +264,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       describe 'with invalid keywords' do
         let(:failure_message) do
           "expected #{actual.inspect} to construct with arguments:"\
-          "\n  unexpected keywords :e, :f"
+          "\n  unexpected keywords :e and :f"
         end # let
         let(:instance) { super().with(:c, :d, :e, :f) }
 
@@ -276,8 +276,8 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       describe 'with invalid and missing keywords' do
         let(:failure_message) do
           "expected #{actual.inspect} to construct with arguments:"\
-          "\n  missing keywords :c, :d"\
-          "\n  unexpected keywords :e, :f"
+          "\n  missing keywords :c and :d"\
+          "\n  unexpected keywords :e and :f"
         end # let
         let(:instance) { super().with(0, :e, :f) }
 
@@ -304,7 +304,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       describe 'with missing keywords' do
         let(:failure_message) do
           "expected #{actual.inspect} to construct with arguments:"\
-          "\n  missing keywords :c, :d"
+          "\n  missing keywords :c and :d"
         end # let
         let(:instance) { super().with(0, :a, :b) }
 
@@ -315,7 +315,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
       describe 'with valid keywords' do
         let(:failure_message_when_negated) do
-          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d"
+          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, and :d"
         end # let
         let(:instance) { super().with(0, :a, :b, :c, :d) }
 
@@ -326,7 +326,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
       describe 'with random keywords' do
         let(:failure_message_when_negated) do
-          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d, :e, :f"
+          "expected #{actual} not to construct with 0 arguments and keywords :a, :b, :c, :d, :e, and :f"
         end # let
         let(:instance) { super().with(0, :a, :b, :c, :d, :e, :f) }
 

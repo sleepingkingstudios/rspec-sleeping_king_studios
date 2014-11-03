@@ -30,6 +30,53 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers do
     end # describe
   end # describe
 
+  describe '#construct Matcher' do
+    let(:passing_actual) do
+      Class.new do
+        def initialize a, b = nil; end
+      end # class
+    end # let
+    let(:failing_actual) { Object.new }
+
+    it { expect(passing_actual).to construct }
+
+    it { expect(failing_actual).not_to construct }
+
+    describe 'with an argument count' do
+      it { expect(passing_actual).to construct.with(1).argument }
+
+      it { expect(failing_actual).not_to construct.with(1).argument }
+    end # describe
+
+    describe 'with an argument range' do
+      it { expect(passing_actual).to construct.with(1..2).arguments }
+
+      it { expect(failing_actual).not_to construct.with(1..2).arguments }
+    end # describe
+
+    describe 'with keyword arguments' do
+      let(:passing_actual) do
+        Class.new do
+          def initialize a, b = nil, c: nil, d: nil; end
+        end # class
+      end # let
+
+      it { expect(passing_actual).to construct.with(:c, :d) }
+
+      it { expect(failing_actual).not_to construct.with(:c, :d) }
+    end # describe
+
+    describe 'with mixed arguments' do
+      let(:passing_actual) do
+        Class.new do
+          def initialize a, b = nil, c: nil, d: nil, &block; end
+        end # class
+      end # let
+
+      it { expect(passing_actual).to construct.with(1..2, :c, :d) }
+    end # describe
+  end # describe
+
   describe '#have_errors Matcher' do
     let(:passing_actual) { FactoryGirl.build :active_model }
     let(:failing_actual) { FactoryGirl.build :active_model, :foo => '100110', :bar => 'The Fox And The Hound' }
