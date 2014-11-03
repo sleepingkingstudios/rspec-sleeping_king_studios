@@ -4,6 +4,15 @@ require 'rspec/sleeping_king_studios/spec_helper'
 require 'rspec/sleeping_king_studios/matchers/all'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers do
+  describe '#be_boolean' do
+    let(:passing_actual) { true }
+    let(:failing_actual) { nil }
+
+    it { expect(passing_actual).to be_boolean }
+
+    it { expect(failing_actual).not_to be_boolean }
+  end # describe
+
   describe '#be_kind_of Matcher' do
     let(:passing_actual) { "I'm a String!" }
     let(:failing_actual) { Object.new }
