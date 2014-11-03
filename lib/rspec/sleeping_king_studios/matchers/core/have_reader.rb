@@ -7,10 +7,18 @@ require 'rspec/sleeping_king_studios/matchers/shared/match_property'
 module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for testing whether an object has a specific property reader, e.g.
   # responds to :property.
-  # 
+  #
   # @since 1.0.0
   class HaveReaderMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchProperty
+
+    # Generates a description of the matcher expectation.
+    #
+    # @return [String] The matcher description.
+    def description
+      value_message = value_to_string
+      "have reader :#{@expected}#{@value_set ? " with value #{value_message}" : ''}"
+    end # method description
 
     # @param [String, Symbol] expected the property to check for on the actual
     #   object
@@ -21,9 +29,9 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # Checks if the object responds to :expected. Additionally, if a value
     # expectation is set, compares the value of :expected to the specified
     # value.
-    # 
+    #
     # @param [Object] actual the object to check
-    # 
+    #
     # @return [Boolean] true if the object responds to :expected and matches
     #    the value expectation (if any); otherwise false
     def matches? actual
@@ -34,9 +42,9 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # Sets a value expectation. The matcher will compare the value from
     # :property with the specified value.
-    # 
+    #
     # @param [Object] value the value to compare
-    # 
+    #
     # @return [HaveReaderMatcher] self
     def with value
       @value = value

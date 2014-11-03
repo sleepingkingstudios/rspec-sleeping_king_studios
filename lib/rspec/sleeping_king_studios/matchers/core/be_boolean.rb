@@ -5,13 +5,20 @@ require 'rspec/sleeping_king_studios/matchers/core'
 
 module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for testing whether an object is true or false.
-  # 
+  #
   # @since 1.0.0
   class BeBooleanMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    # Generates a description of the matcher expectation.
+    #
+    # @return [String] The matcher description.
+    def description
+      'be true or false'
+    end # method description
+
     # Checks if the object is true or false.
-    # 
+    #
     # @param [Object] actual the object to check
-    # 
+    #
     # @return [Boolean] true if the object is true or false, otherwise false
     def matches? actual
       super

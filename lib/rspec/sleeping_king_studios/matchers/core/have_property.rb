@@ -8,10 +8,18 @@ module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for testing whether an object has a specific property, e.g.
   # responds to :property and :property= and :property= updates the value of
   # :property.
-  # 
+  #
   # @since 1.0.0
   class HavePropertyMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchProperty
+
+    # Generates a description of the matcher expectation.
+    #
+    # @return [String] The matcher description.
+    def description
+      value_message = value_to_string
+      "have property :#{@expected}#{@value_set ? " with value #{value_message}" : ''}"
+    end # method description
 
     # @param [String, Symbol] expected the property to check for on the actual
     #   object
@@ -26,11 +34,11 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end # method does_not_match?
 
     # Checks if the object responds to :expected and :expected=. Additionally,
-    # if a value expectation is set, assigns the value via :expected= and
-    # compares the subsequent value of :expected to the specified value.
-    # 
+    # if a value expectation is set, compares the result of calling :expected
+    # to the value.
+    #
     # @param [Object] actual the object to check
-    # 
+    #
     # @return [Boolean] true if the object responds to :expected and
     #   :expected= and matches the value expectation (if any); otherwise false
     def matches? actual
@@ -39,12 +47,11 @@ module RSpec::SleepingKingStudios::Matchers::Core
       matches_property?(:all?)
     end # method matches?
 
-    # Sets a value expectation. The matcher will set the object's value to the
-    # specified value using :property=, then compare the value from :property
-    # with the specified value.
-    # 
+    # Sets a value expectation. The matcher will compare the value to the
+    # result of calling :property.
+    #
     # @param [Object] value the value to set and then compare
-    # 
+    #
     # @return [HavePropertyMatcher] self
     def with value
       @value = value
