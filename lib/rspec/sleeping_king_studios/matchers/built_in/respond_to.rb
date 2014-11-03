@@ -3,10 +3,14 @@
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/built_in'
 require 'rspec/sleeping_king_studios/matchers/shared/match_parameters'
+require 'sleeping_king_studios/tools/enumerable_tools'
+require 'sleeping_king_studios/tools/string_tools'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   class RespondToMatcher < RSpec::Matchers::BuiltIn::RespondTo
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
+    include SleepingKingStudios::Tools::EnumerableTools
+    include SleepingKingStudios::Tools::StringTools
 
     def initialize *expected
       @include_all = [true, false].include?(expected.last) ? expected.pop : false
@@ -14,29 +18,37 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       super(*expected)
     end # constructor
 
+    # Generates a description of the matcher expectation.
+    #
+    # @return [String] The matcher description.
+    def description
+      expected_message = format_expected_arguments
+      "respond to #{pp_names}#{expected_message.empty? ? '' : " with #{expected_message}"}"
+    end # method description
+
     # @overload with count
     #   Adds a parameter count expectation.
-    # 
+    #
     #   @param [Integer, Range, nil] count (optional) The number of expected
     #     parameters.
-    # 
+    #
     #   @return [RespondToMatcher] self
     # @overload with *keywords
     #   Adds one or more keyword expectations (Ruby 2.0 only).
-    # 
+    #
     #   @param [Array<String, Symbol>] keywords List of keyword arguments
     #     accepted by the method.
-    # 
+    #
     #   @return [RespondToMatcher] self
     # @overload with count, *keywords
     #   Adds a parameter count expectation and one or more keyword
     #   expectations (Ruby 2.0 only).
-    # 
+    #
     #   @param [Integer, Range, nil] count (optional) The number of expected
     #     parameters.
     #   @param [Array<String, Symbol>] keywords List of keyword arguments
     #     accepted by the method.
-    # 
+    #
     #   @return [RespondToMatcher] self
     def with *keywords
       @expected_arity    = keywords.shift if Integer === keywords.first || Range === keywords.first
@@ -47,7 +59,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     # Adds a block expectation. The actual object will only match a block
     # expectation if it expects a parameter of the form &block.
-    # 
+    #
     # @return [RespondToMatcher] self
     def with_a_block
       @expected_block = true
@@ -130,7 +142,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         raise error
       end # if-else
     end # method matches_keywords?
-    
+
     def matches_block? actual, name
       return true unless @expected_block
 
@@ -144,32 +156,25 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     def format_expected_arguments
       messages = []
-      
+
       if !@expected_arity.nil?
-        messages << "#{@expected_arity.inspect} argument#{1 == @expected_arity ? "" : "s"}"
+        messages << "#{@expected_arity.inspect} #{pluralize @expected_arity, 'argument', 'arguments'}"
       end # if
 
       if !(@expected_keywords.nil? || @expected_keywords.empty?)
-        messages << "keywords #{@expected_keywords.map(&:inspect).join(", ")}"
+        messages << "#{pluralize @expected_keywords.count, 'keyword', 'keywords'} #{humanize_list @expected_keywords.map(&:inspect)}"
       end # if
 
       if @expected_block
         messages << "a block"
       end # if
 
-      case messages.count
-      when 0..1
-        messages.join(", ")
-      when 2
-        "#{messages[0]} and #{messages[1]}"
-      else
-        "#{messages[1..-1].join(", ")}, and #{messages[0]}"
-      end # case
+      humanize_list messages
     end # method format_expected_arguments
 
     def format_errors_for_method method
       reasons, messages = @failing_method_reasons[method], []
-      
+
       if hsh = reasons.fetch(:not_enough_args, false)
         messages << "  expected at least #{hsh[:count]} arguments, but received #{hsh[:arity]}"
       elsif hsh = reasons.fetch(:too_many_args, false)
@@ -177,11 +182,11 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       end # if-elsif
 
       if ary = reasons.fetch(:missing_keywords, false)
-        messages << "  missing keywords #{ary.map(&:inspect).join(", ")}"
+        messages << "  missing #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"
       end # if
 
       if ary = reasons.fetch(:unexpected_keywords, false)
-        messages << "  unexpected keywords #{ary.map(&:inspect).join(", ")}"
+        messages << "  unexpected #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"
       end # if
 
       if reasons.fetch(:expected_block, false)
@@ -189,7 +194,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       end # if
 
       messages.join "\n"
-    end # method format_errors_for_method  
+    end # method format_errors_for_method
   end # class
 end # module
 

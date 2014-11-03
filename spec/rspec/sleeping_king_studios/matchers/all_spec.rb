@@ -66,4 +66,63 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers do
       it { expect(failing_actual).not_to include { |value| value.length == 3 } }
     end # describe
   end # describe
+
+  describe '#respond_to Matcher' do
+    let(:passing_actual) do
+      Class.new do
+        def foo a, b = nil; end
+      end.new
+    end # let
+    let(:failing_actual) { Object.new }
+
+    it { expect(passing_actual).to respond_to(:foo) }
+
+    it { expect(failing_actual).not_to respond_to(:foo) }
+
+    describe 'with an argument count' do
+      it { expect(passing_actual).to respond_to(:foo).with(1).argument }
+
+      it { expect(failing_actual).not_to respond_to(:foo).with(1).argument }
+    end # describe
+
+    describe 'with an argument range' do
+      it { expect(passing_actual).to respond_to(:foo).with(1..2).arguments }
+
+      it { expect(failing_actual).not_to respond_to(:foo).with(1..2).arguments }
+    end # describe
+
+    describe 'with keyword arguments' do
+      let(:passing_actual) do
+        Class.new do
+          def foo a, b = nil, c: nil, d: nil; end
+        end.new
+      end # let
+
+      it { expect(passing_actual).to respond_to(:foo).with(:c, :d) }
+
+      it { expect(failing_actual).not_to respond_to(:foo).with(:c, :d) }
+    end # describe
+
+    describe 'with a block' do
+      let(:passing_actual) do
+        Class.new do
+          def foo &block; end
+        end.new
+      end # let
+
+      it { expect(passing_actual).to respond_to(:foo).with_a_block }
+
+      it { expect(failing_actual).not_to respond_to(:foo).with_a_block }
+    end # describe
+
+    describe 'with mixed arguments' do
+      let(:passing_actual) do
+        Class.new do
+          def foo a, b = nil, c: nil, d: nil, &block; end
+        end.new
+      end # let
+
+      it { expect(passing_actual).to respond_to(:foo).with(1..2, :c, :d).with_a_block }
+    end # describe
+  end # describe
 end # describe
