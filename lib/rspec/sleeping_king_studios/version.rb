@@ -15,9 +15,9 @@ module RSpec
       # Patch version.
       PATCH = 0
       # Prerelease version.
-      PRERELEASE = 'beta'
+      PRERELEASE = 'rc'
       # Build metatada.
-      BUILD = 2
+      BUILD = 0
 
       # Generates the gem version string from the Version constants.
       def self.to_gem_version
