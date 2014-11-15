@@ -30,6 +30,11 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
     it { expect(instance.with_a_block).to be instance }
   end # describe
 
+  describe '#and_a_block' do
+    it { expect(instance).to respond_to(:and_a_block).with(0).arguments }
+    it { expect(instance.and_a_block).to be instance }
+  end # describe
+
   <<-SCENARIOS
     When there is no matching method,
       Evaluates to false with should message "to respond to".

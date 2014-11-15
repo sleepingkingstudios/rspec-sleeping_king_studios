@@ -1,8 +1,25 @@
-# lib/rspec/sleeping_king_studios/examples/shared_example_group.rb
+# lib/rspec/sleeping_king_studios/concerns/shared_example_group.rb
 
-require 'rspec/sleeping_king_studios/examples'
+require 'rspec/sleeping_king_studios/concerns'
 
-module RSpec::SleepingKingStudios::Examples
+module RSpec::SleepingKingStudios::Concerns
+  # Methods for creating reusable shared example groups and shared contexts in
+  # a module that can be mixed into multiple RSpec example groups.
+  #
+  # @example
+  #   module MySharedExamples
+  #     extend Rspec::SleepingKingStudios::Concerns::SharedExampleGroup
+  #
+  #     shared_examples 'my examples' do
+  #       # Define shared examples here.
+  #     end # shared_examples
+  #   end # module
+  #
+  #   RSpec.describe MyObject do
+  #     include MySharedExamples
+  #
+  #     include_examples 'my examples'
+  #   end # describe
   module SharedExampleGroup
     # Aliases a defined shared example group, allowing it to be accessed using
     # a new name. The example group must be defined in the current context
@@ -14,11 +31,17 @@ module RSpec::SleepingKingStudios::Examples
     #   as.
     # @param [String] old_name The name under which the shared example group is
     #   currently defined.
+    #
+    # @raise ArgumentError If the referenced shared example group does not
+    #   exist.
     def alias_shared_examples new_name, old_name
       proc = shared_example_groups[self][old_name]
 
+      raise ArgumentError.new(%{Could not find shared examples "#{old_name}"}) if proc.nil?
+
       self.shared_examples new_name, &proc
     end # method alias_shared_examples
+    alias_method :alias_shared_context, :alias_shared_examples
 
     # @api private
     def included other
@@ -44,6 +67,7 @@ module RSpec::SleepingKingStudios::Examples
     def shared_examples name, *metadata_args, &block
       RSpec.world.shared_example_group_registry.add(self, name, *metadata_args, &block)
     end # method shared_examples
+    alias_method :shared_context, :shared_examples
 
     private
 

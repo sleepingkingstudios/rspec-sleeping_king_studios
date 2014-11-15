@@ -41,10 +41,10 @@ RSpec::SleepingKingStudios defines a few concerns that can be included in or ext
 
 ### Shared Example Groups
 
-    require 'rspec/sleeping_king_studios/examples/shared_example_group'
+    require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 
     module MyCustomExamples
-      extend RSpec::SleepingKingStudios::Examples::SharedExampleGroup
+      extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
       shared_examples 'has custom behavior' do
         # Define expectations here...
@@ -56,11 +56,11 @@ Utility functions for defining shared examples. If included in a module, any sha
 
 ### `::alias_shared_examples`
 
-Aliases a defined shared example group, allowing it to be accessed using a new name. The example group must be defined in the current context using `shared_examples`. The aliases must be defined before including the module into an example group, or they will not be available in the example group.
+(also `::alias_shared_context`) Aliases a defined shared example group, allowing it to be accessed using a new name. The example group must be defined in the current context using `shared_examples`. The aliases must be defined before including the module into an example group, or they will not be available in the example group.
 
 ### `::shared_examples`
 
-Defines a shared example group within the context of the current module. Unlike a top-level example group defined using RSpec#shared_examples, these examples are not globally available, and must be mixed into an example group by including the module. The shared examples must be defined before including the module, or they will not be available in the example group.
+(also `::shared_context`) Defines a shared example group within the context of the current module. Unlike a top-level example group defined using RSpec#shared_examples, these examples are not globally available, and must be mixed into an example group by including the module. The shared examples must be defined before including the module, or they will not be available in the example group.
 
 ## Custom Matchers
 
@@ -149,8 +149,11 @@ Now has additional chaining functionality to validate the number of arguments ac
 
 **How To Use:**
 
-    # With a variable number of arguments.
-    expect(instance).to respond_to(:foo).with(2..3).arguments.with_a_block
+    # With a block.
+    expect(instance).to respond_to(:foo).with_a_block.
+
+    # With a variable number of arguments and a block.
+    expect(instance).to respond_to(:foo).with(2..3).arguments.and_a_block
 
     # With keyword arguments.
     expect(instance).to respond_to(:foo).with(0, :bar, :baz)
@@ -158,7 +161,7 @@ Now has additional chaining functionality to validate the number of arguments ac
 **Chaining:**
 
 * **with:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
-* **with\_a\_block:** No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
+* **with\_a\_block:** (also `and_a_block`) No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
 
 ### Core
 

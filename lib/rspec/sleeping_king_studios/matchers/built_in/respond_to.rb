@@ -65,6 +65,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       @expected_block = true
       self
     end # method with_a_block
+    alias_method :and_a_block, :with_a_block
 
     # @see BaseMatcher#failure_message
     def failure_message
