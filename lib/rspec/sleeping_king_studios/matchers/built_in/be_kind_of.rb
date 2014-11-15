@@ -4,12 +4,11 @@ require 'rspec/sleeping_king_studios/matchers/built_in'
 require 'sleeping_king_studios/tools/enumerable_tools'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
+  # Extensions to the built-in RSpec #be_kind_of matcher.
   class BeAKindOfMatcher < RSpec::Matchers::BuiltIn::BeAKindOf
     include SleepingKingStudios::Tools::EnumerableTools
 
-    # Generates a description of the matcher expectation.
-    #
-    # @return [String] The matcher description.
+    # (see BaseMatcher#description)
     def description
       message = "be #{type_string}"
     end # method description
@@ -18,22 +17,22 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     # expected value of nil as a shortcut for expecting an instance of
     # NilClass.
     #
-    # @param [Module, nil, Array<Module, nil>] expected the type or types to
-    #   check the object against
-    # @param [Object] actual the object to check
+    # @param [Module, nil, Array<Module, nil>] expected The type or types to
+    #   check the object against.
+    # @param [Object] actual The object to check.
     #
-    # @return [Boolean] true if the object matches one of the specified types,
-    #   otherwise false
+    # @return [Boolean] True if the object matches one of the specified types,
+    #   otherwise false.
     def match expected, actual
       match_type? expected
     end # method match
 
-    # @see BaseMatcher#failure_message
+    # (see BaseMatcher#failure_message)
     def failure_message
       "expected #{@actual.inspect} to be #{type_string}"
     end # method failure_message
 
-    # @see BaseMatcher#failure_message_when_negated
+    # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       "expected #{@actual.inspect} not to be #{type_string}"
     end # method failure_message_when_negated

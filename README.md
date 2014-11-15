@@ -112,12 +112,11 @@ Verifies that the actual object has validation errors. Optionally can specify in
 
 These extend the built-in RSpec matchers with additional functionality.
 
-#### be\_kind\_of Matcher
+#### `#be_kind_of` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/built_in/be_kind_of'
 
-Now accepts an Array of types. The matcher passes if the actual object is
-any of the parameter types.
+Now accepts an Array of types. The matcher passes if the actual object is any of the parameter types.
 
 Also allows nil parameter as a shortcut for NilClass.
 
@@ -126,19 +125,17 @@ Also allows nil parameter as a shortcut for NilClass.
     expect(instance).to be_kind_of [String, Symbol, nil]
     #=> passes iff instance is a String, a Symbol, or is nil
 
-#### include Matcher
+#### `#include` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/built_in/include'
 
-Now accepts Proc parameters; items in the actual object are passed into
-proc#call, with a truthy response considered a match to the item. In addition,
-now accepts an optional block as a shortcut for adding a proc expectation.
+Now accepts Proc parameters; items in the actual object are passed into proc#call, with a truthy response considered a match to the item. In addition, now accepts an optional block as a shortcut for adding a proc expectation.
 
 **How To Use:**
 
     expect(instance).to include { |item| item =~ /pattern/ }
 
-#### respond\_to Matcher
+#### `#respond_to` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
@@ -157,8 +154,8 @@ Now has additional chaining functionality to validate the number of arguments ac
 
 **Chaining:**
 
-* **with:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
-* **with\_a\_block:** (also `and_a_block`) No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
+* **`with`:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
+* **`with_a_block`:** (also `and_a_block`) No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
 
 ### Core
 

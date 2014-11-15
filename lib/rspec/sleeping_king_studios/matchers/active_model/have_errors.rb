@@ -18,14 +18,12 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     def initialize
       super
 
-      # The error and message expectations set up through #on and
+      # The error and message expectations are set up through #on and
       # #with_message.
       @error_expectations = []
     end # constructor
 
-    # Generates a description of the matcher expectation.
-    #
-    # @return [String] The matcher description.
+    # (see BaseMatcher#description)
     def description
       message = 'have errors'
 
@@ -51,11 +49,11 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     # checks the errors on the object against the expected errors and messages
     # from #on and #with_message, if any.
     #
-    # @param [Object] actual the object to test against the matcher
+    # @param [Object] actual The object to test against the matcher.
     #
-    # @return [Boolean] true if the object responds to :valid? and is valid
+    # @return [Boolean] True if the object responds to :valid? and is valid
     #   or object.errors does not match the specified errors and messages (if
-    #   any); otherwise false
+    #   any); otherwise false.
     #
     # @see #matches?
     def does_not_match? actual
@@ -70,11 +68,12 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     # checks the errors on the object against the expected errors and messages
     # from #on and #with_message, if any.
     #
-    # @param [Object] actual the object to test against the matcher
+    # @param [Object] actual The object to test against the matcher.
     #
-    # @return [Boolean] true if the object responds to :valid?, is not valid,
+    # @return [Boolean] True if the object responds to :valid?, is not valid,
     #   and object.errors matches the specified errors and messages (if any);
-    #   otherwise false
+    #   otherwise false.
+    #
     # @see RSpec::SleepingKingStudios::Matchers::BaseMatcher#matches?
     def matches? actual
       super
@@ -103,11 +102,11 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     # If the actual object does not have an error on the that attribute with
     # the specified message, #matches? will return false.
     #
-    # @param [String, Regexp] message the expected error message. If a string,
+    # @param [String, Regexp] message The expected error message. If a string,
     #   matcher will check for an exact match; if a regular expression, matcher
-    #   will check if the message matches the regexp
+    #   will check if the message matches the regexp.
     #
-    # @raise [ArgumentError] if no error attribute has been added
+    # @raise [ArgumentError] If no error attribute has been added.
     #
     # @return [HaveErrorsMatcher] self
     #
@@ -137,7 +136,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     end # method with_message
     alias_method :with, :with_messages
 
-    # @see BaseMatcher#failure_message
+    # (see BaseMatcher#failure_message)
     def failure_message
       # Failure cases:
       # * object is not a model ("to respond to valid")
@@ -154,7 +153,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       end # if-elsif-else
     end # method failure_message
 
-    # @see BaseMatcher#failure_message_when_negated
+    # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       # Failure cases:
       # * object is not a model ("to respond to valid")

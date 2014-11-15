@@ -7,6 +7,7 @@ require 'sleeping_king_studios/tools/enumerable_tools'
 require 'sleeping_king_studios/tools/string_tools'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
+  # Extensions to the built-in RSpec #respond_to matcher.
   class RespondToMatcher < RSpec::Matchers::BuiltIn::RespondTo
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
     include SleepingKingStudios::Tools::EnumerableTools
@@ -18,14 +19,15 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       super(*expected)
     end # constructor
 
-    # Generates a description of the matcher expectation.
-    #
-    # @return [String] The matcher description.
+    # (see BaseMatcher#description)
     def description
       expected_message = format_expected_arguments
       "respond to #{pp_names}#{expected_message.empty? ? '' : " with #{expected_message}"}"
     end # method description
 
+    # Adds a parameter count expectation and/or one or more keyword
+    # expectations.
+    #
     # @overload with count
     #   Adds a parameter count expectation.
     #
@@ -34,7 +36,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     #
     #   @return [RespondToMatcher] self
     # @overload with *keywords
-    #   Adds one or more keyword expectations (Ruby 2.0 only).
+    #   Adds one or more keyword expectations.
     #
     #   @param [Array<String, Symbol>] keywords List of keyword arguments
     #     accepted by the method.
@@ -42,7 +44,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     #   @return [RespondToMatcher] self
     # @overload with count, *keywords
     #   Adds a parameter count expectation and one or more keyword
-    #   expectations (Ruby 2.0 only).
+    #   expectations.
     #
     #   @param [Integer, Range, nil] count (optional) The number of expected
     #     parameters.
@@ -67,7 +69,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     end # method with_a_block
     alias_method :and_a_block, :with_a_block
 
-    # @see BaseMatcher#failure_message
+    # (see BaseMatcher#failure_message)
     def failure_message
       @failing_method_names ||= []
       methods, messages = @failing_method_names, []
@@ -83,7 +85,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       messages.join "\n"
     end # method failure_message
 
-    # @see BaseMatcher#failure_message_when_negated
+    # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       @failing_method_names ||= []
       methods, messages = @failing_method_names, []
