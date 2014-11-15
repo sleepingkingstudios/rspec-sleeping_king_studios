@@ -16,9 +16,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     include SleepingKingStudios::Tools::EnumerableTools
     include SleepingKingStudios::Tools::StringTools
 
-    # Generates a description of the matcher expectation.
-    #
-    # @return [String] The matcher description.
+    # (see BaseMatcher#description)
     def description
       expected_message = format_expected_arguments
       "construct#{expected_message.empty? ? '' : " with #{expected_message}"}"
@@ -28,10 +26,10 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # checks the parameters expected by #initialize against the expected
     # parameters, if any.
     #
-    # @param [Object] actual the object to check
+    # @param [Object] actual The object to check.
     #
-    # @return [Boolean] true if the object responds to :new and accepts the
-    #   specified parameters for #initialize; otherwise false
+    # @return [Boolean] True if the object responds to :new and accepts the
+    #   specified parameters for #initialize; otherwise false.
     def matches? actual
       @actual = actual
       @failing_method_reasons = {}
@@ -40,30 +38,33 @@ module RSpec::SleepingKingStudios::Matchers::Core
         matches_keywords?(actual)
     end # method matches?
 
-    # @overload with(count)
-    #   Adds a parameter count expectation and removes any keyword expectations
-    #   (Ruby 2.0+ only).
+    # Adds a parameter count expectation and/or one or more keyword
+    # expectations.
     #
-    #   @param [Integer, Range] count the number of expected parameters
+    # @overload with(count)
+    #   Adds a parameter count expectation and removes any keyword
+    #   expectations.
+    #
+    #   @param [Integer, Range] count The number of expected parameters.
     #
     #   @return [ConstructMatcher] self
     #
     # @overload with(count, *keywords)
-    #   Adds a parameter count expectation and one or more keyword expectations
-    #   (Ruby 2.0 only).
+    #   Adds a parameter count expectation and one or more keyword
+    #   expectations.
     #
-    #   @param [Integer, Range] count the number of expected parameters
-    #   @param [Array<String, Symbol>] keywords list of keyword arguments
-    #     accepted by the method
+    #   @param [Integer, Range] count The number of expected parameters.
+    #   @param [Array<String, Symbol>] keywords List of keyword arguments
+    #     accepted by the method.
     #
     #   @return [ConstructMatcher] self
     #
     # @overload with(*keywords)
     #   Removes a parameter count expectation (if any) and adds one or more
-    #   keyword expectations (Ruby 2.0 only).
+    #   keyword expectations.
     #
-    #   @param [Array<String, Symbol>] keywords list of keyword arguments
-    #     accepted by the method
+    #   @param [Array<String, Symbol>] keywords List of keyword arguments
+    #     accepted by the method.
     #
     #   @return [ConstructMatcher] self
     def with *keywords
@@ -82,14 +83,14 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end # method argument
     alias_method :arguments, :argument
 
-    # @see BaseMatcher#failure_message
+    # (see BaseMatcher#failure_message)
     def failure_message
       message = "expected #{@actual.inspect} to construct"
       message << " with arguments:\n#{format_errors}" if @actual.respond_to?(:new)
       message
     end # method failure_message
 
-    # @see BaseMatcher#failure_message_when_negated
+    # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       message = "expected #{@actual.inspect} not to construct"
       unless (formatted = format_expected_arguments).empty?

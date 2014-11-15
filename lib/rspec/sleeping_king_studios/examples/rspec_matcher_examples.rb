@@ -4,6 +4,7 @@ require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 require 'rspec/sleeping_king_studios/examples'
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 
+# Pregenerated example groups for testing RSpec matchers.
 module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
   extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 

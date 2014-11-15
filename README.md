@@ -154,17 +154,16 @@ Now has additional chaining functionality to validate the number of arguments ac
 
 **Chaining:**
 
-* **`with`:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
-* **`with_a_block`:** (also `and_a_block`) No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
+* **`#with`:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
+* **`#with_a_block`:** (also `and_a_block`) No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
 
 ### Core
 
     require 'rspec/sleeping_king_studios/matchers/core/all'
 
-These matchers check core functionality, such as object boolean-ness, the
-existence of properties, and so on.
+These matchers check core functionality, such as object boolean-ness, the existence of properties, and so on.
 
-#### be_boolean Matcher
+#### `#be_boolean` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
 
@@ -176,46 +175,31 @@ Checks if the provided object is true or false.
 
 **Parameters:** None.
 
-#### construct Matcher
+#### `#construct` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/construct'
 
-Verifies that the actual object can be constructed using :new. Can take an
-optional number of arguments.
+Verifies that the actual object can be constructed using `::new`. Can take an optional number of arguments.
 
 **How To Use:**
 
+    # With an expected number of arguments.
     expect(described_class).to construct.with(1).arguments
+
+    # With an expected number of arguments and set of keywords.
+    expect(instance).to construct.with(0, :bar, :baz)
 
 **Parameters:** None.
 
 **Chaining:**
 
-* **with:** Expects one Integer or Range argument. If an Integer, verifies that
-  the class's constructor accepts that number of arguments; if a Range,
-  verifies that the constructor accepts both the minimum and maximum number of
-  arguments.
+* **`#with`:** Expects one Integer, Range, or nil argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the class's constructor accepts that keyword, or has a variadic keyword of the form `**params`.  As of Ruby 2.1 and required keywords, verifies that all required keywords are provided.
 
-##### Ruby 2.0+
-
-Has additional functionality to support Ruby 2.0 keyword arguments.
-
-**How To Use:**
-  expect(instance).to construct.with(0, :bar, :baz)
-
-**Chaining:**
-
-* **with:** Expects one Integer, Range, or nil argument, and zero or more
-  Symbol arguments corresponding to optional keywords. Verifies that the
-  class's constructor accepts that keyword, or has a variadic keyword of the
-  form \*\*params.  As of 2.1.0 and required keywords, verifies that all
-  required keywords are provided.
-
-#### have\_property Matcher
+#### `#have_property` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_property'
 
-Checks if the actual object responds to :property and :property=, and optionally if the curernt value of actual.property is equal to a specified value.
+Checks if the actual object responds to `#property` and `#property=`, and optionally if the current value of `actual.property()` is equal to a specified value.
 
 **How To Use:**
 
@@ -225,18 +209,15 @@ Checks if the actual object responds to :property and :property=, and optionally
 
 **Chaining:**
 
-* **with:** Expects one object, which is checked against the current value of actual.property if actual responds to :property. Can also be used with an RSpec matcher:
+* **`#with`:** (also `#with_value`) Expects one object, which is checked against the current value of `actual.property()` if actual responds to `#property`. Can also be used with an RSpec matcher:
 
     expect(instance).to have_property(:bar).with(an_instance_of(String))
 
-* **with_value:** Alias for `#with`, above.
-
-#### have\_reader Matcher
+#### `#have_reader` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 
-Checks if the actual object responds to :property, and optionally if the
-current value of actual.property is equal to a specified value.
+Checks if the actual object responds to `#property`, and optionally if the current value of `actual.property()` is equal to a specified value.
 
 **How To Use:**
 
@@ -246,38 +227,21 @@ current value of actual.property is equal to a specified value.
 
 **Chaining:**
 
-* **with:** Expects one object, which is checked against the current value of actual.property if actual responds to :property. Can also be used with an RSpec matcher:
+* **`#with`:** (also `#with_value`) Expects one object, which is checked against the current value of `actual.property()` if actual responds to `#property`. Can also be used with an RSpec matcher:
 
     expect(instance).to have_reader(:bar).with(an_instance_of(String))
 
-* **with_value:** Alias for `#with`, above.
-
-#### have\_writer Matcher
+#### `#have_writer` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
-Checks if the actual object responds to :property=.
+Checks if the actual object responds to `#property=`.
 
 **How To Use:**
 
     expect(instance).to have_writer(:foo=)
 
-**Parameters:** Property. Expects a string or symbol that is a valid
-identifier. An equals sign '=' is automatically added if the identifier does
-not already terminate in '='.
-
-#### include\_matching Matcher
-
-    require 'rspec/sleeping_king_studios/matchers/core/include_matching'
-
-Loops through an enumerable actual object and checks if any of the items
-matches the given pattern.
-
-**How To Use:**
-
-    expect(instance).to include_matching(/[01]+/)
-
-**Parameters:** Pattern. Expects a Regexp.
+**Parameters:** Property. Expects a string or symbol that is a valid identifier. An equals sign '=' is automatically added if the identifier does not already terminate in '='.
 
 ## Shared Examples
 
@@ -303,7 +267,7 @@ These examples are shorthand for defining a reader and/or writer expectation.
 
     include_examples 'has property', :foo, 42
 
-Delegates to the `#has_reader` and `#has_writer` matchers (see Core/Has Reader and Core/Has Writer, above) and passes if the actual object responds to the specified property and property writer methods. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+Delegates to the `#has_reader` and `#has_writer` matchers (see Core/#has\_reader and Core/#has\_writer, above) and passes if the actual object responds to the specified property and property writer methods. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
 
     include_examples 'has property', :bar, ->() { an_instance_of(String) }
 
@@ -313,7 +277,7 @@ Delegates to the `#has_reader` and `#has_writer` matchers (see Core/Has Reader a
 
     include_examples 'has reader', :foo, 42
 
-Delegates to the `#has_reader` matcher (see Core/Has Reader, above) and passes if the actual object responds to the specified property. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+Delegates to the `#has_reader` matcher (see Core/#has_reader, above) and passes if the actual object responds to the specified property. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
 
     include_examples 'has reader', :bar, ->() { an_instance_of(String) }
 
@@ -323,7 +287,7 @@ Delegates to the `#has_reader` matcher (see Core/Has Reader, above) and passes i
 
     include_examples 'has writer', :foo=
 
-Delegates to the `#has_writer` matcher (see Core/Has Writer, above) and passes if the actual object responds to the specified property writer.
+Delegates to the `#has_writer` matcher (see Core/#has_writer, above) and passes if the actual object responds to the specified property writer.
 
 ### RSpec Matcher Examples
 

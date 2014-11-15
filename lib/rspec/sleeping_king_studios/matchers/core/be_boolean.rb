@@ -8,30 +8,28 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 1.0.0
   class BeBooleanMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
-    # Generates a description of the matcher expectation.
-    #
-    # @return [String] The matcher description.
+    # (see BaseMatcher#description)
     def description
       'be true or false'
     end # method description
 
     # Checks if the object is true or false.
     #
-    # @param [Object] actual the object to check
+    # @param [Object] actual The object to check.
     #
-    # @return [Boolean] true if the object is true or false, otherwise false
+    # @return [Boolean] True if the object is true or false, otherwise false.
     def matches? actual
       super
 
       true === actual || false === actual
     end # method matches?
 
-    # @see BaseMatcher#failure_message
+    # (see BaseMatcher#failure_message)
     def failure_message
       "expected #{@actual.inspect} to be true or false"
     end # method failure_message
 
-    # @see BaseMatcher#failure_message_when_negated
+    # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       "expected #{@actual.inspect} not to be true or false"
     end # method failure_message_when_negated
