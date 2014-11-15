@@ -4,16 +4,15 @@ require 'rspec/sleeping_king_studios/matchers'
 
 module RSpec::SleepingKingStudios::Matchers
   # Minimal implementation of the RSpec matcher interface.
-  # 
+  #
   # @since 1.0.0
   class BaseMatcher
     include RSpec::Matchers::Pretty
 
     attr_reader :actual
 
-    # A short string that describes the purpose of the matcher. Borrowed from
-    # RSpec::Matchers::BuiltIn::BaseMatcher.
-    # 
+    # A short string that describes the purpose of the matcher.
+    #
     # @return [String] the matcher description
     def description
       return name_to_sentence unless defined?(@expected)
@@ -23,9 +22,9 @@ module RSpec::SleepingKingStudios::Matchers
     # Inverse of #matches? method.
     #
     # @param [Object] actual the object to test against the matcher
-    # 
+    #
     # @return [Boolean] false if the object matches, otherwise true
-    # 
+    #
     # @see #matches?
     def does_not_match? actual
       !matches?(actual)
@@ -35,7 +34,7 @@ module RSpec::SleepingKingStudios::Matchers
     # Invoked by RSpec expectations.
     #
     # @param [Object] actual the object to test against the matcher
-    # 
+    #
     # @return [Boolean] true if the object matches, otherwise false
     def matches? actual
       @actual = actual

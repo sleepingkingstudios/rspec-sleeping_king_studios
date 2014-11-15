@@ -3,22 +3,25 @@
 require 'rspec/sleeping_king_studios/matchers/built_in'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
+  # Extensions to the built-in RSpec #include matcher.
   class IncludeMatcher < RSpec::Matchers::BuiltIn::Include
     # @param [Array<Hash, Proc, Object>] expected the items expected to be
     #   matched by the actual object
     #
-    # @yield if a block is provided, the block is converted to a proc and
-    #   appended to the item expectations
-    # @yieldparam [Object] item an item from the actual object; yield(item)
+    # @yield If a block is provided, the block is converted to a proc and
+    #   appended to the item expectations.
+    # @yieldparam [Object] item An item from the actual object; yield(item)
     #   should return true if and only if the item matches the desired
-    #    predicate
+    #   predicate.
     def initialize *expected, &block
       expected << block if block_given?
 
       super *expected
     end # constructor
 
-    # @private
+    # @api private
+    #
+    # Converts the expected item to a human-readable string.
     def to_word expected_item
       case
       when is_matcher_with_description?(expected_item)
@@ -30,7 +33,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       end # case
     end # method to_word
 
-    # @see BaseMatcher#failure_message
+    # (see BaseMatcher#failure_message)
     def failure_message
       message = super
 
@@ -39,7 +42,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       message
     end # method failure_message_for_should
 
-    # @see BaseMatcher#failure_message_when_negated
+    # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       message = super
 

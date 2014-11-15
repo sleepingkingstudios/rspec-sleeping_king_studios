@@ -6,9 +6,15 @@ require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 require 'sleeping_king_studios/tools/object_tools'
 
+# Pregenerated example groups for testing the presence and value of reader and
+# writer methods.
 module RSpec::SleepingKingStudios::Examples::PropertyExamples
   extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
+  # @api private
+  #
+  # Internal object used to differentiate a nil expectation from a default
+  # value expectation.
   UNDEFINED_PROPERTY_EXPECTATION = Object.new.freeze
 
   shared_examples 'has reader' do |property, expected_value = UNDEFINED_PROPERTY_EXPECTATION|
