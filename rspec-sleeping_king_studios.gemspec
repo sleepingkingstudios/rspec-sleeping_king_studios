@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.require_path = 'lib'
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
 
-  gem.add_runtime_dependency 'rspec',                       '~> 3.1'
+  gem.add_runtime_dependency 'rspec',                       '~> 3.0'
   gem.add_runtime_dependency 'sleeping_king_studios-tools', '~> 0.1', '>= 0.1.2'
 
   gem.add_development_dependency 'rake',         '~> 10.3'
