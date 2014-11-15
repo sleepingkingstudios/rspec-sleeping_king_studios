@@ -1,11 +1,11 @@
 # lib/rspec/sleeping_king_studios/examples/rspec_matcher_examples.rb
 
+require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 require 'rspec/sleeping_king_studios/examples'
-require 'rspec/sleeping_king_studios/examples/shared_example_group'
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 
 module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
-  extend RSpec::SleepingKingStudios::Examples::SharedExampleGroup
+  extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
   shared_examples 'passes with a positive expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }

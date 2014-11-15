@@ -1,13 +1,13 @@
 # lib/rspec/sleeping_king_studios/examples/property_examples.rb
 
+require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 require 'rspec/sleeping_king_studios/examples'
-require 'rspec/sleeping_king_studios/examples/shared_example_group'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 require 'sleeping_king_studios/tools/object_tools'
 
 module RSpec::SleepingKingStudios::Examples::PropertyExamples
-  extend RSpec::SleepingKingStudios::Examples::SharedExampleGroup
+  extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
   UNDEFINED_PROPERTY_EXPECTATION = Object.new.freeze
 
