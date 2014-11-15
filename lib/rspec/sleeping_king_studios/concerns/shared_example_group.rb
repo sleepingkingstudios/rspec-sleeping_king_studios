@@ -44,6 +44,8 @@ module RSpec::SleepingKingStudios::Concerns
     alias_method :alias_shared_context, :alias_shared_examples
 
     # @api private
+    #
+    # Hook to merge defined example groups when included in another module.
     def included other
       merge_shared_example_groups other
     end # method included

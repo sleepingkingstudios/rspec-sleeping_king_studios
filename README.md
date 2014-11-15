@@ -2,7 +2,9 @@
 
 A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends built-in matchers with new functionality, such as support for Ruby 2.0+ keyword arguments, and adds new matchers for testing boolean-ness, object reader/writer properties, object constructor arguments, ActiveModel validations, and more. Also defines shared example groups for more expressive testing.
 
-## Supported Ruby Versions
+## Support
+
+RSpec::SleepingKingStudios is tested against RSpec 3.0 and 3.1.
 
 Currently, the following versions of Ruby are officially supported:
 
@@ -11,7 +13,9 @@ Currently, the following versions of Ruby are officially supported:
 
 ## Contribute
 
-- https://github.com/sleepingkingstudios/rspec-sleeping_king_studios
+### GitHub
+
+The canonical repository for this gem is located at https://github.com/sleepingkingstudios/rspec-sleeping_king_studios.
 
 ### A Note From The Developer
 
@@ -64,8 +68,7 @@ Utility functions for defining shared examples. If included in a module, any sha
 
 ## Custom Matchers
 
-To enable a custom matcher, simply require the associated file. Matchers can be
-required individually or by category:
+To enable a custom matcher, simply require the associated file. Matchers can be required individually or by category:
 
     require 'rspec/sleeping_king_studios/all'
     #=> requires all features, including matchers
@@ -82,12 +85,11 @@ required individually or by category:
 
 These matchers validate ActiveModel functionality, such as validations.
 
-#### have\_errors Matcher
+#### `#have_errors` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/active_model/have_errors'
 
-Verifies that the actual object has validation errors. Optionally can specify
-individual fields to validate, or even specific messages for each attribute.
+Verifies that the actual object has validation errors. Optionally can specify individual fields to validate, or even specific messages for each attribute.
 
 **How To Use:**
 
@@ -99,15 +101,10 @@ individual fields to validate, or even specific messages for each attribute.
 
 **Chaining:**
 
-* **on:** [String, Symbol] Adds a field to validate; the matcher only passes if
-  all validated fields have errors.
-* **with:** [Array<String>] Adds one or more messages to the previously-defined
-  field validation. Raises ArgumentError if no field was previously set.
-* **with\_message:** [String] Adds a message to the previously-defined field
-  validation. Raises ArgumentError if no field was previously set.
-* **with\_messages:** [Array<String>] Adds one or more messages to the
-  previously-defined field validation. Raises ArgumentError if no field was
-  previously set.
+* **`#on`:** [String, Symbol] Adds a field to validate; the matcher only passes if all validated fields have errors.
+* **`#with`:** [Array<String>] Adds one or more messages to the previously-defined field validation. Raises ArgumentError if no field was previously set.
+* **`#with_message`:** [String] Adds a message to the previously-defined field validation. Raises ArgumentError if no field was previously set.
+* **`#with_messages`:** [Array<String>] Adds one or more messages to the previously-defined field validation. Raises ArgumentError if no field was previously set.
 
 ### BuiltIn
 

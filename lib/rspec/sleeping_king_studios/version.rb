@@ -3,13 +3,23 @@
 module RSpec
   module SleepingKingStudios
     # @api private
+    #
+    # The current version of the gem.
+    #
+    # @see http://semver.org/
     module Version
+      # Major version.
       MAJOR = 2
+      # Minor version.
       MINOR = 0
+      # Patch version.
       PATCH = 0
+      # Prerelease version.
       PRERELEASE = 'beta'
+      # Build metatada.
       BUILD = 2
 
+      # Generates the gem version string from the Version constants.
       def self.to_gem_version
         str = "#{MAJOR}.#{MINOR}.#{PATCH}"
 
