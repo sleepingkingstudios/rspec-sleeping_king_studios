@@ -76,6 +76,10 @@ module RSpec::SleepingKingStudios::Concerns
     # @api private
     def merge_shared_example_groups other
       shared_example_groups[self].each do |name, proc|
+        # Skip the warning if the shared example group is already defined with the
+        # same definition.
+        next if shared_example_groups[other][name] == proc
+
         RSpec.world.shared_example_group_registry.add(other, name, &proc)
       end # each
     end # method merge_shared_example_groups

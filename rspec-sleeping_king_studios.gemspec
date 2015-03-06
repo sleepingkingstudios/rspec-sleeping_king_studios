@@ -27,5 +27,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rake',         '~> 10.3'
   gem.add_development_dependency 'activemodel',  '~> 3.0'
   gem.add_development_dependency 'factory_girl', '~> 4.2'
-  gem.add_development_dependency 'pry',          '~> 0.9', '>= 0.9.12'
+  gem.add_development_dependency 'byebug',       '~> 3.5', '>= 3.5.1'
 end # gemspec

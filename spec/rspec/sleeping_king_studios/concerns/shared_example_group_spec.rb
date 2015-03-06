@@ -82,6 +82,45 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::SharedExampleGroup do
       expect(example_groups[object]).to be_a Hash
       expect(example_groups[object]['defined examples']).to be_a Proc
     end # it
+
+    describe 'with the example group already defined' do
+      let(:wrapper) do
+        mod = Module.new.extend described_class
+        mod.send :include, instance
+        mod
+      end # let
+
+      it 'defines the shared example groups on the module' do
+        object.send :include, wrapper
+
+        expect(example_groups[object]).to be_a Hash
+        expect(example_groups[object]['defined examples']).to be_a Proc
+      end # it
+
+      it 'does not trigger a warning message' do
+        expect(RSpec).not_to receive(:warn_with)
+
+        object.send :include, wrapper
+      end # it
+    end # describe
+
+    describe 'with a conflicting example group' do
+      let(:wrapper) do
+        mod = Module.new.extend described_class
+        mod.shared_examples('defined examples') {}
+        mod
+      end # let
+      let(:message) { "WARNING: Shared example group 'defined examples' has been previously defined" }
+
+      it 'triggers a warning message' do
+        expect(RSpec).to receive(:warn_with) do |message, *rest|
+          expect(message).to be_a(String)
+          expect(message).to start_with(message)
+        end # expect to receive
+
+        object.send :include, wrapper
+      end # it
+    end # describe
   end # describe
 
   describe '#shared_context' do

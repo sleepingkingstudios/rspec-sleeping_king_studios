@@ -2,7 +2,7 @@
 
 require 'rspec'
 require 'factory_girl'
-require 'pry'
+require 'byebug'
 
 require 'rspec/sleeping_king_studios'
 
