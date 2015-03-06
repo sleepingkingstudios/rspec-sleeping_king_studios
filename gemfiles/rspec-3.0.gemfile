@@ -1,7 +1,0 @@
-# gemfiles/rspec-3.0.gemfile
-
-source 'https://rubygems.org'
-
-gemspec :path => '..'
-
-gem 'rspec', '>= 3.0', '< 3.1'

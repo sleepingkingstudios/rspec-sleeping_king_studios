@@ -1,20 +1,20 @@
-# Local configuration
-.rspec
-.ruby-gemset
-.ruby-version
+# .gitignore
 
-# Local scripting
-bin/spec.*
+# Ignore local configuration files.
+/.rspec
+/.ruby-gemset
+/.ruby-version
 
-# OS-specific files
-.DS_Store
+# Ignore compiled gem files.
+*.gem
+.bundle
 
-# Documentation
+# Ignore Gemfile locks.
+Gemfile.lock
+gemfiles/*.lock
+
+# Ignore local and generated documentation.
 DEVELOPMENT.md
 /doc
 .yardoc
-
-# compiled gem files
-*.gem
-.bundle
-Gemfile.lock
+.yardopts
