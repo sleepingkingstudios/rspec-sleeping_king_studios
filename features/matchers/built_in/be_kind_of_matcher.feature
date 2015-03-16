@@ -20,13 +20,13 @@ Feature: `be_kind_of` matcher
         RSpec.describe String do
           let(:instance) { "a String" }
 
+          # Passing expectations.
           it { expect(instance).to be_a String }
-
-          it { expect(instance).not_to be_a String }
-
-          it { expect(instance).to be_a Array }
-
           it { expect(instance).not_to be_a Array }
+
+          # Failing expectations.
+          it { expect(instance).not_to be_a String }
+          it { expect(instance).to be_a Array }
         end # describe
       """
     When I run `rspec be_kind_of_matcher_spec.rb`
@@ -50,16 +50,14 @@ Feature: `be_kind_of` matcher
         RSpec.describe String do
           let(:instance) { "a String" }
 
+          # Passing expectations.
           it { expect(instance).to be_a [String, Symbol, nil] }
-
-          it { expect(instance).not_to be_a [String, Symbol, nil] }
-
-          it { expect(Hash.new).to be_a [String, Symbol, nil] }
-
           it { expect(Hash.new).not_to be_a [String, Symbol, nil] }
-
           it { expect(nil).to be_a [String, Symbol, nil] }
 
+          # Failing expectations.
+          it { expect(instance).not_to be_a [String, Symbol, nil] }
+          it { expect(Hash.new).to be_a [String, Symbol, nil] }
           it { expect(nil).not_to be_a [String, Symbol, nil] }
         end # describe
       """

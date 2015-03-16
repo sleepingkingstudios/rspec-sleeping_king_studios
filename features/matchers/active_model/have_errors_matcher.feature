@@ -35,16 +35,22 @@ Feature: `have_errors` matcher
         let(:attributes) { {} }
         let(:instance)   { described_class.new attributes }
 
+        # Passing expectations.
         it { expect(instance).to have_errors }
 
+        context 'with a value' do
+          let(:attributes) { super().merge :value => 'value' }
+
+          it { expect(instance).not_to have_errors }
+        end # context
+
+        # Failing expectations.
         it { expect(instance).not_to have_errors }
 
         context 'with a value' do
           let(:attributes) { super().merge :value => 'value' }
 
           it { expect(instance).to have_errors }
-
-          it { expect(instance).not_to have_errors }
         end # context
       end # describe
       """
@@ -75,24 +81,26 @@ Feature: `have_errors` matcher
         let(:attributes) { {} }
         let(:instance)   { described_class.new attributes }
 
+        # Passing expectations.
         it { expect(instance).to have_errors.on(:value) }
-
-        it { expect(instance).not_to have_errors.on(:value) }
-
-        it { expect(instance).to have_errors.on(:other_property) }
-
         it { expect(instance).not_to have_errors.on(:other_property) }
 
         context 'with a value' do
           let(:attributes) { super().merge :value => 'value' }
 
-          it { expect(instance).to have_errors.on(:value) }
-
           it { expect(instance).not_to have_errors.on(:value) }
-
-          it { expect(instance).to have_errors.on(:other_property) }
-
           it { expect(instance).not_to have_errors.on(:other_property) }
+        end # context
+
+        # Failing expectations.
+        it { expect(instance).not_to have_errors.on(:value) }
+        it { expect(instance).to have_errors.on(:other_property) }
+
+        context 'with a value' do
+          let(:attributes) { super().merge :value => 'value' }
+
+          it { expect(instance).to have_errors.on(:value) }
+          it { expect(instance).to have_errors.on(:other_property) }
         end # context
       end # describe
       """
@@ -147,24 +155,26 @@ Feature: `have_errors` matcher
         let(:attributes) { {} }
         let(:instance)   { described_class.new attributes }
 
+        # Passing expectations.
         it { expect(instance).to have_errors.on(:value).with_message("can't be blank") }
-
-        it { expect(instance).not_to have_errors.on(:value).with_message("can't be blank") }
-
-        it { expect(instance).to have_errors.on(:value).with_message("must be an integer") }
-
         it { expect(instance).not_to have_errors.on(:value).with_message("must be an integer") }
 
         context 'with a value' do
           let(:attributes) { super().merge :value => 'value' }
 
-          it { expect(instance).to have_errors.on(:value).with_message("can't be blank") }
-
           it { expect(instance).not_to have_errors.on(:value).with_message("can't be blank") }
-
-          it { expect(instance).to have_errors.on(:value).with_message("must be an integer") }
-
           it { expect(instance).not_to have_errors.on(:value).with_message("must be an integer") }
+        end # context
+
+        # Failing expectations.
+        it { expect(instance).not_to have_errors.on(:value).with_message("can't be blank") }
+        it { expect(instance).to have_errors.on(:value).with_message("must be an integer") }
+
+        context 'with a value' do
+          let(:attributes) { super().merge :value => 'value' }
+
+          it { expect(instance).to have_errors.on(:value).with_message("can't be blank") }
+          it { expect(instance).to have_errors.on(:value).with_message("must be an integer") }
         end # context
       end # describe
       """

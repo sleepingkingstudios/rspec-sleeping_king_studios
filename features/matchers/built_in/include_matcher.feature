@@ -22,16 +22,14 @@ Feature: `include` matcher
         RSpec.describe Array do
           let(:instance) { [2, 3, 5, 7, 11] }
 
+          # Passing expectations.
           it { expect(instance).to include(5) }
-
-          it { expect(instance).not_to include(7) }
-
           it { expect(instance).to include(3, 11) }
-
-          it { expect(instance).not_to include(3, 11) }
-
           it { expect(instance).to include { |i| i.even? } }
 
+          # Failing expectations.
+          it { expect(instance).not_to include(7) }
+          it { expect(instance).not_to include(3, 11) }
           it { expect(instance).not_to include { |i| i.even? } }
         end # describe
       """
