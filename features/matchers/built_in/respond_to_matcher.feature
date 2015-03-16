@@ -1,7 +1,7 @@
 # features/matchers/built_in/respond_to_matcher.feature
 
 Feature: `respond_to` matcher
-  Use the respond_to matcher to specify details of an object's interface.  In
+  Use the `respond_to` matcher to specify details of an object's interface.  In
   its most basic form:
 
   ```ruby
