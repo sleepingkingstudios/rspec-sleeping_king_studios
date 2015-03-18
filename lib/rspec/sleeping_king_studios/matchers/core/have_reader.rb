@@ -53,7 +53,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # (see BaseMatcher#failure_message)
     def failure_message
-      message = "expected #{@actual} to respond to :#{@expected}"
+      message = "expected #{@actual.inspect} to respond to :#{@expected}"
       message << " and return #{value_to_string}" if @value_set
 
       if !@matches_reader
@@ -67,7 +67,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
-      message = "expected #{@actual} not to respond to :#{@expected}"
+      message = "expected #{@actual.inspect} not to respond to :#{@expected}"
       message << " and return #{value_to_string}" if @value_set
       message
     end # method failure_message

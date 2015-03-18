@@ -56,7 +56,7 @@ Feature: `have_property` matcher
           it { expect(instance).not_to have_property(:foo).with_value(an_instance_of String) }
           it { expect(instance).not_to have_property(:foo).with_value(an_instance_of Hash) }
           it { expect(instance).to have_property(:foo).with_value('Bar') }
-          # it { expect(instance).to have_property(:foo).with_value(an_instance_of Hash) }
+          it { expect(instance).to have_property(:foo).with_value(an_instance_of Hash) }
           it { expect(instance).to have_property(:bar) }
           it { expect(instance).not_to have_property(:bar) }
           it { expect(instance).to have_property(:baz) }
@@ -64,7 +64,7 @@ Feature: `have_property` matcher
         end # describe
       """
     When I run `rspec have_property_matcher_spec.rb`
-    Then the output should contain "13 examples, 10 failures"
+    Then the output should contain "14 examples, 11 failures"
     Then the output should contain:
       """
            Failure/Error: it { expect(instance).not_to have_property(:foo) }
@@ -92,6 +92,16 @@ Feature: `have_property` matcher
       """
     Then the output should contain:
       """
+           Failure/Error: it { expect(instance).to have_property(:foo).with_value('Bar') }
+             expected MyClass to respond to :foo and :foo= and return "Bar", but returned "Foo"
+      """
+    Then the output should contain:
+      """
+           Failure/Error: it { expect(instance).to have_property(:foo).with_value(an_instance_of Hash) }
+             expected MyClass to respond to :foo and :foo= and return an instance of Hash, but returned "Foo"
+      """
+    Then the output should contain:
+      """
            Failure/Error: it { expect(instance).to have_property(:bar) }
              expected MyClass to respond to :bar and :bar=, but did not respond to :bar=
       """
@@ -109,9 +119,4 @@ Feature: `have_property` matcher
       """
            Failure/Error: it { expect(instance).not_to have_property(:baz) }
              expected MyClass not to respond to :baz or :baz=, but responded to :baz=
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_property(:foo).with_value('Bar') }
-             expected MyClass to respond to :foo and :foo= and return "Bar", but returned "Foo"
       """
