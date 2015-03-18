@@ -53,7 +53,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
-      "expected #{@actual} not to respond to :#{@expected}="
+      "expected #{@actual.inspect} not to respond to :#{@expected}="
     end # method failure_message
   end # class
 end # module
