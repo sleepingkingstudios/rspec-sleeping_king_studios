@@ -85,14 +85,14 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # (see BaseMatcher#failure_message)
     def failure_message
-      message = "expected #{@actual.inspect} to construct"
+      message = "expected #{@actual.inspect} to be constructible"
       message << " with arguments:\n#{format_errors}" if @actual.respond_to?(:new)
       message
     end # method failure_message
 
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
-      message = "expected #{@actual.inspect} not to construct"
+      message = "expected #{@actual.inspect} not to be constructible"
       unless (formatted = format_expected_arguments).empty?
         message << " with #{formatted}"
       end # unless
@@ -165,4 +165,5 @@ module RSpec::SleepingKingStudios::Matchers
   def construct
     RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher.new
   end # method construct
+  alias_method :be_constructible, :construct
 end # module
