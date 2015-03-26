@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1
+
+Created suite of [Cucumber features](features) to validate and document the gem.
+
+#### `construct` Matcher
+
+Aliased as `be_constructible` for more fluent specs, and the error messages have been changed from 'expected ... to construct' to 'expected ... to be constructible'.
+
 ## 2.0.0
 
 Update the entire library to support RSpec 3. Most of the updates are purely internal, but there are a few changes that are not backward compatible to be aware of.
