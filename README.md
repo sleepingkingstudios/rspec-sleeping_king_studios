@@ -40,7 +40,7 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
 
 #### Handle Missing Failure Message With
 
-This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:skip`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
+This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:ignore`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
 
 ## Concerns
 
