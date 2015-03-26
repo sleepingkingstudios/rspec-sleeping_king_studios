@@ -254,6 +254,9 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
 
     def received_errors_message
       return "" unless @validates
+
+      return "\n  received errors:\n    (none)" if @actual.errors.messages.empty?
+
       "\n  received errors:" + @actual.errors.messages.map do |attr, ary|
         "\n    #{attr}: " + ary.map(&:inspect).join(", ")
       end.join # map

@@ -4,12 +4,15 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends bui
 
 ## Support
 
-RSpec::SleepingKingStudios is tested against RSpec 3.0 and 3.1.
+RSpec::SleepingKingStudios is tested against RSpec 3.0, 3.1, and 3.2.
 
 Currently, the following versions of Ruby are officially supported:
 
-* 2.0.0
-* 2.1.0
+* 2.0
+* 2.1
+* 2.2
+
+If you require a previous version of Ruby or RSpec, the 1.0 branch supports Ruby 1.9.3 and RSpec 2: `gem "rspec-sleeping_king_studios", "~> 1.0.1"`.
 
 ## Contribute
 
@@ -37,7 +40,7 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
 
 #### Handle Missing Failure Message With
 
-This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:skip`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
+This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:ignore`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
 
 ## Concerns
 

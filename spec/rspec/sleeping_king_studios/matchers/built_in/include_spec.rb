@@ -11,7 +11,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
   let(:example_group) { self }
   let(:expectations)  { "String" }
-  
+
   it { expect(example_group).to respond_to(:include).with(1..9001).arguments }
   it { expect(example_group.include expectations).to be_a described_class }
 
