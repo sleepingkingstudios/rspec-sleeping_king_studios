@@ -5,7 +5,14 @@ Given(/^a file with a model class definition$/) do
 require 'active_model'
 
 class Model
-  include ActiveModel::Model
+  extend ActiveModel::Naming
+  extend ActiveModel::Translation
+  include ActiveModel::Validations
+  include ActiveModel::Conversion
+
+  def initialize(attributes = {})
+    attributes.each { |attribute, value| send "\#{attribute}=", value }
+  end # constructor
 
   attr_accessor :value
 
