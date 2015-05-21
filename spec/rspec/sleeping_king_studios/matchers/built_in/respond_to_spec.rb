@@ -25,6 +25,16 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
     it { expect(instance.with).to be instance }
   end # describe
 
+  describe '#with_unlimited_arguments' do
+    it { expect(instance).to respond_to(:with_unlimited_arguments).with(0).arguments }
+    it { expect(instance.with_unlimited_arguments).to be instance }
+  end # describe
+
+  describe '#and_unlimited_arguments' do
+    it { expect(instance).to respond_to(:and_unlimited_arguments).with(0).arguments }
+    it { expect(instance.and_unlimited_arguments).to be instance }
+  end # describe
+
   describe "#with_a_block" do
     it { expect(instance).to respond_to(:with_a_block).with(0).arguments }
     it { expect(instance.with_a_block).to be instance }
@@ -33,6 +43,26 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
   describe '#and_a_block' do
     it { expect(instance).to respond_to(:and_a_block).with(0).arguments }
     it { expect(instance.and_a_block).to be instance }
+  end # describe
+
+  describe '#with_keywords' do
+    it { expect(instance).to respond_to(:with_keywords).with(1..9001).arguments }
+    it { expect(instance.with_keywords :foo).to be instance }
+  end # describe
+
+  describe '#and_keywords' do
+    it { expect(instance).to respond_to(:and_keywords).with(1..9001).arguments }
+    it { expect(instance.and_keywords :foo).to be instance }
+  end # describe
+
+  describe '#with_arbitrary_keywords' do
+    it { expect(instance).to respond_to(:with_arbitrary_keywords).with(0).arguments }
+    it { expect(instance.with_arbitrary_keywords).to be instance }
+  end # describe
+
+  describe '#and_arbitrary_keywords' do
+    it { expect(instance).to respond_to(:and_arbitrary_keywords).with(0).arguments }
+    it { expect(instance.and_arbitrary_keywords).to be instance }
   end # describe
 
   <<-SCENARIOS
@@ -146,6 +176,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
 
       include_examples 'passes with a negative expectation'
     end # describe
+
+    describe 'with unlimited arguments' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+        " arguments:\n  expected at most 3 arguments, but received unlimited arguments"
+      end # let
+      let(:instance) { super().with_unlimited_arguments }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
   end # describe
 
   describe 'with a matching method with variadic arguments' do
@@ -167,9 +209,20 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
 
     describe 'with an excessive number of arguments' do
       let(:failure_message_when_negated) do
-        "expected #{actual} not to respond to :#{identifier} with 9001 arguments"
+        "expected #{actual.inspect} not to respond to :#{identifier} with 9001 arguments"
       end # let
       let(:instance) { super().with(9001).arguments }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with unlimited arguments' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to :#{identifier} with unlimited arguments"
+      end # let
+      let(:instance) { super().with_unlimited_arguments }
 
       include_examples 'passes with a positive expectation'
 
@@ -196,6 +249,17 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       let(:failure_message_when_negated) do
         "expected #{actual} not to respond to :#{identifier} with 0 arguments and keywords :a and :b"
       end # let
+      let(:instance) { super().with(0).arguments.and_keywords(:a, :b) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with valid keywords using the deprecated syntax' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{identifier} with 0 arguments and keywords :a and :b"
+      end # let
       let(:instance) { super().with(0, :a, :b) }
 
       include_examples 'passes with a positive expectation'
@@ -204,6 +268,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
     end # describe
 
     describe 'with invalid keywords' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+        " arguments:\n  unexpected keywords :c and :d"
+      end # let
+      let(:instance) { super().with(0).arguments.and_keywords(:c, :d) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with invalid keywords using the deprecated syntax' do
       let(:failure_message) do
         "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
         " arguments:\n  unexpected keywords :c and :d"
@@ -219,6 +295,17 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       let(:failure_message_when_negated) do
         "expected #{actual} not to respond to :#{identifier} with keywords :a and :b"
       end # let
+      let(:instance) { super().with_keywords(:a, :b) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with valid keywords and unspecified arguments using the deprecated syntax' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{identifier} with keywords :a and :b"
+      end # let
       let(:instance) { super().with(:a, :b) }
 
       include_examples 'passes with a positive expectation'
@@ -231,7 +318,31 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
         "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
         " arguments:\n  unexpected keywords :c and :d"
       end # let
+      let(:instance) { super().with_keywords(:c, :d) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with invalid keywords and unspecified arguments using the deprecated syntax' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+        " arguments:\n  unexpected keywords :c and :d"
+      end # let
       let(:instance) { super().with(:c, :d) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with arbitrary keywords' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+        " arguments:\n  expected arbitrary keywords"
+      end # let
+      let(:instance) { super().with_arbitrary_keywords }
 
       include_examples 'fails with a positive expectation'
 
@@ -258,6 +369,17 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       let(:failure_message_when_negated) do
         "expected #{actual} not to respond to :#{identifier} with 0 arguments and keywords :a and :b"
       end # let
+      let(:instance) { super().with(0).arguments.and_keywords(:a, :b) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with valid keywords using the deprecated syntax' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{identifier} with 0 arguments and keywords :a and :b"
+      end # let
       let(:instance) { super().with(0, :a, :b) }
 
       include_examples 'passes with a positive expectation'
@@ -269,7 +391,30 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       let(:failure_message_when_negated) do
         "expected #{actual} not to respond to :#{identifier} with 0 arguments and keywords :c and :d"
       end # let
+      let(:instance) { super().with(0).arguments.and_keywords(:c, :d) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with random keywords using the deprecated syntax' do
+      let(:failure_message_when_negated) do
+        "expected #{actual} not to respond to :#{identifier} with 0 arguments and keywords :c and :d"
+      end # let
       let(:instance) { super().with(0, :c, :d) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with arbitrary keywords' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to respond to #{identifier.inspect} with"\
+        " arbitrary keywords"
+      end # let
+      let(:instance) { super().with_arbitrary_keywords }
 
       include_examples 'passes with a positive expectation'
 
@@ -377,6 +522,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
           "expected #{actual} to respond to :#{identifier} with arguments:"\
           "\n  missing keywords :c and :d"
         end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with missing keywords using the deprecated syntax' do
+        let(:failure_message) do
+          "expected #{actual} to respond to :#{identifier} with arguments:"\
+          "\n  missing keywords :c and :d"
+        end # let
         let(:instance) { super().with(0, :a, :b) }
 
         include_examples 'fails with a positive expectation'
@@ -385,6 +542,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       end # describe
 
       describe 'with valid keywords' do
+        let(:failure_message_when_negated) do
+          "expected #{actual} not to respond to :#{identifier} with 0 arguments"\
+          " and keywords :a, :b, :c, and :d"
+        end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b, :c, :d) }
+
+        # include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with valid keywords using the deprecated syntax' do
         let(:failure_message_when_negated) do
           "expected #{actual} not to respond to :#{identifier} with 0 arguments"\
           " and keywords :a, :b, :c, and :d"
@@ -401,6 +570,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
           "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
           " arguments:\n  unexpected keywords :e and :f"
         end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:c, :d, :e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with invalid keywords using the deprecated syntax' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+          " arguments:\n  unexpected keywords :e and :f"
+        end # let
         let(:instance) { super().with(0, :c, :d, :e, :f) }
 
         include_examples 'fails with a positive expectation'
@@ -409,6 +590,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       end # describe
 
       describe 'with invalid and missing keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+          " arguments:\n  missing keywords :c and :d\n  unexpected keywords :e and :f"
+        end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with invalid and missing keywords using the deprecated syntax' do
         let(:failure_message) do
           "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
           " arguments:\n  missing keywords :c and :d\n  unexpected keywords :e and :f"
@@ -425,6 +618,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
           "expected #{actual} not to respond to :#{identifier} with keywords"\
           " :a, :b, :c, and :d"
         end # let
+        let(:instance) { super().with_keywords(:a, :b, :c, :d) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with valid keywords and unspecified arguments using the deprecated syntax' do
+        let(:failure_message_when_negated) do
+          "expected #{actual} not to respond to :#{identifier} with keywords"\
+          " :a, :b, :c, and :d"
+        end # let
         let(:instance) { super().with(:a, :b, :c, :d) }
 
         include_examples 'passes with a positive expectation'
@@ -433,6 +638,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       end # describe
 
       describe 'with missing keywords and unspecified arguments' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+          " arguments:\n  missing keywords :c and :d"
+        end # let
+        let(:instance) { super().with_keywords(:a, :b) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with missing keywords and unspecified arguments using the deprecated syntax' do
         let(:failure_message) do
           "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
           " arguments:\n  missing keywords :c and :d"
@@ -449,6 +666,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
           "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
           " arguments:\n  unexpected keywords :e and :f"
         end # let
+        let(:instance) { super().with_keywords(:c, :d, :e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with invalid keywords and unspecified arguments using the deprecated syntax' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+          " arguments:\n  unexpected keywords :e and :f"
+        end # let
         let(:instance) { super().with(:c, :d, :e, :f) }
 
         include_examples 'fails with a positive expectation'
@@ -461,7 +690,31 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
           "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
           " arguments:\n  missing keywords :c and :d\n  unexpected keywords :e and :f"
         end # let
+        let(:instance) { super().with_keywords(:e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with invalid and missing keywords and unspecified arguments using the deprecated syntax' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+          " arguments:\n  missing keywords :c and :d\n  unexpected keywords :e and :f"
+        end # let
         let(:instance) { super().with(:e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with arbitrary keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
+          " arguments:\n  expected arbitrary keywords"
+        end # let
+        let(:instance) { super().with_arbitrary_keywords }
 
         include_examples 'fails with a positive expectation'
 
@@ -490,6 +743,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
           "expected #{actual} to respond to :#{identifier} with arguments:"\
           "\n  missing keywords :c and :d"
         end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with missing keywords using the deprecated syntax' do
+        let(:failure_message) do
+          "expected #{actual} to respond to :#{identifier} with arguments:"\
+          "\n  missing keywords :c and :d"
+        end # let
         let(:instance) { super().with(0, :a, :b) }
 
         include_examples 'fails with a positive expectation'
@@ -498,6 +763,18 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       end # describe
 
       describe 'with valid keywords' do
+        let(:failure_message_when_negated) do
+          "expected #{actual} not to respond to :#{identifier} with 0"\
+          " arguments and keywords :a, :b, :c, and :d"
+        end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b, :c, :d) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with valid keywords using the deprecated syntax' do
         let(:failure_message_when_negated) do
           "expected #{actual} not to respond to :#{identifier} with 0"\
           " arguments and keywords :a, :b, :c, and :d"
@@ -514,7 +791,31 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
           "expected #{actual} not to respond to :#{identifier} with 0"\
           " arguments and keywords :c, :d, :e, and :f"
         end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:c, :d, :e, :f) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with random keywords using the deprecated syntax' do
+        let(:failure_message_when_negated) do
+          "expected #{actual} not to respond to :#{identifier} with 0"\
+          " arguments and keywords :c, :d, :e, and :f"
+        end # let
         let(:instance) { super().with(0, :c, :d, :e, :f) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with arbitrary keywords' do
+        let(:failure_message_when_negated) do
+          "expected #{actual.inspect} not to respond to #{identifier.inspect} with"\
+          " keywords :c and :d and arbitrary keywords"
+        end # let
+        let(:instance) { super().with_keywords(:c, :d).and_arbitrary_keywords }
 
         include_examples 'passes with a positive expectation'
 
