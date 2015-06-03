@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.2
+
+#### `construct` and `respond_to` Matchers
+
+Added new fluent syntax for keyword expectations:
+
+    expect(my_object).to respond_to(:my_method).with(1..2).arguments.and_keywords(:foo, :bar)
+
+Also added support for expecting splatted arguments (`*args`) or keywords (`**kwargs`) using the `#with_unlimited_arguments` and `#with_arbitrary_keywords` methods.
+
+The old syntax (`respond_to(:my_method).with(1, :foo, :bar)`) will be supported through 3.0.
+
 ## 2.0.1
 
 Created suite of [Cucumber features](features) to validate and document the gem.
