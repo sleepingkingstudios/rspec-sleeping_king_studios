@@ -53,11 +53,47 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     #
     #   @return [RespondToMatcher] self
     def with *keywords
-      @expected_arity    = keywords.shift if Integer === keywords.first || Range === keywords.first
-      @expected_keywords = keywords
+      @expected_arity = keywords.shift if Integer === keywords.first || Range === keywords.first
+
+      # TODO: Deprecate this behavior (for version 3.0?) - use the
+      # #with_keywords or #and_keywords methods instead.
+      (@expected_keywords ||= []).concat(keywords)
 
       self
     end # method with
+
+    # Adds an unlimited parameter count expectation, e.g. that the method
+    # supports splatted array arguments of the form *args.
+    #
+    # @return [RespondToMatcher] self
+    def with_unlimited_arguments
+      @expect_unlimited_arguments = true
+
+      self
+    end # method with_unlimited_arguments
+    alias_method :and_unlimited_arguments, :with_unlimited_arguments
+
+    # Adds one or more keyword expectations.
+    #
+    # @param [Array<String, Symbol>] keywords List of keyword arguments
+    #   accepted by the method.
+    #
+    # @return [RespondToMatcher] self
+    def with_keywords *keywords
+      (@expected_keywords ||= []).concat(keywords)
+
+      self
+    end # method with_keywords
+    alias_method :and_keywords, :with_keywords
+
+    # Adds an arbitrary keyword expectation, e.g. that the method supports
+    # any keywords with splatted hash arguments of the form **kwargs.
+    def with_arbitrary_keywords
+      @expect_arbitrary_keywords = true
+
+      self
+    end # method with_arbitrary_keywords
+    alias_method :and_arbitrary_keywords, :with_arbitrary_keywords
 
     # Adds a block expectation. The actual object will only match a block
     # expectation if it expects a parameter of the form &block.
@@ -115,9 +151,9 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     end # method find_failing_method_names
 
     def matches_arity? actual, name
-      return true unless @expected_arity
+      return true unless @expected_arity || @expect_unlimited_arguments
 
-      if result = check_method_arity(actual.method(name), @expected_arity)
+      if result = check_method_arity(actual.method(name), @expected_arity, expect_unlimited_arguments: @expect_unlimited_arguments)
         (@failing_method_reasons[name] ||= {}).update result
         return false
       end # if
@@ -127,9 +163,10 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     def matches_keywords? actual, name
       return true unless @expected_keywords ||
+        @expect_arbitrary_keywords ||
         (@expected_arity && RUBY_VERSION >= "2.1.0")
 
-      if result = check_method_keywords(actual.method(name), @expected_keywords)
+      if result = check_method_keywords(actual.method(name), @expected_keywords, expect_arbitrary_keywords: @expect_arbitrary_keywords)
         (@failing_method_reasons[name] ||= {}).update result
         return false
       end # if
@@ -164,8 +201,16 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         messages << "#{@expected_arity.inspect} #{pluralize @expected_arity, 'argument', 'arguments'}"
       end # if
 
+      if @expect_unlimited_arguments
+        messages << 'unlimited arguments'
+      end # if
+
       if !(@expected_keywords.nil? || @expected_keywords.empty?)
         messages << "#{pluralize @expected_keywords.count, 'keyword', 'keywords'} #{humanize_list @expected_keywords.map(&:inspect)}"
+      end # if
+
+      if @expect_arbitrary_keywords
+        messages << 'arbitrary keywords'
       end # if
 
       if @expected_block
@@ -180,9 +225,19 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
       if hsh = reasons.fetch(:not_enough_args, false)
         messages << "  expected at least #{hsh[:count]} arguments, but received #{hsh[:arity]}"
-      elsif hsh = reasons.fetch(:too_many_args, false)
+      end # if
+
+      if hsh = reasons.fetch(:too_many_args, false)
         messages << "  expected at most #{hsh[:count]} arguments, but received #{hsh[:arity]}"
-      end # if-elsif
+      end # if
+
+      if hsh = reasons.fetch(:expected_unlimited_arguments, false)
+        messages << "  expected at most #{hsh[:count]} arguments, but received unlimited arguments"
+      end # if
+
+      if reasons.fetch(:expected_arbitrary_keywords, false)
+        messages << "  expected arbitrary keywords"
+      end # if
 
       if ary = reasons.fetch(:missing_keywords, false)
         messages << "  missing #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"

@@ -29,9 +29,11 @@ Feature: `respond_to` matcher
   ```ruby
   expect(instance).to respond_to(:method_name).with(1).argument
   expect(instance).to respond_to(:method_name).with(1..2).arguments
+  expect(instance).to respond_to(:method_name).with_unlimited_arguments
 
-  expect(instance).to respond_to(:method_name).with(:headers, :body, :cookies)
-  expect(instance).to respond_to(:method_name).with(3, :options, :http_options).arguments
+  expect(instance).to respond_to(:method_name).with_keywords(:headers, :body, :cookies)
+  expect(instance).to respond_to(:method_name).with(3).arguments.and_keywords(:options, :http_options)
+  expect(instance).to respond_to(:method_name).with_arbitrary_keywords
   ```
 
   Scenario: basic usage
