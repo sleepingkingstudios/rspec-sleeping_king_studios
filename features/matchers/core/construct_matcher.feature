@@ -20,9 +20,13 @@ Feature: `construct` matcher
 
   expect(my_class).to construct.with(1..3).arguments
 
-  expect(my_class).to construct.with(:foo, :bar, :baz)
+  expect(my_class).to construct.with_unlimited_arguments
 
-  expect(my_class).to construct.with(1..3, :foo, :bar, :baz)
+  expect(my_class).to construct.with_keywords(:foo, :bar, :baz)
+
+  expect(my_class).to construct.with(1..3).arguments.and_keywords(:foo, :bar, :baz)
+
+  expect(my_class).to construct.with_arbitrary_keywords
   ```
 
   Scenario: basic usage

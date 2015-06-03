@@ -27,6 +27,36 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # it
   end # describe
 
+  describe '#with_unlimited_arguments' do
+    it { expect(instance).to respond_to(:with_unlimited_arguments).with(0).arguments }
+    it { expect(instance.with_unlimited_arguments).to be instance }
+  end # describe
+
+  describe '#and_unlimited_arguments' do
+    it { expect(instance).to respond_to(:and_unlimited_arguments).with(0).arguments }
+    it { expect(instance.and_unlimited_arguments).to be instance }
+  end # describe
+
+  describe '#with_keywords' do
+    it { expect(instance).to respond_to(:with_keywords).with(1..9001).arguments }
+    it { expect(instance.with_keywords :foo).to be instance }
+  end # describe
+
+  describe '#and_keywords' do
+    it { expect(instance).to respond_to(:and_keywords).with(1..9001).arguments }
+    it { expect(instance.and_keywords :foo).to be instance }
+  end # describe
+
+  describe '#with_arbitrary_keywords' do
+    it { expect(instance).to respond_to(:with_arbitrary_keywords).with(0).arguments }
+    it { expect(instance.with_arbitrary_keywords).to be instance }
+  end # describe
+
+  describe '#and_arbitrary_keywords' do
+    it { expect(instance).to respond_to(:and_arbitrary_keywords).with(0).arguments }
+    it { expect(instance.and_arbitrary_keywords).to be instance }
+  end # describe
+
   describe '#argument' do
     it { expect(instance).to respond_to(:argument).with(0).arguments }
 
@@ -111,7 +141,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # describe
 
     describe 'with a valid number of arguments' do
-      let(:failure_message_when_negated) { "expected #{actual} not to be constructible with 3 arguments" }
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible with 3 arguments" }
       let(:instance) { super().with(3).arguments }
 
       include_examples 'passes with a positive expectation'
@@ -125,6 +155,18 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
         " at most 3 arguments, but received 5"
       end # let
       let(:instance) { super().with(5).arguments }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with unlimited arguments' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to be constructible with arguments:\n  "\
+        "expected at most 3 arguments, but received unlimited arguments"
+      end # let
+      let(:instance) { super().with_unlimited_arguments }
 
       include_examples 'fails with a positive expectation'
 
@@ -148,8 +190,19 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # describe
 
     describe 'with an excessive number of arguments' do
-      let(:failure_message_when_negated) { "expected #{actual} not to be constructible with 9001 arguments" }
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible with 9001 arguments" }
       let(:instance) { super().with(9001).arguments }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with unlimited arguments' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to be constructible with unlimited arguments"
+      end # let
+      let(:instance) { super().with_unlimited_arguments }
 
       include_examples 'passes with a positive expectation'
 
@@ -163,7 +216,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # let
 
     describe 'with no keywords' do
-      let(:failure_message_when_negated) { "expected #{actual} not to be constructible" }
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible" }
 
       include_examples 'passes with a positive expectation'
 
@@ -172,7 +225,18 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
     describe 'with valid keywords' do
       let(:failure_message_when_negated) do
-        "expected #{actual} not to be constructible with 0 arguments and keywords :a and :b"
+        "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a and :b"
+      end # let
+      let(:instance) { super().with(0).arguments.and_keywords(:a, :b) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with valid keywords using the deprecated syntax' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a and :b"
       end # let
       let(:instance) { super().with(0, :a, :b) }
 
@@ -186,7 +250,31 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
         "expected #{actual.inspect} to be constructible with arguments:"\
         "\n  unexpected keywords :c and :d"
       end # let
+      let(:instance) { super().with(0).arguments.and_keywords(:c, :d) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with invalid keywords using the deprecated syntax' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to be constructible with arguments:"\
+        "\n  unexpected keywords :c and :d"
+      end # let
       let(:instance) { super().with(0, :c, :d) }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with arbitrary keywords' do
+      let(:failure_message) do
+        "expected #{actual.inspect} to be constructible with"\
+        " arguments:\n  expected arbitrary keywords"
+      end # let
+      let(:instance) { super().with_arbitrary_keywords }
 
       include_examples 'fails with a positive expectation'
 
@@ -200,7 +288,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # let
 
     describe 'with no keywords' do
-      let(:failure_message_when_negated) { "expected #{actual} not to be constructible" }
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible" }
 
       include_examples 'passes with a positive expectation'
 
@@ -208,7 +296,16 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # describe
 
     describe 'with valid keywords' do
-      let(:failure_message_when_negated) { "expected #{actual} not to be constructible with 0 arguments and keywords :a and :b" }
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a and :b" }
+      let(:instance) { super().with(0).arguments.and_keywords(:a, :b) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with valid keywords using the deprecated syntax' do
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a and :b" }
       let(:instance) { super().with(0, :a, :b) }
 
       include_examples 'passes with a positive expectation'
@@ -217,8 +314,29 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     end # describe
 
     describe 'with random keywords' do
-      let(:failure_message_when_negated) { "expected #{actual} not to be constructible with 0 arguments and keywords :c and :d" }
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :c and :d" }
+      let(:instance) { super().with(0).arguments.and_keywords(:c, :d) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with random keywords using the deprecated syntax' do
+      let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :c and :d" }
       let(:instance) { super().with(0, :c, :d) }
+
+      include_examples 'passes with a positive expectation'
+
+      include_examples 'fails with a negative expectation'
+    end # describe
+
+    describe 'with arbitrary keywords' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to be constructible with"\
+        " arbitrary keywords"
+      end # let
+      let(:instance) { super().with_arbitrary_keywords }
 
       include_examples 'passes with a positive expectation'
 
@@ -234,7 +352,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       end # let
 
       describe 'with no keywords' do
-        let(:failure_message_when_negated) { "expected #{actual} not to be constructible" }
+        let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible" }
 
         include_examples 'passes with a positive expectation'
 
@@ -242,6 +360,18 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       end # describe
 
       describe 'with missing keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to be constructible with arguments:"\
+          "\n  missing keywords :c and :d"
+        end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with missing keywords using the deprecated syntax' do
         let(:failure_message) do
           "expected #{actual.inspect} to be constructible with arguments:"\
           "\n  missing keywords :c and :d"
@@ -255,7 +385,18 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
       describe 'with valid keywords' do
         let(:failure_message_when_negated) do
-          "expected #{actual} not to be constructible with 0 arguments and keywords :a, :b, :c, and :d"
+          "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a, :b, :c, and :d"
+        end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b, :c, :d) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with valid keywords using the deprecated syntax' do
+        let(:failure_message_when_negated) do
+          "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a, :b, :c, and :d"
         end # let
         let(:instance) { super().with(0, :a, :b, :c, :d) }
 
@@ -265,6 +406,18 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       end # describe
 
       describe 'with invalid keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to be constructible with arguments:"\
+          "\n  unexpected keywords :e and :f"
+        end # let
+        let(:instance) { super().with_keywords(:c, :d, :e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with invalid keywords using the deprecated syntax' do
         let(:failure_message) do
           "expected #{actual.inspect} to be constructible with arguments:"\
           "\n  unexpected keywords :e and :f"
@@ -282,7 +435,32 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
           "\n  missing keywords :c and :d"\
           "\n  unexpected keywords :e and :f"
         end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with invalid and missing keywords using the deprecated syntax' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to be constructible with arguments:"\
+          "\n  missing keywords :c and :d"\
+          "\n  unexpected keywords :e and :f"
+        end # let
         let(:instance) { super().with(0, :e, :f) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with arbitrary keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to be constructible with"\
+          " arguments:\n  expected arbitrary keywords"
+        end # let
+        let(:instance) { super().with_keywords(:c, :d).and_arbitrary_keywords }
 
         include_examples 'fails with a positive expectation'
 
@@ -297,7 +475,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       end # let
 
       describe 'with no keywords' do
-        let(:failure_message_when_negated) { "expected #{actual} not to be constructible" }
+        let(:failure_message_when_negated) { "expected #{actual.inspect} not to be constructible" }
 
         include_examples 'passes with a positive expectation'
 
@@ -305,6 +483,18 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       end # describe
 
       describe 'with missing keywords' do
+        let(:failure_message) do
+          "expected #{actual.inspect} to be constructible with arguments:"\
+          "\n  missing keywords :c and :d"
+        end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b) }
+
+        include_examples 'fails with a positive expectation'
+
+        include_examples 'passes with a negative expectation'
+      end # describe
+
+      describe 'with missing keywords using the deprecated syntax' do
         let(:failure_message) do
           "expected #{actual.inspect} to be constructible with arguments:"\
           "\n  missing keywords :c and :d"
@@ -318,7 +508,18 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
       describe 'with valid keywords' do
         let(:failure_message_when_negated) do
-          "expected #{actual} not to be constructible with 0 arguments and keywords :a, :b, :c, and :d"
+          "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a, :b, :c, and :d"
+        end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b, :c, :d) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with valid keywords using the deprecated syntax' do
+        let(:failure_message_when_negated) do
+          "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a, :b, :c, and :d"
         end # let
         let(:instance) { super().with(0, :a, :b, :c, :d) }
 
@@ -329,9 +530,32 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
       describe 'with random keywords' do
         let(:failure_message_when_negated) do
-          "expected #{actual} not to be constructible with 0 arguments and keywords :a, :b, :c, :d, :e, and :f"
+          "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a, :b, :c, :d, :e, and :f"
+        end # let
+        let(:instance) { super().with(0).arguments.and_keywords(:a, :b, :c, :d, :e, :f) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with random keywords using the deprecated syntax' do
+        let(:failure_message_when_negated) do
+          "expected #{actual.inspect} not to be constructible with 0 arguments and keywords :a, :b, :c, :d, :e, and :f"
         end # let
         let(:instance) { super().with(0, :a, :b, :c, :d, :e, :f) }
+
+        include_examples 'passes with a positive expectation'
+
+        include_examples 'fails with a negative expectation'
+      end # describe
+
+      describe 'with arbitrary keywords' do
+        let(:failure_message_when_negated) do
+          "expected #{actual.inspect} not to be constructible with"\
+          " keywords :c and :d and arbitrary keywords"
+        end # let
+        let(:instance) { super().with_keywords(:c, :d).and_arbitrary_keywords }
 
         include_examples 'passes with a positive expectation'
 
