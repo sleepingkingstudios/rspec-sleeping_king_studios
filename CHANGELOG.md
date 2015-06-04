@@ -1,6 +1,16 @@
 # Changelog
 
+## 2.1.0
+
+### Concerns
+
+#### `WrapExamples` Concern
+
+Added module RSpec::SleepingKingStudios::Concerns::WrapExamples to support a common use case for shared examples/shared contexts and avoid surprising behavior when using multiple adjacent shared contexts (or shared examples that have side effects).
+
 ## 2.0.2
+
+### Matchers
 
 #### `construct` and `respond_to` Matchers
 
