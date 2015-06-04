@@ -61,13 +61,52 @@ RSpec::SleepingKingStudios defines a few concerns that can be included in or ext
 
 Utility functions for defining shared examples. If included in a module, any shared examples defined in that module are scoped to the module, rather than placed in a global scope. This allows you to define different shared examples with the same name in different contexts, similar to the current behavior when defining a shared example inside an example group. To use the defined examples, simply `include` the module in an example group. **Important Note:** Shared examples and aliases must be defined **before** including the module in an example group. Any shared examples or aliases defined afterword will not be available inside the example group.
 
-### `::alias_shared_examples`
+#### `::alias_shared_examples`
 
 (also `::alias_shared_context`) Aliases a defined shared example group, allowing it to be accessed using a new name. The example group must be defined in the current context using `shared_examples`. The aliases must be defined before including the module into an example group, or they will not be available in the example group.
 
-### `::shared_examples`
+#### `::shared_examples`
 
 (also `::shared_context`) Defines a shared example group within the context of the current module. Unlike a top-level example group defined using RSpec#shared_examples, these examples are not globally available, and must be mixed into an example group by including the module. The shared examples must be defined before including the module, or they will not be available in the example group.
+
+### Wrap Examples
+
+    require 'rspec/sleeping_king_studios/concerns/wrap_examples'
+
+    RSpec.describe String do
+      extend RSpec::SleepingKingStudios::Concerns::WrapExamples
+
+      shared_context 'with a long quote' do
+        let(:quote) do
+          'Greetings, starfighter! You have been recruited by the Star League'\
+          ' to defend the frontier against Xur and the Ko-Dan armada!'
+        end # let
+      end # shared context
+
+      shared_context 'with a short quote' do`
+        let(:quote) { 'Greetings, programs!' }
+      end # shared_context
+
+      describe '#length' do
+        wrap_context 'with a long quote' do
+          it { expect(quote.length).to be == 124 }
+        end # wrap_context
+
+        wrap_context 'with a short quote' do
+          it { expect(quote.length).to be == 20 }
+        end # wrap_context
+      end # describe
+    end # describe
+
+A simplified syntax for re-using shared context or examples without having to explicitly wrap them in `describe` blocks or allowing memoized values or callbacks to change the containing context. In the example above, if the programmer had used the standard `include_context` instead, the first expectation would have failed, as the value of :quote would have been overwritten.
+
+#### `::wrap_examples`
+
+(also `::wrap_context`) Creates an implicit `describe` block and includes the context or examples within the `describe` block to avoid leaking values or callbacks to the outer context. Any parameters or keywords will be passed along to the `include_examples` call. If a block is given, it is evaluated in the context of the `describe` block after the `include_examples` call, allowing you to define additional examples or customize the values and callbacks defined in the shared examples.
+
+#### `::fwrap_examples`
+
+(also `::fwrap_examples`) A shortcut for wrapping the context or examples in an automatically-focused `describe` block, similar to the built-in `fit` and `fdescribe` methods.
 
 ## Custom Matchers
 
