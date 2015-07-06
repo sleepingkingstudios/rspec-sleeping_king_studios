@@ -7,8 +7,6 @@ module RSpec::SleepingKingStudios::Matchers
   #
   # @since 1.0.0
   class BaseMatcher
-    include RSpec::Matchers::Pretty
-
     attr_reader :actual
 
     # A short string that describes the purpose of the matcher.

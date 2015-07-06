@@ -21,7 +21,22 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     # @api private
     #
-    # Converts the expected item to a human-readable string.
+    # @return [Boolean]
+    def matches?(actual)
+      perform_match(actual) { |v| v }
+    end # method matches?
+
+    # @api private
+    #
+    # @return [Boolean]
+    def does_not_match?(actual)
+      perform_match(actual) { |v| !v }
+    end # method does_not_match?
+
+    # @api private
+    #
+    # Converts the expected item to a human-readable string. Retained for
+    # pre-3.3 compatibility.
     def to_word expected_item
       case
       when is_matcher_with_description?(expected_item)
@@ -35,7 +50,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     # (see BaseMatcher#failure_message)
     def failure_message
-      message = super
+      message = super.sub ':__block_comparison__', 'an item matching the block'
 
       message << ", but it does not respond to `include?`" unless actual.respond_to?(:include?) || message =~ /does not respond to/
 
@@ -44,7 +59,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
-      message = super
+      message = super.sub ':__block_comparison__', 'an item matching the block'
 
       message << ", but it does not respond to `include?`" unless actual.respond_to?(:include?) || message =~ /does not respond to/
 
@@ -53,28 +68,40 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     private
 
-    def perform_match(predicate, hash_subset_predicate)
-      return false unless actual.respond_to?(:include?)
+    # @api private
+    def perform_match(actual, &block)
+      @actual = actual
+      @divergent_items = excluded_from_actual(&block)
+      actual.respond_to?(:include?) && @divergent_items.empty?
+    end # method perform_match
 
-      expected.__send__(predicate) do |expected_item|
+    # @api private
+    def excluded_from_actual
+      return [] unless @actual.respond_to?(:include?)
+
+      expected.inject([]) do |memo, expected_item|
         if comparing_proc?(expected_item)
-          actual_matches_proc?(expected_item)
+          memo << :__block_comparison__ unless yield actual_matches_proc?(expected_item)
         elsif comparing_hash_to_a_subset?(expected_item)
-          expected_item.__send__(hash_subset_predicate) do |(key, value)|
-            actual_hash_includes?(key, value)
-          end
+          expected_item.each do |(key, value)|
+            memo << { key => value } unless yield actual_hash_includes?(key, value)
+          end # each
         elsif comparing_hash_keys?(expected_item)
-          actual_hash_has_key?(expected_item)
+          memo << expected_item unless yield actual_hash_has_key?(expected_item)
         else
-          actual_collection_includes?(expected_item)
-        end
-      end
-    end
+          memo << expected_item unless yield actual_collection_includes?(expected_item)
+        end # if-elsif-else
 
+        memo
+      end # inject
+    end # method excluded_from_actual
+
+    # @api private
     def actual_matches_proc? expected_item
       !!actual.detect(&expected_item)
     end # method actual_matches_proc?
 
+    # @api private
     def comparing_proc? expected_item
       expected_item.is_a?(Proc)
     end # method comparing_proc?

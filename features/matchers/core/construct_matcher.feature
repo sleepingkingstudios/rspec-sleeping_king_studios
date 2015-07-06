@@ -86,64 +86,42 @@ Feature: `construct` matcher
       """
     When I run `rspec construct_matcher_spec.rb`
     Then the output should contain "26 examples, 13 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect('a String').to construct }
-             expected "a String" to be constructible
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(StandardError).not_to construct }
-             expected StandardError not to be constructible
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(StandardError).not_to construct.with(1).argument }
-             expected StandardError not to be constructible with 1 argument
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(StandardError).not_to construct.with(0..1).arguments }
-             expected StandardError not to be constructible with 0..1 arguments
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).not_to construct }
-             expected MyClass not to be constructible
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).to construct.with(0).arguments }
-             expected MyClass to be constructible with arguments:
-               expected at least 1 arguments, but received 0
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).not_to construct.with(2).arguments }
-             expected MyClass not to be constructible with 2 arguments
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).to construct.with(0..4).arguments }
-             expected MyClass to be constructible with arguments:
-               expected at least 1 arguments, but received 0
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).not_to construct.with(1..3).arguments }
-             expected MyClass not to be constructible with 1..3 arguments
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).not_to construct.with(1..3, :wibble, :wobble) }
-             expected MyClass not to be constructible with 1..3 arguments and keywords :wibble and :wobble
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).to construct.with(1..3, :foo, :bar) }
-             expected MyClass to be constructible with arguments:
-               unexpected keywords :foo and :bar
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect('a String').to construct } |
+      |   expected "a String" to be constructible |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(StandardError).not_to construct } |
+      |   expected StandardError not to be constructible |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(StandardError).not_to construct.with(1).argument } |
+      |   expected StandardError not to be constructible with 1 argument |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(StandardError).not_to construct.with(0..1).arguments } |
+      |   expected StandardError not to be constructible with 0..1 arguments |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).not_to construct } |
+      |   expected MyClass not to be constructible |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).to construct.with(0).arguments } |
+      |   expected MyClass to be constructible with arguments: |
+      |     expected at least 1 arguments, but received 0 |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).not_to construct.with(2).arguments } |
+      |   expected MyClass not to be constructible with 2 arguments |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).to construct.with(0..4).arguments } |
+      |   expected MyClass to be constructible with arguments: |
+      |     expected at least 1 arguments, but received 0 |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).not_to construct.with(1..3).arguments } |
+      |   expected MyClass not to be constructible with 1..3 arguments |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).not_to construct.with(1..3, :wibble, :wobble) } |
+      |   expected MyClass not to be constructible with 1..3 arguments and keywords :wibble and :wobble |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).to construct.with(1..3, :foo, :bar) } |
+      |   expected MyClass to be constructible with arguments: |
+      |     unexpected keywords :foo and :bar |
 
   Scenario: specifying required keywords
     Given Ruby 2.2 or greater
@@ -169,14 +147,10 @@ Feature: `construct` matcher
       """
     When I run `rspec construct_matcher_spec.rb`
     Then the output should contain "4 examples, 2 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).to construct.with(1..3, :wibble, :wobble) }
-             expected MyClass to be constructible with arguments:
-               missing keyword :greetings
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(described_class).not_to construct.with(1..3, :wibble, :wobble, :greetings) }
-             expected MyClass not to be constructible with 1..3 arguments and keywords :wibble, :wobble, and :greetings
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).to construct.with(1..3, :wibble, :wobble) } |
+      |   expected MyClass to be constructible with arguments: |
+      |     missing keyword :greetings |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(described_class).not_to construct.with(1..3, :wibble, :wobble, :greetings) } |
+      |   expected MyClass not to be constructible with 1..3 arguments and keywords :wibble, :wobble, and :greetings |
