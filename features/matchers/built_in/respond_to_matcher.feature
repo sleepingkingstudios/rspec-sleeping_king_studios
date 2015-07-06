@@ -65,26 +65,18 @@ Feature: `respond_to` matcher
       """
     When I run `rspec respond_to_matcher_spec.rb`
     Then the output should contain "8 examples, 4 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to respond_to(:length) }
-             expected "a String" not to respond to :length
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:flatten) }
-             expected "a String" to respond to :flatten
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:secret_method) }
-             expected "a String" to respond to :secret_method
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to respond_to(:secret_method, true) }
-             expected "a String" not to respond to :secret_method
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to respond_to(:length) } |
+      |   expected "a String" not to respond to :length |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:flatten) } |
+      |   expected "a String" to respond to :flatten |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:secret_method) } |
+      |   expected "a String" to respond to :secret_method |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to respond_to(:secret_method, true) } |
+      |   expected "a String" not to respond to :secret_method |
 
   Scenario: specifying arguments and keywords
     Given a file named "respond_to_matcher_spec.rb" with:
@@ -153,79 +145,53 @@ Feature: `respond_to` matcher
       """
     When I run `rspec respond_to_matcher_spec.rb`
     Then the output should contain "26 examples, 13 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(0).arguments }
-             expected my object to respond to :my_method with arguments:
-               expected at least 1 arguments, but received 0
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1).argument }
-             expected my object not to respond to :my_method with 1 argument
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(3).arguments }
-             expected my object not to respond to :my_method with 3 arguments
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(5).arguments }
-             expected my object to respond to :my_method with arguments:
-               expected at most 3 arguments, but received 5
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(0..5).arguments }
-             expected my object to respond to :my_method with arguments:
-               expected at least 1 arguments, but received 0
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1..3).arguments }
-             expected my object not to respond to :my_method with 1..3 arguments
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(:wibble, :wobble) }
-             expected my object not to respond to :my_method with keywords :wibble and :wobble
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(:up, :down) }
-             expected my object to respond to :my_method with arguments:
-               unexpected keywords :up and :down
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(:wobble, :up) }
-             expected my object to respond to :my_method with arguments:
-               unexpected keyword :up
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1..3, :wibble, :wobble) }
-             expected my object not to respond to :my_method with 1..3 arguments and keywords :wibble and :wobble
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(0..5, :wibble, :wobble) }
-             expected my object to respond to :my_method with arguments:
-               expected at least 1 arguments, but received 0
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(1..3, :up, :down) }
-             expected my object to respond to :my_method with arguments:
-               unexpected keywords :up and :down
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(0..5, :up, :down) }
-             expected my object to respond to :my_method with arguments:
-               expected at least 1 arguments, but received 0
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(0).arguments } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     expected at least 1 arguments, but received 0 |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1).argument } |
+      |   expected my object not to respond to :my_method with 1 argument |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(3).arguments } |
+      |   expected my object not to respond to :my_method with 3 arguments |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(5).arguments } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     expected at most 3 arguments, but received 5 |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(0..5).arguments } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     expected at least 1 arguments, but received 0 |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1..3).arguments } |
+      |   expected my object not to respond to :my_method with 1..3 arguments |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(:wibble, :wobble) } |
+      |   expected my object not to respond to :my_method with keywords :wibble and :wobble |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(:up, :down) } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     unexpected keywords :up and :down |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(:wobble, :up) } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     unexpected keyword :up |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1..3, :wibble, :wobble) } |
+      |   expected my object not to respond to :my_method with 1..3 arguments and keywords :wibble and :wobble |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(0..5, :wibble, :wobble) } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     expected at least 1 arguments, but received 0 |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(1..3, :up, :down) } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     unexpected keywords :up and :down |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(0..5, :up, :down) } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     expected at least 1 arguments, but received 0 |
 
   Scenario: specifying required keywords
     Given Ruby 2.2 or greater
@@ -257,20 +223,14 @@ Feature: `respond_to` matcher
       """
     When I run `rspec respond_to_matcher_spec.rb`
     Then the output should contain "6 examples, 3 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(1..3).arguments }
-             expected my object to respond to :my_method with arguments:
-               missing keyword :greetings
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to respond_to(:my_method).with(1..3, :wibble, :wobble) }
-             expected my object to respond to :my_method with arguments:
-               missing keyword :greetings
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1..3, :wibble, :wobble, :greetings) }
-             expected my object not to respond to :my_method with 1..3 arguments and keywords :wibble, :wobble, and :greetings
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(1..3).arguments } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     missing keyword :greetings |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to respond_to(:my_method).with(1..3, :wibble, :wobble) } |
+      |   expected my object to respond to :my_method with arguments: |
+      |     missing keyword :greetings |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1..3, :wibble, :wobble, :greetings) } |
+      |   expected my object not to respond to :my_method with 1..3 arguments and keywords :wibble, :wobble, and :greetings |

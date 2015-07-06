@@ -65,58 +65,36 @@ Feature: `have_property` matcher
       """
     When I run `rspec have_property_matcher_spec.rb`
     Then the output should contain "14 examples, 11 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_property(:foo) }
-             expected MyClass not to respond to :foo or :foo=, but responded to :foo and :foo=
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_property(:foo).with_value('Foo') }
-             expected MyClass not to respond to :foo or :foo= and return "Foo", but responded to :foo and :foo= and returned "Foo"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_property(:foo).with_value('Bar') }
-             expected MyClass not to respond to :foo or :foo= and return "Bar", but responded to :foo and :foo=
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_property(:foo).with_value(an_instance_of String) }
-             expected MyClass not to respond to :foo or :foo= and return an instance of String, but responded to :foo and :foo= and returned "Foo"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_property(:foo).with_value(an_instance_of Hash) }
-             expected MyClass not to respond to :foo or :foo= and return an instance of Hash, but responded to :foo and :foo=
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_property(:foo).with_value('Bar') }
-             expected MyClass to respond to :foo and :foo= and return "Bar", but returned "Foo"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_property(:foo).with_value(an_instance_of Hash) }
-             expected MyClass to respond to :foo and :foo= and return an instance of Hash, but returned "Foo"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_property(:bar) }
-             expected MyClass to respond to :bar and :bar=, but did not respond to :bar=
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_property(:bar) }
-             expected MyClass not to respond to :bar or :bar=, but responded to :bar
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_property(:baz) }
-             expected MyClass to respond to :baz and :baz=, but did not respond to :baz
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_property(:baz) }
-             expected MyClass not to respond to :baz or :baz=, but responded to :baz=
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_property(:foo) } |
+      |   expected MyClass not to respond to :foo or :foo=, but responded to :foo and :foo= |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_property(:foo).with_value('Foo') } |
+      |   expected MyClass not to respond to :foo or :foo= and return "Foo", but responded to :foo and :foo= and returned "Foo" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_property(:foo).with_value('Bar') } |
+      |   expected MyClass not to respond to :foo or :foo= and return "Bar", but responded to :foo and :foo= |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_property(:foo).with_value(an_instance_of String) } |
+      |   expected MyClass not to respond to :foo or :foo= and return an instance of String, but responded to :foo and :foo= and returned "Foo" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_property(:foo).with_value(an_instance_of Hash) } |
+      |   expected MyClass not to respond to :foo or :foo= and return an instance of Hash, but responded to :foo and :foo= |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_property(:foo).with_value('Bar') } |
+      |   expected MyClass to respond to :foo and :foo= and return "Bar", but returned "Foo" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_property(:foo).with_value(an_instance_of Hash) } |
+      |   expected MyClass to respond to :foo and :foo= and return an instance of Hash, but returned "Foo" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_property(:bar) } |
+      |   expected MyClass to respond to :bar and :bar=, but did not respond to :bar= |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_property(:bar) } |
+      |   expected MyClass not to respond to :bar or :bar=, but responded to :bar |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_property(:baz) } |
+      |   expected MyClass to respond to :baz and :baz=, but did not respond to :baz |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_property(:baz) } |
+      |   expected MyClass not to respond to :baz or :baz=, but responded to :baz= |
