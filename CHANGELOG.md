@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3
+
+Internal update to add support for RSpec 3.3.
+
 ## 2.0.2
 
 #### `construct` and `respond_to` Matchers
