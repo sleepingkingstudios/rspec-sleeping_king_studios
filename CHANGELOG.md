@@ -8,6 +8,10 @@
 
 Added module RSpec::SleepingKingStudios::Concerns::WrapExamples to support a common use case for shared examples/shared contexts and avoid surprising behavior when using multiple adjacent shared contexts (or shared examples that have side effects).
 
+## 2.0.3
+
+Internal update to add support for RSpec 3.3.
+
 ## 2.0.2
 
 ### Matchers
