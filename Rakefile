@@ -30,7 +30,7 @@ def capture_io(task)
     begin
       while line = stdout.readline
         io << line
-      end #  while
+      end # while
     rescue EOFError
     end # begin-rescue
   end # open pipe
