@@ -23,21 +23,6 @@ ANSI_COLOR_VALUES.keys.each do |color|
   end # method
 end # each
 
-def capture_io(task)
-  io = ''
-
-  Open3::popen3("rake #{task}") do |stdin, stdout, stderr|
-    begin
-      while line = stdout.readline
-        io << line
-      end #  while
-    rescue EOFError
-    end # begin-rescue
-  end # open pipe
-
-  io
-end # method capture_io
-
 def pluralize(count, singular, plural)
   count == 1 ? singular : plural
 end
@@ -58,35 +43,41 @@ namespace :ci do
 
     output = 'Cucumber: '
 
-    io = capture_io 'cucumber'
+    io = `rake cucumber`
 
-    match = io.match /^(?<scenarios>\d+ scenarios) \(((?<failed>\d+ failed), )?((?<undefined>\d+ undefined), )?/
-    output << [
-      ansi_green(match[:scenarios]),
-      match[:failed] ? ansi_red(match[:failed].sub('failed', pluralize(match[:failed].split(' ')[0].to_i, 'failure', 'failures'))) : ansi_green('0 failures'),
-      match[:undefined] ? ansi_yellow(match[:undefined].sub('undefined', 'pending')) : nil
-    ].compact.join(', ')
+    if match = io.match(/^(?<scenarios>\d+ scenarios) \(((?<failed>\d+ failed), )?((?<undefined>\d+ undefined), )?/)
+      output << [
+        ansi_green(match[:scenarios]),
+        match[:failed] ? ansi_red(match[:failed].sub('failed', pluralize(match[:failed].split(' ')[0].to_i, 'failure', 'failures'))) : ansi_green('0 failures'),
+        match[:undefined] ? ansi_yellow(match[:undefined].sub('undefined', 'pending')) : nil
+      ].compact.join(', ')
 
-    match = io.match /^(?<minutes>\d+)m(?<seconds>\d+(\.\d+)?)s/
-    output << " in #{60 * match[:minutes].to_i + match[:seconds].split('.').first.to_i}.#{match[:seconds].split('.').last.to_i} seconds.\n"
+      match = io.match /^(?<minutes>\d+)m(?<seconds>\d+(\.\d+)?)s/
+      output << " in #{60 * match[:minutes].to_i + match[:seconds].split('.').first.to_i}.#{match[:seconds].split('.').last.to_i} seconds.\n"
 
-    puts output
+      puts output
+    else
+      puts io
+    end
 
     output = 'RSpec:    '
 
-    io = capture_io 'spec'
+    io = `rake spec`
 
-    match = io.match /^(?<examples>\d+ examples?), (?<failures>\d+ failures?)(, (?<pending>\d+ pending))?/
-    output << [
-      ansi_green(match[:examples]),
-      match[:failures] =~ /[1-9]/ ? ansi_red(match[:failures]) : ansi_green(match[:failures]),
-      match[:pending] ? ansi_yellow(match[:pending]) : nil
-    ].compact.join(', ')
+    if match = io.match(/^(?<examples>\d+ examples?), (?<failures>\d+ failures?)(, (?<pending>\d+ pending))?/)
+      output << [
+        ansi_green(match[:examples]),
+        match[:failures] =~ /[1-9]/ ? ansi_red(match[:failures]) : ansi_green(match[:failures]),
+        match[:pending] ? ansi_yellow(match[:pending]) : nil
+      ].compact.join(', ')
 
-    match = io.match /^Finished in (?<duration>\d+(\.\d+)? seconds)/
-    output << ' in ' << match[:duration] << '.' << "\n"
+      match = io.match /^Finished in (?<duration>\d+(\.\d+)? seconds)/
+      output << ' in ' << match[:duration] << '.' << "\n"
 
-    puts output
+      puts output
+    else
+      puts io
+    end
 
     print "\n"
   end # task

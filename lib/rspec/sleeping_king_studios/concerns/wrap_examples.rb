@@ -49,5 +49,30 @@ module RSpec::SleepingKingStudios::Concerns
       end # describe
     end # method fwrap_examples
     alias_method :fwrap_context, :fwrap_examples
+
+    # Includes the specified shared example group and wraps it inside a
+    # skipped `xdescribe` block. If a block is provided, it is evaluated in the
+    # context of the xdescribe block after the example group has been included.
+    # Mostly used to temporarily disable a wrapped example group while updating
+    # or debugging a spec.
+    #
+    # @param [String] name The name of the shared example group to be wrapped.
+    # @param [Array] args Optional array of arguments that are passed on to
+    #   the shared example group.
+    # @param [Hash] kwargs Optional hash of keyword arguments that are passed
+    #   on to the shared example group.
+    #
+    # @yield Additional code to run in the context of the wrapping `fdescribe`
+    #   block, such as additional examples or memoized values.
+    def xwrap_examples name, *args, **kwargs, &block
+      xdescribe name do
+        include_examples name, *args, **kwargs
+
+        instance_eval(&block) if block_given?
+      end # describe
+    end # method fwrap_examples
+    alias_method :xwrap_context, :xwrap_examples
+
+
   end # module
 end # module

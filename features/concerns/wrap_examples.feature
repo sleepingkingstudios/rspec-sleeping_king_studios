@@ -84,3 +84,117 @@ Feature: `WrapExamples` concern
       """
     When I run `rspec wrapping_examples.rb`
     Then the output should contain "5 examples, 0 failures"
+
+  Scenario: wrapping a focused example group
+    Given a file named "wrapping_examples.rb" with:
+      """ruby
+        require 'rspec/sleeping_king_studios/concerns/wrap_examples'
+
+        RSpec.configure do |config|
+          # Limit a spec run to individual examples or groups you care about by tagging
+          # them with `:focus` metadata.
+          config.filter_run :focus
+          config.run_all_when_everything_filtered = true
+        end # configure
+
+        Weapon = Struct.new(:name, :type, :culture)
+
+        RSpec.describe Weapon do
+          extend RSpec::SleepingKingStudios::Concerns::WrapExamples
+
+          shared_context 'with a german weapon' do
+            let(:weapon) { Weapon.new 'zweihänder', 'sword', 'german' }
+          end # shared_context
+
+          shared_examples 'should be japanese' do
+            it { expect(weapon.culture).to be == 'japanese' }
+          end # shared_examples
+
+          shared_examples 'should be a sword' do
+            let(:sword) { weapon }
+
+            it { expect(sword.type).to be == 'sword' }
+          end # shared_examples
+
+          let(:weapon) { Weapon.new 'daito', 'sword', 'japanese' }
+
+          describe 'with a shared context' do
+            fwrap_context 'with a german weapon' do
+              it { expect(weapon.culture).to be == 'german' }
+            end # context
+
+            # The wrapped context does not affect the outer context, unlike `include_context do...end`.
+            it { expect(weapon.culture).to be == 'japanese' }
+          end # describe
+
+          describe 'with a shared example group' do
+            wrap_examples 'should be japanese'
+          end # describe
+
+          describe 'with a shared example group example with side effects' do
+            fwrap_examples 'should be a sword'
+
+            # Will raise an error because sword is not defined.
+            it { expect { expect(sword.culture).to be == 'japanese' }.to raise_error NameError, /undefined local variable or method `sword'/ }
+          end # describe
+        end # describe
+      """
+    When I run `rspec wrapping_examples.rb`
+    Then the output should contain "2 examples, 0 failures"
+
+  Scenario: wrapping a skipped example group
+    Given a file named "wrapping_examples.rb" with:
+      """ruby
+        require 'rspec/sleeping_king_studios/concerns/wrap_examples'
+
+        RSpec.configure do |config|
+          # Limit a spec run to individual examples or groups you care about by tagging
+          # them with `:focus` metadata.
+          config.filter_run :focus
+          config.run_all_when_everything_filtered = true
+        end # configure
+
+        Weapon = Struct.new(:name, :type, :culture)
+
+        RSpec.describe Weapon do
+          extend RSpec::SleepingKingStudios::Concerns::WrapExamples
+
+          shared_context 'with a german weapon' do
+            let(:weapon) { Weapon.new 'zweihänder', 'sword', 'german' }
+          end # shared_context
+
+          shared_examples 'should be japanese' do
+            it { expect(weapon.culture).to be == 'japanese' }
+          end # shared_examples
+
+          shared_examples 'should be a sword' do
+            let(:sword) { weapon }
+
+            it { expect(sword.type).to be == 'sword' }
+          end # shared_examples
+
+          let(:weapon) { Weapon.new 'daito', 'sword', 'japanese' }
+
+          describe 'with a shared context' do
+            xwrap_context 'with a german weapon' do
+              it { expect(weapon.culture).to be == 'german' }
+            end # context
+
+            # The wrapped context does not affect the outer context, unlike `include_context do...end`.
+            it { expect(weapon.culture).to be == 'japanese' }
+          end # describe
+
+          describe 'with a shared example group' do
+            wrap_examples 'should be japanese'
+          end # describe
+
+          describe 'with a shared example group example with side effects' do
+            xwrap_examples 'should be a sword'
+
+            # Will raise an error because sword is not defined.
+            it { expect { expect(sword.culture).to be == 'japanese' }.to raise_error NameError, /undefined local variable or method `sword'/ }
+          end # describe
+        end # describe
+      """
+    When I run `rspec wrapping_examples.rb`
+    Then the output should contain "5 examples, 0 failures, 2 pending"
