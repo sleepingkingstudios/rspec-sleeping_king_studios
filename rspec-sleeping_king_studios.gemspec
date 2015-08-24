@@ -29,7 +29,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'factory_girl', '~> 4.2'
   gem.add_development_dependency 'rake',         '~> 10.3'
 
-  gem.add_development_dependency 'aruba',        '~> 0.6', '>= 0.6.2'
+  gem.add_development_dependency 'aruba',        '~> 0.9'
   gem.add_development_dependency 'cucumber',     '~> 1.3', '>= 1.3.19'
 
   gem.add_development_dependency 'activemodel',  '>= 3.0', '< 5.0'
