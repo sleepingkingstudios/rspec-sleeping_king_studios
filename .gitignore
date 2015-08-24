@@ -14,7 +14,6 @@ Gemfile.lock
 gemfiles/*.lock
 
 # Ignore local and generated documentation.
-DEVELOPMENT.md
 /doc
 .yardoc
 .yardopts

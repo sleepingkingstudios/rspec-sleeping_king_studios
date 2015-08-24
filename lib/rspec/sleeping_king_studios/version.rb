@@ -11,13 +11,13 @@ module RSpec
       # Major version.
       MAJOR = 2
       # Minor version.
-      MINOR = 0
+      MINOR = 1
       # Patch version.
-      PATCH = 3
+      PATCH = 0
       # Prerelease version.
-      PRERELEASE = nil
+      PRERELEASE = 'rc'
       # Build metadata.
-      BUILD = nil
+      BUILD = 0
 
       # Generates the gem version string from the Version constants.
       def self.to_gem_version

@@ -106,7 +106,11 @@ A simplified syntax for re-using shared context or examples without having to ex
 
 #### `::fwrap_examples`
 
-(also `::fwrap_examples`) A shortcut for wrapping the context or examples in an automatically-focused `describe` block, similar to the built-in `fit` and `fdescribe` methods.
+(also `::fwrap_context`) A shortcut for wrapping the context or examples in an automatically-focused `describe` block, similar to the built-in `fit` and `fdescribe` methods.
+
+#### `::xwrap_examples`
+
+(also `::xwrap_context`) A shortcut for wrapping the context or examples in an automatically-skipped `describe` block, similar to the built-in `xit` and `xdescribe` methods.
 
 ## Custom Matchers
 
