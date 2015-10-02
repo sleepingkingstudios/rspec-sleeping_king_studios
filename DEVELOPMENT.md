@@ -5,8 +5,10 @@
 ### Planned Features
 
 - Add #have_constant matcher.
+- Add #have_predicate matcher.
 - Add shared examples for 'should have constant', 'should have immutable constant'
-- Add shared examples for 'should not have reader/writer/property'
+- Add shared examples for 'should have predicate'
+- Add shared examples for 'should not have reader/writer'
 - Add shared examples for #belongs_to, #has_one, #has_many, #embedded_in, #embeds_one, #embeds_many.
 - Add shared examples for core ActiveModel validations.
 
