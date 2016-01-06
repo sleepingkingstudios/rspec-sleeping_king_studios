@@ -4,48 +4,11 @@ require 'rspec/sleeping_king_studios/spec_helper'
 
 require 'rspec/sleeping_king_studios/concerns/wrap_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
+require 'rspec/sleeping_king_studios/support/mock_example_group'
 
 RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
   let(:instance) do
-    Module.new do
-      class << self
-        attr_accessor :examples_included, :is_describe_block, :is_focus, :is_skipped
-
-        def describe name, &block
-          self.is_describe_block = true
-          self.is_focus          = false
-          self.is_skipped        = false
-
-          instance_eval(&block)
-
-          self.is_describe_block = false
-        end # method describe
-
-        def fdescribe name, &block
-          self.is_describe_block = true
-          self.is_focus          = true
-          self.is_skipped        = false
-
-          instance_eval(&block)
-
-          self.is_describe_block = false
-          self.is_focus          = false
-        end # method fdescribe
-
-        def xdescribe name, &block
-          self.is_describe_block = true
-          self.is_focus          = false
-          self.is_skipped        = true
-
-          instance_eval(&block)
-
-          self.is_describe_block = false
-          self.is_skipped        = false
-        end # method fdescribe
-
-        def include_examples name, *args, **kwargs; end
-      end # eigenclass
-    end.extend described_class
+    Module.new.extend(Spec::Support::MockExampleGroup).extend(described_class)
   end # let
 
   describe '#fwrap_examples' do
