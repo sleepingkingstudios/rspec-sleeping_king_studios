@@ -72,7 +72,5 @@ module RSpec::SleepingKingStudios::Concerns
       end # describe
     end # method fwrap_examples
     alias_method :xwrap_context, :xwrap_examples
-
-
   end # module
 end # module
