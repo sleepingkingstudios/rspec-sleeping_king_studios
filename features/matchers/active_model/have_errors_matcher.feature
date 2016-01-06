@@ -56,18 +56,14 @@ Feature: `have_errors` matcher
       """
     When I run `rspec have_errors_matcher_spec.rb`
     Then the output should contain "4 examples, 2 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_errors }
-             expected an invalid model not to have errors
-               received errors:
-                 value: "can't be blank"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_errors }
-             expected a valid model to have errors
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_errors } |
+      |   expected an invalid model not to have errors |
+      |     received errors: |
+      |       value: "can't be blank" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_errors } |
+      |   expected a valid model to have errors |
 
   Scenario: with a property using `#on`
     Given a file with a model class definition
@@ -106,42 +102,34 @@ Feature: `have_errors` matcher
       """
     When I run `rspec have_errors_matcher_spec.rb`
     Then the output should contain "8 examples, 4 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_errors.on(:value) }
-             expected an invalid model not to have errors
-               expected errors:
-                 value: (none)
-               received errors:
-                 value: "can't be blank"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_errors.on(:other_property) }
-             expected an invalid model to have errors
-               expected errors:
-                 other_property: (any)
-               received errors:
-                 value: "can't be blank"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_errors.on(:value) }
-             expected a valid model to have errors
-               expected errors:
-                 value: (any)
-               received errors:
-                 (none)
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_errors.on(:other_property) }
-             expected a valid model to have errors
-               expected errors:
-                 other_property: (any)
-               received errors:
-                 (none)
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_errors.on(:value) } |
+      |   expected an invalid model not to have errors |
+      |     expected errors: |
+      |       value: (none) |
+      |     received errors: |
+      |       value: "can't be blank" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_errors.on(:other_property) } |
+      |   expected an invalid model to have errors |
+      |     expected errors: |
+      |       other_property: (any) |
+      |     received errors: |
+      |       value: "can't be blank" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_errors.on(:value) } |
+      |   expected a valid model to have errors |
+      |     expected errors: |
+      |       value: (any) |
+      |     received errors: |
+      |       (none) |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_errors.on(:other_property) } |
+      |   expected a valid model to have errors |
+      |     expected errors: |
+      |       other_property: (any) |
+      |     received errors: |
+      |       (none) |
 
   Scenario: with a property and error messages using `on.with_message`
     Given a file with a model class definition
@@ -180,30 +168,24 @@ Feature: `have_errors` matcher
       """
     When I run `rspec have_errors_matcher_spec.rb`
     Then the output should contain "8 examples, 4 failures"
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).not_to have_errors.on(:value).with_message("can't be blank") }
-             expected an invalid model not to have errors
-               expected errors:
-                 value: "can't be blank"
-               received errors:
-                 value: "can't be blank"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_errors.on(:value).with_message("must be an integer") }
-             expected an invalid model to have errors
-               expected errors:
-                 value: "must be an integer"
-               received errors:
-                 value: "can't be blank"
-      """
-    Then the output should contain:
-      """
-           Failure/Error: it { expect(instance).to have_errors.on(:value).with_message("can't be blank") }
-             expected a valid model to have errors
-               expected errors:
-                 value: "can't be blank"
-               received errors:
-                 (none)
-      """
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).not_to have_errors.on(:value).with_message("can't be blank") } |
+      |   expected an invalid model not to have errors |
+      |     expected errors: |
+      |       value: "can't be blank" |
+      |     received errors: |
+      |       value: "can't be blank" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_errors.on(:value).with_message("must be an integer") } |
+      |   expected an invalid model to have errors |
+      |     expected errors: |
+      |       value: "must be an integer" |
+      |     received errors: |
+      |       value: "can't be blank" |
+    Then the output should contain consecutive lines:
+      | Failure/Error: it { expect(instance).to have_errors.on(:value).with_message("can't be blank") } |
+      |   expected a valid model to have errors |
+      |     expected errors: |
+      |       value: "can't be blank" |
+      |     received errors: |
+      |       (none) |

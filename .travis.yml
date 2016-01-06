@@ -1,11 +1,25 @@
+# Build Options
 language: ruby
 rvm:
 - 2.0.0
-- 2.1.6
-- 2.2.2
+- 2.1.8
+- 2.2.4
+- 2.3.0
 gemfile:
 - gemfiles/activemodel_3.gemfile
 - gemfiles/rspec_3_0.gemfile
 - gemfiles/rspec_3_1.gemfile
 - gemfiles/rspec_3_2.gemfile
 - gemfiles/rspec_3_3.gemfile
+- gemfiles/rspec_3_4.gemfile
+matrix:
+  allow_failures:
+  - gemfile: gemfiles/rspec_edge.gemfile
+  fast_finish: true
+  include:
+    - rvm: 2.3.0
+      gemfile: gemfiles/rspec_edge.gemfile
+
+# Travis-CI Configuration
+cache: bundler
+sudo:  false # Enable containerized builds.
