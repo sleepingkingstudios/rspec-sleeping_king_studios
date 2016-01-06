@@ -20,7 +20,11 @@ module RSpec::SleepingKingStudios::Concerns
     #   block, such as additional examples or memoized values.
     def wrap_examples name, *args, **kwargs, &block
       describe name do
-        include_examples name, *args, **kwargs
+        if kwargs.empty?
+          include_examples name, *args
+        else
+          include_examples name, *args, **kwargs
+        end # if-else
 
         instance_eval(&block) if block_given?
       end # describe
@@ -41,7 +45,11 @@ module RSpec::SleepingKingStudios::Concerns
     #   block, such as additional examples or memoized values.
     def fwrap_examples name, *args, **kwargs, &block
       fdescribe name do
-        include_examples name, *args, **kwargs
+        if kwargs.empty?
+          include_examples name, *args
+        else
+          include_examples name, *args, **kwargs
+        end # if-else
 
         instance_eval(&block) if block_given?
       end # describe
@@ -64,7 +72,11 @@ module RSpec::SleepingKingStudios::Concerns
     #   block, such as additional examples or memoized values.
     def xwrap_examples name, *args, **kwargs, &block
       xdescribe name do
-        include_examples name, *args, **kwargs
+        if kwargs.empty?
+          include_examples name, *args
+        else
+          include_examples name, *args, **kwargs
+        end # if-else
 
         instance_eval(&block) if block_given?
       end # describe
