@@ -2,14 +2,11 @@
 
 ## Tasks
 
-- Add RSpec 3.4, RSpec edge to CI.
 - Resolve Aruba deprecation warnings.
 
 ### Planned Features
 
-- Add #finclude_examples, #xinclude_examples methods.
-  - Wraps in focused or skipped #describe block named "(focused)" or "(skipped)" DONE
-  - Update documentation.
+- Add `#with_any_keywords` alias to RespondToMatcher.
 - Add #have_constant matcher.
 - Add #have_predicate matcher.
 - Add shared examples for 'should have constant', 'should have immutable constant'
