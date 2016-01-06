@@ -235,15 +235,18 @@ Now has additional chaining functionality to validate the number of arguments ac
     expect(instance).to respond_to(:foo).with(2..3).arguments.and_a_block
 
     # With keyword arguments.
-    expect(instance).to respond_to(:foo).with(0, :bar, :baz)
+    expect(instance).to respond_to(:foo).with_keywords(:bar, :baz)
+
+    # With both arguments and keywords.
+    expect(instance).to respond_to(:foo).with(2).arguments.and_keywords(:bar, :baz)
 
 **Chaining:**
 
-* **`#with`:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
+* **`#with`:** Expects at most one Integer or Range argument, and zero or more Symbol arguments corresponding to optional keywords. Verifies that the method accepts that keyword, or has a variadic keyword of the form `**kwargs`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
 * **`#with_unlimited_arguments`:** (also `and_unlimited_arguments`) No parameters. Verifies that the method accepts any number of arguments via a variadic argument of the form `*args`.
 * **`#with_a_block`:** (also `and_a_block`) No parameters. Verifies that the method requires a block argument of the form `&my_argument`. _Important note:_ A negative result _does not_ mean the method cannot accept a block, merely that it does not require one. Also, _does not_ check whether the block is called or yielded.
-* **`#with_keywords`:** (also `and_keywords`) Expects one or more String or Symbol arguments. Verifies that the method accepts each provided keyword or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
-* **`#with_arbitrary_keywords`:** (also `and_arbitrary_keywords`) No parameters. Verifies that the method accepts any keyword arguments via a variadic keyword of the form `**params`.
+* **`#with_keywords`:** (also `and_keywords`) Expects one or more String or Symbol arguments. Verifies that the method accepts each provided keyword or has a variadic keyword of the form `**kwargs`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
+* **`#with_any_keywords`:** (also `and_any_keywords`, `and_arbitrary_keywords`, `and_arbitrary_keywords`) No parameters. Verifies that the method accepts any keyword arguments via a variadic keyword of the form `**kwargs`.
 
 ### Core
 

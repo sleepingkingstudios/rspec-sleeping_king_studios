@@ -8,6 +8,12 @@
 
 Added module RSpec::SleepingKingStudios::Concerns::FocusExamples to create a shorthand for quickly focusing/skipping included shared example groups, e.g. `include_examples '...'` => `finclude_examples '...'`.
 
+### Matchers
+
+#### `respond_to` Matcher
+
+Added methods `#with_any_keywords` and `#and_any_keywords`, which are both equivalent to the existing `#with_arbitrary_keywords`.
+
 ## 2.1.0
 
 ### Concerns

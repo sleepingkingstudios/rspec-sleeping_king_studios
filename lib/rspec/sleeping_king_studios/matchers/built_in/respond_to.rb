@@ -94,6 +94,8 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       self
     end # method with_arbitrary_keywords
     alias_method :and_arbitrary_keywords, :with_arbitrary_keywords
+    alias_method :with_any_keywords,      :with_arbitrary_keywords
+    alias_method :and_any_keywords,       :with_any_keywords
 
     # Adds a block expectation. The actual object will only match a block
     # expectation if it expects a parameter of the form &block.

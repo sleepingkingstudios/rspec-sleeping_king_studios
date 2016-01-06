@@ -55,6 +55,16 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
     it { expect(instance.and_keywords :foo).to be instance }
   end # describe
 
+  describe '#with_any_keywords' do
+    it { expect(instance).to respond_to(:with_any_keywords).with(0).arguments }
+    it { expect(instance.with_any_keywords).to be instance }
+  end # describe
+
+  describe '#and_any_keywords' do
+    it { expect(instance).to respond_to(:and_any_keywords).with(0).arguments }
+    it { expect(instance.and_any_keywords).to be instance }
+  end # describe
+
   describe '#with_arbitrary_keywords' do
     it { expect(instance).to respond_to(:with_arbitrary_keywords).with(0).arguments }
     it { expect(instance.with_arbitrary_keywords).to be instance }
@@ -342,7 +352,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
         "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
         " arguments:\n  expected arbitrary keywords"
       end # let
-      let(:instance) { super().with_arbitrary_keywords }
+      let(:instance) { super().with_any_keywords }
 
       include_examples 'fails with a positive expectation'
 
@@ -414,7 +424,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
         "expected #{actual.inspect} not to respond to #{identifier.inspect} with"\
         " arbitrary keywords"
       end # let
-      let(:instance) { super().with_arbitrary_keywords }
+      let(:instance) { super().with_any_keywords }
 
       include_examples 'passes with a positive expectation'
 
@@ -714,7 +724,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
           "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
           " arguments:\n  expected arbitrary keywords"
         end # let
-        let(:instance) { super().with_arbitrary_keywords }
+        let(:instance) { super().with_any_keywords }
 
         include_examples 'fails with a positive expectation'
 
