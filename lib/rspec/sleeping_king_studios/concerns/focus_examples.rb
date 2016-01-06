@@ -27,7 +27,11 @@ module RSpec::SleepingKingStudios::Concerns
     #   automatically focus such groups.
     def finclude_examples name, *args, **kwargs, &block
       fdescribe '(focused)' do
-        include_examples name, *args, **kwargs, &block
+        if kwargs.empty?
+          include_examples name, *args, &block
+        else
+          include_examples name, *args, **kwargs, &block
+        end # if-else
       end # describe
     end # method wrap_examples
     alias_method :finclude_context, :finclude_examples
@@ -54,7 +58,11 @@ module RSpec::SleepingKingStudios::Concerns
     # groups.
     def xinclude_examples name, *args, **kwargs, &block
       xdescribe '(focused)' do
-        include_examples name, *args, **kwargs, &block
+        if kwargs.empty?
+          include_examples name, *args, &block
+        else
+          include_examples name, *args, **kwargs, &block
+        end # if-else
       end # describe
     end # method xinclude_examples
     alias_method :xinclude_context, :xinclude_examples
