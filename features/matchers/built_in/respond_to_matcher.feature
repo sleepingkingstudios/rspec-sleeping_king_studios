@@ -33,7 +33,7 @@ Feature: `respond_to` matcher
 
   expect(instance).to respond_to(:method_name).with_keywords(:headers, :body, :cookies)
   expect(instance).to respond_to(:method_name).with(3).arguments.and_keywords(:options, :http_options)
-  expect(instance).to respond_to(:method_name).with_arbitrary_keywords
+  expect(instance).to respond_to(:method_name).with_any_keywords
   ```
 
   Scenario: basic usage
