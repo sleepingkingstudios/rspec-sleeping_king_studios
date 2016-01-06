@@ -5,8 +5,6 @@ require 'rspec/sleeping_king_studios/concerns'
 module RSpec::SleepingKingStudios::Concerns
   # Methods for encapsulating shared example groups to include contexts or
   # examples without affecting the surrounding context.
-  #
-  # @examples
   module WrapExamples
     # Includes the specified shared example group and wraps it inside a
     # `describe` block. If a block is provided, it is evaluated in the

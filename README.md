@@ -46,6 +46,45 @@ This option is used with the RSpec matcher examples (see Examples, below), and d
 
 RSpec::SleepingKingStudios defines a few concerns that can be included in or extended into modules or example groups for additional functionality.
 
+### Focus Examples
+
+    require 'rspec/sleeping_king_studios/concerns/focus_examples'
+
+    RSpec.describe String do
+      extend RSpec::SleepingKingStudios::Concerns::WrapExamples
+
+      shared_examples 'should be a greeting' do
+        it { expect(salutation).to be =~ /greeting/i }
+      end # shared_examples
+
+      shared_examples 'should greet the user by name' do
+        it { expect(salutation).to match user.name }
+      end # shared_examples
+
+      let(:salutation) { 'Greetings, programs!' }
+
+      # Focused example groups are always run when config.filter_run :focus is
+      # set to true.
+      finclude_examples 'should be a greeting'
+
+      # Skipped example groups are marked as pending and never run.
+      xinclude_examples 'should greet the user by name'
+    end # describe
+
+A shorthand for focusing or skipping included shared example groups with a single keystroke, e.g. `include_examples '...'` => `finclude_examples '...'`.
+
+A simplified syntax for re-using shared context or examples without having to explicitly wrap them in `describe` blocks or allowing memoized values or callbacks to change the containing context. In the example above, if the programmer had used the standard `include_context` instead, the first expectation would have failed, as the value of :quote would have been overwritten.
+
+*Important Note:* Do not use these methods with example groups that have side effects, e.g. that define a memoized `#let` helper or a `#before` block that is intended to modify the behavior of sibling examples. Wrapping the example group in a `describe` block breaks that relationship. Best practice is to use the `#wrap_examples` method to safely encapsulate example groups with side effects, and the `#fwrap_examples` method to automatically focus such groups.
+
+#### `::finclude_examples`
+
+(also `::finclude_context`) A shortcut for focusing the example group by wrapping it in a `describe` block, similar to the built-in `fit` and `fdescribe` methods.
+
+#### `::xinclude_examples`
+
+(also `::xinclude_context`) A shortcut for skipping the example group by wrapping it in a `describe` block, similar to the built-in `xit` and `xdescribe` methods.
+
 ### Shared Example Groups
 
     require 'rspec/sleeping_king_studios/concerns/shared_example_group'

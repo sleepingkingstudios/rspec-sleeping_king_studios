@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.1
+
+### Concerns
+
+#### 'FocusExamples' Concern
+
+Added module RSpec::SleepingKingStudios::Concerns::FocusExamples to create a shorthand for quickly focusing/skipping included shared example groups, e.g. `include_examples '...'` => `finclude_examples '...'`.
+
 ## 2.1.0
 
 ### Concerns
