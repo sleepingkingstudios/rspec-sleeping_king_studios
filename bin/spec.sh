@@ -2,7 +2,7 @@
 
 GEMSET="rspec-sleepingkingstudios"
 
-for version in "2.0.0" "2.1.5" "2.2.1"
+for version in "2.0.0" "2.1.8" "2.2.4" "2.3.0"
 do
   echo 'Running specs for '$version':'
   rvm $version@$GEMSET --create

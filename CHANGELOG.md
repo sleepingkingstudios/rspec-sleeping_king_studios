@@ -4,9 +4,13 @@
 
 ### Concerns
 
-#### 'FocusExamples' Concern
+#### `FocusExamples` Concern
 
 Added module RSpec::SleepingKingStudios::Concerns::FocusExamples to create a shorthand for quickly focusing/skipping included shared example groups, e.g. `include_examples '...'` => `finclude_examples '...'`.
+
+#### `WrapExamples` Concern
+
+Ensured correct behavior when passing an empty keywords hash to a method with optional arguments.
 
 ### Matchers
 
