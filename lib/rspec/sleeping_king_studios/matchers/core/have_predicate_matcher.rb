@@ -2,6 +2,7 @@
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/core'
+require 'rspec/sleeping_king_studios/matchers/core/be_boolean_matcher'
 require 'rspec/sleeping_king_studios/matchers/shared/match_property'
 
 module RSpec::SleepingKingStudios::Matchers::Core
@@ -23,6 +24,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
     #   object.
     def initialize expected
       @expected = expected.to_s.gsub(/\?$/, '').intern
+
+      apply_boolean_expectation if strict_matching?
     end # method initialize
 
     # Checks if the object responds to #expected?. Additionally, if a value
@@ -46,6 +49,10 @@ module RSpec::SleepingKingStudios::Matchers::Core
     #
     # @return [HaveReaderMatcher] self
     def with_value value
+      if strict_matching? && !(value === true || value === false)
+        raise ArgumentError.new 'predicate must return true or false'
+      end # if
+
       @value = value
       @value_set = true
       self
@@ -61,7 +68,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
         message << ", but did not respond to :#{@expected}?"
       elsif !@matches_predicate_value
         message << ", but returned #{@actual.send(:"#{@expected}?").inspect}"
-      end # if
+      end # if-elsif
 
       message
     end # method failure_message
@@ -72,5 +79,19 @@ module RSpec::SleepingKingStudios::Matchers::Core
       message << " and return #{value_to_string}" if @value_set
       message
     end # method failure_message
+
+    private
+
+    def apply_boolean_expectation
+      matcher = BeBooleanMatcher.new
+      aliased = RSpec::Matchers::AliasedMatcher.new matcher, ->(str) { 'true or false' }
+
+      @value     = aliased
+      @value_set = true
+    end # method apply_boolean_expectation
+
+    def strict_matching?
+      RSpec.configure { |config| config.sleeping_king_studios.matchers }.strict_predicate_matching
+    end # method strict_matching?
   end # class
 end # module

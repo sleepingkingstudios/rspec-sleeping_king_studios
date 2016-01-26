@@ -36,6 +36,26 @@ module RSpec::SleepingKingStudios
       end # message missing_failure_message=
     end # class
 
+    # Configuration options for RSpec::SleepingKingStudios::Matchers.
+    class Matchers
+      # Checks whether predicates are matched "strictly", meaning that they must
+      # return either true or false.
+      #
+      # @return [Boolean] True if predicates are strictly matched, otherwise
+      #   false.
+      def strict_predicate_matching
+        @strict_predicate_matching ||= false
+      end # method strict_predicate_matching
+
+      # Sets whether predicates are matched "strictly", meaning that they must
+      # return either true or false.
+      #
+      # @param [Boolean] value The desired value. Is coerced to true or false.
+      def strict_predicate_matching= value
+        @strict_predicate_matching = !!value
+      end # method strict_predicate_matching
+    end # class
+
     # Get or set the configuration options for
     # RSpec::SleepingKingStudios::Examples.
     def examples &block
@@ -45,6 +65,16 @@ module RSpec::SleepingKingStudios
         end # if
       end # tap
     end # method examples
+
+    # Get or set the configuration options for
+    # RSpec::SleepingKingStudios::Matchers.
+    def matchers &block
+      (@matchers ||= RSpec::SleepingKingStudios::Configuration::Matchers.new).tap do |config|
+        if block_given?
+          config.instance_eval &block
+        end # if
+      end # tap
+    end # method matchers
   end # class
 end # module
 
