@@ -18,8 +18,10 @@
 
 ### Maintenance
 
-- Replace top-level "describe" with "RSpec.describe" in spec files.
-- Remove SCENARIOS from spec files.
+- Update spec files
+  - Replace top-level "describe" with "RSpec.describe" in spec files.
+  - Remove SCENARIOS from spec files.
+  - Matching behavior should be wrapped in a `describe '#matches?'` block.
 - Alias new syntax as deprecated syntax, not the other way around.
 - Refactor #respond_to, #be_constructible to use RSpec 3 method reflection.
 - Revisit failure messages for #respond_to, #be_constructible.
@@ -37,3 +39,4 @@
   - #should(name) => include_examples "should #{name}"
   - #with(name)   => wrap_context "with #{name}"
   - #when(name)   => wrap_context "when #{name}"
+- Add spy+matcher for expect(my_object, :my_method).to have_changed ?

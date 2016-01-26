@@ -10,6 +10,10 @@ Internally refactored all matcher definitions to *_matcher.rb, while the previou
 
 Now aliases as `a_boolean`, e.g. `expect(my_object).to have_reader(:my_method).with_value(a_boolean)`.
 
+#### `have_predicate` Matcher
+
+Added the `have_predicate` matcher, which checks for the presence of a predicate method `#property?` and optionally the value returned by `#property?()`.
+
 ## 2.1.1
 
 ### Concerns
@@ -57,6 +61,8 @@ The old syntax (`respond_to(:my_method).with(1, :foo, :bar)`) will be supported 
 ## 2.0.1
 
 Created suite of [Cucumber features](features) to validate and document the gem.
+
+### Matchers
 
 #### `construct` Matcher
 

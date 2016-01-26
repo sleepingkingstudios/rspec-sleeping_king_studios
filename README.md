@@ -30,9 +30,7 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
 
     RSpec.configure do |config|
       config.sleeping_king_studios do |config|
-        config.examples do |config|
-          config.handle_missing_failure_message_with = :ignore
-        end # config
+        # RSpec::SleepingKingStudios configuration can be set here.
       end # config
     end # config
 
@@ -40,7 +38,27 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
 
 #### Handle Missing Failure Message With
 
+    RSpec.configure do |config|
+      config.sleeping_king_studios do |config|
+        config.examples do |config|
+          config.handle_missing_failure_message_with = :ignore
+        end # config
+      end # config
+    end # config
+
 This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:ignore`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
+
+#### Strict Predicate Matching
+
+    RSpec.configure do |config|
+      config.sleeping_king_studios do |config|
+        config.matchers do |config|
+          config.strict_predicate_matching = true
+        end # config
+      end # config
+    end # config
+
+This option is used with the HavePredicateMatcher (see `#have_predicate`, below). If set to true, ensures that any method that is expected to be a predicate will return either true or false. The matcher will fail if the method returns any other value. The default value is false, which allows for loose matching of predicate methods.
 
 ## Concerns
 
@@ -300,6 +318,22 @@ Verifies that the actual object can be constructed using `::new`. Can take an op
 * **`#with_unlimited_arguments`:** (also `and_unlimited_arguments`) No parameters. Verifies that the class's constructor accepts any number of arguments via a variadic argument of the form `*args`.
 * **`#with_keywords`:** (also `and_keywords`) Expects one or more String or Symbol arguments. Verifies that the class's constructor accepts each provided keyword or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
 * **`#with_arbitrary_keywords`:** (also `and_arbitrary_keywords`) No parameters. Verifies that the class's constructor accepts any keyword arguments via a variadic keyword of the form `**params`.
+
+#### `#have_predicate` Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/have_predicate'
+
+Checks if the actual object responds to `#property?`, and optionally if the current value of `actual.property?()` is equal to a specified value. If `config.sleeping_king_studios.matchers.strict_predicate_matching` is set to true, will also validate that the `#property?` returns either `true` or `false`.
+
+**How To Use:**
+
+  expect(instance).to have_predicate(:foo?).with(true)
+
+**Parameters:** Property. Expects a string or symbol that is a valid identifier.
+
+**Chaining:**
+
+* **`#with`:** (also `#with_value`) Expects `true` or `false`, which is checked against the current value of `actual.property?()` if actual responds to `#property?`.
 
 #### `#have_property` Matcher
 
