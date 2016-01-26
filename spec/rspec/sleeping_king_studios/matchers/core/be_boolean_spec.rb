@@ -9,7 +9,10 @@ describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
   let(:example_group) { self }
-  
+
+  it { expect(example_group).to respond_to(:a_boolean).with(0).arguments }
+  it { expect(example_group.a_boolean.base_matcher).to be_a described_class }
+
   it { expect(example_group).to respond_to(:be_boolean).with(0).arguments }
   it { expect(example_group.be_boolean).to be_a described_class }
 
@@ -27,43 +30,59 @@ describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
       Evaluates to false with should message "to be true or false".
   SCENARIOS
 
-  describe 'with true' do
-    let(:failure_message_when_negated) do
-      "expected #{actual.inspect} not to be true or false"
-    end # let
-    let(:actual) { true }
+  describe '#description' do
+    context 'with a matcher from #a_boolean' do
+      let(:instance) { example_group.a_boolean }
 
-    include_examples 'passes with a positive expectation'
+      it { expect(instance.description).to be == 'true or false' }
+    end # context
 
-    include_examples 'fails with a negative expectation'
+    context 'with a matcher from #be_boolean' do
+      let(:instance) { example_group.be_boolean }
+
+      it { expect(instance.description).to be == 'be true or false' }
+    end # context
   end # describe
 
-  describe 'with false' do
-    let(:failure_message_when_negated) do
-      "expected #{actual.inspect} not to be true or false"
-    end # let
-    let(:actual) { false }
+  describe '#matches?' do
+    describe 'with true' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to be true or false"
+      end # let
+      let(:actual) { true }
 
-    include_examples 'passes with a positive expectation'
+      include_examples 'passes with a positive expectation'
 
-    include_examples 'fails with a negative expectation'
-  end # describe
+      include_examples 'fails with a negative expectation'
+    end # describe
 
-  describe 'with nil' do
-    let(:failure_message) { "expected #{actual.inspect} to be true or false" }
-    let(:actual) { nil }
+    describe 'with false' do
+      let(:failure_message_when_negated) do
+        "expected #{actual.inspect} not to be true or false"
+      end # let
+      let(:actual) { false }
 
-    include_examples 'fails with a positive expectation'
+      include_examples 'passes with a positive expectation'
 
-    include_examples 'passes with a negative expectation'
-  end # describe
+      include_examples 'fails with a negative expectation'
+    end # describe
 
-  describe 'with a non Boolean object' do
-    let(:failure_message) { "expected #{actual.inspect} to be true or false" }
-    let(:actual) { Object.new }
+    describe 'with nil' do
+      let(:failure_message) { "expected #{actual.inspect} to be true or false" }
+      let(:actual) { nil }
 
-    include_examples 'fails with a positive expectation'
+      include_examples 'fails with a positive expectation'
 
-    include_examples 'passes with a negative expectation'
+      include_examples 'passes with a negative expectation'
+    end # describe
+
+    describe 'with a non Boolean object' do
+      let(:failure_message) { "expected #{actual.inspect} to be true or false" }
+      let(:actual) { Object.new }
+
+      include_examples 'fails with a positive expectation'
+
+      include_examples 'passes with a negative expectation'
+    end # describe
   end # describe
 end # describe
