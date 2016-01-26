@@ -8,5 +8,5 @@ do
   rvm $version@$GEMSET --create
   rvm $version@$GEMSET exec bundle install --quiet
   rvm $version@$GEMSET exec appraisal install
-  rvm $version@$GEMSET exec appraisal rspec --format=progress
+  rvm $version@$GEMSET exec appraisal rake ci:terse
 done
