@@ -4,7 +4,11 @@
 
 ### Matchers
 
-Internally refactored all matcher definitions to *_matcher.rb, while the previous *.rb files define the macros which are added to example groups. The file names now accurately reflect what they define. In addition, the matchers can be required separately from the macros, e.g. to get around a naming conflict with another library.
+Internally refactored all matcher definitions to *_matcher.rb, while the previous *.rb files define the macros which are added to example groups. The file names now accurately reflect what they define. In addition, the matchers can be required separately from the macros, e.g. to get around a naming conflict with another library. Also added support for aliasing matchers.
+
+#### `belong_to` Matcher
+
+Now aliases as `a_boolean`, e.g. `expect(my_object).to have_reader(:my_method).with_value(a_boolean)`.
 
 ## 2.1.1
 
