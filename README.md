@@ -266,9 +266,15 @@ These matchers check core functionality, such as object boolean-ness, the existe
 
 Checks if the provided object is true or false.
 
+**Aliases:** `#a_boolean`.
+
 **How To Use:**
 
+    # With an object comparison.
     expect(object).to be_boolean
+
+    # Inside a composable matcher.
+    expect(array).to include(a_boolean)
 
 **Parameters:** None.
 

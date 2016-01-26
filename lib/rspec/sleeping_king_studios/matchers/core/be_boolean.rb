@@ -10,6 +10,8 @@ module RSpec::SleepingKingStudios::Matchers
 
   alias_method :be_bool, :be_boolean
 
+  # @!method a_boolean
+  #   @see RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher#matches?
   alias_matcher :a_boolean, :be_boolean do |description|
     'true or false'
   end # alias
