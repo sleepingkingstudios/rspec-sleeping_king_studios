@@ -164,6 +164,12 @@ To enable a custom matcher, simply require the associated file. Matchers can be 
     require 'rspec/sleeping_king_studios/matchers/core/construct'
     #=> requires only the :construct matcher
 
+As of version 2.2, you can also load only the matcher, without adding the associated macro to your example groups. This can be useful in case of naming conflicts with other libraries, or if you need only the matcher in isolation.
+
+    require 'rspec/sleeping_king_studios/matchers/core/be_boolean_matcher'
+    #=> requires the matcher itself as RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher,
+    #   but does not add a #be_boolean macro to example groups.
+
 ### ActiveModel
 
     require 'rspec/sleeping_king_studios/matchers/active_model/all'

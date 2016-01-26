@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+### Matchers
+
+Internally refactored all matcher definitions to *_matcher.rb, while the previous *.rb files define the macros which are added to example groups. The file names now accurately reflect what they define. In addition, the matchers can be required separately from the macros, e.g. to get around a naming conflict with another library.
+
 ## 2.1.1
 
 ### Concerns
