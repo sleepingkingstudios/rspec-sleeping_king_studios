@@ -22,15 +22,15 @@ Gem::Specification.new do |gem|
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
 
   gem.add_runtime_dependency 'rspec',                       '~> 3.0'
-  gem.add_runtime_dependency 'sleeping_king_studios-tools', '>= 0.3.0.alpha'
+  gem.add_runtime_dependency 'sleeping_king_studios-tools', '>= 0.3.0.rc.0'
 
   gem.add_development_dependency 'appraisal',    '~> 1.0', '>= 1.0.3'
-  gem.add_development_dependency 'byebug',       '~> 3.5', '>= 3.5.1'
-  gem.add_development_dependency 'factory_girl', '~> 4.2'
+  gem.add_development_dependency 'byebug',       '~> 8.2', '>= 8.2.2'
   gem.add_development_dependency 'rake',         '~> 10.3'
 
   gem.add_development_dependency 'aruba',        '~> 0.9'
   gem.add_development_dependency 'cucumber',     '~> 1.3', '>= 1.3.19'
 
   gem.add_development_dependency 'activemodel',  '>= 3.0', '< 5.0'
+  gem.add_development_dependency 'factory_girl', '~> 4.2'
 end # gemspec
