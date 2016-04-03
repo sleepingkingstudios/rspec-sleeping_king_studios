@@ -19,5 +19,5 @@ gemfiles/*.lock
 .yardopts
 
 # Ignore temporary files.
-.byebug_history
+/.byebug_history
 /tmp

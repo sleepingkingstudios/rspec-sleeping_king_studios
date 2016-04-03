@@ -10,6 +10,10 @@ Updated matcher testing examples (e.g. 'should pass with positive expectation', 
 
 Internally refactored all matcher definitions to *\_matcher.rb, while the previous *.rb files define the macros which are added to example groups. The file names now accurately reflect what they define. In addition, the matchers can be required separately from the macros, e.g. to get around a naming conflict with another library. Also added support for aliasing matchers.
 
+#### `alias_method` Matcher
+
+Added the `alias_method` matcher, which checks if the object aliases the specified method with the specified other name.
+
 #### `belong_to` Matcher
 
 Now aliases as `a_boolean`, e.g. `expect(my_object).to have_reader(:my_method).with_value(a_boolean)`.

@@ -12,11 +12,11 @@ Feature: `have_predicate` matcher
   method. A predicate should only return true or false.
 
   ```ruby
-  expect(instance).to have_reader(:foo?).with_value(true) # Expects instance.foo to be true.
+  expect(instance).to have_predicate(:foo?).with_value(true) # Expects instance.foo? to be true.
   ```
 
   Scenario: basic usage
-    Given a file named "have_reader_matcher_spec.rb" with:
+    Given a file named "have_predicate_matcher_spec.rb" with:
       """ruby
         require 'rspec/sleeping_king_studios/matchers/core/have_predicate'
 
@@ -52,7 +52,7 @@ Feature: `have_predicate` matcher
           it { expect(instance).to have_predicate(:bar) }
         end # describe
       """
-    When I run `rspec have_reader_matcher_spec.rb`
+    When I run `rspec have_predicate_matcher_spec.rb`
     Then the output should contain "8 examples, 4 failures"
     Then the output should contain consecutive lines:
       | Failure/Error: it { expect(instance).not_to have_predicate(:foo) } |

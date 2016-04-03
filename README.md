@@ -296,6 +296,22 @@ Now has additional chaining functionality to validate the number of arguments ac
 
 These matchers check core functionality, such as object boolean-ness, the existence of properties, and so on.
 
+#### `#alias_method` Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/alias_method'
+
+Checks if the object aliases the specified method with the specified other name. Matches if and only if the object responds to both the old and new method names, and if the old method and the new method are the same method.
+
+**How To Use**:
+
+    expect(object).to alias_method(:old_method).as(:new_method)
+
+**Parameters:** Old method name. Expects the name of the method which has been aliased as a String or Symbol.
+
+**Chaining:**
+
+* **`#as`:** Required. Expects one String or Symbol, which is the name of the generated method.
+
 #### `#be_boolean` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
