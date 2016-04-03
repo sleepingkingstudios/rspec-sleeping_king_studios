@@ -25,9 +25,12 @@
   - Remove SCENARIOS from spec files.
   - Matching behavior should be wrapped in a `describe '#matches?'` block.
   - Isolate specs for matchers (#matches?, et al) from example group macros/aliases.
+- Clean up code styles
+  - Use before/after/around(:example) instead of (:each).
+  - Use 'should' variants of examples.
 - Alias new syntax as deprecated syntax, not the other way around.
 - Refactor #respond_to, #be_constructible to use RSpec 3 method reflection.
-- Revisit failure messages for #respond_to, #be_constructible.
+- Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Pare down Cucumber features for matchers - repurpose as documentation/examples only.
 - Ensure behavior of `#have_reader`, `#have_writer`, `#have_property` is consistent (non-compatible; needs version 3.0).
 
