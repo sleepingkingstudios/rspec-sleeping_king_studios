@@ -4,13 +4,15 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends bui
 
 ## Support
 
-RSpec::SleepingKingStudios is tested against RSpec 3.0, 3.1, 3.2, and 3.3.
+RSpec::SleepingKingStudios is tested against RSpec 3.0 through 3.4.
 
 Currently, the following versions of Ruby are officially supported:
 
-* 2.0
 * 2.1
 * 2.2
+* 2.3
+
+For Ruby 2.0 support, use version 2.1 or earlier: `gem "rspec-sleeping_king_studios", "~> 2.1.1"`.
 
 If you require a previous version of Ruby or RSpec, the 1.0 branch supports Ruby 1.9.3 and RSpec 2: `gem "rspec-sleeping_king_studios", "~> 1.0.1"`. However, changes from 2.0 and higher will not be backported.
 
@@ -36,7 +38,9 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
 
 ### Configuration Options
 
-#### Handle Missing Failure Message With
+#### Examples
+
+##### Handle Missing Failure Message With
 
     RSpec.configure do |config|
       config.sleeping_king_studios do |config|
@@ -48,7 +52,21 @@ RSpec::SleepingKingStudios now has configuration options available through `RSpe
 
 This option is used with the RSpec matcher examples (see Examples, below), and determines the behavior when a matcher is expected to fail, but the corresponding failure message is not defined (via `let(:failure_message)` or `let(:failure_message_when_negated)`). The default option is `:pending`, which marks the generated example as skipped (and will show up as pending in the formatter). Other options include `:ignore`, which marks the generated example as passing, and `:exception`, which marks the generated example as failing.
 
-#### Strict Predicate Matching
+##### Match String Failure Message As
+
+    RSpec.configure do |config|
+      config.sleeping_king_studios do |config|
+        config.examples do |config|
+          config.match_string_failure_message_as = :exact
+        end # config
+      end # config
+    end # config
+
+This option is used with the RSpec matcher examples (see Examples, below), and determines whether an expected failure message is matched against the actual failure message as an exact match or as a substring. The default option is `:substring`, which means that any failure message that contains the expected message as a substring will match. Alternatively, setting the option to `:exact` will mean that only a failure message that is an exact match for the expected message will match.
+
+#### Matchers
+
+##### Strict Predicate Matching
 
     RSpec.configure do |config|
       config.sleeping_king_studios do |config|

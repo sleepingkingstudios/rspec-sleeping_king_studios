@@ -51,8 +51,9 @@ Feature: `RSpecMatcherExamples` shared examples
   end # describe
   ```
 
-  If a failure message is not provided, the examples may be marked as pending
-  or failed, depending on your configuration settings:
+  The failure message can be a string, a regular expression, or an RSpec
+  matcher. If a failure message is not provided, the examples may be marked as
+  pending or failed, depending on your configuration settings:
 
   ```ruby
   RSpec.configure do |config|
