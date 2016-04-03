@@ -73,10 +73,10 @@ describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher do
 
   describe 'with a non-record object' do
     let(:failure_message) do
-      'to respond to :valid?'
+      "expected #{actual.inspect} to respond to :valid?"
     end # let
     let(:failure_message_when_negated) do
-      'to respond to :valid?'
+      "expected #{actual.inspect} to respond to :valid?"
     end # let
     let(:actual) { Object.new }
 
@@ -87,7 +87,7 @@ describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher do
 
   describe 'with a valid record' do
     let(:failure_message) do
-      'to have errors'
+      "expected #{actual.inspect} to have errors"
     end # let
     let(:actual) { FactoryGirl.build :active_model, :foo => '10010011101', :bar => 'bar' }
 

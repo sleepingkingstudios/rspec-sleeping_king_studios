@@ -129,7 +129,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HavePredicateMatcher 
 
     describe 'with a matching value as a value expectation' do
       let(:failure_message_when_negated) do
-        "expected #{actual} not to respond to :#{property}? and return #{value}"
+        "expected #{actual} not to respond to :#{property}? and return false"
       end # let
       let(:instance) { super().with_value(false) }
 

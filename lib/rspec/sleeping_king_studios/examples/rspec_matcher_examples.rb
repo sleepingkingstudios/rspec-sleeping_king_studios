@@ -8,6 +8,36 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher'
 module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
   extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
+  private def config
+    RSpec.configuration.sleeping_king_studios
+  end # method config
+
+  private def compare_message actual, expected
+    case expected
+    when String
+      if config.examples.match_string_failure_message_as == :exact
+        expect(actual).to be == expected
+      else
+        expect(actual).to include expected
+      end # if-else
+    when Regexp
+      expect(actual).to be =~ expected
+    when ->(obj) { obj.respond_to?(:matches?) && obj.respond_to?(:failure_message) }
+      expect(actual).to expected
+    else
+      expect(actual).to match expected
+    end # when
+  end # method compare_message
+
+  private def handle_missing_failure_message message
+    case config.examples.handle_missing_failure_message_with
+    when :pending
+      skip message
+    when :exception
+      raise StandardError.new message
+    end # case
+  end # method handle_missing_failure_message
+
   shared_examples 'passes with a positive expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
 
@@ -28,25 +58,15 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       if defined?(failure_message)
         matcher_being_examined.matches?(actual)
 
-        expected = failure_message.is_a?(String) ?
-          Regexp.new(Regexp.escape(failure_message)) :
-          failure_message
-
-        expect(matcher_being_examined.failure_message).to match expected
+        compare_message(matcher_being_examined.failure_message, failure_message)
       else
-        message = <<-MESSAGE
-          expected to match #{matcher_being_examined.class}#failure_message, but the expected
-          value was undefined. Define a failure message using
-          let(:failure_message) or set
-          config.handle_missing_failure_message_with to :ignore or :pending.
-        MESSAGE
-        message = message.split("\n").map(&:strip).join(' ')
-        case RSpec.configuration.sleeping_king_studios.examples.handle_missing_failure_message_with
-        when :pending
-          skip message
-        when :exception
-          raise StandardError.new message
-        end # case
+        message =
+          "expected to match #{matcher_being_examined.class}#failure_message, "\
+          "but the expected value was undefined. Define a failure message "\
+          "using let(:failure_message) or set "\
+          "config.handle_missing_failure_message_with to :ignore or :pending."
+
+        handle_missing_failure_message(message)
       end # if
     end # it
   end # shared_examples
@@ -78,27 +98,22 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
     it 'has a failure message with a negative expectation' do
       if defined?(failure_message_when_negated)
-        matcher_being_examined.respond_to?(:does_not_match?) ? matcher_being_examined.does_not_match?(actual) : matcher_being_examined.matches?(actual)
+        if matcher_being_examined.respond_to?(:does_not_match?)
+          matcher_being_examined.does_not_match?(actual)
+        else
+          matcher_being_examined.matches?(actual)
+        end # if-else
 
-        expected = failure_message_when_negated.is_a?(String) ?
-          Regexp.new(Regexp.escape(failure_message_when_negated)) :
-          failure_message_when_negated
-
-        expect(matcher_being_examined.failure_message_when_negated).to match expected
+        compare_message(matcher_being_examined.failure_message_when_negated, failure_message_when_negated)
       else
-        message = <<-MESSAGE
-          expected to match #{matcher_being_examined.class}#failure_message_when_negated, but
-          the expected value was undefined. Define a failure message using
-          let(:failure_message_when_negated) or set
-          config.handle_missing_failure_message_with to :ignore or :pending.
-        MESSAGE
-        message = message.split("\n").map(&:strip).join(' ')
-        case RSpec.configuration.sleeping_king_studios.examples.handle_missing_failure_message_with
-        when :pending
-          skip message
-        when :exception
-          raise StandardError.new message
-        end # case
+        message =
+          "expected to match #{matcher_being_examined.class}#"\
+          "failure_message_when_negated, but the expected value was undefined."\
+          " Define a failure message using let(:failure_message_when_negated) "\
+          "or set config.handle_missing_failure_message_with to :ignore or "\
+          ":pending."
+
+        handle_missing_failure_message(message)
       end # if
     end # it
   end # shared_examples

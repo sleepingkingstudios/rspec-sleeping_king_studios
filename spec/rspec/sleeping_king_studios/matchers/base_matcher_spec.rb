@@ -25,7 +25,7 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     it { expect(instance).to respond_to(:matches?).with(1).arguments }
 
     context 'with a successful match' do
-      let(:failure_message_when_negated) { 'not to match' }
+      let(:failure_message_when_negated) { 'expected nil not to match' }
 
       before(:each) { allow(instance).to receive(:does_not_match?).and_return(false) }
 
@@ -63,7 +63,7 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     it { expect(instance).to respond_to(:matches?).with(1).arguments }
 
     context 'with a successful match' do
-      let(:failure_message_when_negated) { 'not to match' }
+      let(:failure_message_when_negated) { 'expected nil not to match' }
 
       before(:each) { allow(instance).to receive(:matches?).and_return(true) }
 
@@ -73,7 +73,7 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     end # context
 
     context 'with a failing match' do
-      let(:failure_message) { 'to match' }
+      let(:failure_message) { 'expected nil to match' }
 
       before(:each) { allow(instance).to receive(:matches?).and_return(false) }
 

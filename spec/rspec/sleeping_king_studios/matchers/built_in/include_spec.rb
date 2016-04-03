@@ -40,8 +40,14 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
   SCENARIOS
 
   describe 'with a non-enumerable object' do
-    let(:failure_message) { 'but it does not respond to `include?`' }
-    let(:failure_message_when_negated) { failure_message }
+    let(:failure_message) do
+      "expected #{actual.inspect} to include #{expectations.inspect}, but it "\
+      "does not respond to `include?`"
+    end # let
+    let(:failure_message_when_negated) do
+      "expected #{actual.inspect} not to include #{expectations.inspect}, but "\
+      "it does not respond to `include?`"
+    end # let
     let(:actual) { Object.new }
 
     include_examples 'fails with a positive expectation'

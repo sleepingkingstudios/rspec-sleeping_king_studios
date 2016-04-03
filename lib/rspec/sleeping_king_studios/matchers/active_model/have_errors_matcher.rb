@@ -56,6 +56,8 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
     #
     # @see #matches?
     def does_not_match? actual
+      super
+
       @negative_expectation = true
 
       return false unless @validates = actual.respond_to?(:valid?)
