@@ -6,6 +6,7 @@
 
 ### Planned Features
 
+- Add #alias_method matcher.
 - Add #have_constant matcher.
 - Add #have_predicate matcher.
 - Add shared examples for 'should have constant', 'should have immutable constant'
@@ -23,6 +24,7 @@
   - Replace top-level "describe" with "RSpec.describe" in spec files.
   - Remove SCENARIOS from spec files.
   - Matching behavior should be wrapped in a `describe '#matches?'` block.
+  - Isolate specs for matchers (#matches?, et al) from example group macros/aliases.
 - Alias new syntax as deprecated syntax, not the other way around.
 - Refactor #respond_to, #be_constructible to use RSpec 3 method reflection.
 - Revisit failure messages for #respond_to, #be_constructible.
@@ -31,6 +33,9 @@
 
 ### Icebox
 
+- Implement shared example group for Rails controller, 'should respond with'
+- Implement shared example group for Rails routing, 'should route to'
+- Extract ActiveModel/Rails functionality to sub-gem?
 - Add alt doc test formatter - --format=list ? --format=documentation-list ?
   - Prints full expanded example name for each example
 - Add minimal test formatter - --format=smoke ? --format=librarian ? --format=quiet ?

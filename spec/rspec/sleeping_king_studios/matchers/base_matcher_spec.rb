@@ -18,14 +18,20 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
   describe '#description' do
     it { expect(instance).to respond_to(:description).with(0).arguments }
 
-    it { expect(instance.description).to be_a String }
+    it { expect(instance.description).to be == 'base' }
+
+    context 'with a custom class name' do
+      before(:each) { allow(described_class).to receive(:name).and_return 'MyGem::MyModule::BeSillyMatcher' }
+
+      it { expect(instance.description).to be == 'be silly' }
+    end # context
   end # describe
 
   describe '#does_not_match?' do
     it { expect(instance).to respond_to(:matches?).with(1).arguments }
 
     context 'with a successful match' do
-      let(:failure_message_when_negated) { 'expected nil not to match' }
+      let(:failure_message_when_negated) { 'expected nil not to base' }
 
       before(:each) { allow(instance).to receive(:does_not_match?).and_return(false) }
 
@@ -63,7 +69,7 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     it { expect(instance).to respond_to(:matches?).with(1).arguments }
 
     context 'with a successful match' do
-      let(:failure_message_when_negated) { 'expected nil not to match' }
+      let(:failure_message_when_negated) { 'expected nil not to base' }
 
       before(:each) { allow(instance).to receive(:matches?).and_return(true) }
 
@@ -73,7 +79,7 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     end # context
 
     context 'with a failing match' do
-      let(:failure_message) { 'expected nil to match' }
+      let(:failure_message) { 'expected nil to base' }
 
       before(:each) { allow(instance).to receive(:matches?).and_return(false) }
 

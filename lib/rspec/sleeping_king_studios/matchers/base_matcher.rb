@@ -2,19 +2,35 @@
 
 require 'rspec/sleeping_king_studios/matchers'
 
+require 'sleeping_king_studios/tools/string_tools'
+
 module RSpec::SleepingKingStudios::Matchers
   # Minimal implementation of the RSpec matcher interface.
   #
   # @since 1.0.0
   class BaseMatcher
+    include RSpec::Matchers::Pretty if defined?(RSpec::Matchers::Pretty)
+
     attr_reader :actual
 
     # A short string that describes the purpose of the matcher.
     #
     # @return [String] the matcher description
     def description
-      return name_to_sentence unless defined?(@expected)
-      "#{name_to_sentence}#{to_sentence @expected}"
+      if defined?(RSpec::Matchers::EnglishPhrasing)
+        # RSpec 3.4+
+        matcher_name = ::SleepingKingStudios::Tools::StringTools.underscore(self.class.name.split('::').last)
+        matcher_name.sub!(/_matcher\z/, '')
+
+        desc = RSpec::Matchers::EnglishPhrasing.split_words(matcher_name)
+        desc << RSpec::Matchers::EnglishPhrasing.list(@expected) if defined?(@expected)
+      else
+        # RSpec 3.0-3.3
+        desc = name_to_sentence
+        desc << to_sentence(@expected) if defined?(@expected)
+      end # if-else
+
+      desc
     end # method description
 
     # Inverse of #matches? method.
@@ -56,7 +72,7 @@ module RSpec::SleepingKingStudios::Matchers
 
     # @api private
     def name_to_sentence
-      'match'
+      super().sub!(/ matcher\z/, '')
     end # method name_to_sentence
   end # class
 end # module

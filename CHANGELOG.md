@@ -8,7 +8,7 @@ Updated matcher testing examples (e.g. 'should pass with positive expectation', 
 
 ### Matchers
 
-Internally refactored all matcher definitions to *_matcher.rb, while the previous *.rb files define the macros which are added to example groups. The file names now accurately reflect what they define. In addition, the matchers can be required separately from the macros, e.g. to get around a naming conflict with another library. Also added support for aliasing matchers.
+Internally refactored all matcher definitions to *\_matcher.rb, while the previous *.rb files define the macros which are added to example groups. The file names now accurately reflect what they define. In addition, the matchers can be required separately from the macros, e.g. to get around a naming conflict with another library. Also added support for aliasing matchers.
 
 #### `belong_to` Matcher
 
