@@ -43,7 +43,9 @@ RSpec.configure do |config|
 
   config.sleeping_king_studios do |config|
     config.examples do |config|
-      config.handle_missing_failure_message_with = :pending
+      config.handle_missing_failure_message_with = :exception
+
+      config.match_string_failure_message_as = :exact
     end # config
   end # config
 end # config

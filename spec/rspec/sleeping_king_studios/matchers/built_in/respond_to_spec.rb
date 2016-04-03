@@ -722,7 +722,7 @@ describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
       describe 'with arbitrary keywords' do
         let(:failure_message) do
           "expected #{actual.inspect} to respond to #{identifier.inspect} with"\
-          " arguments:\n  expected arbitrary keywords"
+          " arguments:\n  expected arbitrary keywords\n  missing keywords :c and :d"
         end # let
         let(:instance) { super().with_any_keywords }
 

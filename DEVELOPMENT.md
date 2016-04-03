@@ -19,6 +19,7 @@
 ### Maintenance
 
 - Update spec files
+  - Remove 'expect_behavior' alias for 'include_examples'.
   - Replace top-level "describe" with "RSpec.describe" in spec files.
   - Remove SCENARIOS from spec files.
   - Matching behavior should be wrapped in a `describe '#matches?'` block.
