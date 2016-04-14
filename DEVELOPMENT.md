@@ -36,6 +36,9 @@
 
 ### Maintenance
 
+- Revisit how matchers are documented, particularly in README.md
+  - Use matcher class name instead of macro names?
+  - Clarify documentation of parameters - YARD-like?
 - Refactor #respond_to, #be_constructible to use RSpec 3 method reflection.
 - Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Pare down Cucumber features for matchers - repurpose as documentation/examples only.
