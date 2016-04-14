@@ -353,6 +353,35 @@ Verifies that the actual object can be constructed using `::new`. Can take an op
 * **`#with_keywords`:** (also `and_keywords`) Expects one or more String or Symbol arguments. Verifies that the class's constructor accepts each provided keyword or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
 * **`#with_arbitrary_keywords`:** (also `and_arbitrary_keywords`) No parameters. Verifies that the class's constructor accepts any keyword arguments via a variadic keyword of the form `**params`.
 
+#### `#delegate_method` Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/delegate_method'
+
+Checks if the actual object forwards the specified method to the specified target. Can also specify that arguments, keywords, and/or a block are passed to the target, and that the object returns the specified values.
+
+**How To Use:**
+
+    expect(object).to delegate_method(:my_method).to(target)
+
+    # Specify that arguments must be passed to the target.
+    expect(object).to delegate_method(:my_method).to(target).with_arguments(:ichi, :ni, :san)
+    expect(object).to delegate_method(:my_method).to(target).with_keywords(:foo => 'foo', :bar => 'bar')
+    expect(object).to delegate_method(:my_method).to(target).with_a_block
+
+    # Specify that the method must return the specified value.
+    expect(object).to delegate_method(:my_method).to(target).and_return(true)    # Called 1 time.
+    expect(object).to delegate_method(:my_method).to(target).and_return(0, 1, 2) # Called 3 times.
+
+**Parameters:** Method name. Expects a string or symbol that is a valid identifier.
+
+**Chaining:**
+
+* **`#to`:** Required. Expects an object, which is the target the method should be forwarded to.
+* **`#with_arguments`:** (also `and_arguments`) Expects one or more arguments. Specifies that when the method is called on the actual object with the given arguments, those arguments are then passed on to the target object when the method is called on the target.
+* **`#with_keywords:`** (also `and_keywords`) Expects a hash of keywords and values. Specifies that when the method is called on the actual object with the given keywords, those keywords are then passed on to the target object when the method is called on the target.
+* **`#with_a_block:`** (also `and_a_block`) Specifies that when the method is called on the actual object a block argument, thhe block is then passed on to the target object when the method is called on the target.
+* **`#and_return`:** Expects one or more arguments. The method is called on the actual object one time for each value passed into `#and_return`. Specifies that the return value of calling the method on the actual object is the corresponding value passed into `#and_return`.
+
 #### `#have_predicate` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_predicate'

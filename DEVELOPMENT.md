@@ -1,21 +1,14 @@
 # Development Notes
 
-## Tasks
+## Version 2.2.0
 
-- Resolve Aruba deprecation warnings.
+### Features
 
-### Planned Features
-
-- Add #alias_method matcher.
 - Add #have_constant matcher.
 - Add #have_predicate matcher.
 - Add shared examples for 'should have constant', 'should have immutable constant'
 - Add shared examples for 'should have predicate'
 - Add shared examples for 'should not have reader/writer'
-- Add shared examples for #belongs_to, #has_one, #has_many, #embedded_in, #embeds_one, #embeds_many.
-- Add shared examples for core ActiveModel validations.
-- Add allow/expect(object).to alias_method(:my_method).to(:other_method)
-- Add allow/expect(object).to delegate(:my_method).to(other_object[, :other_method])
 
 ### Maintenance
 
@@ -29,6 +22,23 @@
   - Use before/after/around(:example) instead of (:each).
   - Use 'should' variants of examples.
 - Alias new syntax as deprecated syntax, not the other way around.
+
+## Tasks
+
+- Resolve Aruba deprecation warnings.
+
+### Planned Features
+
+- Add shared examples for #belongs_to, #has_one, #has_many, #embedded_in, #embeds_one, #embeds_many.
+- Add shared examples for core ActiveModel validations.
+- Add allow/expect(object).to alias_method(:my_method).to(:other_method)
+- Add allow/expect(object).to delegate(:my_method).to(other_object[, :other_method])
+
+### Maintenance
+
+- Revisit how matchers are documented, particularly in README.md
+  - Use matcher class name instead of macro names?
+  - Clarify documentation of parameters - YARD-like?
 - Refactor #respond_to, #be_constructible to use RSpec 3 method reflection.
 - Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Pare down Cucumber features for matchers - repurpose as documentation/examples only.

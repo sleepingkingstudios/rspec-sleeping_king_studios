@@ -18,6 +18,10 @@ Added the `alias_method` matcher, which checks if the object aliases the specifi
 
 Now aliases as `a_boolean`, e.g. `expect(my_object).to have_reader(:my_method).with_value(a_boolean)`.
 
+#### `delegate_method` Matcher
+
+Added the `delegate_method` matcher, which checks if the object forwards the specified method to the specified target.
+
 #### `have_predicate` Matcher
 
 Added the `have_predicate` matcher, which checks for the presence of a predicate method `#property?` and optionally the value returned by `#property?()`.
