@@ -5,7 +5,7 @@ require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 
-describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
   let(:instance) { described_class.new }
@@ -35,13 +35,13 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
 
       before(:each) { allow(instance).to receive(:does_not_match?).and_return(false) }
 
-      expect_behavior 'fails with a negative expectation'
+      include_examples 'should fail with a negative expectation'
     end # context
 
     context 'with a failing match' do
       before(:each) { allow(instance).to receive(:does_not_match?).and_return(true) }
 
-      expect_behavior 'passes with a negative expectation'
+      include_examples 'should pass with a negative expectation'
     end # context
   end # describe
 
@@ -73,9 +73,9 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
 
       before(:each) { allow(instance).to receive(:matches?).and_return(true) }
 
-      expect_behavior 'passes with a positive expectation'
+      include_examples 'should pass with a positive expectation'
 
-      expect_behavior 'fails with a negative expectation'
+      include_examples 'should fail with a negative expectation'
     end # context
 
     context 'with a failing match' do
@@ -83,9 +83,9 @@ describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
 
       before(:each) { allow(instance).to receive(:matches?).and_return(false) }
 
-      expect_behavior 'fails with a positive expectation'
+      include_examples 'should fail with a positive expectation'
 
-      expect_behavior 'passes with a negative expectation'
+      include_examples 'should pass with a negative expectation'
     end # context
   end # describe
 end # describe
