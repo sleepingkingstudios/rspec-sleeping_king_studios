@@ -19,10 +19,42 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       super *expected
     end # constructor
 
+    # (see BaseMatcher#description)
+    def description
+      # Preprocess items to stub out block expectations.
+      expected_items =
+        @expected.map do |item|
+          item.is_a?(Proc) ? :__block_comparison__ : item
+        end
+
+      if defined?(RSpec::Matchers::EnglishPhrasing)
+        # RSpec 3.4+
+        matcher_name = ::SleepingKingStudios::Tools::StringTools.underscore(self.class.name.split('::').last)
+        matcher_name.sub!(/_matcher\z/, '')
+
+        desc = RSpec::Matchers::EnglishPhrasing.split_words(matcher_name)
+        desc << RSpec::Matchers::EnglishPhrasing.list(expected_items)
+      else
+        # RSpec 3.0-3.3
+        desc = name_to_sentence.sub!(/ matcher\z/, '')
+        desc << to_sentence(expected_items)
+      end # if-else
+
+      # Format hash expectations.
+      desc = desc.gsub(/(\S)=>(\S)/, '\1 => \2')
+
+      # Replace processed block expectation stub with proper description.
+      desc = desc.gsub ':__block_comparison__', 'an item matching the block'
+
+      desc
+    end # method description
+
     # @api private
     #
     # @return [Boolean]
     def matches?(actual)
+      @actual = actual
+
       perform_match(actual) { |v| v }
     end # method matches?
 
@@ -30,6 +62,8 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     #
     # @return [Boolean]
     def does_not_match?(actual)
+      @actual = actual
+
       perform_match(actual) { |v| !v }
     end # method does_not_match?
 
@@ -98,7 +132,11 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     # @api private
     def actual_matches_proc? expected_item
-      !!actual.detect(&expected_item)
+      if actual.respond_to?(:detect)
+        !!actual.detect(&expected_item)
+      else
+        !!expected_item.call(actual)
+      end # if-else
     end # method actual_matches_proc?
 
     # @api private

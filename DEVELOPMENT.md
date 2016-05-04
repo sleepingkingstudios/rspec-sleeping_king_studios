@@ -32,6 +32,7 @@
 - Add shared examples for core ActiveModel validations.
 - Add allow/expect(object).to alias_method(:my_method).to(:other_method)
 - Add allow/expect(object).to delegate(:my_method).to(other_object[, :other_method])
+- Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments
 
 ### Maintenance
 
