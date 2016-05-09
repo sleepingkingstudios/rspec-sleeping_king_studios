@@ -6,7 +6,7 @@ require 'rspec/sleeping_king_studios/matchers/core/have_property'
 
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/message_expectation'
 
-describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::MessageExpectation do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::MessageExpectation do
   it { expect(described_class).to construct.with(1..3).arguments }
 
   let(:message)  { "can't be blank" }

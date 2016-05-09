@@ -10,7 +10,7 @@ require 'active_model'
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/error_expectation'
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/message_expectation'
 
-describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation do
   it { expect(described_class).to construct.with(1..3).arguments }
 
   let(:attribute) { :foo }
