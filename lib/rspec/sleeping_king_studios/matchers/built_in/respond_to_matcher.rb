@@ -115,6 +115,8 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       methods.map do |method|
         message = "expected #{@actual.inspect} to respond to #{method.inspect}"
         if @actual.respond_to?(method, @include_all)
+          # TODO: Replace this with ", but received arguments did not match "\
+          # " method signature:"
           message << " with arguments:\n#{format_errors_for_method method}"
         end # if-else
         messages << message
@@ -145,10 +147,12 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       @actual = actual
       @failing_method_reasons = {}
       @failing_method_names   = @names.__send__(filter_method) do |name|
-        @actual.respond_to?(name, @include_all) &&
-          matches_arity?(actual, name) &&
-          matches_keywords?(actual, name) &&
-          matches_block?(actual, name)
+        match = true
+        match = false unless @actual.respond_to?(name, @include_all)
+        match = false unless matches_arity?(actual, name)
+        match = false unless matches_keywords?(actual, name)
+        match = false unless matches_block?(actual, name)
+        match
       end # send
     end # method find_failing_method_names
 
@@ -225,6 +229,12 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     def format_errors_for_method method
       reasons, messages = @failing_method_reasons[method], []
 
+      # TODO: Replace this with "  expected :arity arguments, but method can "\
+      # "receive :count arguments", with :count being one of the following:
+      # - an integer (for methods that do not have optional or variadic params)
+      # - between :min and :max (for methods with optional but not variadic
+      #   params)
+      # - at least :min (for methods with variadic params)
       if hsh = reasons.fetch(:not_enough_args, false)
         messages << "  expected at least #{hsh[:count]} arguments, but received #{hsh[:arity]}"
       end # if
@@ -233,22 +243,35 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         messages << "  expected at most #{hsh[:count]} arguments, but received #{hsh[:arity]}"
       end # if
 
+      # TODO: Replace this with "  expected method to receive unlimited "\
+      # "arguments, but method can receive at most :max arguments"
       if hsh = reasons.fetch(:expected_unlimited_arguments, false)
         messages << "  expected at most #{hsh[:count]} arguments, but received unlimited arguments"
       end # if
 
+      # TODO: Replace this with "  expected method to receive arbitrary "\
+      # "keywords, but the method can receive :keyword_list", with
+      # :keyword_list being a comma-separated list. If the method cannot
+      # receive keywords, replace last fragment with ", but the method cannot"\
+      # " receive keywords"
       if reasons.fetch(:expected_arbitrary_keywords, false)
         messages << "  expected arbitrary keywords"
       end # if
 
+      # TODO: Replace this with "  expected method to receive keywords "\
+      # ":received_list, but the method requires keywords :required_list"
       if ary = reasons.fetch(:missing_keywords, false)
         messages << "  missing #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"
       end # if
 
+      # TODO: Replace this with "  expected method to receive keywords "\
+      # ":received_list, but the method can receive :keyword_list"
       if ary = reasons.fetch(:unexpected_keywords, false)
         messages << "  unexpected #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"
       end # if
 
+      # TODO: Replace this with "  expected method to receive a block "\
+      # "argument, but the method signature does not specify a block argument"
       if reasons.fetch(:expected_block, false)
         messages << "  unexpected block"
       end # if
