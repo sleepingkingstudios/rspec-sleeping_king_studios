@@ -1,6 +1,6 @@
 # spec/rspec/sleeping_king_studios/examples/property_examples_spec.rb
 
-require 'rspec/sleeping_king_studios/spec_helper'
+require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/examples/property_examples'
 

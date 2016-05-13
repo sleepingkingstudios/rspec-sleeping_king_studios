@@ -1,10 +1,9 @@
 # spec/rspec/sleeping_king_studios/concerns/wrap_examples_spec.rb
 
-require 'rspec/sleeping_king_studios/spec_helper'
+require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/concerns/focus_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
-require 'rspec/sleeping_king_studios/support/mock_example_group'
 
 RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
   let(:instance) do

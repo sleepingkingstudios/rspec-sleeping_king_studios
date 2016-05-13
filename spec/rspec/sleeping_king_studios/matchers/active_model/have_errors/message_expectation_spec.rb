@@ -1,6 +1,6 @@
 # spec/rspec/sleeping_king_studios/matchers/active_model/have_errors/message_expectation_spec.rb
 
-require 'rspec/sleeping_king_studios/spec_helper'
+require 'spec_helper'
 require 'rspec/sleeping_king_studios/matchers/core/construct'
 require 'rspec/sleeping_king_studios/matchers/core/have_property'
 
