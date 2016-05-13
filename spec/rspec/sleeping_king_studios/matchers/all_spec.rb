@@ -1,6 +1,6 @@
 # spec/rspec/sleeping_king_studios/matchers/all_spec.rb
 
-require 'rspec/sleeping_king_studios/spec_helper'
+require 'spec_helper'
 require 'rspec/sleeping_king_studios/matchers/all'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers do

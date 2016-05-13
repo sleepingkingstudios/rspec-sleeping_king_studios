@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/spec_helper.rb
+# spec/spec_helper.rb
 
 require 'rspec'
 require 'factory_girl'

@@ -1,6 +1,6 @@
 # spec/rspec/sleeping_king_studios/matchers/core/have_property_spec.rb
 
-require 'rspec/sleeping_king_studios/spec_helper'
+require 'spec_helper'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
 require 'rspec/sleeping_king_studios/matchers/core/have_property'
@@ -10,7 +10,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher do
 
   let(:example_group) { self }
   let(:property)    { :foo }
-  
+
   it { expect(example_group).to respond_to(:have_property).with(1).arguments }
   it { expect(example_group.have_property property).to be_a described_class }
 
