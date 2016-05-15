@@ -1,89 +1,183 @@
 # lib/rspec/sleeping_king_studios/matchers/shared/parameters_matcher.rb
 
 require 'rspec/sleeping_king_studios/matchers'
+require 'rspec/sleeping_king_studios/support/method_signature_expectation'
 
 module RSpec::SleepingKingStudios::Matchers::Shared
   # Helper methods for checking the parameters and keywords (Ruby 2.0 only) of
   # a method.
   module MatchParameters
-    # Checks whether the method accepts the specified number or range of
-    # arguments.
+
+    # Convenience method for more fluent specs. Does nothing and returns self.
     #
-    # @param [Method] method the method to check
-    # @param [Integer, Range] arity the expected number or range of parameters
+    # @return self
+    def argument
+      self
+    end # method argument
+    alias_method :arguments, :argument
+
+    # Adds a parameter count expectation and/or one or more keyword
+    # expectations.
     #
-    # @return [Boolean] true if the method accepts the specified number or both
-    #   the specified minimum and maximum number of parameters; otherwise false
-    def check_method_arity method, arity, expect_unlimited_arguments: false
-      parameters = method.parameters
-      required   = parameters.count { |type, | :req  == type }
-      optional   = parameters.count { |type, | :opt  == type }
-      variadic   = parameters.count { |type, | :rest == type }
-      reasons    = {}
+    # @overload with count
+    #   Adds a parameter count expectation.
+    #
+    #   @param [Integer, Range, nil] count (optional) The number of expected
+    #     parameters.
+    #
+    #   @return [RespondToMatcher] self
+    # @overload with *keywords
+    #   Adds one or more keyword expectations.
+    #
+    #   @param [Array<String, Symbol>] keywords List of keyword arguments
+    #     accepted by the method.
+    #
+    #   @return self
+    # @overload with count, *keywords
+    #   Adds a parameter count expectation and one or more keyword
+    #   expectations.
+    #
+    #   @param [Integer, Range, nil] count (optional) The number of expected
+    #     parameters.
+    #   @param [Array<String, Symbol>] keywords List of keyword arguments
+    #     accepted by the method.
+    #
+    #   @return self
+    def with *keywords
+      case keywords.first
+      when Range
+        arity = keywords.shift
 
-      reasons[:expected_unlimited_arguments] = { count: required + optional } if 0 == variadic && expect_unlimited_arguments
+        method_signature_expectation.min_arguments = arity.begin
+        method_signature_expectation.max_arguments = arity.end
+      when Integer
+        arity = keywords.shift
 
-      min, max = arity.is_a?(Range) ?
-        [arity.begin, arity.end] :
-        [arity,       arity]
+        method_signature_expectation.min_arguments = arity
+        method_signature_expectation.max_arguments = arity
+      end # case
 
-      if min && min < required
-        reasons[:not_enough_args] = { arity: min, count: required }
-      elsif max && 0 == variadic && max > required + optional
-        reasons[:too_many_args]   = { arity: max, count: required + optional }
+      method_signature_expectation.keywords = keywords
+
+      self
+    end # method with
+
+    # Adds a block expectation. The actual object will only match a block
+    # expectation if it expects a parameter of the form &block.
+    #
+    # @return self
+    def with_a_block
+      method_signature_expectation.block_argument = true
+
+      self
+    end # method with_a_block
+    alias_method :and_a_block, :with_a_block
+
+    # Adds an arbitrary keyword expectation, e.g. that the method supports
+    # any keywords with splatted hash arguments of the form **kwargs.
+    def with_arbitrary_keywords
+      method_signature_expectation.any_keywords = true
+
+      self
+    end # method with_arbitrary_keywords
+    alias_method :and_arbitrary_keywords, :with_arbitrary_keywords
+    alias_method :with_any_keywords,      :with_arbitrary_keywords
+    alias_method :and_any_keywords,       :with_any_keywords
+
+    # Adds one or more keyword expectations.
+    #
+    # @param [Array<String, Symbol>] keywords List of keyword arguments
+    #   accepted by the method.
+    #
+    # @return self
+    def with_keywords *keywords
+      method_signature_expectation.keywords = keywords
+
+      self
+    end # method with_keywords
+    alias_method :and_keywords, :with_keywords
+
+    # Adds an unlimited parameter count expectation, e.g. that the method
+    # supports splatted array arguments of the form *args.
+    #
+    # @return self
+    def with_unlimited_arguments
+      method_signature_expectation.unlimited_arguments = true
+
+      self
+    end # method with_unlimited_arguments
+    alias_method :and_unlimited_arguments, :with_unlimited_arguments
+
+    private
+
+    # @api private
+    def check_method_signature method
+      method_signature_expectation.matches?(method)
+    end # method check_method_signature
+
+    # @api private
+    def format_errors errors
+      messages = []
+
+      # TODO: Replace this with "  expected :arity arguments, but method can "\
+      # "receive :count arguments", with :count being one of the following:
+      # - an integer (for methods that do not have optional or variadic params)
+      # - between :min and :max (for methods with optional but not variadic
+      #   params)
+      # - at least :min (for methods with variadic params)
+      if hsh = errors.fetch(:not_enough_args, false)
+        messages << "  expected at least #{hsh[:expected]} arguments, but received #{hsh[:received]}"
       end # if
 
-      reasons.empty? ? nil : reasons
-    end # method check_method_arity
-
-    # Checks whether the method accepts the specified keywords.
-    #
-    # @param [Method] method the method to check
-    # @param [Array<String, Symbol>] keywords the expected keywords
-    #
-    # @return [Boolean] true if the method accepts the specified keywords;
-    #   otherwise false
-    def check_method_keywords method, keywords, expect_arbitrary_keywords: false
-      keywords ||= []
-      parameters = method.parameters
-      reasons    = {}
-
-      # Check for missing required keywords.
-      if RUBY_VERSION >= "2.1.0"
-        missing = []
-        parameters.select { |type, _| :keyreq == type }.each do |_, keyword|
-          missing << keyword unless keywords.include?(keyword)
-        end # each
-
-        reasons[:missing_keywords] = missing unless missing.empty?
+      if hsh = errors.fetch(:too_many_args, false)
+        messages << "  expected at most #{hsh[:expected]} arguments, but received #{hsh[:received]}"
       end # if
 
-      unless 0 < parameters.count { |type, _| :keyrest == type }
-        reasons[:expected_arbitrary_keywords] = true if expect_arbitrary_keywords
+      # TODO: Replace this with "  expected method to receive unlimited "\
+      # "arguments, but method can receive at most :max arguments"
+      if hsh = errors.fetch(:no_variadic_args, false)
+        messages << "  expected at most #{hsh[:expected]} arguments, but received unlimited arguments"
+      end # if
 
-        mismatch = []
-        keywords.each do |keyword|
-          mismatch << keyword unless
-            parameters.include?([:key,    keyword]) ||
-            parameters.include?([:keyreq, keyword])
-        end # each
+      # TODO: Replace this with "  expected method to receive arbitrary "\
+      # "keywords, but the method can receive :keyword_list", with
+      # :keyword_list being a comma-separated list. If the method cannot
+      # receive keywords, replace last fragment with ", but the method cannot"\
+      # " receive keywords"
+      if errors.fetch(:no_variadic_keywords, false)
+        messages << "  expected arbitrary keywords"
+      end # if
 
-        reasons[:unexpected_keywords] = mismatch unless mismatch.empty?
-      end # unless
+      # TODO: Replace this with "  expected method to receive keywords "\
+      # ":received_list, but the method requires keywords :required_list"
+      if ary = errors.fetch(:missing_keywords, false)
+        messages << "  missing #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"
+      end # if
 
-      reasons.empty? ? nil : reasons
-    end # method check_method_keywords
+      # TODO: Replace this with "  expected method to receive keywords "\
+      # ":received_list, but the method can receive :keyword_list"
+      if ary = errors.fetch(:unexpected_keywords, false)
+        messages << "  unexpected #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"
+      end # if
 
-    # Checks whether the method expects a block.
-    #
-    # @param [Method] method the method to check
-    #
-    # @return [Boolean] true if the method expects a block argument; otherwise
-    #   false
-    def check_method_block method
-      0 == method.parameters.count { |type, | :block == type } ? { :expected_block => true } : nil
-    end # method check_method_block
+      # TODO: Replace this with "  expected method to receive a block "\
+      # "argument, but the method signature does not specify a block argument"
+      if errors.fetch(:no_block_argument, false)
+        messages << "  unexpected block"
+      end # if
 
-    private :check_method_arity, :check_method_block, :check_method_keywords
+      messages.join "\n"
+    end # method format_errors
+
+    # @api private
+    def method_signature_expectation
+      @method_signature_expectation ||=
+        ::RSpec::SleepingKingStudios::Support::MethodSignatureExpectation.new
+    end # method_signature_expectation
+
+    # @api private
+    def method_signature_expectation?
+      !!@method_signature_expectation
+    end # method_signature_expectation
   end # module
 end # module

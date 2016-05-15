@@ -13,9 +13,9 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
   describe '#fwrap_examples' do
     let(:examples_name) { 'focused examples' }
 
-    it { expect(instance).to respond_to(:fwrap_context).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:fwrap_context).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:fwrap_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:fwrap_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
@@ -122,9 +122,9 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
   describe '#xwrap_examples' do
     let(:examples_name) { 'skipped examples' }
 
-    it { expect(instance).to respond_to(:xwrap_context).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:xwrap_context).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:xwrap_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:xwrap_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
@@ -231,9 +231,9 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
   describe '#wrap_examples' do
     let(:examples_name)  { 'defined examples' }
 
-    it { expect(instance).to respond_to(:wrap_context).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:wrap_context).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:wrap_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:wrap_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }

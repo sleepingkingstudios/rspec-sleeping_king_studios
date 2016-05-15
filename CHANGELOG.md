@@ -14,6 +14,12 @@ Internally refactored all matcher definitions to *\_matcher.rb, while the previo
 
 Added the `alias_method` matcher, which checks if the object aliases the specified method with the specified other name.
 
+### `construct` and `respond_to` Matchers
+
+The `construct` and `respond_to` matcher is now stricter about accepting methods with undefined argument counts. Specifically, if a method requires a minimum number of arguments, and the matcher does not have an argument count expectation but does have at least one other argument expectation (unlimited arguments, keywords, block argument, and so on), the expectation would pass on pre-2.2 versions. This is considered a bug and has been fixed. These matchers should either only check if the method is defined (if there are no argument expectations), or check that the exact argument expectations given are valid for that method.
+
+Major internal refactoring to DRY parameter matching and ensure consistent behavior between the `construct` and `respond_to` matchers.
+
 #### `belong_to` Matcher
 
 Now aliases as `a_boolean`, e.g. `expect(my_object).to have_reader(:my_method).with_value(a_boolean)`.

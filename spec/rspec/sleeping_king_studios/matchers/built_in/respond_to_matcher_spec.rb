@@ -38,7 +38,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
 
     describe 'with unlimited arguments' do
       let(:instance) { super().with_unlimited_arguments }
-      let(:expected) { super() << ' with unlimited arguments' }
+      let(:expected) { super() << ' with 0 arguments and unlimited arguments' }
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -54,7 +54,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
     describe 'with one keyword' do
       let(:keyword)  { :foo }
       let(:instance) { super().with_keywords(keyword) }
-      let(:expected) { super() << " with keyword #{keyword.inspect}" }
+      let(:expected) { super() << " with 0 arguments and keyword #{keyword.inspect}" }
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -64,7 +64,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       let(:instance) { super().with_keywords(*keywords) }
       let(:expected) do
         super() <<
-          " with keywords #{keywords.first.inspect} and "\
+          ' with 0 arguments and'\
+          " keywords #{keywords.first.inspect} and "\
           "#{keywords.last.inspect}"
       end # let
 
@@ -76,7 +77,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       let(:instance) { super().with_keywords(*keywords) }
       let(:expected) do
         super() <<
-          " with keywords #{keywords[0...-1].map(&:inspect).join(', ')}, and "\
+          ' with 0 arguments and'\
+          " keywords #{keywords[0...-1].map(&:inspect).join(', ')}, and "\
           "#{keywords.last.inspect}"
       end # let
 
@@ -85,7 +87,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
 
     describe 'with arbitrary keywords' do
       let(:instance) { super().with_arbitrary_keywords }
-      let(:expected) { super() << ' with arbitrary keywords' }
+      let(:expected) { super() << ' with 0 arguments and arbitrary keywords' }
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -95,8 +97,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       let(:instance) { super().with_keywords(*keywords).and_arbitrary_keywords }
       let(:expected) do
         super() <<
-          " with keywords #{keywords[0...-1].map(&:inspect).join(', ')}, and "\
-          "#{keywords.last.inspect} and arbitrary keywords"
+          ' with 0 arguments,'\
+          " keywords #{keywords[0...-1].map(&:inspect).join(', ')}, and "\
+          "#{keywords.last.inspect}, and arbitrary keywords"
       end # let
 
       it { expect(instance.description).to be == expected }
@@ -104,7 +107,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
 
     describe 'with a block' do
       let(:instance) { super().with_a_block }
-      let(:expected) { super() << ' with a block' }
+      let(:expected) { super() << ' with 0 arguments and a block' }
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -157,6 +160,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       max_arguments       = signature.fetch(:max_arguments, min_arguments)
       unlimited_arguments = signature.fetch(:unlimited_arguments, false)
       valid_count         = (min_arguments + max_arguments) / 2
+      insufficient_count  = [0, min_arguments - 2].min
 
       optional_keywords   = signature.fetch(:optional_keywords, [])
       required_keywords   = signature.fetch(:required_keywords, [])
@@ -167,8 +171,6 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       block_argument      = signature.fetch(:block_argument, false)
 
       if min_arguments > 0
-        insufficient_count = [0, min_arguments - 2].min
-
         describe 'with not enough arguments' do
           let(:failure_message) do
             include(
@@ -209,11 +211,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
         let(:instance) do
           matcher = super()
 
+          matcher.with(valid_count).arguments
+
           unless required_keywords.empty?
             matcher.with_keywords(*required_keywords)
           end # unless
 
-          matcher.with(valid_count).arguments
+          matcher
         end # let
 
         include_examples 'should pass with a positive expectation'
@@ -243,26 +247,52 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
           include_examples 'should fail with a negative expectation'
         end # describe
 
-        describe 'with unlimited arguments' do
-          let(:failure_message_when_negated) do
-            super() << ' with unlimited arguments'
-          end # let
-          let(:instance) do
-            matcher = super()
+        if min_arguments > 0
+          describe 'with unlimited arguments' do
+            let(:failure_message) do
+              include(
+                super() << ' with arguments:'
+              ).and include(
+                "expected at least #{min_arguments} arguments, but received "\
+                "#{insufficient_count}"
+              ) # end include
+            end # let
+            let(:instance) do
+              matcher = super()
 
-            unless required_keywords.empty?
-              matcher.with_keywords(*required_keywords)
-            end # unless
+              unless required_keywords.empty?
+                matcher.with_keywords(*required_keywords)
+              end # unless
 
-            matcher.with_unlimited_arguments
-          end # let
+              matcher.with_unlimited_arguments
+            end # let
 
-          include_examples 'should pass with a positive expectation'
+            include_examples 'should fail with a positive expectation'
 
-          include_examples 'should fail with a negative expectation'
-        end # describe
+            include_examples 'should pass with a negative expectation'
+          end # describe
+        else
+          describe 'with unlimited arguments' do
+            let(:failure_message_when_negated) do
+              super() << ' with unlimited arguments'
+            end # let
+            let(:instance) do
+              matcher = super()
 
-        describe 'with a valid number of arguments and unlimited_arguments' do
+              unless required_keywords.empty?
+                matcher.with_keywords(*required_keywords)
+              end # unless
+
+              matcher.with_unlimited_arguments
+            end # let
+
+            include_examples 'should pass with a positive expectation'
+
+            include_examples 'should fail with a negative expectation'
+          end # describe
+        end # if-else
+
+        describe 'with a valid number of arguments and unlimited arguments' do
           let(:failure_message_when_negated) do
             super() << " with #{valid_count} arguments and unlimited arguments"
           end # let
@@ -358,7 +388,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
           let(:failure_message_when_negated) do
             message = super() << ' with'
 
-            message << " #{min_arguments} arguments and" if min_arguments > 0
+            message << " #{min_arguments} arguments and"
 
             message << " keywords #{list_keywords keywords}"
 
@@ -382,7 +412,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
           let(:failure_message_when_negated) do
             message = super() << ' with'
 
-            message << " #{min_arguments} arguments and" if min_arguments > 0
+            message << " #{min_arguments} arguments and"
 
             message << " keywords #{list_keywords keywords}"
 
@@ -407,7 +437,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
           let(:failure_message_when_negated) do
             message = super() << ' with'
 
-            message << " #{min_arguments} arguments and" if min_arguments > 0
+            message << " #{min_arguments} arguments and"
 
             message << " keywords #{list_keywords required_keywords}"
 
@@ -430,7 +460,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
           let(:failure_message_when_negated) do
             message = super() << ' with'
 
-            message << " #{min_arguments} arguments and" if min_arguments > 0
+            message << " #{min_arguments} arguments and"
 
             message << " keywords #{list_keywords required_keywords}"
 
@@ -475,7 +505,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
         describe 'with unexpected keywords' do
           let(:keywords) { required_keywords + invalid_keywords }
           let(:failure_message_when_negated) do
-            super() << " with keywords #{list_keywords keywords}"
+            message = super() << ' with'
+
+            message << " #{min_arguments} arguments and"
+
+            message << " keywords #{list_keywords keywords}"
+
+            message
           end # let
           let(:instance) do
             matcher = super()
@@ -492,13 +528,21 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
 
         describe 'with arbitrary keywords' do
           let(:failure_message_when_negated) do
-            message = super() << ' with'
+            message  = super() << ' with '
+            messages = []
+
+            messages << "#{min_arguments} arguments"
 
             unless required_keywords.empty?
-              message << " keywords #{list_keywords required_keywords} and"
+              messages << "keywords #{list_keywords required_keywords}"
             end # unless
 
-            message << ' arbitrary keywords'
+            messages << 'arbitrary keywords'
+
+            tools = ::SleepingKingStudios::Tools::ArrayTools
+            message << tools.humanize_list(messages)
+
+            message
           end # let
           let(:instance) do
             matcher = super()
@@ -520,8 +564,15 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
         describe 'with unexpected and arbitrary keywords' do
           let(:keywords) { required_keywords + invalid_keywords }
           let(:failure_message_when_negated) do
-            super() <<
-              " with keywords #{list_keywords keywords} and arbitrary keywords"
+            message = super() << ' with'
+
+            message << " #{min_arguments} arguments,"
+
+            message << " keywords #{list_keywords keywords},"
+
+            message << ' and arbitrary keywords'
+
+            message
           end # let
           let(:instance) do
             matcher = super()
@@ -617,9 +668,33 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
 
         describe 'with a block' do
           let(:failure_message_when_negated) do
-            super() << ' with a block'
+            message  = super() << ' with '
+            messages = []
+
+            messages << "#{min_arguments} arguments"
+
+            unless required_keywords.empty?
+              messages << "keywords #{list_keywords required_keywords}"
+            end # unless
+
+            messages << 'a block'
+
+            tools = ::SleepingKingStudios::Tools::ArrayTools
+            message << tools.humanize_list(messages)
+
+            message
           end # let
-          let(:instance) { super().with_a_block }
+          let(:instance) do
+            matcher = super()
+
+            matcher.with(min_arguments).arguments if min_arguments > 0
+
+            unless required_keywords.empty?
+              matcher.with_keywords(*required_keywords)
+            end # unless
+
+            matcher.with_a_block
+          end # let
 
           include_examples 'should pass with a positive expectation'
 
@@ -650,8 +725,26 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       "expected #{actual.inspect} not to respond to #{method_name.inspect}"
     end # let
 
-    describe 'with no matching method' do
+    describe 'with an object that does not respond to the method' do
       let(:actual) { Object.new }
+      let(:failure_message) do
+        super() << ", but #{actual.inspect} does not respond to #{method_name.inspect}"
+      end # let
+
+      include_examples 'should fail with a positive expectation'
+
+      include_examples 'should pass with a negative expectation'
+    end # describe
+
+    describe 'with an object that does not define the method' do
+      let(:actual) do
+        Class.new.tap do |klass|
+          klass.send :define_method, :respond_to?, ->(method_name, allow_private = false) { true }
+        end.new
+      end # let
+      let(:failure_message) do
+        super() << ", but #{actual.inspect} does not define a method at #{method_name.inspect}"
+      end # let
 
       include_examples 'should fail with a positive expectation'
 
@@ -677,6 +770,10 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       end # let
 
       describe 'with no argument expectation' do
+        let(:failure_message) do
+          super() << ", but #{actual.inspect} does not respond to #{method_name.inspect}"
+        end # let
+
         include_examples 'should fail with a positive expectation'
 
         include_examples 'should pass with a negative expectation'

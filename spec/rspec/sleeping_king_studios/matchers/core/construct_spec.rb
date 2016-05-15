@@ -164,6 +164,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     describe 'with unlimited arguments' do
       let(:failure_message) do
         "expected #{actual.inspect} to be constructible with arguments:\n  "\
+        "expected at least 2 arguments, but received 0\n  "\
         "expected at most 3 arguments, but received unlimited arguments"
       end # let
       let(:instance) { super().with_unlimited_arguments }
@@ -200,9 +201,10 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
     describe 'with unlimited arguments' do
       let(:failure_message_when_negated) do
-        "expected #{actual.inspect} not to be constructible with unlimited arguments"
+        "expected #{actual.inspect} not to be constructible "\
+        "with 3 arguments and unlimited arguments"
       end # let
-      let(:instance) { super().with_unlimited_arguments }
+      let(:instance) { super().with(3).arguments.and_unlimited_arguments }
 
       include_examples 'passes with a positive expectation'
 
@@ -334,7 +336,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
     describe 'with arbitrary keywords' do
       let(:failure_message_when_negated) do
         "expected #{actual.inspect} not to be constructible with"\
-        " arbitrary keywords"
+        " 0 arguments and arbitrary keywords"
       end # let
       let(:instance) { super().with_arbitrary_keywords }
 
@@ -553,7 +555,7 @@ describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
       describe 'with arbitrary keywords' do
         let(:failure_message_when_negated) do
           "expected #{actual.inspect} not to be constructible with"\
-          " keywords :c and :d and arbitrary keywords"
+          " 0 arguments, keywords :c and :d, and arbitrary keywords"
         end # let
         let(:instance) { super().with_keywords(:c, :d).and_arbitrary_keywords }
 
