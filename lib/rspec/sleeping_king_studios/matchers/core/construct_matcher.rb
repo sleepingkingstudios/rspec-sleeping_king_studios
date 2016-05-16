@@ -60,15 +60,11 @@ module RSpec::SleepingKingStudios::Matchers::Core
       end # unless
 
       constructor =
-        begin
-          instance.method(:initialize)
-        rescue NameError
-          nil
-        end # unless
+        begin; instance.method(:initialize); rescue NameError; nil; end
 
       unless constructor.is_a?(Method)
         @failing_method_reasons = {
-          :is_not_a_method => true
+          :constructor_is_not_a_method => true
         } # end hash
 
         return false
@@ -89,11 +85,20 @@ module RSpec::SleepingKingStudios::Matchers::Core
     def failure_message
       message = "expected #{@actual.inspect} to be constructible"
 
-      if method_signature_expectation?
-        message << " with arguments:\n"
+      if @failing_method_reasons.key?(:does_not_respond_to_new)
+        message << ", but #{@actual.inspect} does not respond to ::new"
+      elsif @failing_method_reasons.key?(:unable_to_create_instance)
+        message << ", but was unable to allocate an instance of #{@actual.inspect} with ::allocate or ::new"
+      elsif @failing_method_reasons.key?(:constructor_is_not_a_method)
+        message <<
+          ", but was unable to reflect on constructor because :initialize is not a method on #{@actual.inspect}"
+      else
+        errors = @failing_method_reasons
 
-        message << format_errors(@failing_method_reasons)
-      end # if
+        # TODO: Replace this with ", but received arguments did not match "\
+        # " method signature:"
+        message << " with arguments:\n" << format_errors(errors)
+      end # if-elsif-else
 
       message
     end # method failure_message

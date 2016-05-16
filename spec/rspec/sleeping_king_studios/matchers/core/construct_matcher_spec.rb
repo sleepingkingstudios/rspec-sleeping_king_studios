@@ -1,21 +1,20 @@
-# spec/rspec/sleeping_king_studios/matchers/built_in/respond_to_matcher_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/core/construct_matcher_spec.rb
 
 require 'spec_helper'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/core/alias_method'
 require 'support/shared_examples/matchers/method_signature_examples'
 
-require 'rspec/sleeping_king_studios/matchers/built_in/respond_to_matcher'
+require 'rspec/sleeping_king_studios/matchers/core/construct_matcher'
 
-RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
   include Spec::Support::SharedExamples::Matchers::MethodSignatureExamples
 
-  let(:method_name) { :foo }
-  let(:instance)    { described_class.new method_name }
+  let(:instance) { described_class.new }
 
   describe '#description' do
-    let(:expected) { "respond to ##{method_name}" }
+    let(:expected) { 'construct' }
 
     it { expect(instance).to respond_to(:description).with(0).arguments }
 
@@ -140,16 +139,16 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
 
   describe '#matches?' do
     let(:failure_message) do
-      "expected #{actual.inspect} to respond to #{method_name.inspect}"
+      "expected #{actual.inspect} to be constructible"
     end # let
     let(:failure_message_when_negated) do
-      "expected #{actual.inspect} not to respond to #{method_name.inspect}"
+      "expected #{actual.inspect} not to be constructible"
     end # let
 
-    describe 'with an object that does not respond to the method' do
+    describe 'with an object that does not respond to :new' do
       let(:actual) { Object.new }
       let(:failure_message) do
-        super() << ", but #{actual.inspect} does not respond to #{method_name.inspect}"
+        super() << ", but #{actual.inspect} does not respond to ::new"
       end # let
 
       include_examples 'should fail with a positive expectation'
@@ -157,14 +156,16 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       include_examples 'should pass with a negative expectation'
     end # describe
 
-    describe 'with an object that does not define the method' do
+    describe 'with an object that cannot be allocated' do
       let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, :respond_to?, ->(method_name, allow_private = false) { true }
+        Class.new do
+          def new required:, keywords:
+
+          end # method new
         end.new
       end # let
       let(:failure_message) do
-        super() << ", but #{actual.inspect} does not define a method at #{method_name.inspect}"
+        super() << ", but was unable to allocate an instance of #{actual.inspect} with ::allocate or ::new"
       end # let
 
       include_examples 'should fail with a positive expectation'
@@ -172,46 +173,44 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       include_examples 'should pass with a negative expectation'
     end # describe
 
-    describe 'with a matching method with no arguments' do
+    describe 'with an object with an inaccessible constructor' do
+      let(:actual) do
+        Class.new do
+          def new required:, keywords:
+
+          end # method new
+
+          def allocate
+            self
+          end # method allocate
+
+          undef_method :initialize
+        end.allocate
+      end # let
+      let(:failure_message) do
+        super() << ", but was unable to reflect on constructor because :initialize is not a method on #{actual.inspect}"
+      end # let
+
+      include_examples 'should fail with a positive expectation'
+
+      include_examples 'should pass with a negative expectation'
+    end # describe
+
+    describe 'with an object that can be constructed with no arguments' do
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->() {}
-        end.new
+          klass.send :define_method, :initialize, ->() {}
+        end # class
       end # let
 
       include_examples 'should respond to method with signature'
     end # describe
 
-    describe 'with a matching private method with no arguments' do
+    describe 'with an object that can be constructed with required arguments' do
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->() {}
-          klass.send :private, method_name
-        end.new
-      end # let
-
-      describe 'with no argument expectation' do
-        let(:failure_message) do
-          super() << ", but #{actual.inspect} does not respond to #{method_name.inspect}"
-        end # let
-
-        include_examples 'should fail with a positive expectation'
-
-        include_examples 'should pass with a negative expectation'
-      end # describe
-
-      describe 'with include_all => true' do
-        let(:instance) { described_class.new method_name, true }
-
-        include_examples 'should respond to method with signature'
-      end # describe
-    end # describe
-
-    describe 'with a matching method with required arguments' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(a, b, c = nil) {}
-        end.new
+          klass.send :define_method, :initialize, ->(a, b, c = nil) {}
+        end # class
       end # let
 
       include_examples 'should respond to method with signature',
@@ -219,11 +218,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
         :max_arguments => 3
     end # describe
 
-    describe 'with a matching method with variadic arguments' do
+    describe 'with an object that can be constructed with variadic arguments' do
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(a, b, c, *rest) {}
-        end.new
+          klass.send :define_method, :initialize, ->(a, b, c, *rest) {}
+        end # class
       end # let
 
       include_examples 'should respond to method with signature',
@@ -231,22 +230,22 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
         :unlimited_arguments => true
     end # describe
 
-    describe 'with a matching method with optional keywords' do
+    describe 'with an object that can be constructed with optional keywords' do
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(x: nil, y: nil) {}
-        end.new
+          klass.send :define_method, :initialize, ->(x: nil, y: nil) {}
+        end # class
       end # let
 
       include_examples 'should respond to method with signature',
         :optional_keywords => [:x, :y]
     end # describe
 
-    describe 'with a matching method with required keywords' do
+    describe 'with an object that can be constructed with required keywords' do
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(x:, y:, u: nil, v: nil) {}
-        end.new
+          klass.send :define_method, :initialize, ->(x:, y:, u: nil, v: nil) {}
+        end # class
       end # let
 
       include_examples 'should respond to method with signature',
@@ -254,11 +253,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
         :required_keywords => [:x, :y]
     end # describe
 
-    describe 'with a matching method with variadic keywords' do
+    describe 'with an object that can be constructed with variadic keywords' do
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(x:, y:, **kwargs) {}
-        end.new
+          klass.send :define_method, :initialize, ->(x:, y:, **kwargs) {}
+        end # class
       end # let
 
       include_examples 'should respond to method with signature',
@@ -266,23 +265,23 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
         :arbitrary_keywords => true
     end # describe
 
-    describe 'with a matching method with a block argument' do
+    describe 'with an object that can be constructed with a block argument' do
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(&block) {}
-        end.new
+          klass.send :define_method, :initialize, ->(&block) {}
+        end # class
       end # let
 
       include_examples 'should respond to method with signature',
         :block_argument => true
     end # describe
 
-    describe 'with a matching method with complex parameters' do
+    describe 'with an object that can be constructed with complex parameters' do
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name,
+          klass.send :define_method, :initialize,
             ->(a, b, c = nil, d = nil, x:, y:, u: nil, v: nil, &block) {}
-        end.new
+        end # class
       end # let
 
       include_examples 'should respond to method with signature',
