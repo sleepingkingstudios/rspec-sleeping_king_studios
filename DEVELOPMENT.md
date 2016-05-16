@@ -5,7 +5,6 @@
 ### Features
 
 - Add #have_constant matcher.
-- Add #have_predicate matcher.
 - Add shared examples for 'should have constant', 'should have immutable constant'
 - Add shared examples for 'should have predicate'
 - Add shared examples for 'should not have reader/writer'
