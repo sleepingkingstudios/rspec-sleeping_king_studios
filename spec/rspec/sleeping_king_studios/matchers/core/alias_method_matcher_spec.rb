@@ -75,11 +75,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::AliasMethodMatcher do
     end # describe
 
     describe 'with an actual that responds to the old method' do
-      before(:each) do
+      before(:example) do
         old_name = old_method_name
 
         actual_class.send :define_method, old_name, ->() {}
-      end # before each
+      end # before example
 
       include_examples 'should require a new method name'
 
@@ -98,13 +98,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::AliasMethodMatcher do
     describe 'with an actual that responds to the old method and the new method' do
       let(:new_method_name) { :new_method }
 
-      before(:each) do
+      before(:example) do
         old_name = old_method_name
         new_name = new_method_name
 
         actual_class.send :define_method, old_name, ->() {}
         actual_class.send :define_method, new_name, ->() {}
-      end # before each
+      end # before example
 
       include_examples 'should require a new method name'
 
@@ -124,13 +124,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::AliasMethodMatcher do
     describe 'with an actual that aliases the old method as the new method' do
       let(:new_method_name) { :new_method }
 
-      before(:each) do
+      before(:example) do
         old_name = old_method_name
         new_name = new_method_name
 
         actual_class.send :define_method, old_name, ->() {}
         actual_class.send :alias_method,  new_name, old_name
-      end # before each
+      end # before example
 
       include_examples 'should require a new method name'
 

@@ -71,7 +71,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
       before(:example) do
         instance.min_arguments = arity
         instance.max_arguments = arity
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -83,7 +83,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
       before(:example) do
         instance.min_arguments = arity.begin
         instance.max_arguments = arity.end
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -93,7 +93,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
 
       before(:example) do
         instance.unlimited_arguments = true
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -108,7 +108,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         instance.min_arguments       = arity
         instance.max_arguments       = arity
         instance.unlimited_arguments = true
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -119,7 +119,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
 
       before(:example) do
         instance.keywords = [keyword]
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -133,7 +133,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
 
       before(:example) do
         instance.keywords = keywords
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -148,7 +148,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
 
       before(:example) do
         instance.keywords = keywords
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -158,7 +158,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
 
       before(:example) do
         instance.any_keywords = true
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -174,7 +174,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
       before(:example) do
         instance.keywords     = keywords
         instance.any_keywords = true
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -184,7 +184,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
 
       before(:example) do
         instance.block_argument = true
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -208,7 +208,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         instance.keywords            = keywords
         instance.any_keywords        = true
         instance.block_argument      = true
-      end # before
+      end # before example
 
       it { expect(instance.description).to be == expected }
     end # describe
@@ -289,7 +289,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.keywords            = [:r, :s]
           instance.any_keywords        = true
           instance.block_argument      = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :too_many_args        => {
@@ -330,7 +330,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.min_arguments = 2
           instance.max_arguments = 4
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe
@@ -339,7 +339,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.min_arguments = 2
           instance.max_arguments = 6
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :too_many_args => {
@@ -352,7 +352,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.min_arguments = 1
           instance.max_arguments = 6
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :not_enough_args => {
@@ -370,7 +370,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.min_arguments       = 2
           instance.max_arguments       = 4
           instance.unlimited_arguments = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :no_variadic_args => {
@@ -383,7 +383,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.min_arguments = 2
           instance.max_arguments = 4
           instance.keywords      = [:r, :s]
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :unexpected_keywords => [:r, :s]
@@ -394,7 +394,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.min_arguments = 2
           instance.max_arguments = 4
           instance.any_keywords  = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :no_variadic_keywords => true
@@ -405,7 +405,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.min_arguments  = 2
           instance.max_arguments  = 4
           instance.block_argument = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :no_block_argument => true
@@ -419,7 +419,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.keywords            = [:r, :s]
           instance.any_keywords        = true
           instance.block_argument      = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :not_enough_args      => {
@@ -450,7 +450,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.min_arguments = 0
           instance.max_arguments = 9_001
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe
@@ -490,7 +490,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.keywords            = [:r, :s]
           instance.any_keywords        = true
           instance.block_argument      = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :unexpected_keywords => [:r, :s],
@@ -510,7 +510,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
       describe 'with valid arguments and keywords' do
         before(:example) do
           instance.keywords = [:u, :v, :x, :y]
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe
@@ -519,7 +519,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.keywords      = [:u, :v, :x, :y]
           instance.max_arguments = 2
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :too_many_args => {
@@ -532,7 +532,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.keywords            = [:u, :v, :x, :y]
           instance.unlimited_arguments = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :no_variadic_args => {
@@ -543,7 +543,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
       describe 'with expected keywords missing' do
         before(:example) do
           instance.keywords = [:u, :v]
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :missing_keywords => [:x, :y]
@@ -552,7 +552,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
       describe 'with invalid keywords expected' do
         before(:example) do
           instance.keywords = [:r, :s, :u, :v, :x, :y]
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :unexpected_keywords => [:r, :s]
@@ -561,7 +561,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
       describe 'with unexpected and missing keywords' do
         before(:example) do
           instance.keywords = [:r, :s, :u, :v]
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :missing_keywords    => [:x, :y],
@@ -572,7 +572,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.keywords     = [:u, :v, :x, :y]
           instance.any_keywords = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :no_variadic_keywords => true
@@ -582,7 +582,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.keywords       = [:u, :v, :x, :y]
           instance.block_argument = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :no_block_argument => true
@@ -595,7 +595,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.keywords            = [:r, :s, :u, :v]
           instance.any_keywords        = true
           instance.block_argument      = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :too_many_args        => {
@@ -622,7 +622,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
       describe 'with valid arguments and keywords' do
         before(:example) do
           instance.keywords = [:q, :r, :s, :t]
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe
@@ -666,7 +666,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.keywords            = [:q, :r, :s, :t]
           instance.any_keywords        = true
           instance.block_argument      = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :too_many_args     => {
@@ -724,7 +724,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.keywords            = [:q, :r, :s, :t]
           instance.any_keywords        = true
           instance.block_argument      = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :too_many_args        => {
@@ -757,7 +757,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.min_arguments = 1
           instance.keywords      = [:x, :y]
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :not_enough_args => {
@@ -770,7 +770,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.min_arguments = 2
           instance.keywords      = [:x, :y]
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe
@@ -780,7 +780,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.min_arguments       = 2
           instance.unlimited_arguments = true
           instance.keywords            = [:x, :y]
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe
@@ -789,7 +789,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
         before(:example) do
           instance.min_arguments = 2
           instance.keywords      = [:u, :v]
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :missing_keywords => [:x, :y]
@@ -800,7 +800,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.min_arguments = 2
           instance.keywords      = [:x, :y]
           instance.any_keywords  = true
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe
@@ -810,7 +810,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.min_arguments  = 2
           instance.keywords       = [:x, :y]
           instance.block_argument = true
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe
@@ -822,7 +822,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.keywords            = [:r, :s, :u, :v]
           instance.any_keywords        = true
           instance.block_argument      = true
-        end # before
+        end # before example
 
         include_examples 'should not match and should set errors',
           :not_enough_args        => {
@@ -839,7 +839,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::MethodSignatureExpectation d
           instance.keywords            = [:r, :s, :u, :v, :x, :y]
           instance.any_keywords        = true
           instance.block_argument      = true
-        end # before
+        end # before example
 
         include_examples 'should match and clear the errors hash'
       end # describe

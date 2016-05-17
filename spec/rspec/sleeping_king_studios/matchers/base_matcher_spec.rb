@@ -21,7 +21,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     it { expect(instance.description).to be == 'base' }
 
     context 'with a custom class name' do
-      before(:each) { allow(described_class).to receive(:name).and_return 'MyGem::MyModule::BeSillyMatcher' }
+      before(:example) { allow(described_class).to receive(:name).and_return 'MyGem::MyModule::BeSillyMatcher' }
 
       it { expect(instance.description).to be == 'be silly' }
     end # context
@@ -33,13 +33,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     context 'with a successful match' do
       let(:failure_message_when_negated) { 'expected nil not to base' }
 
-      before(:each) { allow(instance).to receive(:does_not_match?).and_return(false) }
+      before(:example) { allow(instance).to receive(:does_not_match?).and_return(false) }
 
       include_examples 'should fail with a negative expectation'
     end # context
 
     context 'with a failing match' do
-      before(:each) { allow(instance).to receive(:does_not_match?).and_return(true) }
+      before(:example) { allow(instance).to receive(:does_not_match?).and_return(true) }
 
       include_examples 'should pass with a negative expectation'
     end # context
@@ -48,7 +48,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
   describe '#failure_message' do
     it { expect(instance).to respond_to(:failure_message).with(0).arguments }
 
-    it 'returns a String' do
+    it 'should return a String' do
       instance.matches? actual
 
       expect(instance.failure_message).to be_a String
@@ -58,7 +58,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
   describe '#failure_message_when_negated' do
     it { expect(instance).to respond_to(:failure_message_when_negated).with(0).arguments }
 
-    it 'returns a String' do
+    it 'should return a String' do
       instance.matches? actual
 
       expect(instance.failure_message_when_negated).to be_a String
@@ -71,7 +71,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     context 'with a successful match' do
       let(:failure_message_when_negated) { 'expected nil not to base' }
 
-      before(:each) { allow(instance).to receive(:matches?).and_return(true) }
+      before(:example) { allow(instance).to receive(:matches?).and_return(true) }
 
       include_examples 'should pass with a positive expectation'
 
@@ -81,7 +81,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BaseMatcher do
     context 'with a failing match' do
       let(:failure_message) { 'expected nil to base' }
 
-      before(:each) { allow(instance).to receive(:matches?).and_return(false) }
+      before(:example) { allow(instance).to receive(:matches?).and_return(false) }
 
       include_examples 'should fail with a positive expectation'
 

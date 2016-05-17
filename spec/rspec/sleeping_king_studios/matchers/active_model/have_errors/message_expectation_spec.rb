@@ -12,15 +12,15 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::Me
   let(:message)  { "can't be blank" }
   let(:instance) { described_class.new message }
 
-  it '#message' do
-    expect(instance).to have_property(:message).with(message)
-  end # it
+  describe '#message' do
+    it { expect(instance).to have_property(:message).with(message) }
+  end # describe
 
-  it '#expected' do
-    expect(instance).to have_property(:expected).with(true)
-  end # it
+  describe '#expected' do
+    it { expect(instance).to have_property(:expected).with(true) }
+  end # describe
 
-  it '#received' do
-    expect(instance).to have_property(:received).with(false)
-  end # it
+  describe '#received' do
+    it { expect(instance).to have_property(:received).with(false) }
+  end # describe
 end # describe

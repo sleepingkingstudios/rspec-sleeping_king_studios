@@ -99,7 +99,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
 
       before(:example) do
         actual_class.send :define_method, method_name, method_implementation
-      end # before
+      end # before example
     end # shared_context
 
     shared_context 'with a delegate that responds to the method' do
@@ -123,9 +123,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
       end # let
       let(:instance) { super().to(delegate) }
 
-      before(:each) do
+      before(:example) do
         delegate_class.send :define_method, method_name, delegate_implementation
-      end # before each
+      end # before example
     end # shared_context
 
     shared_context 'with a delegate that returns a value' do

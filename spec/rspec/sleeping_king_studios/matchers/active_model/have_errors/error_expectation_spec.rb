@@ -40,9 +40,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::Er
         ] # end array
       end # let
 
-      before(:each) do
+      before(:example) do
         instance.messages[0...4] = messages
-      end # before each
+      end # before example
 
       describe '#expected' do
         it { expect(instance.messages.expected).to be == messages.select { |msg| msg.expected } }

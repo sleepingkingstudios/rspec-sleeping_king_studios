@@ -56,10 +56,10 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Description do
     end # context
 
     context 'with a custom class name' do
-      before(:each) do
+      before(:example) do
         allow(described_class).to receive(:name).
           and_return 'MyGem::MyModule::BeSillyMatcher'
-      end # before each
+      end # before example
 
       it { expect(instance.description).to be == 'be silly' }
     end # context
