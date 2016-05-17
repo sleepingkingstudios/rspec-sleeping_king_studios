@@ -184,7 +184,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
             self
           end # method allocate
 
+          original_verbose, $VERBOSE = $VERBOSE, nil
           undef_method :initialize
+          $VERBOSE = original_verbose
         end.allocate
       end # let
       let(:failure_message) do
