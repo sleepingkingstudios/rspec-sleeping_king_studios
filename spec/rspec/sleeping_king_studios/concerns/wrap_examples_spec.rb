@@ -13,19 +13,19 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
   describe '#fwrap_examples' do
     let(:examples_name) { 'focused examples' }
 
-    it { expect(instance).to respond_to(:fwrap_context).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:fwrap_context).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:fwrap_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:fwrap_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
       let(:exception_message) { %{Could not find shared examples "#{examples_name}"} }
 
-      before(:each) do
+      before(:example) do
         allow(instance).to receive(:include_examples) do |name, *args, **kwargs|
           raise exception_class.new(exception_message)
         end # allow
-      end # end
+      end # before example
 
       it 'should raise an error' do
         expect { instance.fwrap_examples examples_name }.to raise_error exception_class, exception_message
@@ -122,19 +122,19 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
   describe '#xwrap_examples' do
     let(:examples_name) { 'skipped examples' }
 
-    it { expect(instance).to respond_to(:xwrap_context).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:xwrap_context).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:xwrap_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:xwrap_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
       let(:exception_message) { %{Could not find shared examples "#{examples_name}"} }
 
-      before(:each) do
+      before(:example) do
         allow(instance).to receive(:include_examples) do |name, *args, **kwargs|
           raise exception_class.new(exception_message)
         end # allow
-      end # end
+      end # before example
 
       it 'should raise an error' do
         expect { instance.xwrap_examples examples_name }.to raise_error exception_class, exception_message
@@ -231,19 +231,19 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
   describe '#wrap_examples' do
     let(:examples_name)  { 'defined examples' }
 
-    it { expect(instance).to respond_to(:wrap_context).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:wrap_context).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:wrap_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:wrap_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
       let(:exception_message) { %{Could not find shared examples "#{examples_name}"} }
 
-      before(:each) do
+      before(:example) do
         allow(instance).to receive(:include_examples) do |name, *args, **kwargs|
           raise exception_class.new(exception_message)
         end # allow
-      end # end
+      end # before example
 
       it 'should raise an error' do
         expect { instance.wrap_examples examples_name }.to raise_error exception_class, exception_message

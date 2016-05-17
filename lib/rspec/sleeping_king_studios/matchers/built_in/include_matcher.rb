@@ -1,10 +1,13 @@
 # lib/rspec/sleeping_king_studios/matchers/built_in/include_matcher.rb
 
 require 'rspec/sleeping_king_studios/matchers/built_in'
+require 'rspec/sleeping_king_studios/matchers/description'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   # Extensions to the built-in RSpec #include matcher.
   class IncludeMatcher < RSpec::Matchers::BuiltIn::Include
+    include RSpec::SleepingKingStudios::Matchers::Description
+
     # @param [Array<Hash, Proc, Object>] expected the items expected to be
     #   matched by the actual object
     #
@@ -19,10 +22,25 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       super *expected
     end # constructor
 
+    # (see BaseMatcher#description)
+    def description
+      desc = super
+
+      # Format hash expectations.
+      desc = desc.gsub(/(\S)=>(\S)/, '\1 => \2')
+
+      # Replace processed block expectation stub with proper description.
+      desc = desc.gsub ':__block_comparison__', 'an item matching the block'
+
+      desc
+    end # method description
+
     # @api private
     #
     # @return [Boolean]
     def matches?(actual)
+      @actual = actual
+
       perform_match(actual) { |v| v }
     end # method matches?
 
@@ -30,23 +48,10 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     #
     # @return [Boolean]
     def does_not_match?(actual)
+      @actual = actual
+
       perform_match(actual) { |v| !v }
     end # method does_not_match?
-
-    # @api private
-    #
-    # Converts the expected item to a human-readable string. Retained for
-    # pre-3.3 compatibility.
-    def to_word expected_item
-      case
-      when is_matcher_with_description?(expected_item)
-        expected_item.description
-      when Proc === expected_item
-        "an item matching the block"
-      else
-        expected_item.inspect
-      end # case
-    end # method to_word
 
     # (see BaseMatcher#failure_message)
     def failure_message
@@ -68,14 +73,18 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
     private
 
-    # @api private
-    def perform_match(actual, &block)
-      @actual = actual
-      @divergent_items = excluded_from_actual(&block)
-      actual.respond_to?(:include?) && @divergent_items.empty?
-    end # method perform_match
+    def actual_matches_proc? expected_item
+      if actual.respond_to?(:detect)
+        !!actual.detect(&expected_item)
+      else
+        !!expected_item.call(actual)
+      end # if-else
+    end # method actual_matches_proc?
 
-    # @api private
+    def comparing_proc? expected_item
+      expected_item.is_a?(Proc)
+    end # method comparing_proc?
+
     def excluded_from_actual
       return [] unless @actual.respond_to?(:include?)
 
@@ -96,14 +105,30 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       end # inject
     end # method excluded_from_actual
 
-    # @api private
-    def actual_matches_proc? expected_item
-      !!actual.detect(&expected_item)
-    end # method actual_matches_proc?
+    def expected_items_for_description
+      # Preprocess items to stub out block expectations.
+      @expected.map { |item| item.is_a?(Proc) ? :__block_comparison__ : item }
+    end # method expected_items_for_description
+
+    def perform_match(actual, &block)
+      @actual = actual
+      @divergent_items = excluded_from_actual(&block)
+      actual.respond_to?(:include?) && @divergent_items.empty?
+    end # method perform_match
 
     # @api private
-    def comparing_proc? expected_item
-      expected_item.is_a?(Proc)
-    end # method comparing_proc?
+    #
+    # Converts the expected item to a human-readable string. Retained for
+    # pre-3.3 compatibility.
+    def to_word expected_item
+      case
+      when is_matcher_with_description?(expected_item)
+        expected_item.description
+      when Proc === expected_item
+        "an item matching the block"
+      else
+        expected_item.inspect
+      end # case
+    end # method to_word
   end # class
 end # module

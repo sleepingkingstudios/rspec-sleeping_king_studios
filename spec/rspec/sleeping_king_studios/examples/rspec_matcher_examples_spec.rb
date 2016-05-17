@@ -31,11 +31,11 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples do
         'expected: falsey value'
       end # let
 
-      before(:each) do
+      before(:example) do
         config = RSpec.configuration.sleeping_king_studios.examples
 
         allow(config).to receive(:match_string_failure_message_as).and_return(:substring)
-      end # each
+      end # before example
 
       include_examples 'fails with a negative expectation'
 
@@ -85,11 +85,11 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples do
         'expected: truthy value'
       end # let
 
-      before(:each) do
+      before(:example) do
         config = RSpec.configuration.sleeping_king_studios.examples
 
         allow(config).to receive(:match_string_failure_message_as).and_return(:substring)
-      end # each
+      end # before example
 
       include_examples 'fails with a positive expectation'
 

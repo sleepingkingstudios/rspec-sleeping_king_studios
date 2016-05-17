@@ -24,6 +24,13 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @expected = expected.intern
     end # method initialize
 
+    # (see BaseMatcher#does_not_match?)
+    def does_not_match? actual
+      super
+
+      matches_reader?(:none?)
+    end # method does_not_match?
+
     # Checks if the object responds to #expected. Additionally, if a value
     # expectation is set, compares the value of #expected to the specified
     # value.
@@ -35,7 +42,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     def matches? actual
       super
 
-      responds_to_reader? && matches_reader_value?
+      matches_reader?(:all?)
     end # method matches?
 
     # Sets a value expectation. The matcher will compare the value from
@@ -69,7 +76,21 @@ module RSpec::SleepingKingStudios::Matchers::Core
     def failure_message_when_negated
       message = "expected #{@actual.inspect} not to respond to :#{@expected}"
       message << " and return #{value_to_string}" if @value_set
+
+      errors = []
+      errors << "responded to :#{@expected}" if @matches_reader
+      errors << "returned #{@actual.send(@expected).inspect}" if @matches_reader_value
+
+      message << ", but #{errors.join(" and ")}"
       message
     end # method failure_message
+
+    private
+
+    def matches_reader? filter
+      [ responds_to_reader?,
+        matches_reader_value?
+      ].send(filter) { |bool| bool }
+    end # method matches_property?
   end # class
 end # module

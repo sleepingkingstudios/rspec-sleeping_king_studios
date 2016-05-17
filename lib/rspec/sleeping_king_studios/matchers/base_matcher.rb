@@ -1,6 +1,7 @@
 # lib/rspec/sleeping_king_studios/matchers/base_matcher.rb
 
 require 'rspec/sleeping_king_studios/matchers'
+require 'rspec/sleeping_king_studios/matchers/description'
 
 require 'sleeping_king_studios/tools/string_tools'
 
@@ -9,29 +10,9 @@ module RSpec::SleepingKingStudios::Matchers
   #
   # @since 1.0.0
   class BaseMatcher
-    include RSpec::Matchers::Pretty if defined?(RSpec::Matchers::Pretty)
+    include RSpec::SleepingKingStudios::Matchers::Description
 
     attr_reader :actual
-
-    # A short string that describes the purpose of the matcher.
-    #
-    # @return [String] the matcher description
-    def description
-      if defined?(RSpec::Matchers::EnglishPhrasing)
-        # RSpec 3.4+
-        matcher_name = ::SleepingKingStudios::Tools::StringTools.underscore(self.class.name.split('::').last)
-        matcher_name.sub!(/_matcher\z/, '')
-
-        desc = RSpec::Matchers::EnglishPhrasing.split_words(matcher_name)
-        desc << RSpec::Matchers::EnglishPhrasing.list(@expected) if defined?(@expected)
-      else
-        # RSpec 3.0-3.3
-        desc = name_to_sentence
-        desc << to_sentence(@expected) if defined?(@expected)
-      end # if-else
-
-      desc
-    end # method description
 
     # Inverse of #matches? method.
     #
@@ -67,12 +48,5 @@ module RSpec::SleepingKingStudios::Matchers
     def failure_message_when_negated
       "expected #{@actual.inspect} not to #{description}"
     end # method failure_message_when_negated
-
-    private
-
-    # @api private
-    def name_to_sentence
-      super().sub!(/ matcher\z/, '')
-    end # method name_to_sentence
   end # class
 end # module

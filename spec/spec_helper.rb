@@ -22,9 +22,6 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
-  # Alias "it should behave like" to 2.13-like syntax.
-  config.alias_it_should_behave_like_to 'expect_behavior', 'has behavior'
-
   # rspec-expectations config goes here.
   config.expect_with :rspec do |expectations|
     # Enable only the newer, non-monkey-patching expect syntax.

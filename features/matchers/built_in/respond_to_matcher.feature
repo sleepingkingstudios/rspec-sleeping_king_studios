@@ -22,15 +22,16 @@ Feature: `respond_to` matcher
   as a number or as a range to indicate a mix of required and optional
   arguments.
 
-  On Ruby 2.0 and above, you can additionally specify one or more keywords that
-  the method must support. On Ruby 2.1 and above, the matcher also checks for
-  the presence of required keywords:
-
   ```ruby
   expect(instance).to respond_to(:method_name).with(1).argument
   expect(instance).to respond_to(:method_name).with(1..2).arguments
   expect(instance).to respond_to(:method_name).with_unlimited_arguments
+  ```
 
+  Additionally, you can now specify one or more keywords that the method must
+  support. The matcher also checks for the presence of required keywords:
+
+  ```ruby
   expect(instance).to respond_to(:method_name).with_keywords(:headers, :body, :cookies)
   expect(instance).to respond_to(:method_name).with(3).arguments.and_keywords(:options, :http_options)
   expect(instance).to respond_to(:method_name).with_any_keywords
@@ -103,7 +104,7 @@ Feature: `respond_to` matcher
           it { expect(instance).to respond_to(:my_method).with(1..3).arguments }
 
           describe 'keywords' do
-            it { expect(instance).to respond_to(:my_method).with(:wibble, :wobble) }
+            it { expect(instance).to respond_to(:my_method).with(1).argument.and_keywords(:wibble, :wobble) }
 
             it { expect(instance).not_to respond_to(:my_method).with(:up, :down) }
 
@@ -127,7 +128,7 @@ Feature: `respond_to` matcher
           it { expect(instance).not_to respond_to(:my_method).with(1..3).arguments }
 
           describe 'keywords' do
-            it { expect(instance).not_to respond_to(:my_method).with(:wibble, :wobble) }
+            it { expect(instance).not_to respond_to(:my_method).with(1).argument.and_keywords(:wibble, :wobble) }
 
             it { expect(instance).to respond_to(:my_method).with(:up, :down) }
 
@@ -143,7 +144,7 @@ Feature: `respond_to` matcher
           end # describe
         end # describe
       """
-    When I run `rspec respond_to_matcher_spec.rb`
+    When I run `rspec --order=defined respond_to_matcher_spec.rb`
     Then the output should contain "26 examples, 13 failures"
     Then the output should contain consecutive lines:
       | Failure/Error: it { expect(instance).to respond_to(:my_method).with(0).arguments } |
@@ -167,15 +168,17 @@ Feature: `respond_to` matcher
       | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1..3).arguments } |
       |   expected my object not to respond to :my_method with 1..3 arguments |
     Then the output should contain consecutive lines:
-      | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(:wibble, :wobble) } |
-      |   expected my object not to respond to :my_method with keywords :wibble and :wobble |
+      | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1).argument.and_keywords(:wibble, :wobble) } |
+      |   expected my object not to respond to :my_method with 1 argument and keywords :wibble and :wobble |
     Then the output should contain consecutive lines:
       | Failure/Error: it { expect(instance).to respond_to(:my_method).with(:up, :down) } |
       |   expected my object to respond to :my_method with arguments: |
+      |     expected at least 1 arguments, but received 0 |
       |     unexpected keywords :up and :down |
     Then the output should contain consecutive lines:
       | Failure/Error: it { expect(instance).to respond_to(:my_method).with(:wobble, :up) } |
       |   expected my object to respond to :my_method with arguments: |
+      |     expected at least 1 arguments, but received 0 |
       |     unexpected keyword :up |
     Then the output should contain consecutive lines:
       | Failure/Error: it { expect(instance).not_to respond_to(:my_method).with(1..3, :wibble, :wobble) } |

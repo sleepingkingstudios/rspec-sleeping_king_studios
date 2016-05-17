@@ -38,23 +38,23 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
     end # case
   end # method handle_missing_failure_message
 
-  shared_examples 'passes with a positive expectation' do
+  shared_examples 'should pass with a positive expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
 
-    it 'passes with a positive expectation' do
+    it 'should pass with positive expectation' do
       expect(matcher_being_examined.matches? actual).to be true
     end # it
   end # shared_examples
-  alias_shared_examples 'should pass with a positive expectation', 'passes with a positive expectation'
+  alias_shared_examples 'passes with a positive expectation', 'should pass with a positive expectation'
 
-  shared_examples 'fails with a positive expectation' do
+  shared_examples 'should fail with a positive expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
 
-    it 'fails with a positive expectation' do
+    it 'should fail with a positive expectation' do
       expect(matcher_being_examined.matches? actual).to be false
     end # it
 
-    it 'has a failure message with a positive expectation' do
+    it 'should have a failure message with a positive expectation' do
       if defined?(failure_message)
         matcher_being_examined.matches?(actual)
 
@@ -70,12 +70,12 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       end # if
     end # it
   end # shared_examples
-  alias_shared_examples 'should fail with a positive expectation', 'fails with a positive expectation'
+  alias_shared_examples 'fails with a positive expectation', 'should fail with a positive expectation'
 
-  shared_examples 'passes with a negative expectation' do
+  shared_examples 'should pass with a negative expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
 
-    it 'passes with a negative expectation' do
+    it 'should pass with a negative expectation' do
       if matcher_being_examined.respond_to?(:does_not_match?)
         expect(matcher_being_examined.does_not_match? actual).to be true
       else
@@ -83,12 +83,12 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       end # if-else
     end # it
   end # shared_examples
-  alias_shared_examples 'should pass with a negative expectation', 'passes with a negative expectation'
+  alias_shared_examples 'passes with a negative expectation', 'should pass with a negative expectation'
 
-  shared_examples 'fails with a negative expectation' do
+  shared_examples 'should fail with a negative expectation' do
     let(:matcher_being_examined) { defined?(instance) ? instance : subject }
 
-    it 'fails with a negative expectation' do
+    it 'should fail with a negative expectation' do
       if matcher_being_examined.respond_to?(:does_not_match?)
         expect(matcher_being_examined.does_not_match? actual).to be false
       else
@@ -96,7 +96,7 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       end # if-else
     end # it
 
-    it 'has a failure message with a negative expectation' do
+    it 'should have a failure message with a negative expectation' do
       if defined?(failure_message_when_negated)
         if matcher_being_examined.respond_to?(:does_not_match?)
           matcher_being_examined.does_not_match?(actual)
@@ -117,5 +117,5 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
       end # if
     end # it
   end # shared_examples
-  alias_shared_examples 'should fail with a negative expectation', 'fails with a negative expectation'
+  alias_shared_examples 'fails with a negative expectation', 'should fail with a negative expectation'
 end # module

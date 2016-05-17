@@ -13,19 +13,19 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
   describe '#finclude_examples' do
     let(:examples_name) { 'focused examples' }
 
-    it { expect(instance).to respond_to(:finclude_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:finclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:finclude_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:finclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
       let(:exception_message) { %{Could not find shared examples "#{examples_name}"} }
 
-      before(:each) do
+      before(:example) do
         allow(instance).to receive(:include_examples) do |name, *args, **kwargs|
           raise exception_class.new(exception_message)
         end # allow
-      end # end
+      end # before example
 
       it 'should raise an error' do
         expect { instance.finclude_examples examples_name }.to raise_error exception_class, exception_message
@@ -124,19 +124,19 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
   describe '#xinclude_examples' do
     let(:examples_name) { 'skipped examples' }
 
-    it { expect(instance).to respond_to(:xinclude_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:xinclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:xinclude_examples).with_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(instance).to respond_to(:xinclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
       let(:exception_message) { %{Could not find shared examples "#{examples_name}"} }
 
-      before(:each) do
+      before(:example) do
         allow(instance).to receive(:include_examples) do |name, *args, **kwargs|
           raise exception_class.new(exception_message)
         end # allow
-      end # end
+      end # before example
 
       it 'should raise an error' do
         expect { instance.xinclude_examples examples_name }.to raise_error exception_class, exception_message

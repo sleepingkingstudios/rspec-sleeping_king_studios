@@ -1,10 +1,10 @@
-# spec/rspec/sleeping_king_studios/matchers_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/macros_spec.rb
 
 require 'spec_helper'
-require 'rspec/sleeping_king_studios/matchers'
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
+require 'rspec/sleeping_king_studios/matchers/macros'
 
-RSpec.describe RSpec::SleepingKingStudios::Matchers do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
   describe '::alias_matcher' do
     it { expect(described_class).to respond_to(:alias_matcher).with(2).arguments }
 

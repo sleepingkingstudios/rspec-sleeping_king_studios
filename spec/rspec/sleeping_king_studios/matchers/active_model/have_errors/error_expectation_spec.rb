@@ -10,7 +10,7 @@ require 'active_model'
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/error_expectation'
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/message_expectation'
 
-describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation do
   it { expect(described_class).to construct.with(1..3).arguments }
 
   let(:attribute) { :foo }
@@ -40,9 +40,9 @@ describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExp
         ] # end array
       end # let
 
-      before(:each) do
+      before(:example) do
         instance.messages[0...4] = messages
-      end # before each
+      end # before example
 
       describe '#expected' do
         it { expect(instance.messages.expected).to be == messages.select { |msg| msg.expected } }
