@@ -13,9 +13,6 @@
 
 - Update spec files
   - Replace top-level "describe" with "RSpec.describe" in spec files.
-  - Remove SCENARIOS from spec files.
-  - Matching behavior should be wrapped in a `describe '#matches?'` block.
-  - Isolate specs for matchers (#matches?, et al) from example group macros/aliases.
 - Clean up code styles
   - Use before/after/around(:example) instead of (:each).
   - Use 'should' variants of examples.

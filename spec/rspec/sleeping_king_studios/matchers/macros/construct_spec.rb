@@ -5,7 +5,7 @@ require 'rspec/sleeping_king_studios/matchers/core/alias_method'
 
 require 'rspec/sleeping_king_studios/matchers/core/construct'
 
-RSpec.describe RSpec::SleepingKingStudios::Matchers do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
   let(:matcher_class) do
     ::RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher
   end # let

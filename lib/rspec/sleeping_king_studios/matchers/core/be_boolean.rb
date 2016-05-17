@@ -1,8 +1,9 @@
 # lib/rspec/sleeping_king_studios/matchers/core/be_boolean.rb
 
 require 'rspec/sleeping_king_studios/matchers/core/be_boolean_matcher'
+require 'rspec/sleeping_king_studios/matchers/macros'
 
-module RSpec::SleepingKingStudios::Matchers
+module RSpec::SleepingKingStudios::Matchers::Macros
   # @see RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher#matches?
   def be_boolean
     RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher.new

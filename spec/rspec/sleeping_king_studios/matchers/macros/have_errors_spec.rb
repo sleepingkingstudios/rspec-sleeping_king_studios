@@ -4,7 +4,7 @@ require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors'
 
-RSpec.describe RSpec::SleepingKingStudios::Matchers do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
   let(:matcher_class) do
     RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher
   end # let

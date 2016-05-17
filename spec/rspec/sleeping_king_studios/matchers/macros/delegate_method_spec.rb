@@ -4,7 +4,7 @@ require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/matchers/core/delegate_method'
 
-RSpec.describe RSpec::SleepingKingStudios::Matchers do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
   let(:example_group) { self }
   let(:method_name)   { :delegated_method }
   let(:matcher)       { example_group.delegate_method method_name }

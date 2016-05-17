@@ -4,7 +4,7 @@ require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/matchers/core/alias_method'
 
-RSpec.describe RSpec::SleepingKingStudios::Matchers do
+RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
   let(:matcher_class) do
     RSpec::SleepingKingStudios::Matchers::Core::AliasMethodMatcher
   end # let
