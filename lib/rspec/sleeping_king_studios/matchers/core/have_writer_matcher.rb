@@ -42,18 +42,14 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # @see BaseMatcher#failure_message
     def failure_message
-      message = "expected #{@actual.inspect} to respond to :#{@expected}="
-
-      if !@matches_writer
-        message << ", but did not respond to :#{@expected}="
-      end # if
-
-      message
+      "expected #{@actual.inspect} to respond to :#{@expected}="\
+      ", but did not respond to :#{@expected}="
     end # method failure_message
 
     # @see BaseMatcher#failure_message_when_negated
     def failure_message_when_negated
-      "expected #{@actual.inspect} not to respond to :#{@expected}="
+      "expected #{@actual.inspect} not to respond to :#{@expected}="\
+      ", but responded to :#{@expected}="
     end # method failure_message
   end # class
 end # module

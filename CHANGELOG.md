@@ -32,6 +32,10 @@ Added the `delegate_method` matcher, which checks if the object forwards the spe
 
 Added the `have_predicate` matcher, which checks for the presence of a predicate method `#property?` and optionally the value returned by `#property?()`.
 
+#### `have_reader` Matcher
+
+The `have_reader` matcher is not stricter about rejecting methods with a value expectation when negated. Previously, if the matcher was negated and had a value expectation, the matcher would only fail if the object responded to the method and returned the specified value, but would pass if the object returned another value. This is considered a bug and has been fixed, bringing this matcher in line with the behavior of the `have_property` matcher. A negated `have_reader` matcher should fail if the object responds to the method, whether or not the expected value is the same.
+
 ## 2.1.1
 
 ### Concerns

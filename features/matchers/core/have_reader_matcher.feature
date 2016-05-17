@@ -42,15 +42,15 @@ Feature: `have_reader` matcher
           it { expect(instance).to have_reader(:foo) }
           it { expect(instance).to have_reader(:foo).with_value('Foo') }
           it { expect(instance).to have_reader(:foo).with_value(an_instance_of String) }
-          it { expect(instance).not_to have_reader(:foo).with_value('Bar') }
-          it { expect(instance).not_to have_reader(:foo).with_value(an_instance_of Hash) }
           it { expect(instance).to have_reader(:bar) }
           it { expect(instance).not_to have_reader(:baz) }
 
           # Failing expectations.
           it { expect(instance).not_to have_reader(:foo) }
           it { expect(instance).not_to have_reader(:foo).with_value('Foo') }
+          it { expect(instance).not_to have_reader(:foo).with_value('Bar') }
           it { expect(instance).not_to have_reader(:foo).with_value(an_instance_of String) }
+          it { expect(instance).not_to have_reader(:foo).with_value(an_instance_of Hash) }
           it { expect(instance).to have_reader(:foo).with_value('Bar') }
           it { expect(instance).to have_reader(:foo).with_value(an_instance_of Hash) }
           it { expect(instance).not_to have_reader(:bar) }
@@ -58,21 +58,31 @@ Feature: `have_reader` matcher
         end # describe
       """
     When I run `rspec have_reader_matcher_spec.rb`
-    Then the output should contain "14 examples, 7 failures"
+    Then the output should contain "14 examples, 9 failures"
     Then the output should contain:
       """
            Failure/Error: it { expect(instance).not_to have_reader(:foo) }
-             expected MyClass not to respond to :foo
+             expected MyClass not to respond to :foo, but responded to :foo
       """
     Then the output should contain:
       """
            Failure/Error: it { expect(instance).not_to have_reader(:foo).with_value('Foo') }
-             expected MyClass not to respond to :foo and return "Foo"
+             expected MyClass not to respond to :foo and return "Foo", but responded to :foo and returned "Foo"
+      """
+    Then the output should contain:
+      """
+           Failure/Error: it { expect(instance).not_to have_reader(:foo).with_value('Bar') }
+             expected MyClass not to respond to :foo and return "Bar", but responded to :foo
       """
     Then the output should contain:
       """
            Failure/Error: it { expect(instance).not_to have_reader(:foo).with_value(an_instance_of String) }
-             expected MyClass not to respond to :foo and return an instance of String
+             expected MyClass not to respond to :foo and return an instance of String, but responded to :foo and returned "Foo"
+      """
+    Then the output should contain:
+      """
+           Failure/Error: it { expect(instance).not_to have_reader(:foo).with_value(an_instance_of Hash) }
+             expected MyClass not to respond to :foo and return an instance of Hash, but responded to :foo
       """
     Then the output should contain:
       """
