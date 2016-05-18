@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/matchers/active_model/have_errors_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/macros/have_errors_spec.rb
 
 require 'spec_helper'
 

@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/matchers/core/have_property_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/macros/have_property_spec.rb
 
 require 'spec_helper'
 

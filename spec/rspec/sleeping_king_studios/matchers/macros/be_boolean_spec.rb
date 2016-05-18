@@ -1,4 +1,4 @@
-# lib/rspec/sleeping_king_studios/matchers/core/be_boolean.rb
+# lib/rspec/sleeping_king_studios/matchers/macros/be_boolean.rb
 
 require 'spec_helper'
 

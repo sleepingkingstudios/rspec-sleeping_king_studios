@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/matchers/built_in/be_kind_of_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/macros/be_kind_of_spec.rb
 
 require 'spec_helper'
 

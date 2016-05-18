@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/matchers/core/delegate_method_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/macros/delegate_method_spec.rb
 
 require 'spec_helper'
 

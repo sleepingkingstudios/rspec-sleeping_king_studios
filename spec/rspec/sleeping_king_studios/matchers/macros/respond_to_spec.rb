@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/matchers/built_in/respond_to_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/macros/respond_to_spec.rb
 
 require 'spec_helper'
 
