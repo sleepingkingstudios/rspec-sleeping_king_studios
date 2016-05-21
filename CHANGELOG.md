@@ -28,6 +28,10 @@ Now aliases as `a_boolean`, e.g. `expect(my_object).to have_reader(:my_method).w
 
 Added the `delegate_method` matcher, which checks if the object forwards the specified method to the specified target.
 
+#### `have_constant` Matcher
+
+Added the `have_constant` matcher, which checks for the presence of a defined constant `:CONSTANT_NAME` and optionally the value of the constant. Can also check that the value is immutable.
+
 #### `have_predicate` Matcher
 
 Added the `have_predicate` matcher, which checks for the presence of a predicate method `#property?` and optionally the value returned by `#property?()`.

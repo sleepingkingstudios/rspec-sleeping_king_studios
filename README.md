@@ -382,6 +382,28 @@ Checks if the actual object forwards the specified method to the specified targe
 * **`#with_a_block:`** (also `and_a_block`) Specifies that when the method is called on the actual object a block argument, thhe block is then passed on to the target object when the method is called on the target.
 * **`#and_return`:** Expects one or more arguments. The method is called on the actual object one time for each value passed into `#and_return`. Specifies that the return value of calling the method on the actual object is the corresponding value passed into `#and_return`.
 
+#### `#have_constant` Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/have_constant'
+
+Checks for the presence of a defined constant `:CONSTANT_NAME` and optionally the value of the constant. Can also check that the value is immutable, e.g. for an additional layer of protection over important constants.
+
+**How To Use:**
+
+  expect(instance).to have_constant(:FOO)
+
+  expect(instance).to have_constant(:BAR).with_value('Bar')
+
+  expect(instance).to have_immutable_constant(:BAZ).with_value('Baz')
+
+**Parameters:** Constant name. Expects a string or symbol that is a valid identifier.
+
+**Chaining:**
+
+* **`#immutable`:** Sets a mutability expectation, which passes if the value of the constant is immutable. Values of `nil`, `false`, `true` are always immutable, as are `Numeric` and `Symbol` primitives. `Array` values must be frozen and all array items must be immutable. `Hash` values must be frozen and all hash keys and values must be immutable. All other objects must be frozen.
+
+* **`#with`:** (also `#with_value`) Expects `true` or `false`, which is checked against the current value of `actual.property?()` if actual responds to `#property?`.
+
 #### `#have_predicate` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_predicate'
