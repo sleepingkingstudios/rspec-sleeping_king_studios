@@ -5,11 +5,11 @@ Feature: `PropertyExamples` shared examples
   reader, writer, or property expectation on an object:
 
   ```ruby
-  include_examples 'has reader', :foo # True if subject or instance responds to #foo, otherwise false.
+  include_examples 'should have reader', :foo # True if subject or instance responds to #foo, otherwise false.
 
-  include_examples 'has writer', :bar # True if subject or instance responds to #bar=, otherwise false.
+  include_examples 'should have writer', :bar # True if subject or instance responds to #bar=, otherwise false.
 
-  include_examples 'has property', :baz # True if subject or instance responds to #baz and #baz=, otherwise false.
+  include_examples 'should have property', :baz # True if subject or instance responds to #baz and #baz=, otherwise false.
   ```
 
   In accordance with RSpec::SleepingKingStudios conventions, these examples
@@ -27,13 +27,13 @@ Feature: `PropertyExamples` shared examples
   actual value of `instance.foo` or `subject.foo`.
 
   ```ruby
-  include_examples 'has reader', :foo, 42 # True if instance.foo == 42, otherwise false.
+  include_examples 'should have reader', :foo, 42 # True if instance.foo == 42, otherwise false.
 
-  include_examples 'has property', :foo, ->() { 6 * 7 } # True if instance.foo == 42, otherwise false.
+  include_examples 'should have property', :foo, ->() { 6 * 7 } # True if instance.foo == 42, otherwise false.
 
-  include_examples 'has reader', :foo, ->(obj) { obj.even? } # True if instance.foo.even?, otherwise false.
+  include_examples 'should have reader', :foo, ->(obj) { obj.even? } # True if instance.foo.even?, otherwise false.
 
-  include_examples 'has property', :foo, ->() { an_instance_of Fixnum } # True if instance.foo.is_a?(Fixnum), otherwise false.
+  include_examples 'should have property', :foo, ->() { an_instance_of Fixnum } # True if instance.foo.is_a?(Fixnum), otherwise false.
   ```
 
   Internally, these shared examples use the `have_reader`, `have_writer` and

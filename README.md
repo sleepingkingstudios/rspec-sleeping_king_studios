@@ -490,29 +490,29 @@ These examples are shorthand for defining a reader and/or writer expectation.
 
 #### Has Property
 
-    include_examples 'has property', :foo, 42
+    include_examples 'should have property', :foo, 42
 
-Delegates to the `#has_reader` and `#has_writer` matchers (see Core/#has\_reader and Core/#has\_writer, above) and passes if the actual object responds to the specified property and property writer methods. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+Delegates to the `#have_reader` and `#have_writer` matchers (see Core/#have\_reader and Core/#have\_writer, above) and passes if the actual object responds to the specified property and property writer methods. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
 
-    include_examples 'has property', :bar, ->() { an_instance_of(String) }
+    include_examples 'should have property', :bar, ->() { an_instance_of(String) }
 
-    include_examples 'has property', :baz, ->(value) { value.count = 3 }
+    include_examples 'should have property', :baz, ->(value) { value.count = 3 }
 
 #### Has Reader
 
-    include_examples 'has reader', :foo, 42
+    include_examples 'should have reader', :foo, 42
 
-Delegates to the `#has_reader` matcher (see Core/#has_reader, above) and passes if the actual object responds to the specified property. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+Delegates to the `#have_reader` matcher (see Core/#have_reader, above) and passes if the actual object responds to the specified property. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
 
-    include_examples 'has reader', :bar, ->() { an_instance_of(String) }
+    include_examples 'should have reader', :bar, ->() { an_instance_of(String) }
 
-    include_examples 'has reader', :baz, ->(value) { value.count = 3 }
+    include_examples 'should have reader', :baz, ->(value) { value.count = 3 }
 
 #### Has Writer
 
-    include_examples 'has writer', :foo=
+    include_examples 'should have writer', :foo=
 
-Delegates to the `#has_writer` matcher (see Core/#has_writer, above) and passes if the actual object responds to the specified property writer.
+Delegates to the `#have_writer` matcher (see Core/#have_writer, above) and passes if the actual object responds to the specified property writer.
 
 ### RSpec Matcher Examples
 

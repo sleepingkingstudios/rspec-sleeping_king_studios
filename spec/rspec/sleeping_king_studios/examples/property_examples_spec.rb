@@ -22,21 +22,21 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end.new(value)
     end # let
 
-    describe 'has reader' do
+    describe 'should have reader' do
       include_examples 'has reader', property
 
       include_examples 'should have reader', property
 
       describe 'with a literal value' do
-        include_examples 'has reader', property, value
+        include_examples 'should have reader', property, value
       end # describe
 
       describe 'with a proc value' do
-        include_examples 'has reader', property, ->() { be_a(Fixnum) }
+        include_examples 'should have reader', property, ->() { be_a(Fixnum) }
       end # describe
 
       describe 'with a proc that takes an argument' do
-        include_examples 'has reader', property, ->(value) { value > 0 }
+        include_examples 'should have reader', property, ->(value) { value > 0 }
       end # describe
     end # describe
   end # describe
@@ -48,7 +48,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end.new
     end # let
 
-    describe 'has writer' do
+    describe 'should have writer' do
       include_examples 'has writer', property
 
       include_examples 'should have writer', property
@@ -64,45 +64,45 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end.new(value)
     end # let
 
-    describe 'has reader' do
+    describe 'should have reader' do
       include_examples 'has reader', property
 
       include_examples 'should have reader', property
 
       describe 'with a literal value' do
-        include_examples 'has reader', property, value
+        include_examples 'should have reader', property, value
       end # describe
 
       describe 'with a proc value' do
-        include_examples 'has reader', property, ->() { be_a(Fixnum) }
+        include_examples 'should have reader', property, ->() { be_a(Fixnum) }
       end # describe
 
       describe 'with a proc that takes an argument' do
-        include_examples 'has reader', property, ->(value) { value > 0 }
+        include_examples 'should have reader', property, ->(value) { value > 0 }
       end # describe
     end # describe
 
-    describe 'has writer' do
+    describe 'should have writer' do
       include_examples 'has writer', property
 
       include_examples 'should have writer', property
     end # describe
 
-    describe 'has property' do
+    describe 'should have property' do
       include_examples 'has property', property
 
       include_examples 'should have property', property
 
       describe 'with a literal value' do
-        include_examples 'has property', property, value
+        include_examples 'should have property', property, value
       end # describe
 
       describe 'with a proc value' do
-        include_examples 'has property', property, ->() { be_a(Fixnum) }
+        include_examples 'should have property', property, ->() { be_a(Fixnum) }
       end # describe
 
       describe 'with a proc that takes an argument' do
-        include_examples 'has property', property, ->(value) { value > 0 }
+        include_examples 'should have property', property, ->(value) { value > 0 }
       end # describe
     end # describe
   end # describe

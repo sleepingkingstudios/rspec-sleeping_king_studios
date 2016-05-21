@@ -21,7 +21,6 @@
 - Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
 
-
 ## Future Tasks
 
 - Resolve Aruba deprecation warnings.
