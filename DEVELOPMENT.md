@@ -1,11 +1,5 @@
 # Development Notes
 
-## Version 2.2.0
-
-### Features
-
-### Maintenance
-
 ## Version 2.2.1
 
 ### Features

@@ -1,5 +1,7 @@
 # lib/rspec/sleeping_king_studios/version.rb
 
+require 'sleeping_king_studios/tools/semantic_version'
+
 module RSpec
   module SleepingKingStudios
     # @api private
@@ -8,29 +10,18 @@ module RSpec
     #
     # @see http://semver.org/
     module Version
+      extend ::SleepingKingStudios::Tools::SemanticVersion
+
       # Major version.
       MAJOR = 2
       # Minor version.
-      MINOR = 1
+      MINOR = 2
       # Patch version.
-      PATCH = 1
+      PATCH = 0
       # Prerelease version.
-      PRERELEASE = nil
+      PRERELEASE = 'rc'
       # Build metadata.
-      BUILD = nil
-
-      # Generates the gem version string from the Version constants.
-      def self.to_gem_version
-        str = "#{MAJOR}.#{MINOR}.#{PATCH}"
-
-        prerelease = self.const_defined?(:PRERELEASE) ? PRERELEASE : nil
-        str << ".#{prerelease}" unless prerelease.nil? || (prerelease.respond_to?(:empty?) && prerelease.empty?)
-
-        build = self.const_defined?(:BUILD) ? BUILD : nil
-        str << ".#{build}" unless build.nil? || (build.respond_to?(:empty?) && build.empty?)
-
-        str
-      end # class method to_version
+      BUILD = 0
     end # module
 
     VERSION = Version.to_gem_version
