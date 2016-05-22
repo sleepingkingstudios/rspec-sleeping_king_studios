@@ -3,15 +3,11 @@
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/built_in'
 require 'rspec/sleeping_king_studios/matchers/shared/match_parameters'
-require 'sleeping_king_studios/tools/enumerable_tools'
-require 'sleeping_king_studios/tools/string_tools'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   # Extensions to the built-in RSpec #respond_to matcher.
   class RespondToMatcher < RSpec::Matchers::BuiltIn::RespondTo
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
-    include SleepingKingStudios::Tools::EnumerableTools
-    include SleepingKingStudios::Tools::StringTools
 
     def initialize *expected
       @include_all = [true, false].include?(expected.last) ? expected.pop : false

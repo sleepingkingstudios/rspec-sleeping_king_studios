@@ -6,9 +6,6 @@
 
 ### Maintenance
 
-- Clean up usage of SleepingKingStudios::Tools
-  - Remove references to deprecated EnumerableTools
-
 ## Version 2.2.1
 
 ### Features
@@ -20,6 +17,7 @@
 ## Future Tasks
 
 - Resolve Aruba deprecation warnings.
+- Run each file individually as CI step.
 
 ### Maintenance
 
