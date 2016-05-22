@@ -1,7 +1,7 @@
 # features/examples/property_examples/should_have_writer.feature
 
 Feature: `PropertyExamples` shared examples
-  Use the `'should have writer'` shared examples as a shorthand for specifying
+  Use the `'should have writer'` shared example as a shorthand for specifying
   a writer expectation on an object:
 
   ```ruby
@@ -15,7 +15,15 @@ Feature: `PropertyExamples` shared examples
   `let(:instance) { MyObject.new }`. To maximize compatibility, they will fall
   back to the RSpec built-in `subject` helper.
 
-  Internally, the shared example uses the `have_writer` matcher defined at
+  You can also use negated form, `'should not have writer'`:
+
+  ```ruby
+  include_examples 'should not have writer', :foo # True if subject or instance does not respond to #foo=, otherwise false.
+
+  include_examples 'should not have writer', :foo= # True if subject or instance does not respond to #foo=, otherwise false.
+  ```
+
+  Internally, the shared examples use the `have_writer` matcher defined at
   RSpec::SleepingKingStudios::Matchers::Core::HaveWriter.
 
   Scenario: basic usage
@@ -36,24 +44,30 @@ Feature: `PropertyExamples` shared examples
 
         # Passing examples.
         include_examples 'should have writer', :value
-
         include_examples 'should have writer', :value=
-
         include_examples 'should have writer', :raw_value
-
         include_examples 'should have writer', :raw_value=
+
+        include_examples 'should not have writer', :old_value
+        include_examples 'should not have writer', :old_value=
+        include_examples 'should not have writer', :type
+        include_examples 'should not have writer', :type=
 
         # Failing examples.
         include_examples 'should have writer', :old_value
-
         include_examples 'should have writer', :old_value=
-
         include_examples 'should have writer', :type
-
         include_examples 'should have writer', :type=
+
+        include_examples 'should not have writer', :value
+        include_examples 'should not have writer', :value=
+        include_examples 'should not have writer', :raw_value
+        include_examples 'should not have writer', :raw_value=
       end # describe
       """
     When I run `rspec examples/property_examples/should_have_writer/basic_spec.rb`
-    Then the output should contain "8 examples, 4 failures"
+    Then the output should contain "16 examples, 8 failures"
     Then the output should contain "expected #<struct Value value=nil> to respond to :old_value=, but did not respond to :old_value="
     Then the output should contain "expected #<struct Value value=nil> to respond to :type=, but did not respond to :type="
+    Then the output should contain "expected #<struct Value value=nil> not to respond to :value=, but responded to :value="
+    Then the output should contain "expected #<struct Value value=nil> not to respond to :raw_value=, but responded to :raw_value="

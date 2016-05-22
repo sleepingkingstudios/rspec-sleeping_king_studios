@@ -1,7 +1,7 @@
 # features/examples/property_examples/should_have_reader.feature
 
 Feature: `PropertyExamples` shared examples
-  Use the `'should have reader'` shared examples as a shorthand for specifying
+  Use the `'should have reader'` shared example as a shorthand for specifying
   a reader expectation on an object:
 
   ```ruby
@@ -32,7 +32,14 @@ Feature: `PropertyExamples` shared examples
   include_examples 'should have reader', :foo, ->() { an_instance_of Fixnum } # True if instance.foo.is_a?(Fixnum), otherwise false.
   ```
 
-  Internally, the shared example uses the `have_reader` matcher defined at
+  You can also use negated form, `'should not have reader'`, which does not
+  permit a value expectation:
+
+  ```ruby
+  include_examples 'should not have reader', :foo # True if subject or instance does not respond to #foo, otherwise false.
+  ```
+
+  Internally, the shared examples use the `have_reader` matcher defined at
   RSpec::SleepingKingStudios::Matchers::Core::HaveReader.
 
   Scenario: basic usage
@@ -56,16 +63,26 @@ Feature: `PropertyExamples` shared examples
 
         include_examples 'should have reader', :type
 
+        include_examples 'should not have reader', :old_value
+
+        include_examples 'should not have reader', :raw_value
+
         # Failing examples.
         include_examples 'should have reader', :old_value
 
         include_examples 'should have reader', :raw_value
+
+        include_examples 'should not have reader', :value
+
+        include_examples 'should not have reader', :type
       end # describe
       """
     When I run `rspec examples/property_examples/should_have_reader/basic_spec.rb`
-    Then the output should contain "4 examples, 2 failures"
+    Then the output should contain "8 examples, 4 failures"
     Then the output should contain "expected #<struct Value value=nil> to respond to :old_value, but did not respond to :old_value"
     Then the output should contain "expected #<struct Value value=nil> to respond to :raw_value, but did not respond to :raw_value"
+    Then the output should contain "expected #<struct Value value=nil> not to respond to :value, but responded to :value"
+    Then the output should contain "expected #<struct Value value=nil> not to respond to :type, but responded to :type"
 
   Scenario: value expectations
     Given a file named "examples/property_examples/should_have_reader/values_spec.rb" with:

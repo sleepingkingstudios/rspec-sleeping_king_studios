@@ -22,7 +22,7 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
 
   private def format_expected_value expected_value
     if expected_value.is_a?(Proc)
-      object_tools   = SleepingKingStudios::Tools::ObjectTools
+      object_tools = SleepingKingStudios::Tools::ObjectTools
 
       if 0 == expected_value.arity
         comparable_value = object_tools.apply self, expected_value
@@ -104,14 +104,36 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
   end # shared_examples
   alias_shared_examples 'has reader', 'should have reader'
 
+  shared_examples 'should not have reader' do |property|
+    it "should not have reader :#{property}" do
+      object = defined?(instance) ? instance : subject
+
+      expect(object).not_to have_reader(property)
+    end # it
+  end # shared_examples
+  alias_shared_examples 'does not have reader', 'should not have reader'
+
   shared_examples 'should have writer' do |property|
-    it "should have writer :#{property}=" do
+    property_name = property.to_s.sub /\=\z/, ''
+
+    it "should have writer :#{property_name}=" do
       object = defined?(instance) ? instance : subject
 
       expect(object).to have_writer(property)
     end # it
   end # shared_examples
   alias_shared_examples 'has writer', 'should have writer'
+
+  shared_examples 'should not have writer' do |property|
+    property_name = property.to_s.sub /\=\z/, ''
+
+    it "should not have writer :#{property}=" do
+      object = defined?(instance) ? instance : subject
+
+      expect(object).not_to have_writer(property)
+    end # it
+  end # shared_examples
+  alias_shared_examples 'does not have writer', 'should not have writer'
 
   shared_examples 'should have property' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
     it "should have property :#{property}" do

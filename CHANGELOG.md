@@ -10,6 +10,8 @@ Added examples 'should have constant' and 'should have immutable constant', whic
 
 Added examples 'should have predicate' as a shortcut for the new 'have_predicate' matcher.
 
+Added negated examples 'should not have reader' and 'should not have writer'.
+
 #### RSpecMatcherExamples
 
 Updated matcher testing examples (e.g. 'should pass with positive expectation', 'should fail with negative expectation') to support matching failure messages against strings, regular expressions, or RSpec matchers. Added configuration option for string matches to select exact match or partial/substring match.

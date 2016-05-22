@@ -25,6 +25,14 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
   end # let
   let(:instance) { described_class.new(value) }
 
+  include_examples 'does not have reader', property
+
+  include_examples 'should not have reader', property
+
+  include_examples 'does not have writer', property
+
+  include_examples 'should not have writer', property
+
   describe 'with an object whose class defines constant :CONSTANT' do
     let(:described_class) do
       super().tap do |klass|
@@ -66,6 +74,12 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       describe 'with a proc that takes an argument' do
         include_examples 'should have reader', property, ->(value) { value > 0 }
       end # describe
+    end # describe
+
+    describe 'should have writer' do
+      include_examples 'does not have writer', property
+
+      include_examples 'should not have writer', property
     end # describe
   end # describe
 
@@ -115,6 +129,12 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
         klass.send :attr_writer, property
       end # tap
     end # let
+
+    describe 'should have reader' do
+      include_examples 'does not have reader', property
+
+      include_examples 'should not have reader', property
+    end # describe
 
     describe 'should have writer' do
       include_examples 'has writer', property
