@@ -4,7 +4,6 @@
 
 ### Features
 
-- Add shared examples for 'should have predicate'
 - Add shared examples for 'should not have reader/writer'
 
 ### Maintenance

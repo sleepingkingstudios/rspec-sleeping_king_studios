@@ -512,6 +512,18 @@ Delegates to the `#have_constant` matcher (see Core/#have_constant, above) and p
 
 As the 'should have constant' example, but sets a mutability expectation on the constant. See Core/#have_constant for specifics on which objects are considered mutable.
 
+#### Should Have Predicate
+
+    include_examples 'should have predicate', :foo, true
+
+    include_examples 'should have predicate', :foo?, true
+
+Delegates to the `#have_predicate` matcher (see Core/#have_predicate, above) and passes if the actual object responds to the specified predicate. If a value is specified, the object must respond to the predicate and return the specified value, which must be true or false. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'should have predicate', :bar, ->() { a_boolean }
+
+    include_examples 'should have predicate', :baz, ->(value) { value == true }
+
 #### Should Have Property
 
     include_examples 'should have property', :foo, 42

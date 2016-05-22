@@ -3,6 +3,7 @@
 require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 require 'rspec/sleeping_king_studios/examples'
 require 'rspec/sleeping_king_studios/matchers/core/have_constant'
+require 'rspec/sleeping_king_studios/matchers/core/have_predicate'
 require 'rspec/sleeping_king_studios/matchers/core/have_property'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
@@ -72,6 +73,21 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
       end # if-else
     end # it
   end # shared_examples
+
+  shared_examples 'should have predicate' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
+    it "should have predicate :#{property}?" do
+      object = defined?(instance) ? instance : subject
+
+      if expected_value == UNDEFINED_VALUE_EXPECTATION
+        expect(object).to have_predicate(property)
+      else
+        expected_value = format_expected_value(expected_value)
+
+        expect(object).to have_predicate(property).with_value(expected_value)
+      end # if-else
+    end # it
+  end # shared_examples
+  alias_shared_examples 'has predicate', 'should have predicate'
 
   shared_examples 'should have reader' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
     it "should have reader :#{property}" do
