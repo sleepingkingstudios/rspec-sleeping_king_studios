@@ -1,13 +1,13 @@
 # lib/rspec/sleeping_king_studios/matchers/shared/parameters_matcher.rb
 
 require 'rspec/sleeping_king_studios/matchers'
+require 'sleeping_king_studios/tools/array_tools'
 require 'rspec/sleeping_king_studios/support/method_signature_expectation'
 
 module RSpec::SleepingKingStudios::Matchers::Shared
   # Helper methods for checking the parameters and keywords (Ruby 2.0 only) of
   # a method.
   module MatchParameters
-
     # Convenience method for more fluent specs. Does nothing and returns self.
     #
     # @return self
@@ -151,13 +151,21 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       # TODO: Replace this with "  expected method to receive keywords "\
       # ":received_list, but the method requires keywords :required_list"
       if ary = errors.fetch(:missing_keywords, false)
-        messages << "  missing #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"
+        tools = ::SleepingKingStudios::Tools::ArrayTools
+
+        messages <<
+          "  missing keyword#{ary.count == 1 ? '' : 's'} "\
+          "#{tools.humanize_list ary.map(&:inspect)}"
       end # if
 
       # TODO: Replace this with "  expected method to receive keywords "\
       # ":received_list, but the method can receive :keyword_list"
       if ary = errors.fetch(:unexpected_keywords, false)
-        messages << "  unexpected #{pluralize ary.count, 'keyword', 'keywords'} #{humanize_list ary.map(&:inspect)}"
+        tools = ::SleepingKingStudios::Tools::ArrayTools
+
+        messages <<
+          "  unexpected keyword#{ary.count == 1 ? '' : 's'} "\
+          "#{tools.humanize_list ary.map(&:inspect)}"
       end # if
 
       # TODO: Replace this with "  expected method to receive a block "\

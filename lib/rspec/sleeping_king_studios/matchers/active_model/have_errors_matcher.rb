@@ -2,7 +2,7 @@
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/active_model'
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors/error_expectation'
-require 'sleeping_king_studios/tools/enumerable_tools'
+require 'sleeping_king_studios/tools/array_tools'
 require 'sleeping_king_studios/tools/string_tools'
 
 module RSpec::SleepingKingStudios::Matchers::ActiveModel
@@ -11,8 +11,6 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
   # @since 1.0.0
   class HaveErrorsMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
     include RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors
-    include SleepingKingStudios::Tools::EnumerableTools
-    include SleepingKingStudios::Tools::StringTools
 
     def initialize
       super
@@ -34,7 +32,11 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
         end # map
 
         unless error_messages.empty?
-          attribute_message << " with #{pluralize(error_messages.count, 'message', 'messages')} #{humanize_list error_messages}"
+          tools = ::SleepingKingStudios::Tools::ArrayTools
+
+          attribute_message <<
+            " with message#{error_messages.count == 1 ? '' : 's'} "\
+            "#{tools.humanize_list error_messages}"
         end # unless
 
         attribute_message

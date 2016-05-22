@@ -1,13 +1,11 @@
 # lib/rspec/sleeping_king_studios/matchers/built_in/be_kind_of_matcher.rb
 
 require 'rspec/sleeping_king_studios/matchers/built_in'
-require 'sleeping_king_studios/tools/enumerable_tools'
+require 'sleeping_king_studios/tools/array_tools'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   # Extensions to the built-in RSpec #be_kind_of matcher.
   class BeAKindOfMatcher < RSpec::Matchers::BuiltIn::BeAKindOf
-    include SleepingKingStudios::Tools::EnumerableTools
-
     # (see BaseMatcher#description)
     def description
       message = "be #{type_string}"
@@ -55,7 +53,10 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       when @expected.nil?
         @expected.inspect
       when @expected.is_a?(Enumerable) && 1 < @expected.count
-        "a #{humanize_list @expected.map { |value| value.nil? ? 'nil' : value }, :last_separator => ' or '}"
+        tools = ::SleepingKingStudios::Tools::ArrayTools
+        items = @expected.map { |value| value.nil? ? 'nil' : value }
+
+        "a #{tools.humanize_list items, :last_separator => ' or '}"
       else
         "a #{expected}"
       end # case

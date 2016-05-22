@@ -3,8 +3,6 @@
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/core'
 require 'rspec/sleeping_king_studios/matchers/shared/match_parameters'
-require 'sleeping_king_studios/tools/enumerable_tools'
-require 'sleeping_king_studios/tools/string_tools'
 
 module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for checking whether an object can be constructed via #new and
@@ -13,8 +11,6 @@ module RSpec::SleepingKingStudios::Matchers::Core
   # @since 1.0.0
   class ConstructMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
-    include SleepingKingStudios::Tools::EnumerableTools
-    include SleepingKingStudios::Tools::StringTools
 
     # (see BaseMatcher#description)
     def description
