@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/matchers/core/construct_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/macros/construct_spec.rb
 
 require 'spec_helper'
 require 'rspec/sleeping_king_studios/matchers/core/alias_method'

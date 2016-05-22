@@ -4,28 +4,30 @@
 
 ### Features
 
-- Add #have_constant matcher.
-- Add shared examples for 'should have constant', 'should have immutable constant'
-- Add shared examples for 'should have predicate'
-- Add shared examples for 'should not have reader/writer'
-
 ### Maintenance
 
-## Tasks
+- Clean up usage of SleepingKingStudios::Tools
+  - Remove references to deprecated EnumerableTools
+
+## Version 2.2.1
+
+### Features
+
+- Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
+- Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
+- Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
+
+## Future Tasks
 
 - Resolve Aruba deprecation warnings.
-
-### Planned Features
-
-- Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments
 
 ### Maintenance
 
 - Revisit how matchers are documented, particularly in README.md
   - Use matcher class name instead of macro names?
   - Clarify documentation of parameters - YARD-like?
-- Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Pare down Cucumber features for matchers - repurpose as documentation/examples only.
+  - Break down into smaller (bite-sized?) individual examples.
 
 ## Icebox
 

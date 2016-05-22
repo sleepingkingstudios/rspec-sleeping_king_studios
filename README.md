@@ -382,6 +382,28 @@ Checks if the actual object forwards the specified method to the specified targe
 * **`#with_a_block:`** (also `and_a_block`) Specifies that when the method is called on the actual object a block argument, thhe block is then passed on to the target object when the method is called on the target.
 * **`#and_return`:** Expects one or more arguments. The method is called on the actual object one time for each value passed into `#and_return`. Specifies that the return value of calling the method on the actual object is the corresponding value passed into `#and_return`.
 
+#### `#have_constant` Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/have_constant'
+
+Checks for the presence of a defined constant `:CONSTANT_NAME` and optionally the value of the constant. Can also check that the value is immutable, e.g. for an additional layer of protection over important constants.
+
+**How To Use:**
+
+  expect(instance).to have_constant(:FOO)
+
+  expect(instance).to have_constant(:BAR).with_value('Bar')
+
+  expect(instance).to have_immutable_constant(:BAZ).with_value('Baz')
+
+**Parameters:** Constant name. Expects a string or symbol that is a valid identifier.
+
+**Chaining:**
+
+* **`#immutable`:** Sets a mutability expectation, which passes if the value of the constant is immutable. Values of `nil`, `false`, `true` are always immutable, as are `Numeric` and `Symbol` primitives. `Array` values must be frozen and all array items must be immutable. `Hash` values must be frozen and all hash keys and values must be immutable. All other objects must be frozen.
+
+* **`#with`:** (also `#with_value`) Expects `true` or `false`, which is checked against the current value of `actual.property?()` if actual responds to `#property?`.
+
 #### `#have_predicate` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_predicate'
@@ -464,33 +486,81 @@ Unless otherwise noted, these shared examples expect the example group to define
 
 ### Property Examples
 
-These examples are shorthand for defining a reader and/or writer expectation.
+These examples are shorthand for defining a property expectation.
 
-#### Has Property
+    require 'rspec/sleeping_king_studios/examples/property_examples'
 
-    include_examples 'has property', :foo, 42
+    RSpec.describe MyClass do
+      include RSpec::SleepingKingStudios::Examples::PropertyExamples
 
-Delegates to the `#has_reader` and `#has_writer` matchers (see Core/#has\_reader and Core/#has\_writer, above) and passes if the actual object responds to the specified property and property writer methods. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+      # You can use the custom shared examples here.
+    end # describe
 
-    include_examples 'has property', :bar, ->() { an_instance_of(String) }
+#### Should Have Constant
 
-    include_examples 'has property', :baz, ->(value) { value.count = 3 }
+    include_examples 'should have constant', :FOO, 42
 
-#### Has Reader
+Delegates to the `#have_constant` matcher (see Core/#have_constant, above) and passes if the described class defines the specified constant. If a value is specified, the class or module must define the constant with the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
 
-    include_examples 'has reader', :foo, 42
+    include_examples 'should have property', :BAR, ->() { an_instance_of(String) }
 
-Delegates to the `#has_reader` matcher (see Core/#has_reader, above) and passes if the actual object responds to the specified property. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+    include_examples 'should have property', :BAZ, ->(value) { value.count = 3 }
 
-    include_examples 'has reader', :bar, ->() { an_instance_of(String) }
+#### Should Have Immutable Constant
 
-    include_examples 'has reader', :baz, ->(value) { value.count = 3 }
+    include_examples 'should have immutable constant', :FOO, 42
 
-#### Has Writer
+As the 'should have constant' example, but sets a mutability expectation on the constant. See Core/#have_constant for specifics on which objects are considered mutable.
 
-    include_examples 'has writer', :foo=
+#### Should Have Predicate
 
-Delegates to the `#has_writer` matcher (see Core/#has_writer, above) and passes if the actual object responds to the specified property writer.
+    include_examples 'should have predicate', :foo, true
+
+    include_examples 'should have predicate', :foo?, true
+
+Delegates to the `#have_predicate` matcher (see Core/#have_predicate, above) and passes if the actual object responds to the specified predicate. If a value is specified, the object must respond to the predicate and return the specified value, which must be true or false. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'should have predicate', :bar, ->() { a_boolean }
+
+    include_examples 'should have predicate', :baz, ->(value) { value == true }
+
+#### Should Have Property
+
+    include_examples 'should have property', :foo, 42
+
+Delegates to the `#have_property` matcher (see Core/#have\_property, above) and passes if the actual object responds to the specified reader and writer methods. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'should have property', :bar, ->() { an_instance_of(String) }
+
+    include_examples 'should have property', :baz, ->(value) { value.count = 3 }
+
+#### Should Have Reader
+
+    include_examples 'should have reader', :foo, 42
+
+Delegates to the `#have_reader` matcher (see Core/#have_reader, above) and passes if the actual object responds to the specified property reader. If a value is specified, the object must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'should have reader', :bar, ->() { an_instance_of(String) }
+
+    include_examples 'should have reader', :baz, ->(value) { value.count = 3 }
+
+#### Should Not Have Reader
+
+    include_examples 'should not have reader', :foo
+
+Delegates to the `#have_reader` matcher (see Core/#have_reader, above) and passes if the actual object does not respond to to the specified property reader.
+
+#### Should Have Writer
+
+    include_examples 'should have writer', :foo=
+
+Delegates to the `#have_writer` matcher (see Core/#have_writer, above) and passes if the actual object responds to the specified property writer.
+
+#### Should Not Have Writer
+
+    include_examples 'should not have writer', :foo=
+
+Delegates to the `#have_writer` matcher (see Core/#have_writer, above) and passes if the actual object does not respond to to the specified property writer.
 
 ### RSpec Matcher Examples
 

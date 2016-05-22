@@ -70,7 +70,10 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
       errors = []
       errors << "did not respond to #{methods.join " or "}" unless methods.empty?
-      errors << "returned #{@actual.send(@expected).inspect}" unless @matches_reader_value || !@value_set
+
+      if @matches_reader
+        errors << "returned #{@actual.send(@expected).inspect}" unless @matches_reader_value || !@value_set
+      end # if
 
       message << ", but #{errors.join(" and ")}"
       message

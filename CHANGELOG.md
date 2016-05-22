@@ -4,6 +4,16 @@
 
 ### Examples
 
+#### PropertyExamples
+
+Added examples 'should have constant' and 'should have immutable constant', which provide shortcuts for the new 'have_constant' matcher.
+
+Added examples 'should have predicate' as a shortcut for the new 'have_predicate' matcher.
+
+Added negated examples 'should not have reader' and 'should not have writer'.
+
+#### RSpecMatcherExamples
+
 Updated matcher testing examples (e.g. 'should pass with positive expectation', 'should fail with negative expectation') to support matching failure messages against strings, regular expressions, or RSpec matchers. Added configuration option for string matches to select exact match or partial/substring match.
 
 ### Matchers
@@ -27,6 +37,10 @@ Now aliases as `a_boolean`, e.g. `expect(my_object).to have_reader(:my_method).w
 #### `delegate_method` Matcher
 
 Added the `delegate_method` matcher, which checks if the object forwards the specified method to the specified target.
+
+#### `have_constant` Matcher
+
+Added the `have_constant` matcher, which checks for the presence of a defined constant `:CONSTANT_NAME` and optionally the value of the constant. Can also check that the value is immutable.
 
 #### `have_predicate` Matcher
 

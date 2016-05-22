@@ -1,4 +1,4 @@
-# spec/rspec/sleeping_king_studios/matchers/core/have_writer_spec.rb
+# spec/rspec/sleeping_king_studios/matchers/macros/have_writer_spec.rb
 
 require 'spec_helper'
 
