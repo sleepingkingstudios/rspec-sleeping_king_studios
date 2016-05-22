@@ -7,19 +7,44 @@ require 'rspec/sleeping_king_studios/examples/property_examples'
 RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
   include described_class
 
+  def self.constant; property.upcase; end
   def self.property; :foo; end
   def self.value; 42; end
 
+  let(:constant) { self.class.constant }
   let(:property) { self.class.property }
   let(:value)    { self.class.value }
 
-  describe 'with an object responding to :property' do
-    let(:instance) do
-      Class.new.tap do |klass|
-        klass.send :define_method, :initialize, ->(value) { @foo = value }
+  let(:described_class) do
+    Class.new.tap do |klass|
+      klass.send :define_method, :initialize, ->(value) { @foo = value }
+    end # class
+  end # let
+  let(:instance) { described_class.new(value) }
 
+  describe 'with an object whose class defines constant :CONSTANT' do
+    let(:described_class) do
+      super().tap do |klass|
+        klass.send :const_set, constant, value
+      end # tap
+    end # let
+
+    describe 'should have constant' do
+      include_examples 'should have constant', constant
+    end # describe
+
+    describe 'with an immutable constant' do
+      let(:value) { 'string'.freeze }
+
+      include_examples 'should have immutable constant', constant
+    end # describe
+  end # describe
+
+  describe 'with an object responding to :property' do
+    let(:described_class) do
+      super().tap do |klass|
         klass.send :attr_reader, property
-      end.new(value)
+      end # tap
     end # let
 
     describe 'should have reader' do
@@ -42,10 +67,10 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
   end # describe
 
   describe 'with an object responding to :property=' do
-    let(:instance) do
-      Class.new.tap do |klass|
+    let(:described_class) do
+      super().tap do |klass|
         klass.send :attr_writer, property
-      end.new
+      end # tap
     end # let
 
     describe 'should have writer' do
@@ -56,12 +81,10 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
   end # describe
 
   describe 'with an object responding to :property and :property=' do
-    let(:instance) do
-      Class.new.tap do |klass|
-        klass.send :define_method, :initialize, ->(value) { @foo = value }
-
+    let(:described_class) do
+      super().tap do |klass|
         klass.send :attr_accessor, property
-      end.new(value)
+      end # tap
     end # let
 
     describe 'should have reader' do
