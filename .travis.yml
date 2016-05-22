@@ -1,9 +1,9 @@
 # Build Options
 language: ruby
 rvm:
-- 2.1.8
-- 2.2.4
-- 2.3.0
+- 2.1.9
+- 2.2.5
+- 2.3.1
 gemfile:
 - gemfiles/activemodel_3.gemfile
 - gemfiles/rspec_3_0.gemfile
@@ -16,7 +16,7 @@ matrix:
   - gemfile: gemfiles/rspec_edge.gemfile
   fast_finish: true
   include:
-    - rvm: 2.3.0
+    - rvm: 2.3.1
       gemfile: gemfiles/rspec_edge.gemfile
 
 # Travis-CI Configuration
