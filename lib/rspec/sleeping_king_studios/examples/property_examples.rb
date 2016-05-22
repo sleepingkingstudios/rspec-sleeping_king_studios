@@ -2,6 +2,7 @@
 
 require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 require 'rspec/sleeping_king_studios/examples'
+require 'rspec/sleeping_king_studios/matchers/core/have_property'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 require 'sleeping_king_studios/tools/object_tools'
@@ -15,33 +16,37 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
   #
   # Internal object used to differentiate a nil expectation from a default
   # value expectation.
-  UNDEFINED_PROPERTY_EXPECTATION = Object.new.freeze
+  UNDEFINED_VALUE_EXPECTATION = Object.new.freeze
 
-  shared_examples 'should have reader' do |property, expected_value = UNDEFINED_PROPERTY_EXPECTATION|
+  private def format_expected_value expected_value
+    if expected_value.is_a?(Proc)
+      object_tools   = SleepingKingStudios::Tools::ObjectTools
+
+      if 0 == expected_value.arity
+        comparable_value = object_tools.apply self, expected_value
+      else
+        comparable_value = satisfy do |actual_value|
+          object_tools.apply self, expected_value, actual_value
+        end # satisfy
+      end # if-else
+    else
+      comparable_value = expected_value
+    end # if
+
+    comparable_value
+  end # method format_expected_value
+
+  shared_examples 'should have reader' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
     it "should have reader :#{property}" do
       object = defined?(instance) ? instance : subject
 
-      expect(object).to have_reader(property)
-
-      next if expected_value == UNDEFINED_PROPERTY_EXPECTATION
-
-      actual_value = instance.send property
-
-      if expected_value.is_a?(Proc)
-        args = [self, expected_value]
-        args.push actual_value unless 0 == expected_value.arity
-
-        expected_value = SleepingKingStudios::Tools::ObjectTools.apply *args
-      end # if
-
-      case expected_value
-      when ->(obj) { obj.respond_to?(:matches?) }
-        expect(actual_value).to expected_value
-      when true, false
-        expected_value
+      if expected_value == UNDEFINED_VALUE_EXPECTATION
+        expect(object).to have_reader(property)
       else
-        expect(actual_value).to be == expected_value
-      end # case
+        expected_value = format_expected_value(expected_value)
+
+        expect(object).to have_reader(property).with_value(expected_value)
+      end # if-else
     end # it
   end # shared_examples
   alias_shared_examples 'has reader', 'should have reader'
@@ -55,10 +60,18 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
   end # shared_examples
   alias_shared_examples 'has writer', 'should have writer'
 
-  shared_examples 'should have property' do |property, expected_value = UNDEFINED_PROPERTY_EXPECTATION|
-    include_examples 'should have reader', property, expected_value
+  shared_examples 'should have property' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
+    it "should have property :#{property}" do
+      object = defined?(instance) ? instance : subject
 
-    include_examples 'should have writer', property
+      if expected_value == UNDEFINED_VALUE_EXPECTATION
+        expect(object).to have_property(property)
+      else
+        expected_value = format_expected_value(expected_value)
+
+        expect(object).to have_property(property).with_value(expected_value)
+      end # if-else
+    end # it
   end # shared_examples
   alias_shared_examples 'has property', 'should have property'
 end # module

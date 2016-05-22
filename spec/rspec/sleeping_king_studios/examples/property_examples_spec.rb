@@ -65,6 +65,8 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
     end # let
 
     describe 'should have reader' do
+      let(:the_answer) { 42 }
+
       include_examples 'has reader', property
 
       include_examples 'should have reader', property
@@ -78,7 +80,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end # describe
 
       describe 'with a proc that takes an argument' do
-        include_examples 'should have reader', property, ->(value) { value > 0 }
+        include_examples 'should have reader', property, ->(value) { value == the_answer }
       end # describe
     end # describe
 
