@@ -13,6 +13,10 @@
 - Resolve Aruba deprecation warnings.
 - Run each file individually as CI step.
 
+### Features
+
+- Add spy+matcher for expect(my_object, :my_method).to have_changed ?
+
 ### Maintenance
 
 - Revisit how matchers are documented, particularly in README.md
@@ -20,6 +24,7 @@
   - Clarify documentation of parameters - YARD-like?
 - Pare down Cucumber features for matchers - repurpose as documentation/examples only.
   - Break down into smaller (bite-sized?) individual examples.
+- RuboCop - use RSpec rule file as starting point?
 
 ## Icebox
 
@@ -37,4 +42,6 @@
   - #should(name) => include_examples "should #{name}"
   - #with(name)   => wrap_context "with #{name}"
   - #when(name)   => wrap_context "when #{name}"
-- Add spy+matcher for expect(my_object, :my_method).to have_changed ?
+- General project for using matchers as Ruby objects
+  - Inspectable - expectations, comparison results exposed via readers
+  - Favor readers over instance variables.
