@@ -35,11 +35,12 @@ module RSpec::SleepingKingStudios::Concerns
     # @raise ArgumentError If the referenced shared example group does not
     #   exist.
     def alias_shared_examples new_name, old_name
-      proc = shared_example_groups[self][old_name]
+      example_group = shared_example_groups[self][old_name]
+      definition    = example_group_definition(example_group)
 
-      raise ArgumentError.new(%{Could not find shared examples "#{old_name}"}) if proc.nil?
+      raise ArgumentError.new(%{Could not find shared examples "#{old_name}"}) if definition.nil?
 
-      self.shared_examples new_name, &proc
+      self.shared_examples new_name, &definition
     end # method alias_shared_examples
     alias_method :alias_shared_context, :alias_shared_examples
 
@@ -73,14 +74,27 @@ module RSpec::SleepingKingStudios::Concerns
 
     private
 
+    def example_group_definition example_group
+      if example_group.is_a?(Proc)
+        example_group
+      elsif defined?(RSpec::Core::SharedExampleGroupModule) && example_group.is_a?(RSpec::Core::SharedExampleGroupModule)
+        example_group.definition
+      else
+        nil
+      end # if-elsif-else
+    end # method example_group_definition
+
     # @api private
     def merge_shared_example_groups other
-      shared_example_groups[self].each do |name, proc|
+      shared_example_groups[self].each do |name, example_group|
+        definition = example_group_definition(example_group)
+
         # Skip the warning if the shared example group is already defined with the
         # same definition.
-        next if shared_example_groups[other][name] == proc
+        existing_group = shared_example_groups[other][name]
+        next if existing_group == example_group || example_group_definition(existing_group) == definition
 
-        RSpec.world.shared_example_group_registry.add(other, name, &proc)
+        RSpec.world.shared_example_group_registry.add(other, name, &definition)
       end # each
     end # method merge_shared_example_groups
 
