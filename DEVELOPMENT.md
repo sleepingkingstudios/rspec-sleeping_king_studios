@@ -4,6 +4,7 @@
 
 ### Features
 
+- Alias `have_constant` as `define_constant`.
 - Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
 - Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
@@ -16,6 +17,8 @@
 ### Features
 
 - Add spy+matcher for expect(my_object, :my_method).to have_changed ?
+- Add 'should have class reader/writer/property' shared examples.
+- Add 'should have private reader/writer/property' shared examples.
 
 ### Maintenance
 
@@ -28,6 +31,14 @@
 
 ## Icebox
 
+- Implement Matchers::define_negated_matcher.
+- Implement negated compound matchers, e.g. expect().to match().and_not other_match()
+  - Alias as "but_not"?
+- Implement benchmarking specs:
+  - Generate benchmarks for each test, save as file.
+  - Each time the benchmark specs are run, compare the results to the expected values.
+  - If the result is out of the expected range, fail the tests.
+  - Configure to run on first test, expected/permitted range.
 - Extract ActiveModel/Rails functionality to sub-gem?
   - Add shared examples for #belongs_to, #has_one, #has_many, #embedded_in, #embeds_one, #embeds_many.
   - Add shared examples for core ActiveModel validations.
