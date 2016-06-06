@@ -86,9 +86,11 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     end # method comparing_proc?
 
     def excluded_from_actual
+      items = defined?(expecteds) ? expecteds : expected
+
       return [] unless @actual.respond_to?(:include?)
 
-      expected.inject([]) do |memo, expected_item|
+      items.inject([]) do |memo, expected_item|
         if comparing_proc?(expected_item)
           memo << :__block_comparison__ unless yield actual_matches_proc?(expected_item)
         elsif comparing_hash_to_a_subset?(expected_item)
@@ -106,8 +108,10 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     end # method excluded_from_actual
 
     def expected_items_for_description
+      items = defined?(expecteds) ? expecteds : @expected
+
       # Preprocess items to stub out block expectations.
-      @expected.map { |item| item.is_a?(Proc) ? :__block_comparison__ : item }
+      items.map { |item| item.is_a?(Proc) ? :__block_comparison__ : item }
     end # method expected_items_for_description
 
     def perform_match(actual, &block)
