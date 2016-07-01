@@ -30,7 +30,7 @@ end
 
 appraise 'rspec-3-5' do
   gem 'activemodel', '4.2.0'
-  gem 'rspec',       '~> 3.5.0.beta', '>= 3.5.0.beta.4'
+  gem 'rspec',       '~> 3.5.0'
 end
 
 appraise 'rspec-edge' do

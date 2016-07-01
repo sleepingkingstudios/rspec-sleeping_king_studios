@@ -4,7 +4,7 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends bui
 
 ## Support
 
-RSpec::SleepingKingStudios is tested against RSpec 3.0 through 3.4.
+RSpec::SleepingKingStudios is tested against RSpec 3.0 through 3.5.
 
 Currently, the following versions of Ruby are officially supported:
 

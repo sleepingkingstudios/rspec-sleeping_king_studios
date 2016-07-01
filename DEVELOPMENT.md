@@ -32,6 +32,7 @@
 ## Icebox
 
 - Implement Matchers::define_negated_matcher.
+- Implement RespondTo#with_optional_keywords.
 - Implement negated compound matchers, e.g. expect().to match().and_not other_match()
   - Alias as "but_not"?
 - Implement benchmarking specs:
