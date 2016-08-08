@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1
+
+Fixed dependency on a pre-release SleepingKingStudios::Tools.
+
 ## 2.2.0
 
 ### Examples

@@ -5,6 +5,7 @@
 ### Features
 
 - Alias `have_constant` as `define_constant`.
+  - Also alias shared examples.
 - Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
 - Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
