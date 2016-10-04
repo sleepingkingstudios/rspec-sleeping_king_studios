@@ -66,6 +66,20 @@ This option is used with the RSpec matcher examples (see Examples, below), and d
 
 #### Matchers
 
+##### Allow Empty Include Matchers
+
+    RSpec.configure do |config|
+      config.sleeping_king_studios do |config|
+        config.matchers do |config|
+          config.allow_empty_include_matchers = false
+        end # config
+      end # config
+    end # config
+
+This option is used with the IncludeMatcher (see `#include`, below). If this option is set to false, an ArgumentError will be raised when attempting to instantiate an IncludeMatcher without any expectations.
+
+This prevents an insidious bug when using the `do..end` block syntax to create a block expectation while the matcher macro is itself an argument to another function, such as ExpectationTarget#to. This bug causes the block to be silently ignored and any enumerable object to match against the matcher, even an empty object.
+
 ##### Strict Predicate Matching
 
     RSpec.configure do |config|

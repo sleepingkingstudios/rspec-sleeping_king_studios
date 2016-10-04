@@ -69,6 +69,35 @@ module RSpec::SleepingKingStudios
 
     # Configuration options for RSpec::SleepingKingStudios::Matchers.
     class Matchers
+      # Checks whether the #include matcher can be instantiated without an
+      # expectation object or block.
+      #
+      # @return [Boolean] True if the empty include matchers are permitted,
+      #   otherwise false.
+      def allow_empty_include_matchers
+        value = @allow_empty_include_matchers
+
+        value.nil? ? true : value
+      end # method allow_empty_include_matchers
+      alias_method :allow_empty_include_matchers?, :allow_empty_include_matchers
+
+      # Sets whether the #include matcher can be instantiated without an
+      # expectation object or block. If this option is set to false, an
+      # ArgumentError will be raised when attempting to instantiate an
+      # IncludeMatcher without any expectations.
+      #
+      # This prevents an insidious bug when using the do..end block syntax to
+      # create a block expectation while the matcher macro is itself an argument
+      # to another function, such as ExpectationTarget#to. This bug causes the
+      # block to be silently ignored and any enumerable object to match against
+      # the matcher, even an empty object.
+      #
+      # @return [Boolean] True if the empty include matchers are permitted,
+      #   otherwise false.
+      def allow_empty_include_matchers= value
+        @allow_empty_include_matchers = !!value
+      end # method allow_empty_include_matchers
+
       # Checks whether predicates are matched "strictly", meaning that they must
       # return either true or false.
       #
@@ -77,6 +106,7 @@ module RSpec::SleepingKingStudios
       def strict_predicate_matching
         @strict_predicate_matching ||= false
       end # method strict_predicate_matching
+      alias_method :strict_predicate_matching?, :strict_predicate_matching
 
       # Sets whether predicates are matched "strictly", meaning that they must
       # return either true or false.
