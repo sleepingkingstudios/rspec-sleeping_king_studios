@@ -19,6 +19,12 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     def initialize *expected, &block
       expected << block if block_given?
 
+      if expected.empty? && !allow_empty_matcher?
+        raise ArgumentError,
+          'must specify an item expectation',
+          caller
+      end # if
+
       super *expected
     end # constructor
 
@@ -80,6 +86,10 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         !!expected_item.call(actual)
       end # if-else
     end # method actual_matches_proc?
+
+    def allow_empty_matcher?
+      RSpec.configure { |config| config.sleeping_king_studios.matchers }.allow_empty_include_matchers?
+    end # method strict_matching?
 
     def comparing_proc? expected_item
       expected_item.is_a?(Proc)

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.2
+
+Added configuration option to catch empty #include matchers.
+
 ## 2.2.1
 
 Fixed dependency on a pre-release SleepingKingStudios::Tools.

@@ -46,6 +46,50 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
     ::SleepingKingStudios::Tools::ArrayTools.humanize_list(items)
   end # method format_expected_items
 
+  describe '::new' do
+    describe 'with no arguments' do
+      context 'when the configuration option is set to true' do
+        around(:each) do |example|
+          begin
+            config      = RSpec.configure { |config| config.sleeping_king_studios.matchers }
+            prior_value = config.allow_empty_include_matchers
+
+            config.allow_empty_include_matchers = true
+
+            example.call
+          ensure
+            config.allow_empty_include_matchers = prior_value
+          end # begin-ensure
+        end # around each
+
+        it 'should not raise an error' do
+          expect { described_class.new }.not_to raise_error
+        end # it
+      end # context
+
+      context 'when the configuration option is set to false' do
+        around(:each) do |example|
+          begin
+            config      = RSpec.configure { |config| config.sleeping_king_studios.matchers }
+            prior_value = config.allow_empty_include_matchers
+
+            config.allow_empty_include_matchers = false
+
+            example.call
+          ensure
+            config.allow_empty_include_matchers = prior_value
+          end # begin-ensure
+        end # around each
+
+        it 'should raise an error' do
+          expect { described_class.new }.
+            to raise_error ArgumentError,
+              'must specify an item expectation'
+        end # it
+      end # context
+    end # describe
+  end # describe
+
   describe '#description' do
     let(:expected) do
       included_string = format_expected_items(expected_items)
