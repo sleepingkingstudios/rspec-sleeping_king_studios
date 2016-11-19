@@ -1,10 +1,11 @@
 # Development Notes
 
-## Version 2.2.1
+## Version 2.3
 
 ### Features
 
 - Alias `have_constant` as `define_constant`.
+  - Alias #immutable as #frozen.
   - Also alias shared examples.
 - Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
 - Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
@@ -15,8 +16,14 @@
 - Resolve Aruba deprecation warnings.
 - Run each file individually as CI step.
 
+### Bug Fixes
+
+- false negative on #alias_method?
+  - compare via Method#source_location equality and Method#original_name is expected?
+
 ### Features
 
+- let?(:name) { } # Defines a memoized helper, but only if one is not already defined.
 - Add spy+matcher for expect(my_object, :my_method).to have_changed ?
 - Add 'should have class reader/writer/property' shared examples.
 - Add 'should have private reader/writer/property' shared examples.
