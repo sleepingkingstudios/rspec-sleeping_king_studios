@@ -1,23 +1,5 @@
 # Appraisals
 
-appraise 'rspec-3-0' do
-  gem 'activemodel', '5.1.1'
-  gem 'rspec',       '~> 3.0.0'
-  gem 'aruba',       '~> 0.8', '< 0.9'
-end # appraise
-
-appraise 'rspec-3-1' do
-  gem 'activemodel', '5.1.1'
-  gem 'rspec',       '~> 3.1.0'
-  gem 'aruba',       '~> 0.8', '< 0.9'
-end # appraise
-
-appraise 'rspec-3-2' do
-  gem 'activemodel', '5.1.1'
-  gem 'rspec',       '~> 3.2.0'
-  gem 'aruba',       '~> 0.8', '< 0.9'
-end # appraise
-
 appraise 'rspec-3-3' do
   gem 'activemodel', '5.1.1'
   gem 'rspec',       '~> 3.3.0'
@@ -50,7 +32,6 @@ end
 appraise 'activemodel-3' do
   gem 'activemodel', '3.2.19'
   gem 'rspec',       '3.0.0'
-  gem 'aruba',       '~> 0.8', '< 0.9'
 end
 
 appraise 'activemodel-4' do

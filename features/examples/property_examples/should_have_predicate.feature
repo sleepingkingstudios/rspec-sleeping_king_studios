@@ -130,4 +130,4 @@ Feature: `PropertyExamples` shared examples
     Then the output should contain consecutive lines:
       | expected #<struct Value value=42> to respond to :value_set? and return be a kind of String, but returned true |
     Then the output should contain consecutive lines:
-      | expected #<struct Value value=42> to respond to :value_set? and return satisfy block, but returned true |
+      | expected #<struct Value value=42> to respond to :value_set? and return satisfy <%= RSpec::Expectations::Version::STRING < '3.6.0' ? 'block' : 'expression `object_tools.apply self, expected_value, actual_value`' %>, but returned true |
