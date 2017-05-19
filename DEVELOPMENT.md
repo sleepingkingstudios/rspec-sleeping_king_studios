@@ -4,12 +4,14 @@
 
 ### Features
 
+- Alias `have_reader`, etc as `define_reader`.
+  - Also alias shared examples.
 - Alias `have_constant` as `define_constant`.
   - Alias #immutable as #frozen.
   - Also alias shared examples.
+- Add 'should have class reader/writer/property' shared examples.
+- Add 'should have private reader/writer/property' shared examples.
 - Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
-- Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
-- Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
 
 ## Future Tasks
 
@@ -23,13 +25,39 @@
 
 ### Features
 
+- Implement ::stub_env, #stub_env: |
+
+  describe 'something' do
+    # Changes the value using an around(:example) block.
+    stub_env('FIRST_KEY', 'value')
+
+    # Block syntax.
+    stub_env('SECOND_KEY') { calculated_value }
+
+    it 'should something' do
+      # Temporarily changes the value, calls the block, and resets the value.
+      stub_env('THIRD_KEY', 'value') do
+
+      end # stub_env
+    end # it
+  end # describe
+
+- Implement example-scoped test constants: |
+
+  example_class 'Example::Class::Name' do |klass| ... end
+
+  example_module 'Example::Module::Name' do |mod| ... end
+
+  example_const 'Example::Constant::Name' do ... end
+
+- Implement be_immutable matcher.
+- Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
 - let?(:name) { } # Defines a memoized helper, but only if one is not already defined.
 - Add spy+matcher for expect(my_object, :my_method).to have_changed ?
-- Add 'should have class reader/writer/property' shared examples.
-- Add 'should have private reader/writer/property' shared examples.
 
 ### Maintenance
 
+- Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Revisit how matchers are documented, particularly in README.md
   - Use matcher class name instead of macro names?
   - Clarify documentation of parameters - YARD-like?
@@ -38,6 +66,18 @@
 - RuboCop - use RSpec rule file as starting point?
 
 ## Icebox
+
+- Chainable examples: |
+
+  it 'should do something' do
+    # Always run.
+  end.
+    then 'should do something else' do
+      # Only runs if first example passes.
+    end.
+    then 'should do a third thing' do
+      # Only runs if first and second examples pass.
+    end
 
 - Implement Matchers::define_negated_matcher.
 - Implement RespondTo#with_optional_keywords.
