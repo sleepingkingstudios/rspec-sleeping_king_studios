@@ -156,4 +156,5 @@ Feature: `PropertyExamples` shared examples
       | expected ExampleValues to have constant :EXAMPLE_STRING with value "Secretly not a String...", but constant :EXAMPLE_STRING has value "I'm a String!" |
     Then the output should contain consecutive lines:
       | expected ExampleValues to have constant :EXAMPLE_STRING with value start with "X", but constant :EXAMPLE_STRING has value "I'm a String!" |
-    Then the output should contain "expected ExampleValues to have constant :EXAMPLE_NUMBER with value satisfy block, but constant :EXAMPLE_NUMBER has value 42"
+    Then the output should contain consecutive lines:
+      | expected ExampleValues to have constant :EXAMPLE_NUMBER with value satisfy <%= RSpec::Expectations::Version::STRING < '3.6.0' ? 'block' : 'expression `object_tools.apply self, expected_value, actual_value`' %>, but constant :EXAMPLE_NUMBER has value 42 |

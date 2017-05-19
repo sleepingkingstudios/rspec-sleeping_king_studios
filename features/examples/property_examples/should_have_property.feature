@@ -107,4 +107,4 @@ Feature: `PropertyExamples` shared examples
     Then the output should contain consecutive lines:
       | expected #<struct Movie title="Tron", release_date=1982> to respond to :title and :title= and return start with "X", but returned "Tron" |
     Then the output should contain consecutive lines:
-      | expected #<struct Movie title="Tron", release_date=1982> to respond to :release_date and :release_date= and return satisfy block, but returned 1982 |
+      | expected #<struct Movie title="Tron", release_date=1982> to respond to :release_date and :release_date= and return satisfy <%= RSpec::Expectations::Version::STRING < '3.6.0' ? 'block' : 'expression `object_tools.apply self, expected_value, actual_value`' %>, but returned 1982 |
