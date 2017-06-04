@@ -31,10 +31,10 @@ end
 
 appraise 'activemodel-3' do
   gem 'activemodel', '3.2.19'
-  gem 'rspec',       '3.0.0'
+  gem 'rspec',       '~> 3.3.0'
 end
 
 appraise 'activemodel-4' do
   gem 'activemodel', '4.2.0'
-  gem 'rspec',       '3.6.0'
+  gem 'rspec',       '~> 3.6.0'
 end

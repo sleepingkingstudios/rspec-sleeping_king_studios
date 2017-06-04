@@ -160,6 +160,31 @@ Utility functions for defining shared examples. If included in a module, any sha
 
 (also `::shared_context`) Defines a shared example group within the context of the current module. Unlike a top-level example group defined using RSpec#shared_examples, these examples are not globally available, and must be mixed into an example group by including the module. The shared examples must be defined before including the module, or they will not be available in the example group.
 
+### Toolbelt
+
+    require 'rspec/sleeping_king_studios/concerns/toolbelt'
+
+    RSpec.describe "a String" do
+      include Rspec::SleepingKingStudios::Concerns::Toolbelt
+
+      shared_examples 'should process' do |string|
+        singular = tools.string.singularize(string)
+        plural   = tools.string.pluralize(string)
+
+        it "should singularize #{string} to #{singular}" do
+          expect(tools.singularize string).to be_a String
+        end # it
+
+        it "should pluralize #{string} to #{plural}" do
+          expect(tools.pluralize string).to be_a String
+        end # it
+      end # shared_examples
+
+      include_examples 'should pluralize', 'light'
+    end # describe
+
+A helper module for exposing SleepingKingStudios::Tools methods in examples and example groups.
+
 ### Wrap Examples
 
     require 'rspec/sleeping_king_studios/concerns/wrap_examples'

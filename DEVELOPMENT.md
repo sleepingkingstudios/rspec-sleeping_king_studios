@@ -25,6 +25,7 @@
 
 ### Features
 
+- Implement Toolbelt concerns (defines #tools for example groups and examples).
 - Implement ::stub_env, #stub_env: |
 
   describe 'something' do

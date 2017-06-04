@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.0
+
+### Concerns
+
+Added Toolbelt concern to automatically expose SleepingKingStudios::Tools methods in examples and example groups.
+
 ## 2.2.3
 
 Added support for RSpec 3.6, dropped support for RSpec 3.0 to 3.2.
