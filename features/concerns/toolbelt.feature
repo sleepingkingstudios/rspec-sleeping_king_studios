@@ -5,27 +5,6 @@ Feature: `Toolbelt` concern
   SleepingKingStudios::Tools::Toolbelt, which defines helper methods for common
   use cases around core objects.
 
-  ```ruby
-  RSpec.describe "a String" do
-    include Rspec::SleepingKingStudios::Concerns::Toolbelt
-
-    shared_examples 'should process' do |string|
-      singular = tools.string.singularize(string)
-      plural   = tools.string.pluralize(string)
-
-      it "should singularize #{string} to #{singular}" do
-        expect(tools.singularize string).to be_a String
-      end # it
-
-      it "should pluralize #{string} to #{plural}" do
-        expect(tools.pluralize string).to be_a String
-      end # it
-    end # shared_examples
-
-    include_examples 'should pluralize', 'light'
-  end # describe
-  ```
-
   Scenario: basic usage
     Given a file named "toolbelt.rb" with:
       """ruby
