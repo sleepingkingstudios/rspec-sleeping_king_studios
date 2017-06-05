@@ -6,6 +6,8 @@
 
 Added Toolbelt concern to automatically expose SleepingKingStudios::Tools methods in examples and example groups.
 
+Added WrapEnv concern to cleanly control environment variables per example or within example blocks.
+
 ## 2.2.3
 
 Added support for RSpec 3.6, dropped support for RSpec 3.0 to 3.2.

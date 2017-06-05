@@ -2,30 +2,8 @@
 
 ## Version 2.3
 
-### Features
+### Features - Functionality
 
-- Alias `have_reader`, etc as `define_reader`.
-  - Also alias shared examples.
-- Alias `have_constant` as `define_constant`.
-  - Alias #immutable as #frozen.
-  - Also alias shared examples.
-- Add 'should have class reader/writer/property' shared examples.
-- Add 'should have private reader/writer/property' shared examples.
-- Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
-
-## Future Tasks
-
-- Resolve Aruba deprecation warnings.
-- Run each file individually as CI step.
-
-### Bug Fixes
-
-- false negative on #alias_method?
-  - compare via Method#source_location equality and Method#original_name is expected?
-
-### Features
-
-- Implement Toolbelt concerns (defines #tools for example groups and examples).
 - Implement ::stub_env, #stub_env: |
 
   describe 'something' do
@@ -51,10 +29,44 @@
 
   example_const 'Example::Constant::Name' do ... end
 
+### Features - Quality of Life
+
+- Implement Toolbelt concerns (defines #tools for example groups and examples).
+- Add 'should have class reader/writer/property' shared examples.
+- Add 'should have private reader/writer/property' shared examples.
+
+### Features - Syntactic Sugar
+
+- Alias `have_reader`, etc as `define_reader`.
+  - Also alias shared examples.
+- Alias `have_constant` as `define_constant`.
+  - Alias #immutable as #frozen.
+  - Also alias shared examples.
+
+## Future Tasks
+
+- Resolve Aruba deprecation warnings.
+- Run each file individually as CI step.
+
+### Bug Fixes
+
+- false negative on #alias_method?
+  - compare via Method#source_location equality and Method#original_name is expected?
+
+### Features - Functionality
+
+- Add spy+matcher for expect(my_object, :my_method).to have_changed ?
+
+### Features - Quality of Life
+
+- Implement RespondToMatcher#with_optional_keywords, #with_required_keywords.
 - Implement be_immutable matcher.
 - Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
 - let?(:name) { } # Defines a memoized helper, but only if one is not already defined.
-- Add spy+matcher for expect(my_object, :my_method).to have_changed ?
+
+### Features - Syntactic Sugar
+
+- Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
 
 ### Maintenance
 
