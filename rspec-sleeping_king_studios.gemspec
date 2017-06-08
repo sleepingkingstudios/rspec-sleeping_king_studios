@@ -1,6 +1,6 @@
 # rspec-sleeping_king_studios.gemspec
 
-$: << './lib'
+$LOAD_PATH.unshift File.expand_path('./lib')
 require 'rspec/sleeping_king_studios/version'
 
 Gem::Specification.new do |gem|
