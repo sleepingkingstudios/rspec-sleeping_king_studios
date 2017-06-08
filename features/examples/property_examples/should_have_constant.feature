@@ -41,7 +41,7 @@ Feature: `PropertyExamples` shared examples
 
   include_examples 'should have constant', :foo, ->(obj) { obj.even? } # True if described_class::FOO.even?, otherwise
 
-  include_examples 'should have constant', :foo, ->() { an_instance_of Fixnum } # True if described_class::FOO.is_a?(Fixnum), otherwise false.
+  include_examples 'should have constant', :foo, ->() { an_instance_of Integer } # True if described_class::FOO.is_a?(Integer), otherwise false.
   ```
 
   Internally, the shared example uses the `have_constant` matcher defined at

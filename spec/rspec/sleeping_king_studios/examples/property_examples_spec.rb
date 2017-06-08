@@ -68,7 +68,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end # describe
 
       describe 'with a proc value' do
-        include_examples 'should have reader', property, ->() { be_a(Fixnum) }
+        include_examples 'should have reader', property, ->() { be_a(Integer) }
       end # describe
 
       describe 'with a proc that takes an argument' do
@@ -162,7 +162,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end # describe
 
       describe 'with a proc value' do
-        include_examples 'should have reader', property, ->() { be_a(Fixnum) }
+        include_examples 'should have reader', property, ->() { be_a(Integer) }
       end # describe
 
       describe 'with a proc that takes an argument' do
@@ -186,7 +186,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end # describe
 
       describe 'with a proc value' do
-        include_examples 'should have property', property, ->() { be_a(Fixnum) }
+        include_examples 'should have property', property, ->() { be_a(Integer) }
       end # describe
 
       describe 'with a proc that takes an argument' do
