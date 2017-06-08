@@ -2,6 +2,8 @@
 
 require 'rspec/sleeping_king_studios/concerns/wrap_env'
 
+require 'rspec/sleeping_king_studios/matchers/core/alias_method'
+
 RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapEnv do
   let(:described_class) do
     Class.new do

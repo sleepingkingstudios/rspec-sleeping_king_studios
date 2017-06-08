@@ -4,23 +4,6 @@
 
 ### Features - Functionality
 
-- Implement ::stub_env, #stub_env: |
-
-  describe 'something' do
-    # Changes the value using an around(:example) block.
-    stub_env('FIRST_KEY', 'value')
-
-    # Block syntax.
-    stub_env('SECOND_KEY') { calculated_value }
-
-    it 'should something' do
-      # Temporarily changes the value, calls the block, and resets the value.
-      stub_env('THIRD_KEY', 'value') do
-
-      end # stub_env
-    end # it
-  end # describe
-
 - Implement example-scoped test constants: |
 
   example_class 'Example::Class::Name' do |klass| ... end
@@ -31,7 +14,6 @@
 
 ### Features - Quality of Life
 
-- Implement Toolbelt concerns (defines #tools for example groups and examples).
 - Add 'should have class reader/writer/property' shared examples.
 - Add 'should have private reader/writer/property' shared examples.
 
@@ -46,7 +28,9 @@
 ## Future Tasks
 
 - Resolve Aruba deprecation warnings.
+- Resolve Fixnum deprecation warnings.
 - Run each file individually as CI step.
+  - Add SleepingKingStudios::Tasks dependency (requires Cucumber step).
 
 ### Bug Fixes
 
@@ -70,6 +54,10 @@
 
 ### Maintenance
 
+- Update SharedExampleGroup concern to use Ruby paradigms:
+  - overload #include_examples
+  - use proper method-based lookup, inheritance, etc
+  - less fragility than hooking into existing RSpec internals
 - Revisit failure messages for #respond_to, #be_constructible - see #received/#have_received for example?
 - Revisit how matchers are documented, particularly in README.md
   - Use matcher class name instead of macro names?
