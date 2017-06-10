@@ -29,7 +29,7 @@ Feature: `PropertyExamples` shared examples
 
   include_examples 'should have reader', :foo, ->(obj) { obj.even? } # True if instance.foo.even?, otherwise
 
-  include_examples 'should have reader', :foo, ->() { an_instance_of Fixnum } # True if instance.foo.is_a?(Fixnum), otherwise false.
+  include_examples 'should have reader', :foo, ->() { an_instance_of Integer } # True if instance.foo.is_a?(Integer), otherwise false.
   ```
 
   You can also use negated form, `'should not have reader'`, which does not

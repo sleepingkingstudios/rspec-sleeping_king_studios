@@ -156,7 +156,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher d
             ", but responded to :#{property} and :#{property}= and "\
             "returned #{value.inspect}"
         end # let
-        let(:expected_value) { an_instance_of(Fixnum) }
+        let(:expected_value) { a_kind_of(Integer) }
         let(:instance)       { super().with(expected_value) }
 
         include_examples 'should pass with a positive expectation'
@@ -171,7 +171,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher d
         let(:failure_message_when_negated) do
           super() << ", but responded to :#{property} and :#{property}="
         end # let
-        let(:expected_value) { an_instance_of(String) }
+        let(:expected_value) { a_kind_of(String) }
         let(:instance)       { super().with(expected_value) }
 
         include_examples 'should fail with a positive expectation'

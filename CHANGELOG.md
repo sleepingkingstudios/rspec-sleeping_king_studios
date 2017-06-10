@@ -177,7 +177,7 @@ Removed the functionality checking the value of `:property` after `:property=` h
 
 Now supports composable matchers, as follows:
 
-    expect(object).to have_property(:my_method).with(an_instance_of(Fixnum))
+    expect(object).to have_property(:my_method).with(an_instance_of(Integer))
 
 Also added `#with_value` as an alias for `with`, and the error messages have been edited for clarity.
 

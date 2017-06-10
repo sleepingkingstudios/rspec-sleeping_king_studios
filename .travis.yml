@@ -18,6 +18,8 @@ matrix:
   include:
     - rvm: 2.4.1
       gemfile: gemfiles/rspec_edge.gemfile
+script:
+- 'bundle exec thor ci:steps'
 
 # Travis-CI Configuration
 cache: bundler
