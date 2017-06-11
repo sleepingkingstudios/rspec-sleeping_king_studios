@@ -1,8 +1,8 @@
-# spec/rspec/sleeping_king_studios/support/mock_example_group.rb
+# spec/rspec/sleeping_king_studios/support/mock_describe_examples.rb
 
 module Spec
   module Support
-    module MockExampleGroup
+    module MockDescribeExamples
       attr_accessor :examples_included, :is_describe_block, :is_focus, :is_skipped
 
       def describe name, &block
