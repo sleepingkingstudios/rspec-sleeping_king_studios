@@ -98,12 +98,55 @@ This option is used with the HavePredicateMatcher (see `#have_predicate`, below)
 
 RSpec::SleepingKingStudios defines a few concerns that can be included in or extended into modules or example groups for additional functionality.
 
+### Example Constants
+
+    require 'rspec/sleeping_king_studios/concerns/example_constants'
+
+    RSpec.describe 'constants' do
+      extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
+
+      example_constant 'THE_ANSWER', 42
+
+      example_class 'Spec::Examples::Question' do |klass|
+        klass.send :define_method, :answer, THE_ANSWER
+      end # example_class
+
+      let(:described_class) { Spec::Examples::Question }
+      let(:instance)        { described_class.new }
+
+      it { expect(described_class.name).to be == 'Spec::Examples::Question' }
+
+      it { expect(instance.answer).to be THE_ANSWER }
+    end # describe
+
+Provides a programmatic way to define temporary constants and classes scoped to the current example.
+
+#### `::example_constant`
+
+`param constant_name [String, Symbol]` The name of the constant. Can be a qualified name separated by :: (e.g. `'Spec::Examples::Question'`), in which case any missing modules will be temporarily set as well.
+
+`param constant_value` Defaults to nil. If the constant value is not set and a block is given, the block will be executed in the context of the example (so previously-set constants will be available, as well as example features such as the values of `let` blocks) and the value of the constant will be set to the result of the block call.
+
+`option force [Boolean]` Defaults to false. If the constant is already defined, trying to set the constant value will raise an error unless the force option is set to true.
+
+Sets the value of the named constant to the specified value within the context of the current example.
+
+#### `::example_class`
+
+`param constant_name [String, Symbol]` The name of the constant. Can be a qualified name separated by :: (e.g. `'Spec::Examples::Question'`), in which case any missing modules will be temporarily set as well.
+
+`option base_class [Class]` Defaults to Object. The base class of the generated class.
+
+`yield klass [Class]` If a block is given, it is executed in the context of the generated class and yielded the class.
+
+Creates a new class with the specified base class and sets the value of the named constant to the created class within the context of the current example.
+
 ### Focus Examples
 
     require 'rspec/sleeping_king_studios/concerns/focus_examples'
 
     RSpec.describe String do
-      extend RSpec::SleepingKingStudios::Concerns::WrapExamples
+      extend RSpec::SleepingKingStudios::Concerns::FocusExamples
 
       shared_examples 'should be a greeting' do
         it { expect(salutation).to be =~ /greeting/i }

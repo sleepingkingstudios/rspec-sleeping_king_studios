@@ -1,45 +1,44 @@
-# spec/rspec/sleeping_king_studios/support/mock_example_group.rb
+# spec/support/mock_example_group.rb
 
 module Spec
   module Support
-    module MockExampleGroup
-      attr_accessor :examples_included, :is_describe_block, :is_focus, :is_skipped
+    class MockExampleGroup
+      def self.around(_scope, &block)
+        hooks << ->(example) {
+          example.instance_exec(example, &block)
+        } # end hook
+      end # class method around
 
-      def describe name, &block
-        self.is_describe_block = true
-        self.is_focus          = false
-        self.is_skipped        = false
+      def self.before(scope, &block)
+        around(scope) do |example|
+          example.instance_exec(example, &block)
 
-        instance_eval(&block)
+          example.call
+        end # around
+      end # class method before
 
-        self.is_describe_block = false
-      end # method describe
+      def self.example
+        @example ||= new
+      end # class method example
 
-      def fdescribe name, &block
-        self.is_describe_block = true
-        self.is_focus          = true
-        self.is_skipped        = false
+      def self.hooks
+        @hooks ||= []
+      end # class method hooks
 
-        instance_eval(&block)
+      def self.run_example
+        wrapped =
+          hooks.reverse.reduce(example) do |wrapped_example, hook|
+            ->() { hook.call(wrapped_example) }
+          end # hook
 
-        self.is_describe_block = false
-        self.is_focus          = false
-      end # method fdescribe
+        wrapped.call
+      end # class method run_example
 
-      def xdescribe name, &block
-        self.is_describe_block = true
-        self.is_focus          = false
-        self.is_skipped        = true
+      def call; end
 
-        instance_eval(&block)
-
-        self.is_describe_block = false
-        self.is_skipped        = false
-      end # method fdescribe
-
-      def include_examples name, *args, **kwargs, &block
-        instance_eval(&block)
-      end # method include_examples
-    end # module
+      def example
+        self
+      end # method example
+    end # class
   end # module
 end # module

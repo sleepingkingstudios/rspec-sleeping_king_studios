@@ -1,28 +1,18 @@
 # spec/rspec/sleeping_king_studios/concerns/wrap_env_spec.rb
 
+require 'spec_helper'
+
 require 'rspec/sleeping_king_studios/concerns/wrap_env'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 require 'rspec/sleeping_king_studios/matchers/core/alias_method'
 
+require 'support/mock_example_group'
+
 RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapEnv do
   let(:described_class) do
-    Class.new do
+    Class.new(Spec::Support::MockExampleGroup) do
       include RSpec::SleepingKingStudios::Concerns::WrapEnv
-
-      def self.around(_scope)
-        yield example
-      end # class method around
-
-      def self.example
-        @example ||= new
-      end # class method example
-
-      def call; end
-
-      def example
-        self
-      end # method example
     end # class
   end # let
   let(:instance) { described_class.new }
@@ -37,27 +27,23 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapEnv do
 
     describe 'with a variable name and value' do
       it 'should overwrite the environment variable' do
-        expect(described_class).
-          to receive(:around).with(:example).and_call_original
+        described_class.wrap_env var, value
+
+        expect(ENV[var]).to be nil
 
         expect(described_class.example).to receive(:call) do
           expect(ENV[var]).to be == value
         end # expect
 
-        described_class.wrap_env var, value
+        described_class.run_example
+
+        expect(ENV[var]).to be nil
       end # it
     end # describe
 
     describe 'with a variable name and a calculated value' do
       it 'should overwrite the environment variable' do
         calculated_value = 'f886e54c416f972b6d15aee66ef4d9b1'
-
-        expect(described_class).
-          to receive(:around).with(:example).and_call_original
-
-        expect(described_class.example).to receive(:call) do
-          expect(ENV[var]).to be == calculated_value
-        end # expect
 
         caller = nil
 
@@ -67,7 +53,17 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapEnv do
           calculated_value
         end # wrap_env
 
+        expect(ENV[var]).to be nil
+
+        expect(described_class.example).to receive(:call) do
+          expect(ENV[var]).to be == calculated_value
+        end # expect
+
+        described_class.run_example
+
         expect(caller).to be described_class.example
+
+        expect(ENV[var]).to be nil
       end # it
     end # describe
   end # describe

@@ -5,30 +5,35 @@ require 'spec_helper'
 require 'rspec/sleeping_king_studios/concerns/focus_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
+require 'support/mock_describe_examples'
+
 RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
-  let(:instance) do
-    Module.new.extend(Spec::Support::MockExampleGroup).extend(described_class)
+  let(:described_class) do
+    Class.new do
+      extend Spec::Support::MockDescribeExamples
+      extend RSpec::SleepingKingStudios::Concerns::FocusExamples
+    end # class
   end # let
 
   describe '#finclude_examples' do
     let(:examples_name) { 'focused examples' }
 
-    it { expect(instance).to respond_to(:finclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(described_class).to respond_to(:finclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:finclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(described_class).to respond_to(:finclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
       let(:exception_message) { %{Could not find shared examples "#{examples_name}"} }
 
       before(:example) do
-        allow(instance).to receive(:include_examples) do |name, *args, **kwargs|
+        allow(described_class).to receive(:include_examples) do |name, *args, **kwargs|
           raise exception_class.new(exception_message)
         end # allow
       end # before example
 
       it 'should raise an error' do
-        expect { instance.finclude_examples examples_name }.to raise_error exception_class, exception_message
+        expect { described_class.finclude_examples examples_name }.to raise_error exception_class, exception_message
       end # it
     end # context
 
@@ -38,11 +43,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with no arguments' do
         def perform_action &block
-          instance.finclude_examples examples_name
+          described_class.finclude_examples examples_name
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(instance).to receive(:include_examples).with(examples_name)
+          expect(described_class).to receive(:include_examples).with(examples_name)
 
           perform_action
         end # it
@@ -50,11 +55,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with many arguments' do
         def perform_action &block
-          instance.finclude_examples examples_name, *example_args
+          described_class.finclude_examples examples_name, *example_args
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(instance).to receive(:include_examples).with(examples_name, *example_args)
+          expect(described_class).to receive(:include_examples).with(examples_name, *example_args)
 
           perform_action
         end # it
@@ -62,11 +67,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with many keywords' do
         def perform_action &block
-          instance.finclude_examples examples_name, **example_kwargs
+          described_class.finclude_examples examples_name, **example_kwargs
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(instance).to receive(:include_examples).with(examples_name, **example_kwargs)
+          expect(described_class).to receive(:include_examples).with(examples_name, **example_kwargs)
 
           perform_action
         end # it
@@ -74,11 +79,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with many arguments and many keywords' do
         def perform_action &block
-          instance.finclude_examples examples_name, *example_args, **example_kwargs
+          described_class.finclude_examples examples_name, *example_args, **example_kwargs
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(instance).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs)
+          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs)
 
           perform_action
         end # it
@@ -86,12 +91,12 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with a block' do
         def perform_action &block
-          instance.finclude_examples examples_name, *example_args, **example_kwargs, &block
+          described_class.finclude_examples examples_name, *example_args, **example_kwargs, &block
         end # method perform_action
 
         it 'should include the shared example group and evaluate the block' do
-          expect(instance).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs) do |&block|
-            instance.examples_included = true
+          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs) do |&block|
+            described_class.examples_included = true
 
             instance_eval(&block)
           end # expect
@@ -105,10 +110,10 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
           perform_action do
             block_called = true
 
-            examples_included = instance.examples_included
-            is_describe_block = instance.is_describe_block
-            is_focus          = instance.is_focus
-            is_skipped        = instance.is_skipped
+            examples_included = described_class.examples_included
+            is_describe_block = described_class.is_describe_block
+            is_focus          = described_class.is_focus
+            is_skipped        = described_class.is_skipped
           end # action
 
           expect(block_called).to be true
@@ -124,22 +129,22 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
   describe '#xinclude_examples' do
     let(:examples_name) { 'skipped examples' }
 
-    it { expect(instance).to respond_to(:xinclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(described_class).to respond_to(:xinclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
-    it { expect(instance).to respond_to(:xinclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
+    it { expect(described_class).to respond_to(:xinclude_examples).with(1).argument.and_unlimited_arguments.and_arbitrary_keywords.and_a_block }
 
     context 'without a defined shared example group' do
       let(:exception_class)   { ArgumentError }
       let(:exception_message) { %{Could not find shared examples "#{examples_name}"} }
 
       before(:example) do
-        allow(instance).to receive(:include_examples) do |name, *args, **kwargs|
+        allow(described_class).to receive(:include_examples) do |name, *args, **kwargs|
           raise exception_class.new(exception_message)
         end # allow
       end # before example
 
       it 'should raise an error' do
-        expect { instance.xinclude_examples examples_name }.to raise_error exception_class, exception_message
+        expect { described_class.xinclude_examples examples_name }.to raise_error exception_class, exception_message
       end # it
     end # context
 
@@ -149,11 +154,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with no arguments' do
         def perform_action &block
-          instance.xinclude_examples examples_name
+          described_class.xinclude_examples examples_name
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(instance).to receive(:include_examples).with(examples_name)
+          expect(described_class).to receive(:include_examples).with(examples_name)
 
           perform_action
         end # it
@@ -161,11 +166,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with many arguments' do
         def perform_action &block
-          instance.xinclude_examples examples_name, *example_args
+          described_class.xinclude_examples examples_name, *example_args
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(instance).to receive(:include_examples).with(examples_name, *example_args)
+          expect(described_class).to receive(:include_examples).with(examples_name, *example_args)
 
           perform_action
         end # it
@@ -173,11 +178,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with many keywords' do
         def perform_action &block
-          instance.xinclude_examples examples_name, **example_kwargs
+          described_class.xinclude_examples examples_name, **example_kwargs
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(instance).to receive(:include_examples).with(examples_name, **example_kwargs)
+          expect(described_class).to receive(:include_examples).with(examples_name, **example_kwargs)
 
           perform_action
         end # it
@@ -185,11 +190,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with many arguments and many keywords' do
         def perform_action &block
-          instance.xinclude_examples examples_name, *example_args, **example_kwargs
+          described_class.xinclude_examples examples_name, *example_args, **example_kwargs
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(instance).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs)
+          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs)
 
           perform_action
         end # it
@@ -197,12 +202,12 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
 
       describe 'with a block' do
         def perform_action &block
-          instance.xinclude_examples examples_name, *example_args, **example_kwargs, &block
+          described_class.xinclude_examples examples_name, *example_args, **example_kwargs, &block
         end # method perform_action
 
         it 'should include the shared example group and evaluate the block' do
-          expect(instance).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs) do |&block|
-            instance.examples_included = true
+          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs) do |&block|
+            described_class.examples_included = true
 
             instance_eval(&block)
           end # expect
@@ -216,10 +221,10 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::FocusExamples do
           perform_action do
             block_called = true
 
-            examples_included = instance.examples_included
-            is_describe_block = instance.is_describe_block
-            is_focus          = instance.is_focus
-            is_skipped        = instance.is_skipped
+            examples_included = described_class.examples_included
+            is_describe_block = described_class.is_describe_block
+            is_focus          = described_class.is_focus
+            is_skipped        = described_class.is_skipped
           end # action
 
           expect(block_called).to be true

@@ -54,6 +54,7 @@
 
 ### Maintenance
 
+- Update all Concerns to be #include-d, not #extend-ed.
 - Update SharedExampleGroup concern to use Ruby paradigms:
   - overload #include_examples
   - use proper method-based lookup, inheritance, etc
