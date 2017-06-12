@@ -4,6 +4,8 @@ require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/concerns/example_constants'
 
+require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
+
 require 'support/mock_example_group'
 
 module Spec
