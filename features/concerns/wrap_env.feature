@@ -1,5 +1,5 @@
 # features/concerns/wrap_env.feature
-@focus
+
 Feature: `WrapEnv` concern
   Use the `WrapEnv` concern to safely stub environment variables, either at the
   example level or as a block within an example.
