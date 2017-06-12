@@ -4,6 +4,8 @@
 
 ### Concerns
 
+Added ExampleConstants concern to define named, example-scoped constants and classes.
+
 Added Toolbelt concern to automatically expose SleepingKingStudios::Tools methods in examples and example groups.
 
 Added WrapEnv concern to cleanly control environment variables per example or within example blocks.
