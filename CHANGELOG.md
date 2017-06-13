@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.4
+
+Reverted support for RSpec 3.0 to 3.2.
+
 ## 2.2.3
 
 Added support for RSpec 3.6, dropped support for RSpec 3.0 to 3.2.
