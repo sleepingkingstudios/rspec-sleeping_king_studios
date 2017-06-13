@@ -52,7 +52,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end # describe
     end # describe
 
-    describe 'should have writer' do
+    describe 'should not have writer' do
       include_examples 'does not have writer', property
 
       include_examples 'should not have writer', property
@@ -66,7 +66,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end # tap
     end # let
 
-    describe 'should have reader' do
+    describe 'should not have reader' do
       include_examples 'does not have reader', property
 
       include_examples 'should not have reader', property
