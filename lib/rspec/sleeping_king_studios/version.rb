@@ -11,11 +11,11 @@ module RSpec
       # Major version.
       MAJOR = 2
       # Minor version.
-      MINOR = 2
+      MINOR = 3
       # Patch version.
-      PATCH = 3
+      PATCH = 0
       # Prerelease version.
-      PRERELEASE = nil
+      PRERELEASE = :alpha
       # Build metadata.
       BUILD = nil
 
