@@ -8,7 +8,7 @@ module RSpec::SleepingKingStudios::Concerns
   #
   # @example
   #   module MySharedExamples
-  #     extend Rspec::SleepingKingStudios::Concerns::SharedExampleGroup
+  #     extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
   #
   #     shared_examples 'my examples' do
   #       # Define shared examples here.

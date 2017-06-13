@@ -6,7 +6,7 @@ Feature: `WrapExamples` concern
 
   ```ruby
   RSpec.describe "a String" do
-    include Rspec::SleepingKingStudios::Concerns::WrapExamples
+    include RSpec::SleepingKingStudios::Concerns::WrapExamples
 
     shared_context 'with an uppercase String' do
       let(:instance) { super().tap &:upcase }

@@ -208,7 +208,7 @@ Utility functions for defining shared examples. If included in a module, any sha
     require 'rspec/sleeping_king_studios/concerns/toolbelt'
 
     RSpec.describe "a String" do
-      include Rspec::SleepingKingStudios::Concerns::Toolbelt
+      include RSpec::SleepingKingStudios::Concerns::Toolbelt
 
       shared_examples 'should process' do |string|
         singular = tools.string.singularize(string)
