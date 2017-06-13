@@ -1,9 +1,24 @@
 # Appraisals
 
+appraise 'rspec-3-0' do
+  gem 'activemodel', '5.1.1'
+  gem 'rspec',       '~> 3.0.0'
+end
+
+appraise 'rspec-3-1' do
+  gem 'activemodel', '5.1.1'
+  gem 'rspec',       '~> 3.1.0'
+end
+
+appraise 'rspec-3-2' do
+  gem 'activemodel', '5.1.1'
+  gem 'rspec',       '~> 3.2.0'
+end
+
 appraise 'rspec-3-3' do
   gem 'activemodel', '5.1.1'
   gem 'rspec',       '~> 3.3.0'
-end # appraise
+end
 
 appraise 'rspec-3-4' do
   gem 'activemodel', '5.1.1'

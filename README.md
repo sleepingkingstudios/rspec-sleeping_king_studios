@@ -4,7 +4,7 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends bui
 
 ## Support
 
-RSpec::SleepingKingStudios is tested against RSpec 3.3 through 3.6.
+RSpec::SleepingKingStudios is tested against RSpec 3.0 through 3.6, but support for RSpec 3.2 and below will be removed in version 2.3.0.
 
 Currently, the following versions of Ruby are officially supported:
 
@@ -14,7 +14,7 @@ Currently, the following versions of Ruby are officially supported:
 
 For Ruby 2.0 support, use version 2.1 or earlier: `gem "rspec-sleeping_king_studios", "~> 2.1.1"`.
 
-For RSpec 3.0 to 3.2 support, use version 2.2 or earlier: `gem "rspec-sleeping_king_studios", "~> 2.2.2"`.
+For RSpec 3.0 to 3.2 support, use version 2.2 or earlier: `gem "rspec-sleeping_king_studios", "~> 2.2.4"`.
 
 If you require a previous version of Ruby or RSpec, the 1.0 branch supports Ruby 1.9.3 and RSpec 2: `gem "rspec-sleeping_king_studios", "~> 1.0.1"`. However, changes from 2.0 and higher will not be backported.
 
