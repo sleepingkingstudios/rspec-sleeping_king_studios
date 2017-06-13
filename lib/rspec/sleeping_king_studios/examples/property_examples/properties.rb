@@ -71,7 +71,6 @@ module RSpec::SleepingKingStudios::Examples
         end # it
       end # shared_examples
       alias_shared_examples 'has property', 'should have property'
-
     end # module
   end # module
 end # module

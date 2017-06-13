@@ -6,7 +6,6 @@
 
 ### Features - Quality of Life
 
-- Add 'should have class reader/writer/property' shared examples.
 - Add 'should have private reader/writer/property' shared examples.
 
 ### Features - Syntactic Sugar

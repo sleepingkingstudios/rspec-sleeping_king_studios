@@ -1,5 +1,5 @@
 # features/concerns/example_constants.feature
-@focus
+
 Feature: `ExampleConstants` concern
   Use the `ExampleConstants` concern to define temporary classes and constants
   scoped to your examples.
