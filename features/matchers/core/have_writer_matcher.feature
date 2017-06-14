@@ -10,12 +10,19 @@ Feature: `have_writer` matcher
   expect(instance).to have_writer(:foo)  # The "=" is automatically appended if omitted.
   ```
 
+  Private writers can be tested by setting the `allow_private` option. This
+  allows you to test helper methods or internal interfaces.
+
+  ```ruby
+  expect(instance).to writer(:foo=, :allow_private => true) # True if instance defines #foo=, regardless of the method access control.
+  ```
+
   Note that the `have_writer` matcher does not validate that the method changes
   the state of the object. To specify a state change, use the built-in RSpec
   `change` matcher.
 
   Scenario: basic usage
-    Given a file named "have_writer_matcher_spec.rb" with:
+    Given a file named "matchers/core/have_writer_matcher/basics_spec.rb" with:
       """ruby
         require 'rspec/sleeping_king_studios/matchers/core/have_writer'
 
@@ -45,7 +52,7 @@ Feature: `have_writer` matcher
           it { expect(instance).not_to have_writer(:baz) }
         end # describe
       """
-    When I run `rspec have_writer_matcher_spec.rb`
+    When I run `rspec matchers/core/have_writer_matcher/basics_spec.rb`
     Then the output should contain "6 examples, 3 failures"
     Then the output should contain:
       """
@@ -61,4 +68,58 @@ Feature: `have_writer` matcher
       """
            Failure/Error: it { expect(instance).not_to have_writer(:baz) }
              expected MyClass not to respond to :baz=
+      """
+
+  Scenario: private writers
+    Given a file named "matchers/core/have_writer_matcher/private_spec.rb" with:
+      """ruby
+        require 'rspec/sleeping_king_studios/matchers/core/have_writer'
+
+        class MyClass
+          attr_writer :foo, :bar
+
+          private :bar=
+
+          def inspect
+            'MyClass'
+          end # method inspect
+        end # class
+
+        RSpec.describe MyClass do
+          let(:instance) { described_class.new }
+
+          # Passing expectations.
+          it { expect(instance).to have_writer(:foo, :allow_private => false) }
+          it { expect(instance).to have_writer(:foo, :allow_private => true) }
+          it { expect(instance).not_to have_writer(:bar, :allow_private => false) }
+          it { expect(instance).to have_writer(:bar, :allow_private => true) }
+
+          # Failing expectations.
+          it { expect(instance).not_to have_writer(:foo, :allow_private => false) }
+          it { expect(instance).not_to have_writer(:foo, :allow_private => true) }
+          it { expect(instance).to have_writer(:bar, :allow_private => false) }
+          it { expect(instance).not_to have_writer(:bar, :allow_private => true) }
+        end # describe
+      """
+    When I run `rspec matchers/core/have_writer_matcher/private_spec.rb`
+    Then the output should contain "8 examples, 4 failures"
+    Then the output should contain:
+      """
+           Failure/Error: it { expect(instance).not_to have_writer(:foo, :allow_private => false) }
+             expected MyClass not to respond to :foo=, but responded to :foo=
+      """
+    Then the output should contain:
+      """
+           Failure/Error: it { expect(instance).not_to have_writer(:foo, :allow_private => true) }
+             expected MyClass not to respond to :foo=, but responded to :foo=
+      """
+    Then the output should contain:
+      """
+           Failure/Error: it { expect(instance).to have_writer(:bar, :allow_private => false) }
+             expected MyClass to respond to :bar=, but did not respond to :bar=
+      """
+    Then the output should contain:
+      """
+           Failure/Error: it { expect(instance).not_to have_writer(:bar, :allow_private => true) }
+             expected MyClass not to respond to :bar=, but responded to :bar=
       """
