@@ -12,17 +12,26 @@ module RSpec::SleepingKingStudios::Matchers::Core
   class HaveReaderMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchProperty
 
+    # @param [String, Symbol] expected The property to check for on the actual
+    #   object.
+    # @param [Boolean] allow_private If true, then the matcher will match a
+    #   protected or private reader method. Defaults to false.
+    def initialize expected, allow_private: false
+      @expected      = expected.intern
+      @allow_private = allow_private
+    end # method initialize
+
+    # @return [Boolean] True if the matcher matches private reader methods,
+    #   otherwise false.
+    def allow_private?
+      !!@allow_private
+    end # method allow_private?
+
     # (see BaseMatcher#description)
     def description
       value_message = value_to_string
       "have reader :#{@expected}#{@value_set ? " with value #{value_message}" : ''}"
     end # method description
-
-    # @param [String, Symbol] expected The property to check for on the actual
-    #   object.
-    def initialize expected
-      @expected = expected.intern
-    end # method initialize
 
     # (see BaseMatcher#does_not_match?)
     def does_not_match? actual
@@ -88,8 +97,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
     private
 
     def matches_reader? filter
-      [ responds_to_reader?,
-        matches_reader_value?
+      [ responds_to_reader?(:allow_private => allow_private?),
+        matches_reader_value?(:allow_private => allow_private?)
       ].send(filter) { |bool| bool }
     end # method matches_property?
   end # class
