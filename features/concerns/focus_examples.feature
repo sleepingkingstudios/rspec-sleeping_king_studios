@@ -7,7 +7,7 @@ Feature: `FocusExamples` concern
 
   ```ruby
   RSpec.describe "a Hash" do
-    include Rspec::SleepingKingStudios::Concerns::WrapExamples
+    include RSpec::SleepingKingStudios::Concerns::WrapExamples
 
     shared_examples 'should be accessible with :[]' do
       it { expect(instance[:greetings]).to be == 'starfighter' }

@@ -4,17 +4,8 @@
 
 ### Features - Functionality
 
-- Implement example-scoped test constants: |
-
-  example_class 'Example::Class::Name' do |klass| ... end
-
-  example_module 'Example::Module::Name' do |mod| ... end
-
-  example_const 'Example::Constant::Name' do ... end
-
 ### Features - Quality of Life
 
-- Add 'should have class reader/writer/property' shared examples.
 - Add 'should have private reader/writer/property' shared examples.
 
 ### Features - Syntactic Sugar
@@ -28,13 +19,11 @@
 ## Future Tasks
 
 - Resolve Aruba deprecation warnings.
-- Resolve Fixnum deprecation warnings.
-- Run each file individually as CI step.
-  - Add SleepingKingStudios::Tasks dependency (requires Cucumber step).
 
 ### Bug Fixes
 
 - false negative on #alias_method?
+  - need reproduction steps!
   - compare via Method#source_location equality and Method#original_name is expected?
 
 ### Features - Functionality

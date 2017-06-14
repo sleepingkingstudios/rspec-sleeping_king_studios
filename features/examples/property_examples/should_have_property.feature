@@ -68,7 +68,7 @@ Feature: `PropertyExamples` shared examples
     Then the output should contain "expected #<struct Value value=nil> to respond to :raw_value and :raw_value=, but did not respond to :raw_value"
     Then the output should contain "expected #<struct Value value=nil> to respond to :type and :type=, but did not respond to :type="
 
-    Scenario: value expectations
+  Scenario: value expectations
     Given a file named "examples/property_examples/should_have_property/values_spec.rb" with:
       """ruby
       require 'rspec/sleeping_king_studios/examples/property_examples'

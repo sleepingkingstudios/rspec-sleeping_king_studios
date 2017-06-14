@@ -7,7 +7,7 @@ Feature: `SharedExampleGroup` concern
 
   ```ruby
   module MyExamples
-    extend Rspec::SleepingKingStudios::Concerns::SharedExampleGroup
+    extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
     shared_examples 'instance is a String' do
       it { expect(instance).to be_a String }
@@ -35,7 +35,7 @@ Feature: `SharedExampleGroup` concern
 
   ```ruby
   module MyExamples
-    extend Rspec::SleepingKingStudios::Concerns::SharedExampleGroup
+    extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
     shared_examples 'instance is a String' do
       it { expect(instance).to be_a String }

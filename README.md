@@ -208,7 +208,7 @@ Utility functions for defining shared examples. If included in a module, any sha
     require 'rspec/sleeping_king_studios/concerns/toolbelt'
 
     RSpec.describe "a String" do
-      include Rspec::SleepingKingStudios::Concerns::Toolbelt
+      include RSpec::SleepingKingStudios::Concerns::Toolbelt
 
       shared_examples 'should process' do |string|
         singular = tools.string.singularize(string)
@@ -622,6 +622,32 @@ These examples are shorthand for defining a property expectation.
 
       # You can use the custom shared examples here.
     end # describe
+
+#### Should Have Class Property
+
+    include_examples 'should have class property', :foo, 42
+
+Delegates to the `#have_property` matcher (see Core/#have\_property, above) and passes if `described_class` responds to the specified reader and writer methods. If a value is specified, the described class must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'should have class property', :bar, ->() { an_instance_of(String) }
+
+    include_examples 'should have class property', :baz, ->(value) { value.count = 3 }
+
+#### Should Have Class Reader
+
+    include_examples 'should have class reader', :foo, 42
+
+Delegates to the `#have_reader` matcher (see Core/#have_reader, above) and passes if `described_class` responds to the specified property reader. If a value is specified, the described class must respond to the property and return the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
+
+    include_examples 'should have class reader', :bar, ->() { an_instance_of(String) }
+
+    include_examples 'should have class reader', :baz, ->(value) { value.count = 3 }
+
+#### Should Have Class Writer
+
+    include_examples 'should have class writer', :foo=
+
+Delegates to the `#have_writer` matcher (see Core/#have_writer, above) and passes if `described_class` responds to the specified property writer.
 
 #### Should Have Constant
 
