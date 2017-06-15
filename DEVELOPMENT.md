@@ -52,6 +52,9 @@
 - Revisit how matchers are documented, particularly in README.md
   - Use matcher class name instead of macro names?
   - Clarify documentation of parameters - YARD-like?
+- Integration specs for shared example groups
+  - Run in external process, parse output for expected values (similar to Aruba)
+  - Allows testing of failing example groups
 - Pare down Cucumber features for matchers - repurpose as documentation/examples only.
   - Break down into smaller (bite-sized?) individual examples.
 - RuboCop - use RSpec rule file as starting point?
