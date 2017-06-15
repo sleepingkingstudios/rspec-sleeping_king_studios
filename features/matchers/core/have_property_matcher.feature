@@ -131,7 +131,6 @@ Feature: `have_property` matcher
       | Failure/Error: it { expect(instance).to have_property(:foo).with_value(an_instance_of Hash) } |
       |   expected MyClass to respond to :foo and :foo= and return an instance of Hash, but returned "Foo" |
 
-  @focus
   Scenario: private properties
     Given a file named "matchers/core/have_property_matcher/private_spec.rb" with:
       """ruby

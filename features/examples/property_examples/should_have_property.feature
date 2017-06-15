@@ -32,6 +32,15 @@ Feature: `PropertyExamples` shared examples
   include_examples 'should have property', :foo, ->() { an_instance_of Integer } # True if instance.foo.is_a?(Integer), otherwise false.
   ```
 
+  If the :allow_private option is set, the examples will also match a private
+  reader or writer method.
+
+  ```ruby
+  include_examples 'should have property', :foo, :allow_private => true # True if instance defines #foo and #foo= methods, regardless of whether #foo and #foo= are public, protected, or private.
+
+  include_examples 'should have property', :foo, 42, :allow_private => true # True if instance.send(:foo) == 42.
+  ```
+
   Internally, the shared example uses the `have_property` matcher defined at
   RSpec::SleepingKingStudios::Matchers::Core::HaveProperty.
 
@@ -108,3 +117,38 @@ Feature: `PropertyExamples` shared examples
       | expected #<struct Movie title="Tron", release_date=1982> to respond to :title and :title= and return start with "X", but returned "Tron" |
     Then the output should contain consecutive lines:
       | expected #<struct Movie title="Tron", release_date=1982> to respond to :release_date and :release_date= and return satisfy <%= RSpec::Expectations::Version::STRING < '3.6.0' ? 'block' : 'expression `object_tools.apply self, expected_value, actual_value`' %>, but returned 1982 |
+
+  Scenario: private properties
+    Given a file named "examples/property_examples/should_have_property/private_spec.rb" with:
+      """ruby
+      require 'rspec/sleeping_king_studios/examples/property_examples'
+
+      Value = Struct.new(:value, :type, :default) do
+        private :value, :value=, :type, :default=
+
+        def inspect
+          '#<Struct>'
+        end # method inspect
+      end # class
+
+      RSpec.describe Value do
+        include RSpec::SleepingKingStudios::Examples::PropertyExamples
+
+        let(:instance) { Value.new }
+
+        # Passing examples.
+        include_examples 'should have property', :value, :allow_private => true
+        include_examples 'should have property', :type, :allow_private => true
+        include_examples 'should have property', :default, :allow_private => true
+
+        # Failing examples.
+        include_examples 'should have property', :value, :allow_private => false
+        include_examples 'should have property', :type, :allow_private => false
+        include_examples 'should have property', :default, :allow_private => false
+      end # describe
+      """
+    When I run `rspec examples/property_examples/should_have_property/private_spec.rb`
+    Then the output should contain "6 examples, 3 failures"
+    Then the output should contain "expected #<Struct> to respond to :value and :value=, but did not respond to :value or :value="
+    Then the output should contain "expected #<Struct> to respond to :type and :type=, but did not respond to :type"
+    Then the output should contain "expected #<Struct> to respond to :default and :default=, but did not respond to :default="
