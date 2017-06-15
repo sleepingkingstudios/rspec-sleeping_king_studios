@@ -557,7 +557,13 @@ Checks if the actual object responds to `#property` and `#property=`, and option
 
     expect(instance).to have_property(:foo).with("foo")
 
-**Parameters:** Property. Expects a string or symbol that is a valid identifier.
+    expect(instance).to have_property(:foo, :allow_private => true).with("foo")
+
+**Parameters:**
+
+`param property [String, Symbol]` The name of the property.
+
+`option allow_private [Boolean]` Defaults to false. If true, the matcher will also match a private or protected reader or writer method.
 
 **Chaining:**
 
@@ -569,19 +575,23 @@ Checks if the actual object responds to `#property` and `#property=`, and option
 
     require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 
-Checks if the actual object responds to `#property`, and optionally if the current value of `actual.property()` is equal to a specified value.
+Checks if the actual object responds to `#property` with 0 arguments, and optionally if the current value of `actual.property()` is equal to a specified value.
 
 **How To Use:**
 
     expect(instance).to have_reader(:foo).with("foo")
 
-**Parameters:** Property. Expects a string or symbol that is a valid identifier.
+    expect(instance).to have_reader(:foo, :allow_private => true).with("foo")
+
+**Parameters:**
+
+`param property [String, Symbol]` The name of the reader method.
+
+`option allow_private [Boolean]` Defaults to false. If true, the matcher will also match a private or protected method.
 
 **Chaining:**
 
-* **`#with`:** (also `#with_value`) Expects one object, which is checked against the current value of `actual.property()` if actual responds to `#property`. Can also be used with an RSpec matcher:
-
-    expect(instance).to have_reader(:bar).with(an_instance_of(String))
+* **`#with`:** (also `#with_value`) Expects one object, which is checked against the current value of `actual.property()` if actual responds to `#property`. Can also be used with an RSpec matcher: `expect(instance).to have_reader(:bar).with(an_instance_of(String))`
 
 #### `#have_writer` Matcher
 
@@ -593,7 +603,13 @@ Checks if the actual object responds to `#property=`.
 
     expect(instance).to have_writer(:foo=)
 
-**Parameters:** Property. Expects a string or symbol that is a valid identifier. An equals sign '=' is automatically added if the identifier does not already terminate in '='.
+    expect(instance).to have_writer(:foo=, :allow_private => true)
+
+**Parameters:**
+
+`param property [String, Symbol]` The name of the writer method. An equals sign '=' is automatically added if the identifier does not already terminate in '='.
+
+`option allow_private [Boolean]` Defaults to false. If true, the matcher will also match a private or protected method.
 
 ## Shared Examples
 
@@ -687,6 +703,20 @@ Delegates to the `#have_property` matcher (see Core/#have\_property, above) and 
 
     include_examples 'should have property', :baz, ->(value) { value.count = 3 }
 
+You can also set the :allow_private option to allow the examples to match a private reader and/or writer method:
+
+    include_examples 'should have property', :foo, :allow_private => true
+
+    include_examples 'should have property', :foo, 42, :allow_private => true
+
+#### Should Have Private Property
+
+    include_examples 'should have private property', :foo
+
+    include_examples 'should have private property', :foo, 42
+
+Passes if the actual object has the specified private or protected property reader and writer, and fails if the actual object does not have the specified reader and writer or if the specified reader or writer is a public method. If a value is specified, the value of the private reader must match the specified value.
+
 #### Should Have Reader
 
     include_examples 'should have reader', :foo, 42
@@ -697,11 +727,25 @@ Delegates to the `#have_reader` matcher (see Core/#have_reader, above) and passe
 
     include_examples 'should have reader', :baz, ->(value) { value.count = 3 }
 
+You can also set the :allow_private option to allow the examples to match a private reader method:
+
+    include_examples 'should have reader', :foo, :allow_private => true
+
+    include_examples 'should have reader', :foo, 42, :allow_private => true
+
 #### Should Not Have Reader
 
     include_examples 'should not have reader', :foo
 
 Delegates to the `#have_reader` matcher (see Core/#have_reader, above) and passes if the actual object does not respond to to the specified property reader.
+
+#### Should Have Private Reader
+
+    include_examples 'should have private reader', :foo
+
+    include_examples 'should have private reader', :foo, 42
+
+Passes if the actual object has the specified private or protected property reader, and fails if the actual object does not have the specified reader or if the specified reader is a public method. If a value is specified, the value of the private reader must match the specified value.
 
 #### Should Have Writer
 
@@ -709,11 +753,21 @@ Delegates to the `#have_reader` matcher (see Core/#have_reader, above) and passe
 
 Delegates to the `#have_writer` matcher (see Core/#have_writer, above) and passes if the actual object responds to the specified property writer.
 
+You can also set the :allow_private option to allow the examples to match a private writer method:
+
+    include_examples 'should have writer', :foo=, :allow_private => true
+
 #### Should Not Have Writer
 
     include_examples 'should not have writer', :foo=
 
 Delegates to the `#have_writer` matcher (see Core/#have_writer, above) and passes if the actual object does not respond to to the specified property writer.
+
+#### Should Have Private Writer
+
+    include_examples 'should have private writer', :foo=
+
+Passes if the actual object has the specified private or protected property writer, and fails if the actual object does not have the specified writer or if the specified writer is a public method.
 
 ### RSpec Matcher Examples
 
