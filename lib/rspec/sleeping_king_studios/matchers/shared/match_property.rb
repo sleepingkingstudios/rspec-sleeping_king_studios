@@ -28,8 +28,8 @@ module RSpec::SleepingKingStudios::Matchers::Shared
     #
     # @return [Boolean] true if the value matches the expected value; otherwise
     #   false.
-    def matches_reader_value?
-      return false unless responds_to_reader?
+    def matches_reader_value? allow_private: false
+      return false unless responds_to_reader?(:allow_private => allow_private)
       return true  unless @value_set
 
       actual_value = @actual.send(@expected)
@@ -51,16 +51,16 @@ module RSpec::SleepingKingStudios::Matchers::Shared
     #
     # @return [Boolean] true if the object responds to the method; otherwise
     #   false.
-    def responds_to_reader?
-      @matches_reader = @actual.respond_to?(@expected)
+    def responds_to_reader? allow_private: false
+      @matches_reader = @actual.respond_to?(@expected, allow_private)
     end # method responds_to_reader?
 
     # Checks whether the object responds to the writer method :#{property}=.
     #
     # @return [Boolean] true if the object responds to the method; otherwise
     #   false.
-    def responds_to_writer?
-      @matches_writer = @actual.respond_to?(:"#{@expected}=")
+    def responds_to_writer? allow_private: false
+      @matches_writer = @actual.respond_to?(:"#{@expected}=", allow_private)
     end # method responds_to_reader?
 
     # Formats the expected value as a human-readable string. If the value looks

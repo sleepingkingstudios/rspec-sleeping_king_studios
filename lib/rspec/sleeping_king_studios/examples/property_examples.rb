@@ -6,6 +6,7 @@ require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 require 'rspec/sleeping_king_studios/examples'
 require 'rspec/sleeping_king_studios/examples/property_examples/class_properties'
 require 'rspec/sleeping_king_studios/examples/property_examples/constants'
+require 'rspec/sleeping_king_studios/examples/property_examples/private_properties'
 require 'rspec/sleeping_king_studios/examples/property_examples/predicates'
 require 'rspec/sleeping_king_studios/examples/property_examples/properties'
 
@@ -40,6 +41,7 @@ module RSpec::SleepingKingStudios::Examples::PropertyExamples
 
   include RSpec::SleepingKingStudios::Examples::PropertyExamples::ClassProperties
   include RSpec::SleepingKingStudios::Examples::PropertyExamples::Constants
+  include RSpec::SleepingKingStudios::Examples::PropertyExamples::PrivateProperties
   include RSpec::SleepingKingStudios::Examples::PropertyExamples::Predicates
   include RSpec::SleepingKingStudios::Examples::PropertyExamples::Properties
 end # module

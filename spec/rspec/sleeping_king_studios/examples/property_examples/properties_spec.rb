@@ -21,11 +21,19 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
 
   include_examples 'does not have reader', property
 
+  include_examples 'does not have reader', property, :allow_private => true
+
   include_examples 'should not have reader', property
+
+  include_examples 'should not have reader', property, :allow_private => true
 
   include_examples 'does not have writer', property
 
+  include_examples 'does not have writer', property, :allow_private => true
+
   include_examples 'should not have writer', property
+
+  include_examples 'should not have writer', property, :allow_private => true
 
   describe 'with an object responding to :property' do
     let(:described_class) do
@@ -128,6 +136,55 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       describe 'with a proc that takes an argument' do
         include_examples 'should have property', property, ->(value) { value > 0 }
       end # describe
+    end # describe
+  end # describe
+
+  describe 'with an object with private #property and #property= methods' do
+    let(:described_class) do
+      super().tap do |klass|
+        klass.send :attr_accessor, property
+        klass.send :private, property, :"#{property}="
+      end # tap
+    end # let
+
+    describe 'should not have reader' do
+      include_examples 'does not have reader', property
+
+      include_examples 'should not have reader', property
+    end # describe
+
+    describe 'should have private reader' do
+      let(:the_answer) { 42 }
+
+      include_examples 'should have reader', property, :allow_private => true
+
+      describe 'with a literal value' do
+        include_examples 'should have reader', property, value, :allow_private => true
+      end # describe
+
+      describe 'with a proc value' do
+        include_examples 'should have reader', property, ->() { be_a(Integer) }, :allow_private => true
+      end # describe
+
+      describe 'with a proc that takes an argument' do
+        include_examples 'should have reader', property, ->(value) { value == the_answer }, :allow_private => true
+      end # describe
+    end # describe
+
+    describe 'should not have writer' do
+      include_examples 'does not have writer', property
+
+      include_examples 'should not have writer', property
+    end # describe
+
+    describe 'should have private writer' do
+      include_examples 'should have writer', property, :allow_private => true
+    end # describe
+
+    describe 'should have private property' do
+      include_examples 'has property', property, :allow_private => true
+
+      include_examples 'should have property', property, :allow_private => true
     end # describe
   end # describe
 end # describe

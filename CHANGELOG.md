@@ -14,6 +14,12 @@ Added WrapEnv concern to cleanly control environment variables per example or wi
 
 Added shared examples for expecting class readers, writers, and properties.
 
+Added shared examples for expecting private readers, writers, and properties.
+
+### Matchers
+
+Added :allow_private option to HaveReaderMatcher, HaveWriterMatcher, and HavePropertyMatcher.
+
 ## 2.2.4
 
 Reverted support for RSpec 3.0 to 3.2.

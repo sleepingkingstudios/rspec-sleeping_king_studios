@@ -12,18 +12,25 @@ module RSpec::SleepingKingStudios::Matchers::Core
   class HaveWriterMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchProperty
 
+    # @param [String, Symbol] expected the property to check for on the actual
+    #   object
+    def initialize expected, allow_private: false
+      @expected      = expected.to_s.gsub(/=$/,'').intern
+      @allow_private = allow_private
+    end # method initialize
+
+    # @return [Boolean] True if the matcher matches private reader methods,
+    #   otherwise false.
+    def allow_private?
+      !!@allow_private
+    end # method allow_private?
+
     # Generates a description of the matcher expectation.
     #
     # @return [String] The matcher description.
     def description
       "have writer :#{@expected}"
     end # method description
-
-    # @param [String, Symbol] expected the property to check for on the actual
-    #   object
-    def initialize expected
-      @expected = expected.to_s.gsub(/=$/,'').intern
-    end # method initialize
 
     # Checks if the object responds to :expected=. Additionally, if a value
     # expectation is set, assigns the value via :expected= and compares the
@@ -37,7 +44,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     def matches? actual
       super
 
-      responds_to_writer?
+      responds_to_writer?(:allow_private => allow_private?)
     end # method matches?
 
     # @see BaseMatcher#failure_message

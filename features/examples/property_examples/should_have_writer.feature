@@ -23,6 +23,15 @@ Feature: `PropertyExamples` shared examples
   include_examples 'should not have writer', :foo= # True if subject or instance does not respond to #foo=, otherwise false.
   ```
 
+  If the :allow_private option is set, the examples will also match a private
+  writer method.
+
+  ```ruby
+  include_examples 'should have writer', :foo, :allow_private => true # True if instance defines a #foo= method, regardless of whether #foo is public, protected, or private.
+
+  include_examples 'should not have wruter', :foo, :allow_private => true # True if instance does not define a #foo= method, regardless of whether #foo is public, protected, or private.
+  ```
+
   Internally, the shared examples use the `have_writer` matcher defined at
   RSpec::SleepingKingStudios::Matchers::Core::HaveWriter.
 
@@ -71,3 +80,35 @@ Feature: `PropertyExamples` shared examples
     Then the output should contain "expected #<struct Value value=nil> to respond to :type=, but did not respond to :type="
     Then the output should contain "expected #<struct Value value=nil> not to respond to :value=, but responded to :value="
     Then the output should contain "expected #<struct Value value=nil> not to respond to :raw_value=, but responded to :raw_value="
+
+  Scenario: private writers
+    Given a file named "examples/property_examples/should_have_writer/private_spec.rb" with:
+      """ruby
+      require 'rspec/sleeping_king_studios/examples/property_examples'
+
+      Value = Struct.new(:value) do
+        private :value=
+
+        def inspect
+          '#<Struct>'
+        end # method inspect
+      end # class
+
+      RSpec.describe Value do
+        include RSpec::SleepingKingStudios::Examples::PropertyExamples
+
+        let(:instance) { Value.new }
+
+        # Passing examples.
+        include_examples 'should not have writer', :value, :allow_private => false
+        include_examples 'should have writer', :value, :allow_private => true
+
+        # Failing examples.
+        include_examples 'should have writer', :value, :allow_private => false
+        include_examples 'should not have writer', :value, :allow_private => true
+      end # describe
+      """
+    When I run `rspec examples/property_examples/should_have_writer/private_spec.rb`
+    Then the output should contain "4 examples, 2 failures"
+    Then the output should contain "expected #<Struct> to respond to :value=, but did not respond to :value="
+    Then the output should contain "expected #<Struct> not to respond to :value=, but responded to :value="
