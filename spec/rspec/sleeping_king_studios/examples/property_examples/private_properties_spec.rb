@@ -9,8 +9,6 @@ require 'support/file_examples'
 RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
   include Spec::Support::FileExamples
 
-  include described_class
-
   def self.spec_namespace
     %w(examples property_examples private_properties)
   end # class method spec_namespace
@@ -39,18 +37,6 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
 
     include_examples 'with a spec file containing', contents
   end # shared_examples
-
-  def self.property; :foo; end
-  def self.value; 42; end
-
-  let(:property) { self.class.property }
-  let(:value)    { self.class.value }
-  let(:described_class) do
-    Class.new.tap do |klass|
-      klass.send :define_method, :initialize, ->(value) { @foo = value }
-    end # class
-  end # let
-  let(:instance) { described_class.new(value) }
 
   include_context 'with a temporary file named',
     'examples/property_examples/private_properties/class_with_private_properties.rb',
