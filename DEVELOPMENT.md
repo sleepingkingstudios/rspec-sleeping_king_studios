@@ -2,11 +2,7 @@
 
 ## Version 2.3
 
-### Features - Functionality
-
-### Features - Quality of Life
-
-- Add 'should have private reader/writer/property' shared examples.
+## Version 2.3.1
 
 ### Features - Syntactic Sugar
 
