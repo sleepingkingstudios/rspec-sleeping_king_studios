@@ -4,16 +4,18 @@ require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/examples/property_examples'
 
-require 'support/file_examples'
+require 'support/shared_examples/file_examples'
+require 'support/shared_examples/shared_example_group_examples'
 
 RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
-  include Spec::Support::FileExamples
+  include Spec::Support::SharedExamples::FileExamples
+  include Spec::Support::SharedExamples::SharedExampleGroupExamples
 
   def self.spec_namespace
     %w(examples property_examples constants)
   end # class method spec_namespace
 
-  shared_examples 'with a spec file with examples' do |custom_contents|
+  shared_context 'with a spec file with examples' do |custom_contents|
     custom_contents =
       tools.
         string.
@@ -36,7 +38,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       RUBY
 
     include_examples 'with a spec file containing', contents
-  end # shared_examples
+  end # shared_context
 
   include_context 'with a temporary file named',
     'examples/property_examples/constants/module_with_constants.rb',
@@ -50,123 +52,63 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end # module
     RUBY
 
-  describe '"has constant"' do
-    describe 'with the name of an undefined constant' do
-      include_context 'with a spec file with examples',
-        "include_examples 'has constant', :UNDEFINED_CONSTANT"
-
-      it 'should fail with 1 example, 1 failure' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 1 failure'
-        expect(results).
-          to include 'expected ModuleWithConstants to have constant :UNDEFINED_CONSTANT, but ModuleWithConstants does not define constant :UNDEFINED_CONSTANT'
-      end # it
-    end # describe
-
-    describe 'with the name of a defined constant' do
-      include_context 'with a spec file with examples',
-        "include_examples 'has constant', :DEFINED_CONSTANT"
-
-      it 'should pass with 1 example, 0 failures' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 0 failures'
-      end # it
-    end # describe
-
-    describe 'with a non-matching value expectation' do
-      describe 'with the name of an undefined constant' do
-        include_context 'with a spec file with examples',
-          "include_examples 'has constant', :UNDEFINED_CONSTANT, 42"
-
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have constant :UNDEFINED_CONSTANT with value 42, but ModuleWithConstants does not define constant :UNDEFINED_CONSTANT'
-        end # it
-      end # describe
-
-      describe 'with the name of a defined constant' do
-        include_context 'with a spec file with examples',
-          "include_examples 'has constant', :DEFINED_CONSTANT_WITH_VALUE, 42"
-
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have constant :DEFINED_CONSTANT_WITH_VALUE with value 42, but constant :DEFINED_CONSTANT_WITH_VALUE has value "The Answer"'
-        end # it
-      end # describe
-    end # describe
-
-    describe 'with a matching value expectation' do
-      describe 'with the name of a defined constant' do
-        include_context 'with a spec file with examples',
-          "include_examples 'has constant', :DEFINED_CONSTANT_WITH_VALUE, 'The Answer'"
-
-        it 'should pass with 1 example, 0 failures' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 0 failures'
-        end # it
-      end # describe
-    end # describe
-  end # describe
-
   describe '"should have constant"' do
+    let(:failure_message) do
+      "expected ModuleWithConstants to have constant #{constant_name}"
+    end # let
+
+    include_examples 'should alias shared example group',
+      'has constant',
+      'should have constant'
+
     describe 'with the name of an undefined constant' do
+      let(:constant_name) { ':UNDEFINED_CONSTANT' }
+      let(:failure_message) do
+        super() + ", but ModuleWithConstants does not define constant " \
+                  "#{constant_name}"
+      end # let
+
       include_context 'with a spec file with examples',
         "include_examples 'should have constant', :UNDEFINED_CONSTANT"
 
-      it 'should fail with 1 example, 1 failure' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 1 failure'
-        expect(results).
-          to include 'expected ModuleWithConstants to have constant :UNDEFINED_CONSTANT, but ModuleWithConstants does not define constant :UNDEFINED_CONSTANT'
-      end # it
+      include_examples 'should fail with 1 example and 1 failure'
     end # describe
 
     describe 'with the name of a defined constant' do
       include_context 'with a spec file with examples',
         "include_examples 'should have constant', :DEFINED_CONSTANT"
 
-      it 'should pass with 1 example, 0 failures' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 0 failures'
-      end # it
+      include_examples 'should pass with 1 example and 0 failures'
     end # describe
 
     describe 'with a non-matching value expectation' do
+      let(:failure_message) do
+        super() + ' with value 42'
+      end # let
+
       describe 'with the name of an undefined constant' do
+        let(:constant_name) { ':UNDEFINED_CONSTANT' }
+        let(:failure_message) do
+          super() + ", but ModuleWithConstants does not define constant " \
+                    "#{constant_name}"
+        end # let
+
         include_context 'with a spec file with examples',
           "include_examples 'should have constant', :UNDEFINED_CONSTANT, 42"
 
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have constant :UNDEFINED_CONSTANT with value 42, but ModuleWithConstants does not define constant :UNDEFINED_CONSTANT'
-        end # it
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
 
       describe 'with the name of a defined constant' do
+        let(:constant_name) { ':DEFINED_CONSTANT_WITH_VALUE' }
+        let(:failure_message) do
+          super() + ", but constant #{constant_name} has value \"The Answer\""
+        end # let
+
         include_context 'with a spec file with examples',
           "include_examples 'should have constant', :DEFINED_CONSTANT_WITH_VALUE, 42"
 
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have constant :DEFINED_CONSTANT_WITH_VALUE with value 42, but constant :DEFINED_CONSTANT_WITH_VALUE has value "The Answer"'
-        end # it
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
     end # describe
 
@@ -175,197 +117,102 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
         include_context 'with a spec file with examples',
           "include_examples 'should have constant', :DEFINED_CONSTANT_WITH_VALUE, 'The Answer'"
 
-        it 'should pass with 1 example, 0 failures' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 0 failures'
-        end # it
-      end # describe
-    end # describe
-  end # describe
-
-  describe '"has immutable constant"' do
-    describe 'with the name of an undefined constant' do
-      include_context 'with a spec file with examples',
-        "include_examples 'has immutable constant', :UNDEFINED_CONSTANT"
-
-      it 'should fail with 1 example, 1 failure' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 1 failure'
-        expect(results).
-          to include 'expected ModuleWithConstants to have immutable constant :UNDEFINED_CONSTANT, but ModuleWithConstants does not define constant :UNDEFINED_CONSTANT'
-      end # it
-    end # describe
-
-    describe 'with the name of a mutable constant' do
-      include_context 'with a spec file with examples',
-        "include_examples 'has immutable constant', :DEFINED_CONSTANT"
-
-      it 'should fail with 1 example, 1 failure' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 1 failure'
-        expect(results).
-          to include 'expected ModuleWithConstants to have immutable constant :DEFINED_CONSTANT, but the value of :DEFINED_CONSTANT was mutable'
-      end # it
-    end # describe
-
-    describe 'with the name of an immutable constant' do
-      include_context 'with a spec file with examples',
-        "include_examples 'has constant', :IMMUTABLE_CONSTANT"
-
-      it 'should pass with 1 example, 0 failures' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 0 failures'
-      end # it
-    end # describe
-
-    describe 'with a non-matching value expectation' do
-      describe 'with the name of an undefined constant' do
-        include_context 'with a spec file with examples',
-          "include_examples 'has immutable constant', :UNDEFINED_CONSTANT, 42"
-
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have immutable constant :UNDEFINED_CONSTANT with value 42, but ModuleWithConstants does not define constant :UNDEFINED_CONSTANT'
-        end # it
-      end # describe
-
-      describe 'with the name of a mutable constant' do
-        include_context 'with a spec file with examples',
-          "include_examples 'has immutable constant', :DEFINED_CONSTANT_WITH_VALUE, 42"
-
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have immutable constant :DEFINED_CONSTANT_WITH_VALUE with value 42, but constant :DEFINED_CONSTANT_WITH_VALUE has value "The Answer" and the value of :DEFINED_CONSTANT_WITH_VALUE was mutable'
-        end # it
-      end # describe
-
-      describe 'with the name of an immutable constant' do
-        include_context 'with a spec file with examples',
-          "include_examples 'has constant', :IMMUTABLE_CONSTANT_WITH_VALUE, 42"
-
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have constant :IMMUTABLE_CONSTANT_WITH_VALUE with value 42, but constant :IMMUTABLE_CONSTANT_WITH_VALUE has value "The Answer"'
-        end # it
-      end # describe
-    end # describe
-
-    describe 'with a matching value expectation' do
-      describe 'with the name of an immutable constant' do
-        include_context 'with a spec file with examples',
-          "include_examples 'has constant', :IMMUTABLE_CONSTANT_WITH_VALUE, 'The Answer'"
-
-        it 'should pass with 1 example, 0 failures' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 0 failures'
-        end # it
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
     end # describe
   end # describe
 
   describe '"should have immutable constant"' do
+    let(:failure_message) do
+      "expected ModuleWithConstants to have immutable constant #{constant_name}"
+    end # let
+
+    include_examples 'should alias shared example group',
+      'has immutable constant',
+      'should have immutable constant'
+
     describe 'with the name of an undefined constant' do
+      let(:constant_name) { ':UNDEFINED_CONSTANT' }
+      let(:failure_message) do
+        super() + ", but ModuleWithConstants does not define constant " \
+                  "#{constant_name}"
+      end # let
+
       include_context 'with a spec file with examples',
         "include_examples 'should have immutable constant', :UNDEFINED_CONSTANT"
 
-      it 'should fail with 1 example, 1 failure' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 1 failure'
-        expect(results).
-          to include 'expected ModuleWithConstants to have immutable constant :UNDEFINED_CONSTANT, but ModuleWithConstants does not define constant :UNDEFINED_CONSTANT'
-      end # it
+      include_examples 'should fail with 1 example and 1 failure'
     end # describe
 
     describe 'with the name of a mutable constant' do
+      let(:constant_name) { ':DEFINED_CONSTANT' }
+      let(:failure_message) do
+        super() + ", but the value of #{constant_name} was mutable"
+      end # let
+
       include_context 'with a spec file with examples',
         "include_examples 'should have immutable constant', :DEFINED_CONSTANT"
 
-      it 'should fail with 1 example, 1 failure' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 1 failure'
-        expect(results).
-          to include 'expected ModuleWithConstants to have immutable constant :DEFINED_CONSTANT, but the value of :DEFINED_CONSTANT was mutable'
-      end # it
+      include_examples 'should fail with 1 example and 1 failure'
     end # describe
 
     describe 'with the name of an immutable constant' do
       include_context 'with a spec file with examples',
         "include_examples 'has constant', :IMMUTABLE_CONSTANT"
 
-      it 'should pass with 1 example, 0 failures' do
-        results = run_spec_file
-
-        expect(results).to include '1 example, 0 failures'
-      end # it
+      include_examples 'should pass with 1 example and 0 failures'
     end # describe
 
     describe 'with a non-matching value expectation' do
+      let(:failure_message) do
+        super() + ' with value 42'
+      end # let
+
       describe 'with the name of an undefined constant' do
+        let(:constant_name) { ':UNDEFINED_CONSTANT' }
+        let(:failure_message) do
+          super() + ", but ModuleWithConstants does not define constant " \
+                    "#{constant_name}"
+        end # let
+
         include_context 'with a spec file with examples',
           "include_examples 'should have immutable constant', :UNDEFINED_CONSTANT, 42"
 
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have immutable constant :UNDEFINED_CONSTANT with value 42, but ModuleWithConstants does not define constant :UNDEFINED_CONSTANT'
-        end # it
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
 
       describe 'with the name of a mutable constant' do
+        let(:constant_name) { ':DEFINED_CONSTANT_WITH_VALUE' }
+        let(:failure_message) do
+          super() + ", but constant #{constant_name} has value \"The Answer\"" \
+                    " and the value of #{constant_name} was mutable"
+        end # let
+
         include_context 'with a spec file with examples',
           "include_examples 'should have immutable constant', :DEFINED_CONSTANT_WITH_VALUE, 42"
 
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have immutable constant :DEFINED_CONSTANT_WITH_VALUE with value 42, but constant :DEFINED_CONSTANT_WITH_VALUE has value "The Answer" and the value of :DEFINED_CONSTANT_WITH_VALUE was mutable'
-        end # it
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
 
       describe 'with the name of an immutable constant' do
+        let(:constant_name) { ':IMMUTABLE_CONSTANT_WITH_VALUE' }
+        let(:failure_message) do
+          super() + ", but constant #{constant_name} has value \"The Answer\""
+        end # let
+
         include_context 'with a spec file with examples',
-          "include_examples 'has constant', :IMMUTABLE_CONSTANT_WITH_VALUE, 42"
+          "include_examples 'has immutable constant', :IMMUTABLE_CONSTANT_WITH_VALUE, 42"
 
-        it 'should fail with 1 example, 1 failure' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 1 failure'
-          expect(results).
-            to include 'expected ModuleWithConstants to have constant :IMMUTABLE_CONSTANT_WITH_VALUE with value 42, but constant :IMMUTABLE_CONSTANT_WITH_VALUE has value "The Answer"'
-        end # it
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
     end # describe
 
     describe 'with a matching value expectation' do
       describe 'with the name of an immutable constant' do
         include_context 'with a spec file with examples',
-          "include_examples 'has constant', :IMMUTABLE_CONSTANT_WITH_VALUE, 'The Answer'"
+          "include_examples 'has immutable constant', :IMMUTABLE_CONSTANT_WITH_VALUE, 'The Answer'"
 
-        it 'should pass with 1 example, 0 failures' do
-          results = run_spec_file
-
-          expect(results).to include '1 example, 0 failures'
-        end # it
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
     end # describe
   end # describe
