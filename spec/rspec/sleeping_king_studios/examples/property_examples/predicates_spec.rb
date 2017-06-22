@@ -5,59 +5,179 @@ require 'spec_helper'
 require 'rspec/sleeping_king_studios/examples/property_examples'
 require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
 
+require 'support/shared_examples/file_examples'
+require 'support/shared_examples/shared_example_group_examples'
+
 RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
-  include described_class
+  include Spec::Support::SharedExamples::FileExamples
+  include Spec::Support::SharedExamples::SharedExampleGroupExamples
 
-  def self.predicate; :"#{property}?"; end
-  def self.property; :foo; end
-  def self.value; 42; end
+  def self.spec_namespace
+    %w(examples property_examples predicates)
+  end # class method spec_namespace
 
-  let(:predicate) { self.class.predicate }
-  let(:property)  { self.class.property }
-  let(:value)     { self.class.value }
-  let(:described_class) do
-    Class.new.tap do |klass|
-      klass.send :define_method, :initialize, ->(value) { @foo = value }
-    end # class
-  end # let
-  let(:instance) { described_class.new(value) }
+  shared_context 'with a spec file with examples' do |custom_contents|
+    custom_contents =
+      tools.
+        string.
+        map_lines(custom_contents) do |line, index|
+          index.zero? ? line : "#{' ' * 10}#{line}"
+        end # map_lines
+    contents =
+      <<-RUBY
+        require_relative 'class_with_predicates'
 
-  describe 'with an object responding to :property?' do
-    let(:described_class) do
-      super().tap do |klass|
-        property_name = property
+        require 'rspec/sleeping_king_studios/examples/property_examples'
 
-        klass.send :define_method, predicate do
-          !!instance_variable_get(:"@#{property_name}")
-        end # define_method
-      end # tap
+        RSpec.describe ClassWithPredicates do
+          include RSpec::SleepingKingStudios::Examples::PropertyExamples
+
+          subject(:instance) { described_class.new }
+
+          #{ custom_contents }
+        end # describe
+      RUBY
+
+    include_examples 'with a spec file containing', contents
+  end # shared_context
+
+  include_context 'with a temporary file named',
+    'examples/property_examples/predicates/class_with_predicates.rb',
+    <<-RUBY
+      class ClassWithPredicates
+        def public_predicate?; end
+
+        def public_predicate_with_value?
+          true
+        end # method public_predicate_with_value?
+
+        def inspect
+          '#<ClassWithPredicates>'
+        end # method inspect
+
+        private
+
+        def private_predicate?; end
+      end # class
+    RUBY
+
+  describe '"should have predicate"' do
+    let(:failure_message) do
+      "expected #<ClassWithPredicates> to respond to #{predicate_name}"
     end # let
 
-    describe 'should have predicate' do
-      include_examples 'has predicate', property
+    include_examples 'should alias shared example group',
+      'has predicate',
+      'should have predicate'
 
-      include_examples 'should have predicate', property
+    describe 'with the name of an undefined predicate' do
+      let(:predicate_name) { ':undefined_predicate?' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{predicate_name}"
+      end # let
 
-      include_examples 'has predicate', predicate
+      include_context 'with a spec file with examples',
+        "include_examples 'should have predicate', :undefined_predicate"
 
-      include_examples 'should have predicate', predicate
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
 
-      describe 'with a literal value' do
-        include_examples 'should have predicate', property, true
+    describe 'with the name of an undefined predicate' do
+      let(:predicate_name) { ':undefined_predicate?' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{predicate_name}"
+      end # let
 
-        include_examples 'should have predicate', predicate, true
+      include_context 'with a spec file with examples',
+        "include_examples 'should have predicate', :undefined_predicate?"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a private predicate' do
+      let(:predicate_name) { ':private_predicate?' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{predicate_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have predicate', :private_predicate"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a private predicate' do
+      let(:predicate_name) { ':private_predicate?' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{predicate_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have predicate', :private_predicate?"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public predicate' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have predicate', :public_predicate"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+      describe 'with the name of a public predicate' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have predicate', :public_predicate?"
+
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
 
-      describe 'with a proc value' do
-        include_examples 'should have predicate', property, ->() { a_boolean }
+    describe 'with a non-matching value expectation' do
+      let(:failure_message) { super() + ' and return true' }
 
-        include_examples 'should have predicate', predicate, ->() { a_boolean }
+      describe 'with the name of an undefined predicate' do
+        let(:predicate_name) { ':undefined_predicate?' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{predicate_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have predicate', :undefined_predicate?, true"
+
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
 
-      describe 'with a proc that takes an argument' do
-        include_examples 'should have predicate', property, ->(value) { value == true }
+      describe 'with the name of a private predicate' do
+        let(:predicate_name) { ':private_predicate?' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{predicate_name}"
+        end # let
 
-        include_examples 'should have predicate', predicate, ->(value) { value == true }
+        include_context 'with a spec file with examples',
+          "include_examples 'should have predicate', :private_predicate?, true"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public predicate' do
+        let(:predicate_name) { ':public_predicate?' }
+        let(:failure_message) do
+          super() + ', but returned nil'
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have predicate', :public_predicate?, true"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+    end # describe
+
+    describe 'with a matching value expectation' do
+      describe 'with the name of a public predicate' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have predicate', :public_predicate_with_value?, true"
+
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
     end # describe
   end # describe

@@ -9,7 +9,7 @@ module RSpec::SleepingKingStudios::Examples
       extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
       shared_examples 'should have private reader' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
-        it "should have reader :#{property}" do
+        it "should have private reader :#{property}" do
           object  = defined?(instance) ? instance : subject
           matcher = have_reader(property, :allow_private => true)
 
@@ -29,7 +29,7 @@ module RSpec::SleepingKingStudios::Examples
       shared_examples 'should have private writer' do |property|
         writer_name = :"#{property.to_s.sub(/=\z/, '')}="
 
-        it "should have writer :#{writer_name}" do
+        it "should have private writer :#{writer_name}" do
           object = defined?(instance) ? instance : subject
 
           expect(object).not_to respond_to(writer_name)
@@ -42,7 +42,7 @@ module RSpec::SleepingKingStudios::Examples
       shared_examples 'should have private property' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
         writer_name = :"#{property.to_s.sub(/=\z/, '')}="
 
-        it "should have property :#{property}" do
+        it "should have private property :#{property}" do
           object  = defined?(instance) ? instance : subject
           matcher = have_property(property, :allow_private => true)
 

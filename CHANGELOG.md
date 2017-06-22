@@ -16,6 +16,8 @@ Added shared examples for expecting class readers, writers, and properties.
 
 Added shared examples for expecting private readers, writers, and properties.
 
+Added aliased examples for "has constant", "has immutable constant".
+
 ### Matchers
 
 Added :allow_private option to HaveReaderMatcher, HaveWriterMatcher, and HavePropertyMatcher.

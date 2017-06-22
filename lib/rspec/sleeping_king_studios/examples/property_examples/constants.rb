@@ -26,6 +26,7 @@ module RSpec::SleepingKingStudios::Examples
           end # if-else
         end # it
       end # shared_examples
+      alias_shared_examples 'has constant', 'should have constant'
 
       shared_examples 'should have immutable constant' do |constant_name, expected_value = UNDEFINED_VALUE_EXPECTATION|
         it "should have immutable constant :#{constant_name}" do
@@ -44,6 +45,7 @@ module RSpec::SleepingKingStudios::Examples
           end # if-else
         end # it
       end # shared_examples
+      alias_shared_examples 'has immutable constant', 'should have immutable constant'
     end # module
   end # module
 end # module

@@ -4,187 +4,887 @@ require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/examples/property_examples'
 
+require 'support/shared_examples/file_examples'
+require 'support/shared_examples/shared_example_group_examples'
+
 RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
-  include described_class
+  include Spec::Support::SharedExamples::FileExamples
+  include Spec::Support::SharedExamples::SharedExampleGroupExamples
 
-  def self.property; :foo; end
-  def self.value; 42; end
+  def self.spec_namespace
+    %w(examples property_examples properties)
+  end # class method spec_namespace
 
-  let(:property) { self.class.property }
-  let(:value)    { self.class.value }
-  let(:described_class) do
-    Class.new.tap do |klass|
-      klass.send :define_method, :initialize, ->(value) { @foo = value }
-    end # class
-  end # let
-  let(:instance) { described_class.new(value) }
+  shared_context 'with a spec file with examples' do |custom_contents|
+    custom_contents =
+      tools.
+        string.
+        map_lines(custom_contents) do |line, index|
+          index.zero? ? line : "#{' ' * 10}#{line}"
+        end # map_lines
+    contents =
+      <<-RUBY
+        require_relative 'class_with_properties'
 
-  include_examples 'does not have reader', property
+        require 'rspec/sleeping_king_studios/examples/property_examples'
 
-  include_examples 'does not have reader', property, :allow_private => true
+        RSpec.describe ClassWithProperties do
+          include RSpec::SleepingKingStudios::Examples::PropertyExamples
 
-  include_examples 'should not have reader', property
+          subject(:instance) { described_class.new }
 
-  include_examples 'should not have reader', property, :allow_private => true
+          #{ custom_contents }
+        end # describe
+      RUBY
 
-  include_examples 'does not have writer', property
+    include_examples 'with a spec file containing', contents
+  end # shared_context
 
-  include_examples 'does not have writer', property, :allow_private => true
+  include_context 'with a temporary file named',
+    'examples/property_examples/properties/class_with_properties.rb',
+    <<-RUBY
+      class ClassWithProperties
+        attr_accessor \
+          :public_property,
+          :property_with_private_reader,
+          :property_with_private_writer
 
-  include_examples 'should not have writer', property
+        private :property_with_private_reader, :property_with_private_writer=
 
-  include_examples 'should not have writer', property, :allow_private => true
+        attr_reader :public_reader
 
-  describe 'with an object responding to :property' do
-    let(:described_class) do
-      super().tap do |klass|
-        klass.send :attr_reader, property
-      end # tap
+        attr_writer :public_writer
+
+        def inspect
+          '#<ClassWithProperties>'
+        end # method inspect
+
+        private
+
+        attr_accessor :private_property
+
+        attr_reader :private_reader
+
+        attr_writer :private_writer
+      end # class
+    RUBY
+
+  describe '"should have reader"' do
+    let(:failure_message) do
+      "expected #<ClassWithProperties> to respond to #{reader_name}"
     end # let
 
-    describe 'should have reader' do
-      include_examples 'has reader', property
+    include_examples 'should alias shared example group',
+      'has reader',
+      'should have reader'
 
-      include_examples 'should have reader', property
+    describe 'with the name of an undefined method' do
+      let(:reader_name) { ':undefined_reader' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{reader_name}"
+      end # let
 
-      describe 'with a literal value' do
-        include_examples 'should have reader', property, value
+      include_context 'with a spec file with examples',
+        "include_examples 'should have reader', :undefined_reader"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a private reader' do
+      let(:reader_name) { ':private_reader' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{reader_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have reader', :private_reader"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public reader' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have reader', :public_reader"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with :allow_private => true' do
+      describe 'with the name of an undefined method' do
+        let(:reader_name) { ':undefined_reader' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{reader_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have reader', :undefined_reader" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
 
-      describe 'with a proc value' do
-        include_examples 'should have reader', property, ->() { be_a(Integer) }
+      describe 'with the name of a private reader' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have reader', :private_reader" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
 
-      describe 'with a proc that takes an argument' do
-        include_examples 'should have reader', property, ->(value) { value > 0 }
+      describe 'with the name of a public reader' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have reader', :public_reader" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
     end # describe
 
-    describe 'should not have writer' do
-      include_examples 'does not have writer', property
+    describe 'with a non-matching value expectation' do
+      let(:failure_message) { super() + ' and return 42' }
 
-      include_examples 'should not have writer', property
+      describe 'with the name of an undefined method' do
+        let(:reader_name) { ':undefined_reader' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{reader_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have reader', :undefined_reader, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a private reader' do
+        let(:reader_name) { ':private_reader' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{reader_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have reader', :private_reader, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public reader' do
+        let(:reader_name) { ':public_reader' }
+        let(:failure_message) do
+          super() + ', but returned nil'
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have reader', :public_reader, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with :allow_private => true' do
+        describe 'with the name of an undefined method' do
+          let(:reader_name) { ':undefined_reader' }
+          let(:failure_message) do
+            super() + ", but did not respond to #{reader_name}"
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have reader', :undefined_reader, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+
+        describe 'with the name of a private reader' do
+          let(:reader_name) { ':private_reader' }
+          let(:failure_message) do
+            super() + ', but returned nil'
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have reader', :private_reader, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+
+        describe 'with the name of a public reader' do
+          let(:reader_name) { ':public_reader' }
+          let(:failure_message) do
+            super() + ', but returned nil'
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have reader', :public_reader, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+      end # describe
+    end # describe
+
+    describe 'with a matching value expectation' do
+      describe 'with the name of a public reader' do
+        include_context 'with a spec file with examples',
+          "before(:example) { instance.public_property = 42 }" \
+          "\n\ninclude_examples 'should have reader', :public_property, 42"
+
+        include_examples 'should pass with 1 example and 0 failures'
+      end # describe
+
+      describe 'with :allow_private => true' do
+        describe 'with the name of a private reader' do
+          include_context 'with a spec file with examples',
+            "before(:example) { instance.send :private_property=, 42 }" \
+            "\n\ninclude_examples 'should have reader', :private_property, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should pass with 1 example and 0 failures'
+        end # describe
+      end # describe
     end # describe
   end # describe
 
-  describe 'with an object responding to :property=' do
-    let(:described_class) do
-      super().tap do |klass|
-        klass.send :attr_writer, property
-      end # tap
+  describe '"should not have reader"' do
+    let(:failure_message) do
+      "expected #<ClassWithProperties> not to respond to #{reader_name}"
     end # let
 
-    describe 'should not have reader' do
-      include_examples 'does not have reader', property
+    include_examples 'should alias shared example group',
+      'does not have reader',
+      'should not have reader'
 
-      include_examples 'should not have reader', property
+    describe 'with the name of an undefined method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have reader', :undefined_reader"
+
+      include_examples 'should pass with 1 example and 0 failures'
     end # describe
 
-    describe 'should have writer' do
-      include_examples 'has writer', property
+    describe 'with the name of a private reader' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have reader', :private_reader"
 
-      include_examples 'should have writer', property
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a public reader' do
+      let(:reader_name) { ':public_reader' }
+      let(:failure_message) do
+        super() + ", but responded to #{reader_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have reader', :public_reader"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with :allow_private => true' do
+      describe 'with the name of an undefined method' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should not have reader', :undefined_reader" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
+      end # describe
+
+      describe 'with the name of a private reader' do
+        let(:reader_name) { ':private_reader' }
+        let(:failure_message) do
+          super() + ", but responded to #{reader_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should not have reader', :private_reader" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public reader' do
+        let(:reader_name) { ':public_reader' }
+        let(:failure_message) do
+          super() + ", but responded to #{reader_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should not have reader', :public_reader" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
     end # describe
   end # describe
 
-  describe 'with an object responding to :property and :property=' do
-    let(:described_class) do
-      super().tap do |klass|
-        klass.send :attr_accessor, property
-      end # tap
+  describe '"should have writer"' do
+    let(:failure_message) do
+      "expected #<ClassWithProperties> to respond to #{writer_name}"
     end # let
 
-    describe 'should have reader' do
-      let(:the_answer) { 42 }
+    include_examples 'should alias shared example group',
+      'has writer',
+      'should have writer'
 
-      include_examples 'has reader', property
+    describe 'with the name of an undefined method' do
+      let(:writer_name) { ':undefined_writer=' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{writer_name}"
+      end # let
 
-      include_examples 'should have reader', property
+      include_context 'with a spec file with examples',
+        "include_examples 'should have writer', :undefined_writer"
 
-      describe 'with a literal value' do
-        include_examples 'should have reader', property, value
-      end # describe
-
-      describe 'with a proc value' do
-        include_examples 'should have reader', property, ->() { be_a(Integer) }
-      end # describe
-
-      describe 'with a proc that takes an argument' do
-        include_examples 'should have reader', property, ->(value) { value == the_answer }
-      end # describe
+      include_examples 'should fail with 1 example and 1 failure'
     end # describe
 
-    describe 'should have writer' do
-      include_examples 'has writer', property
+    describe 'with the name of an undefined method' do
+      let(:writer_name) { ':undefined_writer=' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{writer_name}"
+      end # let
 
-      include_examples 'should have writer', property
+      include_context 'with a spec file with examples',
+        "include_examples 'should have writer', :undefined_writer="
+
+      include_examples 'should fail with 1 example and 1 failure'
     end # describe
 
-    describe 'should have property' do
-      include_examples 'has property', property
+    describe 'with the name of a private writer' do
+      let(:writer_name) { ':private_writer=' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{writer_name}"
+      end # let
 
-      include_examples 'should have property', property
+      include_context 'with a spec file with examples',
+        "include_examples 'should have writer', :private_writer"
 
-      describe 'with a literal value' do
-        include_examples 'should have property', property, value
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a private writer' do
+      let(:writer_name) { ':private_writer=' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have writer', :private_writer="
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public writer' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have writer', :public_writer"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a public writer' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have writer', :public_writer="
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with :allow_private => true' do
+      describe 'with the name of an undefined method' do
+        let(:writer_name) { ':undefined_writer=' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{writer_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have writer', :undefined_writer=" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
 
-      describe 'with a proc value' do
-        include_examples 'should have property', property, ->() { be_a(Integer) }
+      describe 'with the name of a public writer' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have writer', :private_writer=" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
 
-      describe 'with a proc that takes an argument' do
-        include_examples 'should have property', property, ->(value) { value > 0 }
+      describe 'with the name of a public writer' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have writer', :public_writer="
+
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
     end # describe
   end # describe
 
-  describe 'with an object with private #property and #property= methods' do
-    let(:described_class) do
-      super().tap do |klass|
-        klass.send :attr_accessor, property
-        klass.send :private, property, :"#{property}="
-      end # tap
+  describe '"should not have writer"' do
+    let(:failure_message) do
+      "expected #<ClassWithProperties> not to respond to #{writer_name}"
     end # let
 
-    describe 'should not have reader' do
-      include_examples 'does not have reader', property
+    include_examples 'should alias shared example group',
+      'does not have writer',
+      'should not have writer'
 
-      include_examples 'should not have reader', property
+    describe 'with the name of an undefined method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have writer', :undefined_writer"
+
+      include_examples 'should pass with 1 example and 0 failures'
     end # describe
 
-    describe 'should have private reader' do
-      let(:the_answer) { 42 }
+    describe 'with the name of an undefined method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have writer', :undefined_writer="
 
-      include_examples 'should have reader', property, :allow_private => true
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
 
-      describe 'with a literal value' do
-        include_examples 'should have reader', property, value, :allow_private => true
+    describe 'with the name of a private writer' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have writer', :private_writer"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a private writer' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have writer', :private_writer="
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a public writer' do
+      let(:writer_name) { ':public_writer=' }
+      let(:failure_message) do
+        super() + ", but responded to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have writer', :public_writer"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public writer' do
+      let(:writer_name) { ':public_writer=' }
+      let(:failure_message) do
+        super() + ", but responded to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have writer', :public_writer="
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with :allow_private => true' do
+      describe 'with the name of an undefined method' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should not have writer', :undefined_writer=" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
 
-      describe 'with a proc value' do
-        include_examples 'should have reader', property, ->() { be_a(Integer) }, :allow_private => true
+      describe 'with the name of a private writer' do
+        let(:writer_name) { ':private_writer=' }
+        let(:failure_message) do
+          super() + ", but responded to #{writer_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should not have writer', :private_writer=" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
       end # describe
 
-      describe 'with a proc that takes an argument' do
-        include_examples 'should have reader', property, ->(value) { value == the_answer }, :allow_private => true
+      describe 'with the name of a public writer' do
+        let(:writer_name) { ':public_writer=' }
+        let(:failure_message) do
+          super() + ", but responded to #{writer_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should not have writer', :public_writer=" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+    end # describe
+  end # describe
+
+  describe '"should have property"' do
+    let(:failure_message) do
+      "expected #<ClassWithProperties> to respond to #{property_name} and " \
+      "#{property_name}="
+    end # let
+
+    include_examples 'should alias shared example group',
+      'has property',
+      'should have property'
+
+    describe 'with the name of an undefined property' do
+      let(:property_name) { ':undefined_property' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{property_name} or " \
+                  "#{property_name}="
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have property', :undefined_property"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public reader' do
+      let(:property_name) { ':public_reader' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{property_name}="
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have property', :public_reader"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public writer' do
+      let(:property_name) { ':public_writer' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{property_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have property', :public_writer"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a property with a private reader' do
+      let(:property_name) { ':property_with_private_reader' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{property_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have property', :property_with_private_reader"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a property with a private writer' do
+      let(:property_name) { ':property_with_private_writer' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{property_name}="
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have property', :property_with_private_writer"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a private property' do
+      let(:property_name) { ':private_property' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{property_name} or " \
+                  "#{property_name}="
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have property', :private_property"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public property' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have property', :public_property"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with :allow_private => true' do
+      describe 'with the name of an undefined property' do
+        let(:property_name) { ':undefined_property' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name} or " \
+                    "#{property_name}="
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :undefined_property" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public reader' do
+        let(:property_name) { ':public_reader' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name}="
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :public_reader" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public writer' do
+        let(:property_name) { ':public_writer' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :public_writer" \
+          ", :allow_private => true"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a property with a private reader' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :property_with_private_reader" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
+      end # describe
+
+      describe 'with the name of a property with a private writer' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :property_with_private_writer" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
+      end # describe
+
+      describe 'with the name of a private property' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :private_property" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
+      end # describe
+
+      describe 'with the name of a public property' do
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :public_property" \
+          ", :allow_private => true"
+
+        include_examples 'should pass with 1 example and 0 failures'
       end # describe
     end # describe
 
-    describe 'should not have writer' do
-      include_examples 'does not have writer', property
+    describe 'with a non-matching value expectation' do
+      let(:failure_message) do
+        super() + ' and return 42'
+      end # let
 
-      include_examples 'should not have writer', property
+      describe 'with the name of an undefined property' do
+        let(:property_name) { ':undefined_property' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name} or " \
+                    "#{property_name}="
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :undefined_property, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public reader' do
+        let(:property_name) { ':public_reader' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name}="
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :public_reader, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public writer' do
+        let(:property_name) { ':public_writer' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :public_writer, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a property with a private reader' do
+        let(:property_name) { ':property_with_private_reader' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :property_with_private_reader, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a property with a private writer' do
+        let(:property_name) { ':property_with_private_writer' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name}="
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :property_with_private_writer, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a private property' do
+        let(:property_name) { ':private_property' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{property_name} or " \
+                    "#{property_name}="
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :private_property, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public property' do
+        let(:property_name) { ':public_property' }
+        let(:failure_message) do
+          super() + ', but returned nil'
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have property', :public_property, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with :allow_private => true' do
+        describe 'with the name of an undefined property' do
+          let(:property_name) { ':undefined_property' }
+          let(:failure_message) do
+            super() + ", but did not respond to #{property_name} or " \
+                      "#{property_name}="
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have property', :undefined_property, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+
+        describe 'with the name of a public reader' do
+          let(:property_name) { ':public_reader' }
+          let(:failure_message) do
+            super() + ", but did not respond to #{property_name}="
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have property', :public_reader, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+
+        describe 'with the name of a public writer' do
+          let(:property_name) { ':public_writer' }
+          let(:failure_message) do
+            super() + ", but did not respond to #{property_name}"
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have property', :public_writer, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+
+        describe 'with the name of a property with a private reader' do
+          let(:property_name) { ':property_with_private_reader' }
+          let(:failure_message) do
+            super() + ', but returned nil'
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have property', :property_with_private_reader, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+
+        describe 'with the name of a property with a private writer' do
+          let(:property_name) { ':property_with_private_writer' }
+          let(:failure_message) do
+            super() + ', but returned nil'
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have property', :property_with_private_writer, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+
+        describe 'with the name of a private property' do
+          let(:property_name) { ':private_property' }
+          let(:failure_message) do
+            super() + ', but returned nil'
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have property', :private_property, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+
+        describe 'with the name of a public property' do
+          let(:property_name) { ':public_property' }
+          let(:failure_message) do
+            super() + ', but returned nil'
+          end # let
+
+          include_context 'with a spec file with examples',
+            "include_examples 'should have property', :public_property, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should fail with 1 example and 1 failure'
+        end # describe
+      end # describe
     end # describe
 
-    describe 'should have private writer' do
-      include_examples 'should have writer', property, :allow_private => true
-    end # describe
+    describe 'with a matching value expectation' do
+      describe 'with the name of a public property' do
+        include_context 'with a spec file with examples',
+          "before(:example) { instance.public_property = 42 }" \
+          "\n\ninclude_examples 'should have property', :public_property, 42"
 
-    describe 'should have private property' do
-      include_examples 'has property', property, :allow_private => true
+        include_examples 'should pass with 1 example and 0 failures'
+      end # describe
 
-      include_examples 'should have property', property, :allow_private => true
+      describe 'with :allow_private => true' do
+        describe 'with the name of a private property' do
+          include_context 'with a spec file with examples',
+            "before(:example) { instance.send :private_property=, 42 }" \
+            "\n\ninclude_examples 'should have property', :private_property, 42" \
+            ", :allow_private => true"
+
+          include_examples 'should pass with 1 example and 0 failures'
+        end # describe
+      end # describe
     end # describe
   end # describe
 end # describe

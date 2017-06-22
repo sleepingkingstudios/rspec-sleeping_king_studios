@@ -48,6 +48,8 @@ module RSpec::SleepingKingStudios::Concerns
     #
     # Hook to merge defined example groups when included in another module.
     def included other
+      super
+
       merge_shared_example_groups other
     end # method included
 
