@@ -38,7 +38,7 @@ module Spec::Support::SharedExamples
       private
 
       def format_description desc
-        desc = desc.sub(/\A["']/, '').sub(/["']\z/, '')
+        desc = desc.gsub(/[^A-Za-z0-9\-_\s]/, '').gsub(/\s{2,}/, ' ')
 
         tools.string.underscore(desc).gsub(/\s+|-/, '_')
       end # class method format_description
