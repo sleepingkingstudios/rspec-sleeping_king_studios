@@ -15,9 +15,9 @@ module RSpec
       # Patch version.
       PATCH = 0
       # Prerelease version.
-      PRERELEASE = :alpha
+      PRERELEASE = :rc
       # Build metadata.
-      BUILD = nil
+      BUILD = 0
 
       # Generates the gem version string from the Version constants.
       #
