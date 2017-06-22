@@ -22,12 +22,12 @@ Gem::Specification.new do |gem|
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
 
   gem.add_runtime_dependency 'rspec',                       '~> 3.3'
-  gem.add_runtime_dependency 'sleeping_king_studios-tools', '>= 0.3.0'
+  gem.add_runtime_dependency 'sleeping_king_studios-tools', '~> 0.7'
 
   gem.add_development_dependency 'appraisal',    '~> 1.0', '>= 1.0.3'
   gem.add_development_dependency 'byebug',       '~> 8.2', '>= 8.2.2'
   gem.add_development_dependency 'rake',         '~> 12.0'
-  gem.add_development_dependency 'thor'
+  gem.add_development_dependency 'thor',         '~> 0.19', '>= 0.19.4'
   gem.add_development_dependency 'sleeping_king_studios-tasks', '>= 0.1.0.rc.1'
 
   gem.add_development_dependency 'aruba',        '~> 0.9'
