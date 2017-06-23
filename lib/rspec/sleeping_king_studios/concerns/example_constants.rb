@@ -63,14 +63,16 @@ module RSpec::SleepingKingStudios::Concerns
         klass.singleton_class.send(:alias_method, :inspect, :name)
         klass.singleton_class.send(:alias_method, :to_s,    :name)
 
-        klass.instance_exec(klass, &block) if block_given?
+        instance_exec(klass, &block) if block_given?
 
         klass
       end # example_constant
     end # method example_class
 
     def example_constant qualified_name, constant_value = DEFAULT_VALUE, force: false, &block
-      around(:example) do |example|
+      around(:example) do |wrapped_example|
+        example = wrapped_example.example
+
         resolved_value =
           if constant_value == DEFAULT_VALUE
             block ? example.instance_exec(&block) : nil
@@ -85,7 +87,7 @@ module RSpec::SleepingKingStudios::Concerns
           ExampleConstants.guard_existing_constant!(namespace, constant_name) unless force
 
           ExampleConstants.assign_constant(namespace, constant_name, resolved_value) do
-            example.call
+            wrapped_example.call
           end # assign_constant
         end # resolve_namespace
       end # before example

@@ -18,11 +18,44 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
   let(:described_class) do
     Class.new(Spec::Support::MockExampleGroup) do
       extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
+
+      def helper_method
+        :helper
+      end # method helper_method
     end # class
   end # let
 
   describe '::example_class' do
-    let(:class_name) { 'AnswerClass' }
+    shared_examples 'should define the class' do |proc = nil|
+      it 'should define the class' do
+        if class_proc
+          described_class.example_class class_name, **class_options, &class_proc
+        else
+          described_class.example_class class_name, **class_options
+        end # if-else
+
+        expect { Object.const_get class_name }.to raise_error NameError
+
+        expect(described_class.example).to receive(:call) do
+          klass = Object.const_get class_name
+
+          expect(klass).to be_a Class
+          expect(klass.name).to be == class_name
+          expect(klass.name).to be == class_name
+          expect(klass.to_s).to be == class_name
+
+          instance_exec(klass, &proc) unless proc.nil?
+        end # receive
+
+        described_class.run_example
+
+        expect { Object.const_get class_name }.to raise_error NameError
+      end # it
+    end # shared_examples
+
+    let(:class_name)    { 'AnswerClass' }
+    let(:class_options) { {} }
+    let(:class_proc)    { nil }
 
     it 'should define the class method' do
       expect(described_class).
@@ -32,84 +65,47 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
     end # it
 
     describe 'with a class name' do
-      it 'should define the class' do
-        expect(described_class).
-          to receive(:example_constant) do |constant_name, &block|
-            expect(constant_name).to be == class_name
-
-            constant_value = block.call
-
-            expect(constant_value).to be_a Class
-            expect(constant_value.name).to be == class_name
-            expect(constant_value.name).to be == class_name
-            expect(constant_value.to_s).to be == class_name
-          end # receive
-
-        described_class.example_class class_name
-      end # it
+      include_examples 'should define the class'
     end # describe
 
     describe 'with a class name and a base class' do
-      let(:base_class) { Spec::Constants::ExampleClass }
+      let(:base_class)    { Spec::Constants::ExampleClass }
+      let(:class_options) { { :base_class => base_class } }
 
-      it 'should define the class' do
-        expect(described_class).
-          to receive(:example_constant) do |constant_name, &block|
-            expect(constant_name).to be == class_name
-
-            constant_value = block.call
-
-            expect(constant_value).to be_a Class
-            expect(constant_value.inspect).to be == class_name
-            expect(constant_value.name).to be == class_name
-            expect(constant_value.to_s).to be == class_name
-            expect(constant_value.superclass).to be base_class
-          end # receive
-
-        described_class.example_class class_name, :base_class => base_class
-      end # it
+      include_examples 'should define the class',
+        ->(klass) { expect(klass.superclass).to be base_class }
     end # describe
 
     describe 'with a class name and a base class name' do
-      let(:base_class) { Spec::Constants::ExampleClass }
+      let(:base_class)    { Spec::Constants::ExampleClass }
+      let(:class_options) { { :base_class => base_class.name } }
 
-      it 'should define the class' do
-        expect(described_class).
-          to receive(:example_constant) do |constant_name, &block|
-            expect(constant_name).to be == class_name
-
-            constant_value = block.call
-
-            expect(constant_value).to be_a Class
-            expect(constant_value.inspect).to be == class_name
-            expect(constant_value.name).to be == class_name
-            expect(constant_value.to_s).to be == class_name
-            expect(constant_value.superclass).to be base_class
-          end # receive
-
-        described_class.example_class class_name, :base_class => base_class.name
-      end # it
+      include_examples 'should define the class',
+        ->(klass) { expect(klass.superclass).to be base_class }
     end # describe
 
     describe 'with a class name and a block' do
-      it 'should yield the class' do
-        expect(described_class).
-          to receive(:example_constant) do |constant_name, &block|
-            expect(constant_name).to be == class_name
-
-            constant_value = block.call
-
-            expect(constant_value).to be_a Class
-            expect(constant_value.inspect).to be == class_name
-            expect(constant_value.name).to be == class_name
-            expect(constant_value.to_s).to be == class_name
-            expect(constant_value.new.value).to be 42
-          end # receive
-
-        described_class.example_class(class_name) do |klass|
+      let(:class_proc) do
+        lambda do |klass|
           klass.send(:define_method, :value) { 42 }
-        end # described_class
-      end # it
+        end # lambda
+      end # let
+
+      include_examples 'should define the class',
+        ->(klass) { expect(klass.new.value).to be 42 }
+
+      describe 'when the block references the example context' do
+        let(:class_proc) do
+          lambda do |klass|
+            helper_value = helper_method
+
+            klass.send(:define_method, :helper_value) { helper_value }
+          end # lambda
+        end # let
+
+        include_examples 'should define the class',
+          ->(klass) { expect(klass.new.helper_value).to be :helper }
+      end # describe
     end # describe
   end # describe
 
