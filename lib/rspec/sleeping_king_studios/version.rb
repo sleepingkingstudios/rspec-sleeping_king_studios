@@ -17,7 +17,7 @@ module RSpec
       # Prerelease version.
       PRERELEASE = :rc
       # Build metadata.
-      BUILD = 0
+      BUILD = 1
 
       # Generates the gem version string from the Version constants.
       #
