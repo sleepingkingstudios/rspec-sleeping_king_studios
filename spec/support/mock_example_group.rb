@@ -39,6 +39,11 @@ module Spec
       def example
         self
       end # method example
+
+      def inspect
+        '#<MockExampleGroup>'
+      end # method inspect
+      alias_method :to_s, :inspect
     end # class
   end # module
 end # module

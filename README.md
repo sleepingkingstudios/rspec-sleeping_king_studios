@@ -108,15 +108,23 @@ RSpec::SleepingKingStudios defines a few concerns that can be included in or ext
       example_constant 'THE_ANSWER', 42
 
       example_class 'Spec::Examples::Question' do |klass|
-        klass.send :define_method, :answer, THE_ANSWER
+        value = help_string
+
+        klass.send(:define_method, :answer) { THE_ANSWER }
+        klass.send(:define_method, :help)   { value }
       end # example_class
 
       let(:described_class) { Spec::Examples::Question }
       let(:instance)        { described_class.new }
+      let(:help_string) do
+        "It looks like you're defining a class. Would you like help?"
+      end # let
 
       it { expect(described_class.name).to be == 'Spec::Examples::Question' }
 
       it { expect(instance.answer).to be THE_ANSWER }
+
+      it { expect(instance.help).to be == help_string }
     end # describe
 
 Provides a programmatic way to define temporary constants and classes scoped to the current example.
@@ -137,7 +145,7 @@ Sets the value of the named constant to the specified value within the context o
 
 `option base_class [Class]` Defaults to Object. The base class of the generated class.
 
-`yield klass [Class]` If a block is given, it is executed in the context of the generated class and yielded the class.
+`yield klass [Class]` If a block is given, it is executed in the context of the example (so previously-set constants will be available, as well as example features such as the values of `let` blocks) and yielded the class.
 
 Creates a new class with the specified base class and sets the value of the named constant to the created class within the context of the current example.
 
