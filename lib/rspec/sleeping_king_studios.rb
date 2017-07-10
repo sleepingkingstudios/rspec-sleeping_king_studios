@@ -4,7 +4,12 @@ require 'rspec/core'
 
 module RSpec
   # Hic Iacet Arthurus, Rex Quondam, Rexque Futurus.
-  module SleepingKingStudios; end
+  module SleepingKingStudios
+    def self.version
+      @version ||= RSpec::SleepingKingStudios::Version.to_gem_version
+    end # class method version
+  end # end module
 end # module
 
 require 'rspec/sleeping_king_studios/configuration'
+require 'rspec/sleeping_king_studios/version'
