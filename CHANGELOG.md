@@ -2,6 +2,10 @@
 
 ## 2.3.0
 
+Added RSpec::SleepingKingStudios#version helper.
+
+Dropped support for RSpec 3.0 to 3.2.
+
 ### Concerns
 
 Added ExampleConstants concern to define named, example-scoped constants and classes.
