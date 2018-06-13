@@ -15,12 +15,18 @@
 ## Future Tasks
 
 - Resolve Aruba deprecation warnings.
+- When defining an example class with a block, execute the block in the context of the class definition.
 
 ### Bug Fixes
 
 - false negative on #alias_method?
   - need reproduction steps!
   - compare via Method#source_location equality and Method#original_name is expected?
+- When using a shared example from another context, ensure that the rspec-sleeping_king_studios definitions are NOT excluded from the backtrace on a failure.
+- when using the 'should have predicate' shared examples
+  - and the predicate name includes a question mark
+  - the output should not display two question marks
+  - e.g. `include_examples 'should have predicate', :visible?` -> `should have predicate :visible??`
 
 ### Features - Functionality
 

@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "activemodel", "5.1.1"
+gem "activemodel", "5.2.0"
 gem "rspec", :git => "https://github.com/rspec/rspec.git"
 gem "rspec-core", :git => "https://github.com/rspec/rspec-core.git"
 gem "rspec-expectations", :git => "https://github.com/rspec/rspec-expectations.git"
