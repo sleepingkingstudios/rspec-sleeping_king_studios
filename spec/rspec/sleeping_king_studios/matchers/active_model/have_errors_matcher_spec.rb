@@ -89,7 +89,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatc
       let(:failure_message) do
         "expected #{actual.inspect} to have errors"
       end # let
-      let(:actual) { FactoryGirl.build :active_model, :foo => '10010011101', :bar => 'bar' }
+      let(:attributes) { { foo: '10010011101', bar: 'bar' } }
+      let(:actual)     { Spec::Models::ExampleModel.new(attributes) }
 
       include_examples 'should fail with a positive expectation'
 
@@ -97,7 +98,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatc
     end # describe
 
     describe 'with an invalid record' do
-      let(:actual) { FactoryGirl.build :active_model }
+      let(:actual) { Spec::Models::ExampleModel.new }
       let(:errors) { actual.tap(&:valid?).errors.messages }
       let(:received_errors_message) do
         "\n  received errors:" + errors.map do |attr, ary|
