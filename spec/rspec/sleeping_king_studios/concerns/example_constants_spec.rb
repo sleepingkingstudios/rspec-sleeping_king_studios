@@ -161,6 +161,22 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
         end # it
 
         describe 'with :force => true' do
+          let(:captured_warnings) { StringIO.new }
+          let(:expected_warning) do
+            'warning: already initialized constant THE_ANSWER'
+          end
+
+          around(:example) do |example|
+            begin
+              stderr  = $stderr
+              $stderr = captured_warnings
+
+              example.call
+            ensure
+              $stderr = stderr
+            end
+          end
+
           it 'should override the constant' do
             described_class.example_constant constant_name, constant_value, :force => true
 
@@ -173,6 +189,8 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
             described_class.run_example
 
             expect(Object.const_get constant_name).to be == prior_value
+
+            expect(captured_warnings.string).to include expected_warning
           end # it
         end # describe
       end # context
