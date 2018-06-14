@@ -7,6 +7,7 @@ rvm:
 gemfile:
 - gemfiles/activemodel_3.gemfile
 - gemfiles/activemodel_4.gemfile
+- gemfiles/activemodel_5_0.gemfile
 - gemfiles/activemodel_5_1.gemfile
 - gemfiles/activemodel_5_2.gemfile
 - gemfiles/rspec_3_4.gemfile
