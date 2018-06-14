@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.0
+
+Dropped support for RSpec 3.3.
+
 ## 2.3.0
 
 Added RSpec::SleepingKingStudios#version helper.

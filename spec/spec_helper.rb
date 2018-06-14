@@ -1,10 +1,11 @@
 # spec/spec_helper.rb
 
 require 'rspec'
-require 'factory_girl'
 require 'byebug'
 
 require 'rspec/sleeping_king_studios'
+
+module Spec; end
 
 #=# Require Factories, Custom Matchers, &c #=#
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |f| require f }
