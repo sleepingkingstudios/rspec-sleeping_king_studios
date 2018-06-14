@@ -30,8 +30,8 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'thor',         '~> 0.20', '>= 0.19.4'
   gem.add_development_dependency 'sleeping_king_studios-tasks', '>= 0.1.0'
 
-  gem.add_development_dependency 'aruba',        '~> 0.9'
-  gem.add_development_dependency 'cucumber',     '~> 1.3', '>= 1.3.19'
+  gem.add_development_dependency 'aruba',        '~> 0.14'
+  gem.add_development_dependency 'cucumber',     '~> 3.1'
 
   gem.add_development_dependency 'activemodel',  '>= 3.0', '< 6.0'
 end # gemspec
