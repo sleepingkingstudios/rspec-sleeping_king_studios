@@ -11,16 +11,15 @@ module RSpec::SleepingKingStudios::Examples
       shared_examples 'should have private reader' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
         it "should have private reader :#{property}" do
           object  = defined?(instance) ? instance : subject
-          matcher = have_reader(property, :allow_private => true)
 
           expect(object).not_to respond_to(property)
 
           if expected_value == UNDEFINED_VALUE_EXPECTATION
-            expect(object).to matcher
+            expect(object).to have_reader(property, allow_private: true)
           else
             expected_value = format_expected_value(expected_value)
 
-            expect(object).to matcher.with_value(expected_value)
+            expect(object).to have_reader(property, allow_private: true).with_value(expected_value)
           end # if-else
         end # it
       end # shared_examples
@@ -50,11 +49,11 @@ module RSpec::SleepingKingStudios::Examples
           expect(object).not_to respond_to(writer_name)
 
           if expected_value == UNDEFINED_VALUE_EXPECTATION
-            expect(object).to matcher
+            expect(object).to have_property(property, allow_private: true)
           else
             expected_value = format_expected_value(expected_value)
 
-            expect(object).to matcher.with_value(expected_value)
+            expect(object).to have_property(property, allow_private: true).with_value(expected_value)
           end # if-else
         end # it
       end # shared_examples
