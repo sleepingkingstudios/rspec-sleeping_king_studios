@@ -70,11 +70,13 @@ module Spec::Support::SharedExamples
       include_examples 'with a temporary file named', spec_filepath, contents
     end # shared context
 
-    def run_spec_file filename = nil
+    def run_spec_file filename = nil, **options
       filename ||= self.class.spec_filepath
       filename = "#{filename}_spec.rb" unless filename.end_with?('_spec.rb')
 
-      `rspec #{File.join 'tmp', 'spec', filename}`
+      options = options.map { |key, value| " --#{key}=#{value}" }.join
+
+      `rspec #{File.join 'tmp', 'spec', filename}#{options}`
     end # method run_spec_file
 
     def tools

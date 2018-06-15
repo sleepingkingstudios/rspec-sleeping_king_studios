@@ -9,16 +9,18 @@ module RSpec::SleepingKingStudios::Examples
     module Predicates
       extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
-      shared_examples 'should have predicate' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
-        it "should have predicate :#{property}?" do
+      shared_examples 'should have predicate' do |property_name, expected_value = UNDEFINED_VALUE_EXPECTATION|
+        property_name = property_name.to_s.sub(/\?\z/, '')
+
+        it "should have predicate :#{property_name}?" do
           object = defined?(instance) ? instance : subject
 
           if expected_value == UNDEFINED_VALUE_EXPECTATION
-            expect(object).to have_predicate(property)
+            expect(object).to have_predicate(property_name)
           else
             expected_value = format_expected_value(expected_value)
 
-            expect(object).to have_predicate(property).with_value(expected_value)
+            expect(object).to have_predicate(property_name).with_value(expected_value)
           end # if-else
         end # it
       end # shared_examples

@@ -48,7 +48,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HavePredicateMatcher 
   describe '#description' do
     it { expect(instance).to respond_to(:description).with(0).arguments }
 
-    it { expect(instance.description).to be == "have predicate #{property.inspect}" }
+    it { expect(instance.description).to be == "have predicate #{property.inspect}?" }
+
+    context 'when the given property name has a question mark' do
+      let(:property) { :foo? }
+
+      it { expect(instance.description).to be == "have predicate #{property.inspect}" }
+    end
   end # describe
 
   describe '#matches?' do
