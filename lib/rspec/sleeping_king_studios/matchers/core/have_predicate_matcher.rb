@@ -17,7 +17,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     #
     # @return [String] The matcher description.
     def description
-      "have predicate :#{@expected}"
+      "have predicate :#{@expected}?"
     end # method description
 
     # @param [String, Symbol] expected The predicate to check for on the actual

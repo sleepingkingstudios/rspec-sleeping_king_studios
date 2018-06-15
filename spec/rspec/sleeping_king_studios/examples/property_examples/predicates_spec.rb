@@ -70,6 +70,32 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       'has predicate',
       'should have predicate'
 
+    describe 'with the name of a predicate' do
+      let(:example_name) { %r{should have predicate :named_predicate\?$} }
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have predicate', :named_predicate"
+
+      it 'should display the name of the example' do
+        results = run_spec_file(format: :documentation)
+
+        expect(results).to match example_name
+      end
+    end
+
+    describe 'with the name of a predicate with a question mark' do
+      let(:example_name) { %r{should have predicate :named_predicate\?$} }
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have predicate', :named_predicate?"
+
+      it 'should display the name of the example' do
+        results = run_spec_file(format: :documentation)
+
+        expect(results).to match example_name
+      end
+    end
+
     describe 'with the name of an undefined predicate' do
       let(:predicate_name) { ':undefined_predicate?' }
       let(:failure_message) do
@@ -82,7 +108,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       include_examples 'should fail with 1 example and 1 failure'
     end # describe
 
-    describe 'with the name of an undefined predicate' do
+    describe 'with the name of an undefined predicate with a question mark' do
       let(:predicate_name) { ':undefined_predicate?' }
       let(:failure_message) do
         super() + ", but did not respond to #{predicate_name}"
@@ -106,7 +132,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       include_examples 'should fail with 1 example and 1 failure'
     end # describe
 
-    describe 'with the name of a private predicate' do
+    describe 'with the name of a private predicate with a question mark' do
       let(:predicate_name) { ':private_predicate?' }
       let(:failure_message) do
         super() + ", but did not respond to #{predicate_name}"
@@ -125,12 +151,12 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       include_examples 'should pass with 1 example and 0 failures'
     end # describe
 
-      describe 'with the name of a public predicate' do
-        include_context 'with a spec file with examples',
-          "include_examples 'should have predicate', :public_predicate?"
+    describe 'with the name of a public predicate with a question mark' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have predicate', :public_predicate?"
 
-        include_examples 'should pass with 1 example and 0 failures'
-      end # describe
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
 
     describe 'with a non-matching value expectation' do
       let(:failure_message) { super() + ' and return true' }
