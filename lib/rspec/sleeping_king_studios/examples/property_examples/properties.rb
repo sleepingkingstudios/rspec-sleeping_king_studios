@@ -14,14 +14,21 @@ module RSpec::SleepingKingStudios::Examples
       shared_examples 'should have reader' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION, allow_private: false|
         it "should have reader :#{property}" do
           object  = defined?(instance) ? instance : subject
-          matcher = have_reader(property, :allow_private => allow_private)
 
           if expected_value == UNDEFINED_VALUE_EXPECTATION
-            expect(object).to matcher
+            if allow_private
+              expect(object).to have_reader(property, allow_private: true)
+            else
+              expect(object).to have_reader(property)
+            end
           else
             expected_value = format_expected_value(expected_value)
 
-            expect(object).to matcher.with_value(expected_value)
+            if allow_private
+              expect(object).to have_reader(property, allow_private: true).with_value(expected_value)
+            else
+              expect(object).to have_reader(property).with_value(expected_value)
+            end
           end # if-else
         end # it
       end # shared_examples
@@ -64,11 +71,19 @@ module RSpec::SleepingKingStudios::Examples
           matcher = have_property(property, :allow_private => allow_private)
 
           if expected_value == UNDEFINED_VALUE_EXPECTATION
-            expect(object).to matcher
+            if allow_private
+              expect(object).to have_property(property, allow_private: true)
+            else
+              expect(object).to have_property(property)
+            end
           else
             expected_value = format_expected_value(expected_value)
 
-            expect(object).to matcher.with_value(expected_value)
+            if allow_private
+              expect(object).to have_property(property, allow_private: true).with_value(expected_value)
+            else
+              expect(object).to have_property(property).with_value(expected_value)
+            end
           end # if-else
         end # it
       end # shared_examples

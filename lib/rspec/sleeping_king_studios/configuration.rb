@@ -8,10 +8,10 @@ module RSpec::SleepingKingStudios
     # Configuration options for RSpec::SleepingKingStudios::Examples.
     class Examples
       # Permitted options for :handle_missing_failure_message_with.
-      MISSING_FAILURE_MESSAGE_HANDLERS = %w(ignore pending exception).map(&:intern)
+      MISSING_FAILURE_MESSAGE_HANDLERS = %i[ignore pending exception].freeze
 
       # Options for matching failure messages to strings.
-      STRING_FAILURE_MESSAGE_MATCH_OPTIONS = %w(exact substring).map(&:intern)
+      STRING_FAILURE_MESSAGE_MATCH_OPTIONS = %i[exact substring].freeze
 
       # Gets the handler for missing failure messages when using the matcher
       # examples, and sets to :pending if unset.
@@ -30,6 +30,8 @@ module RSpec::SleepingKingStudios
       # @raise ArgumentError If the handler is not one of the recognized
       #   values.
       def handle_missing_failure_message_with= value
+        value = value.to_s.intern
+
         unless MISSING_FAILURE_MESSAGE_HANDLERS.include?(value)
           message = "unrecognized handler value -- must be in #{MISSING_FAILURE_MESSAGE_HANDLERS.join ', '}"
 
@@ -55,6 +57,7 @@ module RSpec::SleepingKingStudios
       # @raise ArgumentError If the handler is not one of the recognized
       #   values.
       def match_string_failure_message_as= value
+        value = value.to_s.intern
         value = :substring if value == :partial
 
         unless STRING_FAILURE_MESSAGE_MATCH_OPTIONS.include?(value)
@@ -120,21 +123,21 @@ module RSpec::SleepingKingStudios
     # Get or set the configuration options for
     # RSpec::SleepingKingStudios::Examples.
     def examples &block
-      (@examples ||= RSpec::SleepingKingStudios::Configuration::Examples.new).tap do |config|
-        if block_given?
-          config.instance_eval &block
-        end # if
-      end # tap
+      @examples ||= RSpec::SleepingKingStudios::Configuration::Examples.new
+
+      @examples.instance_eval(&block) if block_given?
+
+      @examples
     end # method examples
 
     # Get or set the configuration options for
     # RSpec::SleepingKingStudios::Matchers.
     def matchers &block
-      (@matchers ||= RSpec::SleepingKingStudios::Configuration::Matchers.new).tap do |config|
-        if block_given?
-          config.instance_eval &block
-        end # if
-      end # tap
+      @matchers ||= RSpec::SleepingKingStudios::Configuration::Matchers.new
+
+      @matchers.instance_eval(&block) if block_given?
+
+      @matchers
     end # method matchers
   end # class
 end # module
@@ -142,10 +145,10 @@ end # module
 class RSpec::Core::Configuration
   # Get or set the configuration options for RSpec::SleepingKingStudios.
   def sleeping_king_studios &block
-    (@sleeping_king_studios ||= RSpec::SleepingKingStudios::Configuration.new).tap do |config|
-      if block_given?
-        config.instance_eval &block
-      end # if
-    end # tap
+    @sleeping_king_studios ||= RSpec::SleepingKingStudios::Configuration.new
+
+    @sleeping_king_studios.instance_eval(&block) if block_given?
+
+    @sleeping_king_studios
   end # method sleeping_king_studios
 end # class
