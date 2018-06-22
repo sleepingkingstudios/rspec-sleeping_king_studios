@@ -6,6 +6,12 @@ Dropped support for RSpec 3.3.
 
 Added RSpec::SleepingKingStudios.gem_path helper.
 
+### Concerns
+
+Permit terse syntax for the example_class helper, e.g `example_class :MyClass, BaseClass` instead of `example_class :MyClass, base_class: BaseClass`.
+
+Fixed a bug when using the example_class helper with a base_class that was another temporary class.
+
 ### Examples
 
 Improved failure messages for "has property" examples.

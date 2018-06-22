@@ -35,6 +35,16 @@ module RSpec::SleepingKingStudios::Concerns
       raise NameError, message
     end # class method guard_existing_constant!
 
+    def self.resolve_base_class value
+      value = value.fetch(:base_class, nil) if value.is_a?(Hash)
+
+      return Object if value.nil?
+
+      return Object.const_get(value) if value.is_a?(String)
+
+      value
+    end
+
     def self.resolve_namespace module_names
       last_defined = nil
 
@@ -54,10 +64,11 @@ module RSpec::SleepingKingStudios::Concerns
       end # if
     end # class method resolve_namespace
 
-    def example_class class_name, base_class: Object, &block
+    def example_class class_name, base_class = nil, &block
+      class_name = class_name.to_s if class_name.is_a?(Symbol)
+
       example_constant(class_name) do
-        base_class = Object.const_get(base_class) if base_class.is_a?(String)
-        klass      = Class.new(base_class)
+        klass = Class.new(ExampleConstants.resolve_base_class(base_class))
 
         klass.define_singleton_method(:name) { class_name }
         klass.singleton_class.send(:alias_method, :inspect, :name)
