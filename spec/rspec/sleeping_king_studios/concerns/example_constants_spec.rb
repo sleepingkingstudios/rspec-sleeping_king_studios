@@ -40,9 +40,9 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
           klass = Object.const_get class_name
 
           expect(klass).to be_a Class
-          expect(klass.name).to be == class_name
-          expect(klass.name).to be == class_name
-          expect(klass.to_s).to be == class_name
+          expect(klass.inspect).to be == class_name.to_s
+          expect(klass.name).to be == class_name.to_s
+          expect(klass.to_s).to be == class_name.to_s
 
           instance_exec(klass, &proc) unless proc.nil?
         end # receive
@@ -64,9 +64,15 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
         and_keywords(:base_class)
     end # it
 
-    describe 'with a class name' do
+    describe 'with a class name as a String' do
       include_examples 'should define the class'
-    end # describe
+    end
+
+    describe 'with a class name as a Symbol' do
+      let(:class_name) { :AnswerClass }
+
+      include_examples 'should define the class'
+    end
 
     describe 'with a class name and a base class' do
       let(:base_class)    { Spec::Constants::ExampleClass }
