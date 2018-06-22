@@ -29,9 +29,11 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
     shared_examples 'should define the class' do |proc = nil|
       it 'should define the class' do
         if class_proc
-          described_class.example_class class_name, **class_options, &class_proc
+          described_class.example_class class_name,
+            *class_args,
+            &class_proc
         else
-          described_class.example_class class_name, **class_options
+          described_class.example_class class_name, *class_args
         end # if-else
 
         expect { Object.const_get class_name }.to raise_error NameError
@@ -53,16 +55,15 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
       end # it
     end # shared_examples
 
-    let(:class_name)    { 'AnswerClass' }
-    let(:class_options) { {} }
-    let(:class_proc)    { nil }
+    let(:class_name) { 'AnswerClass' }
+    let(:class_args) { [] }
+    let(:class_proc) { nil }
 
     it 'should define the class method' do
       expect(described_class).
         to respond_to(:example_class).
-        with(1).argument.
-        and_keywords(:base_class)
-    end # it
+        with(1..2).arguments
+    end
 
     describe 'with a class name as a String' do
       include_examples 'should define the class'
@@ -75,20 +76,36 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
     end
 
     describe 'with a class name and a base class' do
-      let(:base_class)    { Spec::Constants::ExampleClass }
-      let(:class_options) { { :base_class => base_class } }
+      let(:base_class) { Spec::Constants::ExampleClass }
+      let(:class_args) { base_class }
 
       include_examples 'should define the class',
         ->(klass) { expect(klass.superclass).to be base_class }
-    end # describe
+    end
 
     describe 'with a class name and a base class name' do
-      let(:base_class)    { Spec::Constants::ExampleClass }
-      let(:class_options) { { :base_class => base_class.name } }
+      let(:base_class) { Spec::Constants::ExampleClass }
+      let(:class_args) { base_class.name }
 
       include_examples 'should define the class',
         ->(klass) { expect(klass.superclass).to be base_class }
-    end # describe
+    end
+
+    describe 'with a class name and base_class: a class' do
+      let(:base_class) { Spec::Constants::ExampleClass }
+      let(:class_args) { [{ base_class: base_class }] }
+
+      include_examples 'should define the class',
+        ->(klass) { expect(klass.superclass).to be base_class }
+    end
+
+    describe 'with a class name and base_class: a class name' do
+      let(:base_class) { Spec::Constants::ExampleClass }
+      let(:class_args) { [{ base_class: base_class.name }] }
+
+      include_examples 'should define the class',
+        ->(klass) { expect(klass.superclass).to be base_class }
+    end
 
     describe 'with a class name and a block' do
       let(:class_proc) do

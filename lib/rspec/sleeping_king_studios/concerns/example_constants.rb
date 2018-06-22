@@ -36,6 +36,8 @@ module RSpec::SleepingKingStudios::Concerns
     end # class method guard_existing_constant!
 
     def self.resolve_base_class value
+      value = value.fetch(:base_class, nil) if value.is_a?(Hash)
+
       return Object if value.nil?
 
       return Object.const_get(value) if value.is_a?(String)
@@ -62,7 +64,7 @@ module RSpec::SleepingKingStudios::Concerns
       end # if
     end # class method resolve_namespace
 
-    def example_class class_name, base_class: Object, &block
+    def example_class class_name, base_class = nil, &block
       class_name = class_name.to_s if class_name.is_a?(Symbol)
 
       example_constant(class_name) do
