@@ -1,10 +1,8 @@
 # Development Notes
 
-## Version 2.3
+## Version 2.4
 
-## Version 2.3.1
-
-### Features - Syntactic Sugar
+### Features
 
 - Alias `have_reader`, etc as `define_reader`.
   - Also alias shared examples.
@@ -14,34 +12,38 @@
 
 ## Future Tasks
 
-- Resolve Aruba deprecation warnings.
-- When defining an example class with a block, execute the block in the context of the class definition.
-
 ### Bug Fixes
 
 - false negative on #alias_method?
   - need reproduction steps!
   - compare via Method#source_location equality and Method#original_name is expected?
-- When using a shared example from another context, ensure that the rspec-sleeping_king_studios definitions are NOT excluded from the backtrace on a failure.
-- when using the 'should have predicate' shared examples
-  - and the predicate name includes a question mark
-  - the output should not display two question marks
-  - e.g. `include_examples 'should have predicate', :visible?` -> `should have predicate :visible??`
+- when using a shared example from another context, ensure that the rspec-sleeping_king_studios definitions are NOT excluded from the backtrace on a failure.
+  - can do this for now: |
 
-### Features - Functionality
+    RSpec.configure do |config|
+      examples_path = File.join(RSpec::SleepingKingStudios.gem_path, 'lib', 'rspec', 'sleeping_king_studios', 'examples')
 
-- Add spy+matcher for expect(my_object, :my_method).to have_changed ?
+      config.project_source_dirs << examples_path
+    end
 
-### Features - Quality of Life
+### Features - Core
 
-- Implement RespondToMatcher#with_optional_keywords, #with_required_keywords.
-- Implement be_immutable matcher.
-- Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
 - let?(:name) { } # Defines a memoized helper, but only if one is not already defined.
 
-### Features - Syntactic Sugar
+### Features - Examples
 
-- Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
+- matcher examples:
+  - Enhance RSpec matcher examples to display the #failure_message on a failed "should pass/fail with" example.
+
+### Features - Matchers
+
+- BeImmutableMatcher (NEW):
+  - Implement be_immutable matcher.
+- HaveChangedMatcher (NEW):
+  - Add spy+matcher for expect(my_object, :my_method).to have_changed ?
+- RespondToMatcher:
+  - Implement RespondToMatcher#with_optional_keywords, #with_required_keywords.
+  - Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
 
 ### Maintenance
 
@@ -55,28 +57,16 @@
   - Use matcher class name instead of macro names?
   - Clarify documentation of parameters - YARD-like?
 - Integration specs for shared example groups
-  - Run in external process, parse output for expected values (similar to Aruba)
+  - Run in external process, parse output for expected values (use Aruba?)
   - Allows testing of failing example groups
 - Pare down Cucumber features for matchers - repurpose as documentation/examples only.
   - Break down into smaller (bite-sized?) individual examples.
 - RuboCop - use RSpec rule file as starting point?
+- frozen_string_literals pragma?
 
 ## Icebox
 
-- Chainable examples: |
-
-  it 'should do something' do
-    # Always run.
-  end.
-    then 'should do something else' do
-      # Only runs if first example passes.
-    end.
-    then 'should do a third thing' do
-      # Only runs if first and second examples pass.
-    end
-
 - Implement Matchers::define_negated_matcher.
-- Implement RespondTo#with_optional_keywords.
 - Implement negated compound matchers, e.g. expect().to match().and_not other_match()
   - Alias as "but_not"?
 - Implement benchmarking specs:
@@ -91,9 +81,10 @@
   - Implement shared example group for Rails routing, 'should route to'
 - Add alt doc test formatter - --format=list ? --format=documentation-list ?
   - Prints full expanded example name for each example
+  - Allows basic diffing of "what tests were run?"
 - Add minimal test formatter - --format=smoke ? --format=librarian ? --format=quiet ?
   - Prints nothing for examples
-  - Suppress STDOUT output? As configurable option for any formatted?
+  - Suppress STDOUT output? As configurable option for any formatter?
 - Add DSL for shared_examples-heavy specs?
   - #should(name) => include_examples "should #{name}"
   - #with(name)   => wrap_context "with #{name}"
@@ -101,3 +92,7 @@
 - General project for using matchers as Ruby objects
   - Inspectable - expectations, comparison results exposed via readers
   - Favor readers over instance variables.
+- Ordering options:
+  - group_by: option - allows grouping of examples, e.g. group_by: :fixtures. Groups all examples by each value of the given metadata. Also before/after/around(:group, fixtures: true)?
+  - example group-level ordering
+    - order :defined_and_fail_fast - run the specs in given order, but after a spec fails all further specs in that example group are marked as pending.

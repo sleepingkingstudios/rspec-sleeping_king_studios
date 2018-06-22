@@ -4,9 +4,15 @@
 
 Dropped support for RSpec 3.3.
 
+Added RSpec::SleepingKingStudios.gem_path helper.
+
+### Examples
+
+Improved failure messages for "has property" examples.
+
 ## 2.3.0
 
-Added RSpec::SleepingKingStudios#version helper.
+Added RSpec::SleepingKingStudios.version helper.
 
 Dropped support for RSpec 3.0 to 3.2.
 
