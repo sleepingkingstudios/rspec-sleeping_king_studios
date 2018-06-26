@@ -3,29 +3,58 @@ require 'rspec/sleeping_king_studios/matchers/core'
 require 'rspec/sleeping_king_studios/support/value_observation'
 
 module RSpec::SleepingKingStudios::Matchers::Core
+  DEFAULT_VALUE = Object.new.freeze
+  private_constant :DEFAULT_VALUE
+
   # Matcher for testing the change in a value.
   #
   # @since 2.4.0
   class HaveChangedMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    def initialize
+      super
+
+      @expected_initial_value = DEFAULT_VALUE
+      @expected_current_value = DEFAULT_VALUE
+    end
+
     # (see BaseMatcher#description)
     def description
       'have changed'
     end
 
     # (see BaseMatcher#does_not_match?)
-    def does_not_match? actual
+    def does_not_match?(actual)
       super
 
       unless actual.is_a?(RSpec::SleepingKingStudios::Support::ValueObservation)
         raise ArgumentError, 'You must pass a value observation to `expect`.'
       end
 
-      !value_has_changed?
+      unless @expected_current_value == DEFAULT_VALUE
+        raise NotImplementedError,
+          "`expect { }.not_to have_changed().to()` is not supported"
+      end
+
+      match_initial_value? && !value_has_changed?
     end
 
     # (see BaseMatcher#failure_message)
     def failure_message
+      unless @match_initial_value.nil? || @match_initial_value
+        return "expected #{value_observation.description} to have initially " \
+          "been #{@expected_initial_value.inspect}, but was " \
+          "#{initial_value.inspect}"
+      end
+
       message = "expected #{value_observation.description} to have changed"
+
+      unless @expected_current_value == DEFAULT_VALUE
+        message << " to #{@expected_current_value.inspect}"
+      end
+
+      unless @match_current_value.nil? || @match_current_value
+        return message << ", but is now #{current_value.inspect}"
+      end
 
       message << ", but is still #{current_value.inspect}"
 
@@ -34,6 +63,12 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
+      unless @match_initial_value.nil? || @match_initial_value
+        return "expected #{value_observation.description} to have initially " \
+          "been #{@expected_initial_value.inspect}, but was " \
+          "#{initial_value.inspect}"
+      end
+
       message = "expected #{value_observation.description} not to have changed"
 
       message <<
@@ -41,6 +76,18 @@ module RSpec::SleepingKingStudios::Matchers::Core
         current_value.inspect
 
       message
+    end
+
+    # Creates an expectation on the initial value. The matcher will compare the
+    # initial value from the value observation with the specified value.
+    #
+    # @param [Object] The expected initial value.
+    #
+    # @return [HaveChangedMatcher] the matcher instance.
+    def from(value)
+      @expected_initial_value = value
+
+      self
     end
 
     # Checks if the observed value has changed.
@@ -51,14 +98,26 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # @return [Boolean] True if the observed value has changed, otherwise false.
     #
     # @raise ArgumentError unless the actual object is a value observation.
-    def matches? actual
+    def matches?(actual)
       super
 
       unless actual.is_a?(RSpec::SleepingKingStudios::Support::ValueObservation)
         raise ArgumentError, 'You must pass a value observation to `expect`.'
       end
 
-      value_has_changed?
+      match_initial_value? && value_has_changed? && match_current_value?
+    end
+
+    # Creates an expectation on the current value. The matcher will compare the
+    # current value from the value observation with the specified value.
+    #
+    # @param [Object] The expected current value.
+    #
+    # @return [HaveChangedMatcher] the matcher instance.
+    def to(value)
+      @expected_current_value = value
+
+      self
     end
 
     private
@@ -71,6 +130,32 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     def initial_value
       value_observation.initial_value
+    end
+
+    def match_current_value?
+      return @match_current_value unless @match_current_value.nil?
+
+      if @expected_current_value == DEFAULT_VALUE
+        return @match_current_value = true
+      end
+
+      @match_current_value = RSpec::Support::FuzzyMatcher.values_match?(
+        current_value,
+        @expected_current_value
+      )
+    end
+
+    def match_initial_value?
+      return @match_initial_value unless @match_initial_value.nil?
+
+      if @expected_initial_value == DEFAULT_VALUE
+        return @match_initial_value = true
+      end
+
+      @match_initial_value = RSpec::Support::FuzzyMatcher.values_match?(
+        initial_value,
+        @expected_initial_value
+      )
     end
 
     def value_has_changed?
