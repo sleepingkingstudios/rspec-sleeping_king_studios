@@ -66,7 +66,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::ValueObservation do
   end
 
   describe '#description' do
-    it { expect(instance).to have_reader(:description).with(method_name.to_s) }
+    it { expect(instance).to have_reader(:description).with("##{method_name}") }
 
     wrap_examples 'when the observation is defined with a block' do
       it { expect(instance.description).to be == 'result' }

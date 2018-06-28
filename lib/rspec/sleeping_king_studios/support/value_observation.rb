@@ -62,7 +62,7 @@ module RSpec::SleepingKingStudios::Support
     def description
       return 'result' unless @method_name
 
-      @method_name.to_s
+      "##{@method_name}"
     end
   end
 end
