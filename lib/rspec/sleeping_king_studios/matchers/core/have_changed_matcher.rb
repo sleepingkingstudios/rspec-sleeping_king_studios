@@ -33,7 +33,21 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # (see BaseMatcher#description)
     def description
-      'have changed'
+      desc = 'have changed'
+
+      unless @expected_initial_value == DEFAULT_VALUE
+        desc << " from #{@expected_initial_value.inspect}"
+      end
+
+      if @expected_difference
+        desc << " by #{@expected_difference.inspect}"
+      end
+
+      unless @expected_current_value == DEFAULT_VALUE
+        desc << " to #{@expected_current_value.inspect}"
+      end
+
+      desc
     end
 
     # (see BaseMatcher#does_not_match?)
@@ -46,12 +60,12 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
       unless @expected_current_value == DEFAULT_VALUE
         raise NotImplementedError,
-          "`expect { }.not_to have_changed().to()` is not supported"
+          "`expect().not_to have_changed().to()` is not supported"
       end
 
       if @expected_difference
         raise NotImplementedError,
-          "`expect { }.not_to have_changed().by()` is not supported"
+          "`expect().not_to have_changed().by()` is not supported"
       end
 
       match_initial_value? && !value_has_changed?

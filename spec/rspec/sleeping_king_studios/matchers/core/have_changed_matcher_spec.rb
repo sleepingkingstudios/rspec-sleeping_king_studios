@@ -82,6 +82,56 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     it { expect(instance).to respond_to(:description).with(0).arguments }
 
     it { expect(instance.description).to be == expected }
+
+    context 'when the matcher has an expected initial value' do
+      let(:expected_initial_value) { 'other value'.freeze }
+      let(:instance)               { super().from(expected_initial_value) }
+      let(:expected) do
+        super() << " from #{expected_initial_value.inspect}"
+      end
+
+      it { expect(instance.description).to be == expected }
+    end
+
+    context 'when the matcher has an expected current value' do
+      let(:expected_current_value) { 'changed value'.freeze }
+      let(:instance)               { super().to(expected_current_value) }
+      let(:expected) do
+        super() << " to #{expected_current_value.inspect}"
+      end
+
+      it { expect(instance.description).to be == expected }
+    end
+
+    context 'when the matcher has an expected difference' do
+      let(:expected_difference) { 'expected difference'.freeze }
+      let(:instance)            { super().by(expected_difference) }
+      let(:expected) do
+        super() << " by #{expected_difference.inspect}"
+      end
+
+      it { expect(instance.description).to be == expected }
+    end
+
+    context 'when the matcher has multiple expectations' do
+      let(:expected_initial_value) { 'other value'.freeze }
+      let(:expected_current_value) { 'changed value'.freeze }
+      let(:expected_difference)    { 'expected difference'.freeze }
+      let(:instance) do
+        super()
+          .from(expected_initial_value)
+          .to(expected_current_value)
+          .by(expected_difference)
+      end
+      let(:expected) do
+        super() <<
+          " from #{expected_initial_value.inspect}" <<
+          " by #{expected_difference.inspect}" <<
+          " to #{expected_current_value.inspect}"
+      end
+
+      it { expect(instance.description).to be == expected }
+    end
   end
 
   describe '#does_not_match' do
@@ -170,7 +220,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().to()` is not supported"
+              "`expect().not_to have_changed().to()` is not supported"
         end
       end
 
@@ -180,7 +230,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().to()` is not supported"
+              "`expect().not_to have_changed().to()` is not supported"
         end
       end
     end
@@ -190,7 +240,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().to()` is not supported"
+              "`expect().not_to have_changed().to()` is not supported"
         end
       end
 
@@ -200,7 +250,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().to()` is not supported"
+              "`expect().not_to have_changed().to()` is not supported"
         end
       end
     end
@@ -210,7 +260,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().by()` is not supported"
+              "`expect().not_to have_changed().by()` is not supported"
         end
       end
 
@@ -220,7 +270,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().by()` is not supported"
+              "`expect().not_to have_changed().by()` is not supported"
         end
       end
     end
@@ -230,7 +280,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().by()` is not supported"
+              "`expect().not_to have_changed().by()` is not supported"
         end
       end
 
@@ -240,7 +290,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().by()` is not supported"
+              "`expect().not_to have_changed().by()` is not supported"
         end
       end
     end
@@ -250,7 +300,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().by()` is not supported"
+              "`expect().not_to have_changed().by()` is not supported"
         end
       end
 
@@ -260,7 +310,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
-              "`expect { }.not_to have_changed().by()` is not supported"
+              "`expect().not_to have_changed().by()` is not supported"
         end
       end
     end
