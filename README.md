@@ -517,6 +517,34 @@ Checks if the actual object forwards the specified method to the specified targe
 * **`#with_a_block:`** (also `and_a_block`) Specifies that when the method is called on the actual object a block argument, thhe block is then passed on to the target object when the method is called on the target.
 * **`#and_return`:** Expects one or more arguments. The method is called on the actual object one time for each value passed into `#and_return`. Specifies that the return value of calling the method on the actual object is the corresponding value passed into `#and_return`.
 
+#### `#have_changed` Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/have_changed'
+
+Checks that a watched value has changed. The `have_changed` matcher must be paired with a value spy (see `#watch_value`, below), which is typically created with the `watch_value` helper. This is an alternative to the core RSpec `change` matcher, but allows you track changes to multiple values without nested expectations or other workarounds.
+
+**How To Use**
+
+    spy = watch_value(object, property)
+
+    object.property = 'new value'
+
+    expect(spy).to have_changed
+
+You can also create a value spy with a block:
+
+    spy = watch_value { object.property }
+
+**Parameters:** None.
+
+**Chaining:**
+
+* **by:** Expects one argument. If the value has changed, then the current value will be subtracted from the initial value and the difference compared with the expected value given to `#by`. *Note:* `not_to have_changed.by()` is not supported and will raise an error.
+* **from:** Expects one argument. The initial value of the spy (at the time the spy was initialized) must be equal to the given value.
+* **to:** Expects one argument. The current value of the spy (at the time `expect().to have_changed` is evaluated) must be equal to the given value.
+
+**Warning:** Make sure that the value spy is initialized before running whatever code is expected to change the value. In particular, if you are setting up your spies using RSpec `let()` statements, it is recommended to use the imperative `let!()` form to ensure that the spies are initialized before running the example.
+
 #### `#have_constant` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/have_constant'
@@ -525,11 +553,11 @@ Checks for the presence of a defined constant `:CONSTANT_NAME` and optionally th
 
 **How To Use:**
 
-  expect(instance).to have_constant(:FOO)
+    expect(instance).to have_constant(:FOO)
 
-  expect(instance).to have_constant(:BAR).with_value('Bar')
+    expect(instance).to have_constant(:BAR).with_value('Bar')
 
-  expect(instance).to have_immutable_constant(:BAZ).with_value('Baz')
+    expect(instance).to have_immutable_constant(:BAZ).with_value('Baz')
 
 **Parameters:** Constant name. Expects a string or symbol that is a valid identifier.
 
@@ -618,6 +646,26 @@ Checks if the actual object responds to `#property=`.
 `param property [String, Symbol]` The name of the writer method. An equals sign '=' is automatically added if the identifier does not already terminate in '='.
 
 `option allow_private [Boolean]` Defaults to false. If true, the matcher will also match a private or protected method.
+
+#### `#watch_value` Helper
+
+    require 'rspec/sleeping_king_studios/matchers/core/have_changed'
+
+Creates a value spy that watches the value of a method call or block. The spy also caches the initial value at the time the spy was created; this allows comparisons between the initial and current values. Value spies are used with the `#have_changed` matcher (see above).
+
+**How To Use:**
+
+    spy = watch_value(object, property)
+
+    spy = watch_value { object.property }
+
+**Parameters:**
+
+`param object [Object]` The object to watch. Ignored if given a block.
+
+`param method_name [String, Symbol]` The name of the method to watch. Ignored if given a block.
+
+**Chaining:** None.
 
 ## Shared Examples
 
