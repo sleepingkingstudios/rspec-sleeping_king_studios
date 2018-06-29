@@ -141,7 +141,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     let(:initial_value) { 'initial value'.freeze }
     let(:object)        { Struct.new(:value).new(initial_value) }
     let(:actual) do
-      RSpec::SleepingKingStudios::Support::ValueObservation.new(object, :value)
+      RSpec::SleepingKingStudios::Support::ValueSpy.new(object, :value)
     end
 
     describe 'with nil' do
@@ -149,7 +149,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         expect { instance.does_not_match? nil }
           .to raise_error(
             ArgumentError,
-            'You must pass a value observation to `expect`.'
+            'You must pass a value spy to `expect`.'
           )
       end
     end
@@ -159,16 +159,16 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         expect { instance.does_not_match? Object.new }
           .to raise_error(
             ArgumentError,
-            'You must pass a value observation to `expect`.'
+            'You must pass a value spy to `expect`.'
           )
       end
     end
 
-    describe 'with a value observation with an unchanged value' do
+    describe 'with a value spy with an unchanged value' do
       include_examples 'should pass with a negative expectation'
     end
 
-    describe 'with a value observation with a changed value' do
+    describe 'with a value spy with a changed value' do
       include_context 'when the value has changed'
 
       let(:failure_message_when_negated) do
@@ -186,11 +186,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         "#{expected_initial_value.inspect}, but was #{initial_value.inspect}"
       end
 
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         include_examples 'should fail with a negative expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         include_examples 'should fail with a negative expectation'
@@ -198,11 +198,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     end
 
     wrap_context 'when the matcher has a matching expected initial value' do
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         include_examples 'should pass with a negative expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         let(:failure_message_when_negated) do
@@ -216,7 +216,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     end
 
     wrap_context 'when the matcher has a non-matching expected current value' do
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
@@ -224,7 +224,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         end
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         it 'should raise an error' do
@@ -236,7 +236,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     end
 
     wrap_context 'when the matcher has a matching expected current value' do
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
@@ -244,7 +244,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         end
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         it 'should raise an error' do
@@ -256,7 +256,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     end
 
     wrap_context 'when the matcher has an invalid expected difference' do
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
@@ -264,7 +264,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         end
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         it 'should raise an error' do
@@ -276,7 +276,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     end
 
     wrap_context 'when the matcher has a non-matching expected difference' do
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
@@ -284,7 +284,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         end
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         it 'should raise an error' do
@@ -296,7 +296,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     end
 
     wrap_context 'when the matcher has a matching expected difference' do
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         it 'should raise an error' do
           expect { instance.does_not_match? actual }
             .to raise_error NotImplementedError,
@@ -304,7 +304,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         end
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         it 'should raise an error' do
@@ -332,7 +332,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     let(:initial_value) { 'initial value'.freeze }
     let(:object)        { Struct.new(:value).new(initial_value) }
     let(:actual) do
-      RSpec::SleepingKingStudios::Support::ValueObservation.new(object, :value)
+      RSpec::SleepingKingStudios::Support::ValueSpy.new(object, :value)
     end
 
     describe 'with nil' do
@@ -340,7 +340,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         expect { instance.matches? nil }
           .to raise_error(
             ArgumentError,
-            'You must pass a value observation to `expect`.'
+            'You must pass a value spy to `expect`.'
           )
       end
     end
@@ -350,12 +350,12 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         expect { instance.matches? Object.new }
           .to raise_error(
             ArgumentError,
-            'You must pass a value observation to `expect`.'
+            'You must pass a value spy to `expect`.'
           )
       end
     end
 
-    describe 'with a value observation with an unchanged value' do
+    describe 'with a value spy with an unchanged value' do
       let(:failure_message) do
         super() << ", but is still #{object.value.inspect}"
       end
@@ -363,7 +363,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
       include_examples 'should fail with a positive expectation'
     end
 
-    describe 'with a value observation with a changed value' do
+    describe 'with a value spy with a changed value' do
       include_context 'when the value has changed'
 
       include_examples 'should pass with a positive expectation'
@@ -375,11 +375,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         "#{expected_initial_value.inspect}, but was #{initial_value.inspect}"
       end
 
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         include_examples 'should fail with a positive expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         include_examples 'should fail with a positive expectation'
@@ -387,7 +387,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
     end
 
     wrap_context 'when the matcher has a matching expected initial value' do
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         let(:failure_message) do
           super() << ", but is still #{object.value.inspect}"
         end
@@ -395,7 +395,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_examples 'should fail with a positive expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         include_examples 'should pass with a positive expectation'
@@ -407,7 +407,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         super() << " to #{expected_current_value.inspect}"
       end
 
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         let(:failure_message) do
           super() << ", but is still #{object.value.inspect}"
         end
@@ -415,7 +415,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_examples 'should fail with a positive expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         let(:failure_message) do
@@ -431,7 +431,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         super() << " to #{changed_value.inspect}"
       end
 
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         let(:failure_message) do
           super() << ", but is still #{object.value.inspect}"
         end
@@ -439,7 +439,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_examples 'should fail with a positive expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         include_examples 'should pass with a positive expectation'
@@ -451,7 +451,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         super() << " by #{expected_difference.inspect}"
       end
 
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         let(:failure_message) do
           super() << ", but is still #{object.value.inspect}"
         end
@@ -459,7 +459,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_examples 'should fail with a positive expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         let(:error_message) do
@@ -479,7 +479,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         super() << " by #{expected_difference.inspect}"
       end
 
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         let(:failure_message) do
           super() << ", but is still #{object.value.inspect}"
         end
@@ -487,7 +487,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_examples 'should fail with a positive expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         let(:failure_message) do
@@ -503,7 +503,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         super() << " by #{expected_difference.inspect}"
       end
 
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         let(:failure_message) do
           super() << ", but is still #{object.value.inspect}"
         end
@@ -511,7 +511,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_examples 'should fail with a positive expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         include_examples 'should pass with a positive expectation'
@@ -525,7 +525,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
             " to #{expected_current_value.inspect}"
         end
 
-      describe 'with a value observation with an unchanged value' do
+      describe 'with a value spy with an unchanged value' do
         let(:failure_message) do
           super() << ", but is still #{object.value.inspect}"
         end
@@ -533,7 +533,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_examples 'should fail with a positive expectation'
       end
 
-      describe 'with a value observation with a changed value' do
+      describe 'with a value spy with a changed value' do
         include_context 'when the value has changed'
 
         let(:failure_message) do

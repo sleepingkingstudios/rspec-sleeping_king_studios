@@ -5,9 +5,9 @@ require 'rspec/sleeping_king_studios/matchers/core/construct'
 require 'rspec/sleeping_king_studios/matchers/core/have_predicate'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 
-require 'rspec/sleeping_king_studios/support/value_observation'
+require 'rspec/sleeping_king_studios/support/value_spy'
 
-RSpec.describe RSpec::SleepingKingStudios::Support::ValueObservation do
+RSpec.describe RSpec::SleepingKingStudios::Support::ValueSpy do
   extend RSpec::SleepingKingStudios::Concerns::WrapExamples
 
   shared_context 'when the value has changed' do
@@ -20,7 +20,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::ValueObservation do
     end
   end
 
-  shared_examples 'when the observation is defined with a block' do
+  shared_examples 'when the spy is defined with a block' do
     let(:instance) { described_class.new { object.value.upcase } }
   end
 
@@ -56,7 +56,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::ValueObservation do
       it { expect(instance.current_value).to be changed_value }
     end
 
-    wrap_examples 'when the observation is defined with a block' do
+    wrap_examples 'when the spy is defined with a block' do
       it { expect(instance.current_value).to be == initial_value.upcase }
 
       wrap_context 'when the value has changed' do
@@ -68,7 +68,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::ValueObservation do
   describe '#description' do
     it { expect(instance).to have_reader(:description).with("##{method_name}") }
 
-    wrap_examples 'when the observation is defined with a block' do
+    wrap_examples 'when the spy is defined with a block' do
       it { expect(instance.description).to be == 'result' }
     end
   end
@@ -82,7 +82,7 @@ RSpec.describe RSpec::SleepingKingStudios::Support::ValueObservation do
       it { expect(instance.initial_value).to be initial_value }
     end
 
-    wrap_examples 'when the observation is defined with a block' do
+    wrap_examples 'when the spy is defined with a block' do
       it { expect(instance.initial_value).to be == initial_value.upcase }
 
       wrap_context 'when the value has changed' do

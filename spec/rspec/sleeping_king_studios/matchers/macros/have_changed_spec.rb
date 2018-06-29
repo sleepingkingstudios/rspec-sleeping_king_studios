@@ -20,10 +20,10 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
   end
 
   describe '#watch_value' do
-    let(:observation_class) do
-      RSpec::SleepingKingStudios::Support::ValueObservation
+    let(:spy_class) do
+      RSpec::SleepingKingStudios::Support::ValueSpy
     end
-    let(:observation)   { example_group.watch_value object, method_name }
+    let(:spy)           { example_group.watch_value object, method_name }
     let(:method_name)   { :value }
     let(:initial_value) { 'initial value'.freeze }
     let(:object)        { Struct.new(method_name).new(initial_value) }
@@ -35,16 +35,16 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
         .and_a_block
     end
 
-    it { expect(observation).to be_a observation_class }
+    it { expect(spy).to be_a spy_class }
 
-    it { expect(observation.description).to be == "##{method_name}" }
+    it { expect(spy.description).to be == "##{method_name}" }
 
     describe 'with a block' do
-      let(:observation) { example_group.watch_value { object.value } }
+      let(:spy) { example_group.watch_value { object.value } }
 
-      it { expect(observation).to be_a observation_class }
+      it { expect(spy).to be_a spy_class }
 
-      it { expect(observation.description).to be == 'result' }
+      it { expect(spy.description).to be == 'result' }
     end
   end
 end

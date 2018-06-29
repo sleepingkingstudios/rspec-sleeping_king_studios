@@ -1,6 +1,6 @@
 Feature: `have_changed` matcher
   Use the `have_changed` matcher to specify that a watched value has changed.
-  First, create a value observation with the `watch_value` method.
+  First, create a value spy with the `watch_value` method.
 
   ```ruby
   value = watch_value(instance, :foo)
@@ -42,10 +42,10 @@ Feature: `have_changed` matcher
   method will raise an error unless the current value responds to `-`, i.e.
   subtraction.
 
-  Finally, make sure to initialize your observer before running whatever code is
-  expected to change the value. In particular, if you define the observer in a
-  let() block, it is recommended to use the imperative let!() to ensure the
-  observer is created before the example starts.
+  Finally, make sure to initialize your spy before running whatever code is
+  expected to change the value. In particular, if you define the spy in a let()
+  block, it is recommended to use the imperative let!() to ensure the spy is
+  created before the example starts.
 
   Scenario: basic usage
     Given a file named "matchers/core/have_changed_matcher/basics_spec.rb" with:

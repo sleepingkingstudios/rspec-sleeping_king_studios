@@ -1,6 +1,6 @@
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/core'
-require 'rspec/sleeping_king_studios/support/value_observation'
+require 'rspec/sleeping_king_studios/support/value_spy'
 
 module RSpec::SleepingKingStudios::Matchers::Core
   DEFAULT_VALUE = Object.new.freeze
@@ -54,8 +54,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
     def does_not_match?(actual)
       @actual = actual
 
-      unless actual.is_a?(RSpec::SleepingKingStudios::Support::ValueObservation)
-        raise ArgumentError, 'You must pass a value observation to `expect`.'
+      unless actual.is_a?(RSpec::SleepingKingStudios::Support::ValueSpy)
+        raise ArgumentError, 'You must pass a value spy to `expect`.'
       end
 
       unless @expected_current_value == DEFAULT_VALUE
@@ -74,12 +74,12 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # (see BaseMatcher#failure_message)
     def failure_message
       unless @match_initial_value.nil? || @match_initial_value
-        return "expected #{value_observation.description} to have initially " \
+        return "expected #{value_spy.description} to have initially " \
           "been #{@expected_initial_value.inspect}, but was " \
           "#{initial_value.inspect}"
       end
 
-      message = "expected #{value_observation.description} to have changed"
+      message = "expected #{value_spy.description} to have changed"
 
       if @expected_difference
         message << " by #{@expected_difference.inspect}"
@@ -105,12 +105,12 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       unless @match_initial_value.nil? || @match_initial_value
-        return "expected #{value_observation.description} to have initially " \
+        return "expected #{value_spy.description} to have initially " \
           "been #{@expected_initial_value.inspect}, but was " \
           "#{initial_value.inspect}"
       end
 
-      message = "expected #{value_observation.description} not to have changed"
+      message = "expected #{value_spy.description} not to have changed"
 
       message <<
         ", but did change from #{initial_value.inspect} to " <<
@@ -120,7 +120,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end
 
     # Creates an expectation on the initial value. The matcher will compare the
-    # initial value from the value observation with the specified value.
+    # initial value from the value spy with the specified value.
     #
     # @param [Object] value The expected initial value.
     #
@@ -133,17 +133,17 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # Checks if the observed value has changed.
     #
-    # @param [RSpec::SleepingKingStudios::Support::ValueObservation] actual The
+    # @param [RSpec::SleepingKingStudios::Support::ValueSpy] actual The
     #   observed value.
     #
     # @return [Boolean] True if the observed value has changed, otherwise false.
     #
-    # @raise ArgumentError unless the actual object is a value observation.
+    # @raise ArgumentError unless the actual object is a value spy.
     def matches?(actual)
       super
 
-      unless actual.is_a?(RSpec::SleepingKingStudios::Support::ValueObservation)
-        raise ArgumentError, 'You must pass a value observation to `expect`.'
+      unless actual.is_a?(RSpec::SleepingKingStudios::Support::ValueSpy)
+        raise ArgumentError, 'You must pass a value spy to `expect`.'
       end
 
       match_initial_value? &&
@@ -153,7 +153,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end
 
     # Creates an expectation on the current value. The matcher will compare the
-    # current value from the value observation with the specified value.
+    # current value from the value spy with the specified value.
     #
     # @param [Object] value The expected current value.
     #
@@ -166,14 +166,14 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     private
 
-    alias_method :value_observation, :actual
+    alias_method :value_spy, :actual
 
     def current_value
-      value_observation.current_value
+      value_spy.current_value
     end
 
     def initial_value
-      value_observation.initial_value
+      value_spy.initial_value
     end
 
     def match_current_value?
@@ -216,7 +216,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end
 
     def value_has_changed?
-      value_observation.changed?
+      value_spy.changed?
     end
   end
 end
