@@ -16,6 +16,20 @@ Fixed a bug when using the example_class helper with a base_class that was anoth
 
 Improved failure messages for "has property" examples.
 
+### Matchers
+
+Implemented the HaveChangedMatcher.
+
+    value = watch_value(object, :foo) # Create a value spy.
+
+    do_something
+
+    expect(value).to have_changed.from('initial value').to('final value')
+
+### Support
+
+Implemented the ValueSpy for watching changes to an object method or a block.
+
 ## 2.3.0
 
 Added RSpec::SleepingKingStudios.version helper.
