@@ -10,6 +10,17 @@
   - Alias #immutable as #frozen.
   - Also alias shared examples.
 
+### Maintenance
+
+- Refactor all macro specs from spec/rspec/sleeping_king_studios/matchers/macros to the directories corresponding to the source files.
+
+## Version 3.0
+
+- Extract out Rails-specific matchers to RSpec::SleepingKingStudios::Rails.
+- Refactor property, constant matchers to Define$1Matcher.
+  - HaveConstantMatcher, HaveReaderMatcher, HavePredicateMatcher, HavePropertyMatcher, HaveWriterMatcher.
+  - Designate define_* macros as primary, have_* as aliases.
+
 ## Future Tasks
 
 ### Bug Fixes

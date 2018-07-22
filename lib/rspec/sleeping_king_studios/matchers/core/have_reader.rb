@@ -11,4 +11,5 @@ module RSpec::SleepingKingStudios::Matchers::Macros
       :allow_private => allow_private
     ) # end matcher
   end # method have_reader
+  alias_method :define_reader, :have_reader
 end # module

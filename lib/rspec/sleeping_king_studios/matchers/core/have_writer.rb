@@ -11,4 +11,5 @@ module RSpec::SleepingKingStudios::Matchers::Macros
       :allow_private => allow_private
     ) # end matcher
   end # method have_writer
+  alias_method :define_writer, :have_writer
 end # module
