@@ -27,6 +27,15 @@ module RSpec::SleepingKingStudios::Matchers::Core
       message
     end # method description
 
+    # (see BaseMatcher#does_not_match?)
+    def does_not_match? actual
+      super
+
+      @errors = {}
+
+      !has_constant?
+    end # method does_not_match?
+
     # (see BaseMatcher#failure_message)
     def failure_message
       message = super
@@ -77,6 +86,27 @@ module RSpec::SleepingKingStudios::Matchers::Core
       message
     end # method failure_message
 
+    # Sets a mutability expectation. The matcher will determine whether the
+    # value of the constant is mutable. Values of `nil`, `false`, `true` are
+    # always immutable, as are `Numeric` and `Symbol` primitives. `Array`
+    # values must be frozen and all array items must be immutable. `Hash`
+    # values must be frozen and all hash keys and values must be immutable.
+    #
+    # @return [HaveConstantMatcher] self
+    def immutable
+      @immutable = true
+
+      self
+    end # method immutable
+    alias_method :frozen, :immutable
+
+    # @return [Boolean] True if a mutability expectation is set, otherwise
+    #   false.
+    def immutable?
+      !!@immutable
+    end # method immutable
+    alias_method :frozen?, :immutable?
+
     # Checks if the object has a constant :expected. Additionally, if a
     # value expectation is set, compares the value of #expected to the
     # specified value and checks the mutability of the constant.
@@ -94,34 +124,6 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
       matches_constant? :all?
     end # method matches?
-
-    # (see BaseMatcher#does_not_match?)
-    def does_not_match? actual
-      super
-
-      @errors = {}
-
-      !has_constant?
-    end # method does_not_match?
-
-    # Sets a mutability expectation. The matcher will determine whether the
-    # value of the constant is mutable. Values of `nil`, `false`, `true` are
-    # always immutable, as are `Numeric` and `Symbol` primitives. `Array`
-    # values must be frozen and all array items must be immutable. `Hash`
-    # values must be frozen and all hash keys and values must be immutable.
-    #
-    # @return [HaveConstantMatcher] self
-    def immutable
-      @immutable = true
-
-      self
-    end # method immutable
-
-    # @return [Boolean] True if a mutability expectation is set, otherwise
-    #   false.
-    def immutable?
-      !!@immutable
-    end # method immutable
 
     # Sets a value expectation. The matcher will compare the value of the
     # constant with the specified value.

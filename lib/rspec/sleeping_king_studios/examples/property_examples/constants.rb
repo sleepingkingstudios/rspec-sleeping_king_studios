@@ -47,9 +47,13 @@ module RSpec::SleepingKingStudios::Examples
           end # if-else
         end # it
       end # shared_examples
+      alias_shared_examples 'defines frozen constant', 'should have immutable constant'
       alias_shared_examples 'defines immutable constant', 'should have immutable constant'
+      alias_shared_examples 'has frozen constant', 'should have immutable constant'
       alias_shared_examples 'has immutable constant', 'should have immutable constant'
+      alias_shared_examples 'should define frozen constant', 'should have immutable constant'
       alias_shared_examples 'should define immutable constant', 'should have immutable constant'
+      alias_shared_examples 'should have frozen constant', 'should have immutable constant'
     end # module
   end # module
 end # module

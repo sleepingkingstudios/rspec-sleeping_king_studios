@@ -137,7 +137,15 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
 
     include_examples 'should alias shared example group',
       'should have immutable constant',
+      'defines frozen constant'
+
+    include_examples 'should alias shared example group',
+      'should have immutable constant',
       'defines immutable constant'
+
+    include_examples 'should alias shared example group',
+      'should have immutable constant',
+      'has frozen constant'
 
     include_examples 'should alias shared example group',
       'should have immutable constant',
@@ -145,7 +153,15 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
 
     include_examples 'should alias shared example group',
       'should have immutable constant',
+      'should define frozen constant'
+
+    include_examples 'should alias shared example group',
+      'should have immutable constant',
       'should define immutable constant'
+
+    include_examples 'should alias shared example group',
+      'should have immutable constant',
+      'should have frozen constant'
 
     describe 'with the name of an undefined constant' do
       let(:constant_name) { ':UNDEFINED_CONSTANT' }
