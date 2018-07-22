@@ -58,8 +58,16 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
     end # let
 
     include_examples 'should alias shared example group',
-      'has constant',
-      'should have constant'
+      'should have constant',
+      'defines constant'
+
+    include_examples 'should alias shared example group',
+      'should have constant',
+      'has constant'
+
+    include_examples 'should alias shared example group',
+      'should have constant',
+      'should define constant'
 
     describe 'with the name of an undefined constant' do
       let(:constant_name) { ':UNDEFINED_CONSTANT' }
@@ -128,8 +136,16 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
     end # let
 
     include_examples 'should alias shared example group',
-      'has immutable constant',
-      'should have immutable constant'
+      'should have immutable constant',
+      'defines immutable constant'
+
+    include_examples 'should alias shared example group',
+      'should have immutable constant',
+      'has immutable constant'
+
+    include_examples 'should alias shared example group',
+      'should have immutable constant',
+      'should define immutable constant'
 
     describe 'with the name of an undefined constant' do
       let(:constant_name) { ':UNDEFINED_CONSTANT' }
