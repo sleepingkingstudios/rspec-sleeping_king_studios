@@ -57,7 +57,7 @@ module RSpec::SleepingKingStudios::Concerns
     #   automatically skip such groups.
     # groups.
     def xinclude_examples name, *args, **kwargs, &block
-      xdescribe '(focused)' do
+      xdescribe '(skipped)' do
         if kwargs.empty?
           include_examples name, *args, &block
         else
