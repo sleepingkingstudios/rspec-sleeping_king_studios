@@ -18,6 +18,8 @@ Improved failure messages for "has property" examples.
 
 Aliased property matcher examples as 'should define \*', e.g. 'should have reader' is now aliased as 'should define reader'.
 
+Fixed a bug when skipping shared examples with 'xinclude_examples' incorrectly generating a context of '(focused)' instead of '(skipped)'.
+
 ### Matchers
 
 Implemented the HaveChangedMatcher.
@@ -96,7 +98,7 @@ Updated matcher testing examples (e.g. 'should pass with positive expectation', 
 
 ### Matchers
 
-Internally refactored all matcher definitions to *\_matcher.rb, while the previous *.rb files define the macros which are added to example groups. The file names now accurately reflect what they define. In addition, the matchers can be required separately from the macros, e.g. to get around a naming conflict with another library. Also added support for aliasing matchers.
+Internally refactored all matcher definitions to \*\_matcher.rb, while the previous \*.rb files define the macros which are added to example groups. The file names now accurately reflect what they define. In addition, the matchers can be required separately from the macros, e.g. to get around a naming conflict with another library. Also added support for aliasing matchers.
 
 #### `alias_method` Matcher
 

@@ -75,6 +75,10 @@ Feature: `FocusExamples` concern
       """
     When I run `rspec wrapping_examples.rb`
     Then the output should contain "2 examples, 1 failure"
+    Then the output should contain "1) Song with a country song (focused) should be == Metal"
+    Then the output should contain consecutive lines:
+      | 1) Song with a country song (focused) should be == Metal |
+      |    Failure/Error: it { expect(song.genre).to be == 'Metal' } |
 
   Scenario: skipping an example group
     Given a file named "wrapping_examples.rb" with:
@@ -124,3 +128,9 @@ Feature: `FocusExamples` concern
       """
     When I run `rspec wrapping_examples.rb`
     Then the output should contain "6 examples, 0 failures, 2 pending"
+    Then the output should contain consecutive lines:
+      | 1) Song with a country song (skipped) |
+      |    # Temporarily skipped with xdescribe |
+    Then the output should contain consecutive lines:
+      | 2) Song with a metal song (skipped) |
+      |    # Temporarily skipped with xdescribe |
