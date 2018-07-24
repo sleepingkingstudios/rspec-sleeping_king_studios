@@ -727,9 +727,9 @@ Delegates to the `#have_writer` matcher (see Core/#have_writer, above) and passe
 
 Delegates to the `#have_constant` matcher (see Core/#have_constant, above) and passes if the described class defines the specified constant. If a value is specified, the class or module must define the constant with the specified value. Alternatively, you can set a proc as the expected value, which can contain a comparison, an RSpec expectation, or a more complex expression:
 
-    include_examples 'should have property', :BAR, ->() { an_instance_of(String) }
+    include_examples 'should have constant', :BAR, ->() { an_instance_of(String) }
 
-    include_examples 'should have property', :BAZ, ->(value) { value.count = 3 }
+    include_examples 'should have constant', :BAZ, ->(value) { value.count = 3 }
 
 #### Should Have Immutable Constant
 

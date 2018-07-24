@@ -8,4 +8,5 @@ module RSpec::SleepingKingStudios::Matchers::Macros
   def have_predicate expected
     RSpec::SleepingKingStudios::Matchers::Core::HavePredicateMatcher.new expected
   end # method have_reader
+  alias_method :define_predicate, :have_predicate
 end # module

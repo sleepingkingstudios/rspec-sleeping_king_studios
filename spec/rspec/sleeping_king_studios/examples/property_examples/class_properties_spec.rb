@@ -62,269 +62,6 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
       end # class
     RUBY
 
-  describe '"should have class reader"' do
-    let(:failure_message) do
-      "expected ClassWithClassProperties to respond to #{reader_name}"
-    end # let
-
-    include_examples 'should alias shared example group',
-      'has class reader',
-      'should have class reader'
-
-    describe 'with the name of an undefined class method' do
-      let(:reader_name) { ':undefined_class_reader' }
-      let(:failure_message) do
-        super() + ", but did not respond to #{reader_name}"
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class reader', :undefined_class_reader"
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-
-    describe 'with the name of a private class reader' do
-      let(:reader_name) { ':private_class_reader' }
-      let(:failure_message) do
-        super() + ", but did not respond to #{reader_name}"
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class reader', :private_class_reader"
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-
-    describe 'with the name of a public class reader' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class reader', :class_reader"
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-
-    describe 'with a non-matching value expectation' do
-      let(:failure_message) do
-        super() + ' and return 42'
-      end # let
-
-      describe 'with the name of an undefined class method' do
-        let(:reader_name) { ':undefined_class_reader' }
-        let(:failure_message) do
-          super() + ", but did not respond to #{reader_name}"
-        end # let
-
-        include_context 'with a spec file with examples',
-          "include_examples 'should have class reader', :undefined_class_reader, 42"
-
-        include_examples 'should fail with 1 example and 1 failure'
-      end # describe
-
-      describe 'with the name of a private class reader' do
-        let(:reader_name) { ':private_class_reader' }
-        let(:failure_message) do
-          super() + ", but did not respond to #{reader_name}"
-        end # let
-
-        include_context 'with a spec file with examples',
-          "include_examples 'should have class reader', :private_class_reader, 42"
-
-        include_examples 'should fail with 1 example and 1 failure'
-      end # describe
-
-      describe 'with the name of a public class reader' do
-        let(:reader_name) { ':class_reader' }
-        let(:failure_message) do
-          super() + ', but returned nil'
-        end # let
-
-        include_context 'with a spec file with examples',
-          "include_examples 'should have class reader', :class_reader, 42"
-
-        include_examples 'should fail with 1 example and 1 failure'
-      end # describe
-    end # describe
-
-    describe 'with a matching value expectation' do
-      describe 'with the name of a private reader method' do
-        include_context 'with a spec file with examples',
-          "before(:example) { described_class.send(:class_property=, 42) }"\
-          "\n\ninclude_examples 'should have class reader', :class_property, 42"
-
-        include_examples 'should pass with 1 example and 0 failures'
-      end # describe
-    end # describe
-  end # describe
-
-  describe '"should not have class reader"' do
-    let(:failure_message) do
-      "expected ClassWithClassProperties not to respond to #{reader_name}"
-    end # let
-
-    include_examples 'should alias shared example group',
-      'does not have class reader',
-      'should not have class reader'
-
-    describe 'with the name of an undefined class method' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class reader', :undefined_class_reader"
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-
-    describe 'with the name of a private class method' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class reader', :private_class_reader"
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-
-    describe 'with the name of a public class method' do
-      let(:reader_name) { ':class_reader' }
-      let(:failure_message) do
-        super() + ', but responded to :class_reader'
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class reader', :class_reader"
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-  end # describe
-
-  describe '"should have class writer"' do
-    let(:failure_message) do
-      "expected ClassWithClassProperties to respond to #{writer_name}"
-    end # let
-
-    include_examples 'should alias shared example group',
-      'has class writer',
-      'should have class writer'
-
-    describe 'with the name of an undefined class method' do
-      let(:writer_name) { ':undefined_class_writer=' }
-      let(:failure_message) do
-        super() + ", but did not respond to #{writer_name}"
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class writer', :undefined_class_writer"
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-
-    describe 'with the name of an undefined class method' do
-      let(:writer_name) { ':undefined_class_writer=' }
-      let(:failure_message) do
-        super() + ", but did not respond to #{writer_name}"
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class writer', :undefined_class_writer="
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-
-    describe 'with the name of a private class writer' do
-      let(:writer_name) { ':private_class_writer=' }
-      let(:failure_message) do
-        super() + ", but did not respond to #{writer_name}"
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class writer', :private_class_writer"
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-
-    describe 'with the name of a private class writer' do
-      let(:writer_name) { ':private_class_writer=' }
-      let(:failure_message) do
-        super() + ", but did not respond to #{writer_name}"
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class writer', :private_class_writer="
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-
-    describe 'with the name of a public class writer' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class writer', :class_writer"
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-
-    describe 'with the name of a public class writer' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should have class writer', :class_writer="
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-  end # describe
-
-  describe '"should not have class writer"' do
-    let(:failure_message) do
-      "expected ClassWithClassProperties not to respond to #{writer_name}"
-    end # let
-
-    include_examples 'should alias shared example group',
-      'does not have class writer',
-      'should not have class writer'
-
-    describe 'with the name of an undefined class method' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class writer', :undefined_class_writer"
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-
-    describe 'with the name of an undefined class method' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class writer', :undefined_class_writer="
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-
-    describe 'with the name of a private class method' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class writer', :private_class_writer"
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-
-    describe 'with the name of a private class method' do
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class writer', :private_class_writer="
-
-      include_examples 'should pass with 1 example and 0 failures'
-    end # describe
-
-    describe 'with the name of a public class method' do
-      let(:writer_name) { ':class_writer=' }
-      let(:failure_message) do
-        super() + ", but responded to #{writer_name}"
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class writer', :class_writer"
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-
-    describe 'with the name of a public class method' do
-      let(:writer_name) { ':class_writer=' }
-      let(:failure_message) do
-        super() + ", but responded to #{writer_name}"
-      end # let
-
-      include_context 'with a spec file with examples',
-        "include_examples 'should not have class writer', :class_writer="
-
-      include_examples 'should fail with 1 example and 1 failure'
-    end # describe
-  end # describe
-
   describe '"should have class property"' do
     let(:failure_message) do
       "expected ClassWithClassProperties to respond to #{property_name} and " \
@@ -332,8 +69,16 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
     end # let
 
     include_examples 'should alias shared example group',
-      'has class property',
-      'should have class property'
+      'should have class property',
+      'defines class property'
+
+    include_examples 'should alias shared example group',
+      'should have class property',
+      'has class property'
+
+    include_examples 'should alias shared example group',
+      'should have class property',
+      'should define class property'
 
     describe 'with the name of an undefined property' do
       let(:property_name) { ':undefined_class_property' }
@@ -468,6 +213,301 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
 
         include_examples 'should pass with 1 example and 0 failures'
       end # describe
+    end # describe
+  end # describe
+
+  describe '"should have class reader"' do
+    let(:failure_message) do
+      "expected ClassWithClassProperties to respond to #{reader_name}"
+    end # let
+
+    include_examples 'should alias shared example group',
+      'should have class reader',
+      'defines class reader'
+
+    include_examples 'should alias shared example group',
+      'should have class reader',
+      'has class reader'
+
+    include_examples 'should alias shared example group',
+      'should have class reader',
+      'should define class reader'
+
+    describe 'with the name of an undefined class method' do
+      let(:reader_name) { ':undefined_class_reader' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{reader_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class reader', :undefined_class_reader"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a private class reader' do
+      let(:reader_name) { ':private_class_reader' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{reader_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class reader', :private_class_reader"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public class reader' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class reader', :class_reader"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with a non-matching value expectation' do
+      let(:failure_message) do
+        super() + ' and return 42'
+      end # let
+
+      describe 'with the name of an undefined class method' do
+        let(:reader_name) { ':undefined_class_reader' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{reader_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have class reader', :undefined_class_reader, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a private class reader' do
+        let(:reader_name) { ':private_class_reader' }
+        let(:failure_message) do
+          super() + ", but did not respond to #{reader_name}"
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have class reader', :private_class_reader, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+
+      describe 'with the name of a public class reader' do
+        let(:reader_name) { ':class_reader' }
+        let(:failure_message) do
+          super() + ', but returned nil'
+        end # let
+
+        include_context 'with a spec file with examples',
+          "include_examples 'should have class reader', :class_reader, 42"
+
+        include_examples 'should fail with 1 example and 1 failure'
+      end # describe
+    end # describe
+
+    describe 'with a matching value expectation' do
+      describe 'with the name of a private reader method' do
+        include_context 'with a spec file with examples',
+          "before(:example) { described_class.send(:class_property=, 42) }"\
+          "\n\ninclude_examples 'should have class reader', :class_property, 42"
+
+        include_examples 'should pass with 1 example and 0 failures'
+      end # describe
+    end # describe
+  end # describe
+
+  describe '"should have class writer"' do
+    let(:failure_message) do
+      "expected ClassWithClassProperties to respond to #{writer_name}"
+    end # let
+
+    include_examples 'should alias shared example group',
+      'should have class writer',
+      'defines class writer'
+
+    include_examples 'should alias shared example group',
+      'should have class writer',
+      'has class writer'
+
+    include_examples 'should alias shared example group',
+      'should have class writer',
+      'should define class writer'
+
+    describe 'with the name of an undefined class method' do
+      let(:writer_name) { ':undefined_class_writer=' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class writer', :undefined_class_writer"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of an undefined class method' do
+      let(:writer_name) { ':undefined_class_writer=' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class writer', :undefined_class_writer="
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a private class writer' do
+      let(:writer_name) { ':private_class_writer=' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class writer', :private_class_writer"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a private class writer' do
+      let(:writer_name) { ':private_class_writer=' }
+      let(:failure_message) do
+        super() + ", but did not respond to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class writer', :private_class_writer="
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public class writer' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class writer', :class_writer"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a public class writer' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should have class writer', :class_writer="
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+  end # describe
+
+  describe '"should not have class reader"' do
+    let(:failure_message) do
+      "expected ClassWithClassProperties not to respond to #{reader_name}"
+    end # let
+
+    include_examples 'should alias shared example group',
+      'should not have class reader',
+      'does not define class reader'
+
+    include_examples 'should alias shared example group',
+      'should not have class reader',
+      'does not have class reader'
+
+    include_examples 'should alias shared example group',
+      'should not have class reader',
+      'should not define class reader'
+
+    describe 'with the name of an undefined class method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class reader', :undefined_class_reader"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a private class method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class reader', :private_class_reader"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a public class method' do
+      let(:reader_name) { ':class_reader' }
+      let(:failure_message) do
+        super() + ', but responded to :class_reader'
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class reader', :class_reader"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+  end # describe
+
+  describe '"should not have class writer"' do
+    let(:failure_message) do
+      "expected ClassWithClassProperties not to respond to #{writer_name}"
+    end # let
+
+    include_examples 'should alias shared example group',
+      'should not have class writer',
+      'does not define class writer'
+
+    include_examples 'should alias shared example group',
+      'should not have class writer',
+      'does not have class writer'
+
+    include_examples 'should alias shared example group',
+      'should not have class writer',
+      'should not define class writer'
+
+    describe 'with the name of an undefined class method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class writer', :undefined_class_writer"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of an undefined class method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class writer', :undefined_class_writer="
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a private class method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class writer', :private_class_writer"
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a private class method' do
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class writer', :private_class_writer="
+
+      include_examples 'should pass with 1 example and 0 failures'
+    end # describe
+
+    describe 'with the name of a public class method' do
+      let(:writer_name) { ':class_writer=' }
+      let(:failure_message) do
+        super() + ", but responded to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class writer', :class_writer"
+
+      include_examples 'should fail with 1 example and 1 failure'
+    end # describe
+
+    describe 'with the name of a public class method' do
+      let(:writer_name) { ':class_writer=' }
+      let(:failure_message) do
+        super() + ", but responded to #{writer_name}"
+      end # let
+
+      include_context 'with a spec file with examples',
+        "include_examples 'should not have class writer', :class_writer="
+
+      include_examples 'should fail with 1 example and 1 failure'
     end # describe
   end # describe
 end # describe

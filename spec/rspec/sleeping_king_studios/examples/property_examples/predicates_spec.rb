@@ -67,8 +67,16 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
     end # let
 
     include_examples 'should alias shared example group',
-      'has predicate',
-      'should have predicate'
+      'should have predicate',
+      'defines predicate'
+
+    include_examples 'should alias shared example group',
+      'should have predicate',
+      'has predicate'
+
+    include_examples 'should alias shared example group',
+      'should have predicate',
+      'should define predicate'
 
     describe 'with the name of a predicate' do
       let(:example_name) { %r{should have predicate :named_predicate\?$} }

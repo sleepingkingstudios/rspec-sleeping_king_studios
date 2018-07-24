@@ -11,4 +11,5 @@ module RSpec::SleepingKingStudios::Matchers::Macros
       :allow_private => allow_private
     ) # end matcher
   end # method have_property
+  alias_method :define_property, :have_property
 end # module

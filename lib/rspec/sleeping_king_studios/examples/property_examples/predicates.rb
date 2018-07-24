@@ -24,7 +24,9 @@ module RSpec::SleepingKingStudios::Examples
           end # if-else
         end # it
       end # shared_examples
+      alias_shared_examples 'defines predicate', 'should have predicate'
       alias_shared_examples 'has predicate', 'should have predicate'
+      alias_shared_examples 'should define predicate', 'should have predicate'
     end # module
   end # module
 end # module

@@ -45,6 +45,24 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveConstantMatcher d
     end # context
   end # describe
 
+  describe '#frozen' do
+    it { expect(instance).to respond_to(:frozen).with(0).arguments }
+
+    it { expect(instance.frozen).to be instance }
+  end # describe
+
+  describe '#frozen?' do
+    it { expect(instance).to respond_to(:frozen?).with(0).arguments }
+
+    it { expect(instance.frozen?).to be false }
+
+    context 'with an frozen expectation' do
+      let(:instance) { super().frozen }
+
+      it { expect(instance.frozen?).to be true }
+    end # context
+  end # describe
+
   describe '#immutable' do
     it { expect(instance).to respond_to(:immutable).with(0).arguments }
 

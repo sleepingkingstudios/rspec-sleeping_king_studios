@@ -11,6 +11,14 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
   let(:method_name)   { :foo }
   let(:example_group) { self }
 
+  describe '#define_predicate' do
+    let(:matcher) { example_group.define_predicate method_name }
+
+    it { expect(example_group).to respond_to(:define_predicate).with(1).arguments }
+
+    it { expect(matcher).to be_a matcher_class }
+  end # describe
+
   describe '#have_predicate' do
     let(:matcher) { example_group.have_predicate method_name }
 

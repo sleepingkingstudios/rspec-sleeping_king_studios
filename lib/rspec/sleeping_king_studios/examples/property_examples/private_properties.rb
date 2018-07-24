@@ -8,36 +8,6 @@ module RSpec::SleepingKingStudios::Examples
     module PrivateProperties
       extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
-      shared_examples 'should have private reader' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
-        it "should have private reader :#{property}" do
-          object  = defined?(instance) ? instance : subject
-
-          expect(object).not_to respond_to(property)
-
-          if expected_value == UNDEFINED_VALUE_EXPECTATION
-            expect(object).to have_reader(property, allow_private: true)
-          else
-            expected_value = format_expected_value(expected_value)
-
-            expect(object).to have_reader(property, allow_private: true).with_value(expected_value)
-          end # if-else
-        end # it
-      end # shared_examples
-      alias_shared_examples 'has private reader', 'should have private reader'
-
-      shared_examples 'should have private writer' do |property|
-        writer_name = :"#{property.to_s.sub(/=\z/, '')}="
-
-        it "should have private writer :#{writer_name}" do
-          object = defined?(instance) ? instance : subject
-
-          expect(object).not_to respond_to(writer_name)
-
-          expect(object).to have_writer(writer_name, :allow_private => true)
-        end # it
-      end # shared_examples
-      alias_shared_examples 'has private writer', 'should have private writer'
-
       shared_examples 'should have private property' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
         writer_name = :"#{property.to_s.sub(/=\z/, '')}="
 
@@ -57,7 +27,43 @@ module RSpec::SleepingKingStudios::Examples
           end # if-else
         end # it
       end # shared_examples
+      alias_shared_examples 'defines private property', 'should have private property'
       alias_shared_examples 'has private property', 'should have private property'
+      alias_shared_examples 'should define private property', 'should have private property'
+
+      shared_examples 'should have private reader' do |property, expected_value = UNDEFINED_VALUE_EXPECTATION|
+        it "should have private reader :#{property}" do
+          object  = defined?(instance) ? instance : subject
+
+          expect(object).not_to respond_to(property)
+
+          if expected_value == UNDEFINED_VALUE_EXPECTATION
+            expect(object).to have_reader(property, allow_private: true)
+          else
+            expected_value = format_expected_value(expected_value)
+
+            expect(object).to have_reader(property, allow_private: true).with_value(expected_value)
+          end # if-else
+        end # it
+      end # shared_examples
+      alias_shared_examples 'defines private reader', 'should have private reader'
+      alias_shared_examples 'has private reader', 'should have private reader'
+      alias_shared_examples 'should define private reader', 'should have private reader'
+
+      shared_examples 'should have private writer' do |property|
+        writer_name = :"#{property.to_s.sub(/=\z/, '')}="
+
+        it "should have private writer :#{writer_name}" do
+          object = defined?(instance) ? instance : subject
+
+          expect(object).not_to respond_to(writer_name)
+
+          expect(object).to have_writer(writer_name, :allow_private => true)
+        end # it
+      end # shared_examples
+      alias_shared_examples 'defines private writer', 'should have private writer'
+      alias_shared_examples 'has private writer', 'should have private writer'
+      alias_shared_examples 'should define private writer', 'should have private writer'
     end # module
   end # module
 end # module

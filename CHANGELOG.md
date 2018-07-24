@@ -16,6 +16,8 @@ Fixed a bug when using the example_class helper with a base_class that was anoth
 
 Improved failure messages for "has property" examples.
 
+Aliased property matcher examples as 'should define \*', e.g. 'should have reader' is now aliased as 'should define reader'.
+
 ### Matchers
 
 Implemented the HaveChangedMatcher.
@@ -25,6 +27,10 @@ Implemented the HaveChangedMatcher.
     do_something
 
     expect(value).to have_changed.from('initial value').to('final value')
+
+Aliased HaveConstantMatcher#immutable as #frozen.
+
+Aliased property matcher macros as define_*, e.g. have_reader is now aliased as define_reader.
 
 ### Support
 
