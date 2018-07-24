@@ -2,6 +2,10 @@
 
 ## Version 2.4
 
+### Bug Fixes
+
+- when skipping a shared example group with xinclude_examples, the generated context is named '(focused)'. It should instead be named '(skipped)'.
+
 ### Features
 
 - Alias `have_reader`, etc as `define_reader`.
@@ -20,6 +24,10 @@
 - Refactor property, constant matchers to Define$1Matcher.
   - HaveConstantMatcher, HaveReaderMatcher, HavePredicateMatcher, HavePropertyMatcher, HaveWriterMatcher.
   - Designate define_* macros as primary, have_* as aliases.
+  - Designate 'should define \*' examples as primary.
+- Add RuboCop CI step.
+  - Modernize code conventions.
+- Add SimpleCov CI step.
 
 ## Future Tasks
 
