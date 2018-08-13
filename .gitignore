@@ -23,3 +23,6 @@ gemfiles/*.lock
 /.rubocop.yml
 /.rubocop_todo.yml
 /tmp
+
+# Vim Swap files
+*.swp

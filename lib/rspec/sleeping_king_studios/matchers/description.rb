@@ -18,7 +18,7 @@ module RSpec::SleepingKingStudios::Matchers
     #
     # @return [String] the matcher description
     def description
-      desc = matcher_name
+      desc = matcher_name.to_s
 
       desc << format_expected_items
 
