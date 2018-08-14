@@ -28,7 +28,8 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'byebug',       '~> 10.0'
   gem.add_development_dependency 'rake',         '~> 12.3'
   gem.add_development_dependency 'thor',         '~> 0.20', '>= 0.19.4'
-  gem.add_development_dependency 'sleeping_king_studios-tasks', '>= 0.1.0'
+  gem.add_development_dependency 'sleeping_king_studios-tasks',
+    '~> 0.1'
 
   gem.add_development_dependency 'aruba',        '~> 0.14'
   gem.add_development_dependency 'cucumber',     '~> 3.1'

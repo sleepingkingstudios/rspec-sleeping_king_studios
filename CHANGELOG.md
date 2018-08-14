@@ -34,6 +34,10 @@ Aliased HaveConstantMatcher#immutable as #frozen.
 
 Aliased property matcher macros as define_*, e.g. have_reader is now aliased as define_reader.
 
+### Bug Fixes
+
+Fixed an error when using composable matchers and passing a symbol. (David Rodas)
+
 ### Support
 
 Implemented the ValueSpy for watching changes to an object method or a block.
