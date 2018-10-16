@@ -46,6 +46,10 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
     ::SleepingKingStudios::Tools::ArrayTools.humanize_list(items)
   end # method format_expected_items
 
+  def sort_keys hash
+    Hash[hash.to_a.sort_by { |(key, _)| key }]
+  end # method sort_keys
+
   describe '::new' do
     describe 'with no arguments' do
       context 'when the configuration option is set to true' do
@@ -109,6 +113,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
 
     context 'with a hash expectation' do
       let(:expectations) { { :foo => 'foo', :bar => 'bar' } }
+      let(:expected_items) do
+        hash = expectations
+
+        hash = sort_keys(hash) if RSpec::Version::STRING >= '3.8.0'
+
+        [hash]
+      end # let
 
       it { expect(instance.description).to be == expected }
     end # context
@@ -233,8 +244,16 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
     end # describe
 
     describe 'with a Hash' do
-      let(:actual)        { { :foo => 'foo', :bar => 'bar', :baz => 'baz' } }
-      let(:actual_string) { super().gsub(/(\S)=>(\S)/, '\1 => \2') }
+      let(:actual) do
+        { :foo => 'foo', :bar => 'bar', :baz => 'baz' }
+      end
+      let(:actual_string) do
+        hash = actual
+
+        hash = sort_keys(hash) if RSpec::Version::STRING >= '3.8.0'
+
+        hash.inspect.gsub(/(\S)=>(\S)/, '\1 => \2')
+      end
 
       describe 'with a matching single key expectation' do
         let(:expectations) { :foo }
