@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1
+
+Added support for RSpec 3.8.
+
 ## 2.4.0
 
 Dropped support for RSpec 3.3.
