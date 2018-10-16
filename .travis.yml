@@ -14,6 +14,7 @@ gemfile:
 - gemfiles/rspec_3_5.gemfile
 - gemfiles/rspec_3_6.gemfile
 - gemfiles/rspec_3_7.gemfile
+- gemfiles/rspec_3_8.gemfile
 matrix:
   allow_failures:
   - gemfile: gemfiles/rspec_edge.gemfile

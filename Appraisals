@@ -20,6 +20,11 @@ appraise 'rspec-3-7' do
   gem 'rspec',       '~> 3.7.0'
 end
 
+appraise 'rspec-3-8' do
+  gem 'activemodel', '5.2.0'
+  gem 'rspec',       '~> 3.8.0'
+end
+
 appraise 'rspec-edge' do
   gem 'activemodel', '5.2.0'
   gem 'rspec',              git: 'https://github.com/rspec/rspec.git'

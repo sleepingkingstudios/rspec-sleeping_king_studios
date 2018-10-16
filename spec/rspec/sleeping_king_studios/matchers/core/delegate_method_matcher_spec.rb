@@ -490,13 +490,20 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
         include_context 'with a delegate that responds to the method'
 
         let(:method_body) { 'target.send(method)' }
+        let(:expected_keywords) do
+          if RSpec::Version::STRING >= '3.8.0'
+            ':bar=>"bar", :baz=>"baz", :foo=>"foo"'
+          else
+            ':foo=>"foo", :bar=>"bar", :baz=>"baz"'
+          end # if-else
+        end # let
         let(:failure_message) do
           include(
             super() << format_arguments <<
               ", but #{delegate.inspect} received :#{method_name} with "\
               "unexpected arguments"
           ).and include(
-            "expected: ({:foo=>\"foo\", :bar=>\"bar\", :baz=>\"baz\"})"
+            "expected: ({#{expected_keywords}})"
           ).and include(
             "got: (no args)"
           ) # end match
@@ -584,6 +591,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
       let(:keywords) do
         { :uno => 'uno', :dos => 'dos', :tres => 'tres' }
       end # let
+      let(:expected_keywords) do
+        if RSpec::Version::STRING >= '3.8.0'
+          ':dos=>"dos", :tres=>"tres", :uno=>"uno"'
+        else
+          ':uno=>"uno", :dos=>"dos", :tres=>"tres"'
+        end # if-else
+      end # let
       let(:method_block_name)      { 'block' }
       let(:method_block_given)     { true }
       let(:block_given)            { method_block_given }
@@ -607,8 +621,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
               ", but #{delegate.inspect} received :#{method_name} with "\
               "unexpected arguments"
           ).and include(
-            'expected: (:ichi, :ni, :san, {:uno=>"uno", :dos=>"dos", '\
-            ':tres=>"tres"})'
+            "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
           ).and include(
             "got: (no args)"
           ) # end match
@@ -632,8 +645,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
               ", but #{delegate.inspect} received :#{method_name} with "\
               "unexpected arguments"
           ).and include(
-            'expected: (:ichi, :ni, :san, {:uno=>"uno", :dos=>"dos", '\
-            ':tres=>"tres"})'
+            "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
           ).and include(
             "got: (:ichi, :ni, :san)"
           ) # end match
@@ -661,10 +673,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
               ", but #{delegate.inspect} received :#{method_name} with "\
               "unexpected arguments"
           ).and include(
-            'expected: (:ichi, :ni, :san, {:uno=>"uno", :dos=>"dos", '\
-            ':tres=>"tres"})'
+            "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
           ).and include(
-            'got: ({:uno=>"uno", :dos=>"dos", :tres=>"tres"})'
+            "got: ({#{expected_keywords}})"
           ) # end match
         end # let
 
