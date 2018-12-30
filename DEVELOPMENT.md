@@ -1,18 +1,21 @@
 # Development Notes
 
-## Version 2.4
+## Version 2.5
 
-### Bug Fixes
+### Features - Matchers
 
-- when skipping a shared example group with xinclude_examples, the generated context is named '(focused)'. It should instead be named '(skipped)'.
-
-### Features
-
-- Alias `have_reader`, etc as `define_reader`.
-  - Also alias shared examples.
-- Alias `have_constant` as `define_constant`.
-  - Alias #immutable as #frozen.
-  - Also alias shared examples.
+- DeepMatcher (NEW): |
+  performs a fuzzy hash match
+  - indifferent - symbol/string keys
+  - if expected value is a matcher, evaluate matcher instead of comparing
+  - diff inner hashes
+- HaveChanged: |
+  update to match built-in #change matcher
+  - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
+- RespondToMatcher: |
+  update to match core respond_to matcher
+  - uses the signature from initialize to validate checks for new
+  - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
 
 ### Maintenance
 
