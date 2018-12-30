@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.0
+
+Added support for Ruby 2.6, dropped support for Ruby 2.3.
+
 ## 2.4.1
 
 Added support for RSpec 3.8.
