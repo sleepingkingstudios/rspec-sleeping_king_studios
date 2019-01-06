@@ -114,4 +114,4 @@ Feature: `PropertyExamples` shared examples
     Then the output should contain consecutive lines:
       | expected MovieClass to respond to :title and :title= and return start with "X", but returned "Tron" |
     Then the output should contain consecutive lines:
-      | expected MovieClass to respond to :release_date and :release_date= and return satisfy <%= RSpec::Expectations::Version::STRING < '3.6.0' ? 'block' : 'expression `object_tools.apply self, expected_value, actual_value`' %>, but returned 1982 |
+      | expected MovieClass to respond to :release_date and :release_date= and return satisfy expression `object_tools.apply self, expected_value, actual_value`, but returned 1982 |

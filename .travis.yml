@@ -5,15 +5,10 @@ rvm:
 - 2.5.3
 - 2.6.0
 gemfile:
-- gemfiles/activemodel_3.gemfile
 - gemfiles/activemodel_4.gemfile
 - gemfiles/activemodel_5_0.gemfile
 - gemfiles/activemodel_5_1.gemfile
 - gemfiles/activemodel_5_2.gemfile
-- gemfiles/rspec_3_4.gemfile
-- gemfiles/rspec_3_5.gemfile
-- gemfiles/rspec_3_6.gemfile
-- gemfiles/rspec_3_7.gemfile
 - gemfiles/rspec_3_8.gemfile
 matrix:
   allow_failures:

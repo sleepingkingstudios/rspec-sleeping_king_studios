@@ -1,5 +1,3 @@
-# rspec-sleeping_king_studios.gemspec
-
 $LOAD_PATH.unshift File.expand_path('./lib')
 require 'rspec/sleeping_king_studios/version'
 
@@ -21,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.require_path = 'lib'
   gem.files        = Dir["lib/**/*.rb", "LICENSE", "*.md"]
 
-  gem.add_runtime_dependency 'rspec',                       '~> 3.4'
+  gem.add_runtime_dependency 'rspec',                       '~> 3.8'
   gem.add_runtime_dependency 'sleeping_king_studios-tools', '~> 0.7'
 
   gem.add_development_dependency 'appraisal',    '~> 2.2'
@@ -34,5 +32,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'aruba',        '~> 0.14'
   gem.add_development_dependency 'cucumber',     '~> 3.1'
 
-  gem.add_development_dependency 'activemodel',  '>= 3.0', '< 6.0'
+  gem.add_development_dependency 'activemodel',  '>= 4.0', '< 6.0'
 end # gemspec

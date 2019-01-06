@@ -134,7 +134,7 @@ Feature: `PropertyExamples` shared examples
     Then the output should contain consecutive lines:
       | expected #<struct Movie title="Tron", release_date=1982> to respond to :title and return start with "X", but returned "Tron" |
     Then the output should contain consecutive lines:
-      | expected #<struct Movie title="Tron", release_date=1982> to respond to :release_date and return satisfy <%= RSpec::Expectations::Version::STRING < '3.6.0' ? 'block' : 'expression `object_tools.apply self, expected_value, actual_value`' %>, but returned 1982 |
+      | expected #<struct Movie title="Tron", release_date=1982> to respond to :release_date and return satisfy expression `object_tools.apply self, expected_value, actual_value`, but returned 1982 |
 
   Scenario: private readers
     Given a file named "examples/property_examples/should_have_reader/private_spec.rb" with:

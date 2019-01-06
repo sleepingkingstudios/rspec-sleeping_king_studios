@@ -491,11 +491,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
 
         let(:method_body) { 'target.send(method)' }
         let(:expected_keywords) do
-          if RSpec::Version::STRING >= '3.8.0'
-            ':bar=>"bar", :baz=>"baz", :foo=>"foo"'
-          else
-            ':foo=>"foo", :bar=>"bar", :baz=>"baz"'
-          end # if-else
+          ':bar=>"bar", :baz=>"baz", :foo=>"foo"'
         end # let
         let(:failure_message) do
           include(
@@ -592,11 +588,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
         { :uno => 'uno', :dos => 'dos', :tres => 'tres' }
       end # let
       let(:expected_keywords) do
-        if RSpec::Version::STRING >= '3.8.0'
-          ':dos=>"dos", :tres=>"tres", :uno=>"uno"'
-        else
-          ':uno=>"uno", :dos=>"dos", :tres=>"tres"'
-        end # if-else
+        ':dos=>"dos", :tres=>"tres", :uno=>"uno"'
       end # let
       let(:method_block_name)      { 'block' }
       let(:method_block_given)     { true }

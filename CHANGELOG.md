@@ -4,6 +4,8 @@
 
 Added support for Ruby 2.6, dropped support for Ruby 2.3.
 
+Dropped support for RSpec 3.4 to 3.7. Dropped support for ActiveModel 3.
+
 ## 2.4.1
 
 Added support for RSpec 3.8.
