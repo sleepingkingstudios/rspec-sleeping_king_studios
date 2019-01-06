@@ -5,17 +5,18 @@
 ### Features - Matchers
 
 - DeepMatcher (NEW): |
-  performs a fuzzy hash match
   - indifferent - symbol/string keys
-  - if expected value is a matcher, evaluate matcher instead of comparing
-  - diff inner hashes
+  - ordered - pre-sort arrays?
+    - only homogenous arrays?
+    - odd results unless equality comparison
 - HaveChanged: |
-  update to match built-in #change matcher
-  - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
+    update to match built-in #change matcher
+    - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
 - RespondToMatcher: |
-  update to match core respond_to matcher
-  - uses the signature from initialize to validate checks for new
-  - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
+    update to match core respond_to matcher
+    - uses the signature from initialize to validate checks for new
+    - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
+  subclass BeConstructibleMatcher from RespondTo ?
 
 ### Maintenance
 
