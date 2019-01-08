@@ -29,6 +29,10 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
     end # when
   end # method compare_message
 
+  private def format_expected(object)
+    RSpec::Support::ObjectFormatter.format(object)
+  end
+
   private def handle_missing_failure_message message
     case config.examples.handle_missing_failure_message_with
     when :pending
