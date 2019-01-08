@@ -488,6 +488,52 @@ Verifies that the actual object can be constructed using `::new`. Can take an op
 * **`#with_keywords`:** (also `and_keywords`) Expects one or more String or Symbol arguments. Verifies that the class's constructor accepts each provided keyword or has a variadic keyword of the form `**params`. As of 2.1.0 and required keywords, verifies that all required keywords are provided.
 * **`#with_arbitrary_keywords`:** (also `and_arbitrary_keywords`) No parameters. Verifies that the class's constructor accepts any keyword arguments via a variadic keyword of the form `**params`.
 
+#### `#deep_match` Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/deep_match'
+
+Performs a recursive comparison between two object or data structures. Also supports using RSpec matchers as values in the expected object.
+
+**How To Use:**
+
+    expected = {
+      status: 200,
+      body: {
+        order: {
+          id:    an_instance_of(Integer),
+          total: '9.99'
+        }
+      }
+    }
+    expect(response).to deep_match(expected)
+
+When the value does not match the expectation, the failure message will provide a detailed diff showing added, missing, and changed values.
+
+    response = {
+      status: 400,
+      body: {
+        order: {
+          fulfilled: false,
+          total:     '19.99'
+        }
+      },
+      errors: ['Insufficient funds']
+    }
+    expect(response).to deep_match(expected)
+    # Failure/Error: expect(response).to deep_match(expected)
+    #
+    #   expected: == {:body=>{:order=>{:id=>an instance of Integer, :total=>"9.99"}}, :status=>200}
+    #        got:    {:status=>400, :body=>{:order=>{:fulfilled=>false, :total=>"19.99"}}, :errors=>["Insufficient funds"]}
+    #
+    #   (compared using HashDiff)
+    #
+    #   Diff:
+    #   + :body.:order.:fulfilled => got false
+    #   - :body.:order.:id => expected an instance of Integer
+    #   ~ :body.:order.:total => expected "9.99", got "19.99"
+    #   + :errors => got ["Insufficient funds"]
+    #   ~ :status => expected 200, got 400
+
 #### `#delegate_method` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/delegate_method'

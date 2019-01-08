@@ -4,6 +4,20 @@
 
 Added support for Ruby 2.6, dropped support for Ruby 2.3.
 
+### Matchers
+
+Implemented the DeepMatcher, which recursively compares data structures.
+
+    expect(response).to deep_match(
+      status: 200,
+      body: {
+        order: {
+          id:    an_instance_of(Integer),
+          total: '9.99'
+        }
+      }
+    )
+
 ## 2.4.1
 
 Added support for RSpec 3.8.
