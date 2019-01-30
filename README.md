@@ -447,6 +447,22 @@ Checks if the object aliases the specified method with the specified other name.
 
 * **`#as`:** Required. Expects one String or Symbol, which is the name of the generated method.
 
+#### `#be_a_uuid` Matcher
+
+    require 'rspec/sleeping_king_studios/matchers/core/be_a_uuid'
+
+**Aliases:** `#a_uuid`.
+
+**How To Use:**
+
+    # With an object comparison.
+    expect(string).to be_a_uuid
+
+    # Inside a composable matcher.
+    expect(array).to include(a_uuid)
+
+**Parameters:** None.
+
 #### `#be_boolean` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
