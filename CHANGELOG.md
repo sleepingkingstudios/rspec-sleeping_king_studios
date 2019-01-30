@@ -6,6 +6,8 @@ Added support for Ruby 2.6, dropped support for Ruby 2.3.
 
 ### Matchers
 
+Implemented the BeAUuidMatcher, which expects the value to be a UUID string.
+
 Implemented the DeepMatcher, which recursively compares data structures.
 
     expect(response).to deep_match(

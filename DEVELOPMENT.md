@@ -4,11 +4,6 @@
 
 ### Features - Matchers
 
-- DeepMatcher (NEW): |
-  - indifferent - symbol/string keys
-  - ordered - pre-sort arrays?
-    - only homogenous arrays?
-    - odd results unless equality comparison
 - HaveChanged: |
     update to match built-in #change matcher
     - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
@@ -21,6 +16,14 @@
 ### Maintenance
 
 - Refactor all macro specs from spec/rspec/sleeping_king_studios/matchers/macros to the directories corresponding to the source files.
+
+## Version 2.6+
+
+- DeepMatcher: |
+  - indifferent - symbol/string keys
+  - ordered - pre-sort arrays?
+    - only homogenous arrays?
+    - odd results unless equality comparison
 
 ## Version 3.0
 
@@ -62,8 +65,6 @@
 
 - BeImmutableMatcher (NEW):
   - Implement be_immutable matcher.
-- HaveChangedMatcher (NEW):
-  - Add spy+matcher for expect(my_object, :my_method).to have_changed ?
 - RespondToMatcher:
   - Implement RespondToMatcher#with_optional_keywords, #with_required_keywords.
   - Implement RespondToMatcher#with_at_least(N).arguments, equivalent to with(N).arguments.and_unlimited_arguments.
