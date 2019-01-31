@@ -1,9 +1,12 @@
 require 'spec_helper'
 
+require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 require 'rspec/sleeping_king_studios/matchers/core/have_changed'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
+  extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
+
   let(:matcher_class) do
     RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher
   end
@@ -26,7 +29,14 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
     let(:spy)           { example_group.watch_value object, method_name }
     let(:method_name)   { :value }
     let(:initial_value) { 'initial value'.freeze }
-    let(:object)        { Struct.new(method_name).new(initial_value) }
+    let(:object_class)  { Spec::CustomStruct }
+    let(:object)        { object_class.new(initial_value) }
+
+    example_constant 'Spec::CustomStruct' do
+      Struct.new(method_name).tap do |struct|
+        struct.send(:define_method, :to_s) { 'Spec::CustomStruct' }
+      end
+    end
 
     it 'should define the macro' do
       expect(example_group)
@@ -37,7 +47,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
 
     it { expect(spy).to be_a spy_class }
 
-    it { expect(spy.description).to be == "##{method_name}" }
+    it { expect(spy.description).to be == "Spec::CustomStruct##{method_name}" }
 
     describe 'with a block' do
       let(:spy) { example_group.watch_value { object.value } }

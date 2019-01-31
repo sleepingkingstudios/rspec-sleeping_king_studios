@@ -98,7 +98,14 @@ RSpec.describe RSpec::SleepingKingStudios::Support::ValueSpy do
 
   let(:method_name)   { :value }
   let(:initial_value) { 'initial value'.freeze }
-  let(:object)        { Struct.new(method_name).new(initial_value) }
+  let(:object_class)  { Spec::CustomStruct }
+  let(:object)        { object_class.new(initial_value) }
+
+  example_constant 'Spec::CustomStruct' do
+    Struct.new(method_name).tap do |struct|
+      struct.send(:define_method, :to_s) { 'Spec::CustomStruct' }
+    end
+  end
 
   describe '::new' do
     it 'should define the constructor' do
@@ -144,7 +151,20 @@ RSpec.describe RSpec::SleepingKingStudios::Support::ValueSpy do
   end
 
   describe '#description' do
-    it { expect(instance).to have_reader(:description).with("##{method_name}") }
+    let(:expected) { "#{object_class}##{method_name}" }
+
+    it { expect(instance).to have_reader(:description).with_value(expected) }
+
+    context 'when the receiver is a Module' do
+      let(:object)   { object_class }
+      let(:expected) { "#{object_class}.#{method_name}" }
+
+      before(:example) do
+        Spec::CustomStruct.singleton_class.send(:define_method, method_name) {}
+      end
+
+      it { expect(instance.description).to be == expected }
+    end
 
     wrap_examples 'when the spy is defined with a block' do
       it { expect(instance.description).to be == 'result' }

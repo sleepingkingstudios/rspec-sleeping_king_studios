@@ -52,8 +52,10 @@ Feature: `have_changed` matcher
       """ruby
       require 'rspec/sleeping_king_studios/matchers/core/have_changed'
 
+      class CustomStruct < Struct.new(:value); end
+
       RSpec.describe 'have_changed' do
-        let(:object) { Struct.new(:value).new('initial value') }
+        let(:object) { CustomStruct.new('initial value') }
 
         # Passing expectations.
         it 'should update the value' do
@@ -119,12 +121,12 @@ Feature: `have_changed` matcher
     Then the output should contain:
       """
            Failure/Error: expect(value).to have_changed
-             expected #value to have changed, but is still "initial value"
+             expected CustomStruct#value to have changed, but is still "initial value"
       """
     Then the output should contain:
       """
            Failure/Error: expect(value).not_to have_changed
-             expected #value not to have changed, but did change from "initial value" to "new value"
+             expected CustomStruct#value not to have changed, but did change from "initial value" to "new value"
       """
     Then the output should contain:
       """
@@ -142,8 +144,10 @@ Feature: `have_changed` matcher
       """ruby
       require 'rspec/sleeping_king_studios/matchers/core/have_changed'
 
+      class CustomStruct < Struct.new(:value); end
+
       RSpec.describe 'have_changed' do
-        let(:object) { Struct.new(:value).new('initial value') }
+        let(:object) { CustomStruct.new('initial value') }
 
         # Passing expectations.
         it 'should update the value' do
@@ -195,22 +199,22 @@ Feature: `have_changed` matcher
     Then the output should contain:
       """
            Failure/Error: expect(value).to have_changed.from('initial value')
-             expected #value to have changed, but is still "initial value"
+             expected CustomStruct#value to have changed, but is still "initial value"
       """
     Then the output should contain:
       """
            Failure/Error: expect(value).to have_changed.from('other value')
-             expected #value to have initially been "other value", but was "initial value"
+             expected CustomStruct#value to have initially been "other value", but was "initial value"
       """
     Then the output should contain:
       """
            Failure/Error: expect(value).not_to have_changed.from('initial value')
-             expected #value not to have changed, but did change from "initial value" to "new value"
+             expected CustomStruct#value not to have changed, but did change from "initial value" to "new value"
       """
     Then the output should contain:
       """
            Failure/Error: expect(value).not_to have_changed.from('other value')
-             expected #value to have initially been "other value", but was "initial value"
+             expected CustomStruct#value to have initially been "other value", but was "initial value"
       """
 
   Scenario: to value
@@ -218,8 +222,10 @@ Feature: `have_changed` matcher
       """ruby
       require 'rspec/sleeping_king_studios/matchers/core/have_changed'
 
+      class CustomStruct < Struct.new(:value); end
+
       RSpec.describe 'have_changed' do
-        let(:object) { Struct.new(:value).new('initial value') }
+        let(:object) { CustomStruct.new('initial value') }
 
         # Passing expectations.
         it 'should update the value' do
@@ -257,12 +263,12 @@ Feature: `have_changed` matcher
     Then the output should contain:
       """
            Failure/Error: expect(value).to have_changed.to('new value')
-             expected #value to have changed to "new value", but is still "initial value"
+             expected CustomStruct#value to have changed to "new value", but is still "initial value"
       """
     Then the output should contain:
       """
            Failure/Error: expect(value).to have_changed.to('other value')
-             expected #value to have changed to "other value", but is now "new value"
+             expected CustomStruct#value to have changed to "other value", but is now "new value"
       """
     Then the output should contain:
       """
@@ -277,8 +283,10 @@ Feature: `have_changed` matcher
       """ruby
       require 'rspec/sleeping_king_studios/matchers/core/have_changed'
 
+      class CustomStruct < Struct.new(:value); end
+
       RSpec.describe 'have_changed' do
-        let(:object) { Struct.new(:value).new(10) }
+        let(:object) { CustomStruct.new(10) }
 
         # Passing expectations.
         it 'should update the value' do
@@ -316,12 +324,12 @@ Feature: `have_changed` matcher
     Then the output should contain:
       """
            Failure/Error: expect(value).to have_changed.by(5)
-             expected #value to have changed by 5, but is still 10
+             expected CustomStruct#value to have changed by 5, but is still 10
       """
     Then the output should contain:
       """
            Failure/Error: expect(value).to have_changed.by(5)
-             expected #value to have changed by 5, but was changed by 10
+             expected CustomStruct#value to have changed by 5, but was changed by 10
       """
     Then the output should contain:
       """
