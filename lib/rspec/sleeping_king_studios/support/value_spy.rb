@@ -1,3 +1,5 @@
+# frozen_string_literals: true
+
 require 'rspec/sleeping_king_studios/support'
 
 module RSpec::SleepingKingStudios::Support
@@ -41,14 +43,24 @@ module RSpec::SleepingKingStudios::Support
         -> { object.send(method_name) }
       end
 
-      @initial_value = current_value
+      @initial_hash    = current_value.hash
+      @initial_inspect = current_value.inspect
+      @initial_value   = current_value
     end
+
+    # @return [Integer] the hash of the watched value at the time the spy was
+    #   initialized.
+    attr_reader :initial_hash
+
+    # @return [String] the string representation of the watched value at the
+    #   time the spy was initialized
+    attr_reader :initial_inspect
 
     # @return [Object] the watched value at the time the spy was initialized.
     attr_reader :initial_value
 
     def changed?
-      !RSpec::Support::FuzzyMatcher.values_match?(initial_value, current_value)
+      initial_value != current_value || initial_hash != current_value.hash
     end
 
     # @return [Object] the watched value when #current_value is called.

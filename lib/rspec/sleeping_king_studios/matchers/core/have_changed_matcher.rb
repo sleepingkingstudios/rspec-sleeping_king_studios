@@ -1,3 +1,5 @@
+# frozen_string_literals: true
+
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/core'
 require 'rspec/sleeping_king_studios/support/value_spy'
@@ -76,7 +78,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
       unless @match_initial_value.nil? || @match_initial_value
         return "expected #{value_spy.description} to have initially " \
           "been #{@expected_initial_value.inspect}, but was " \
-          "#{initial_value.inspect}"
+          "#{value_spy.initial_inspect}"
       end
 
       message = "expected #{value_spy.description} to have changed"
@@ -107,13 +109,13 @@ module RSpec::SleepingKingStudios::Matchers::Core
       unless @match_initial_value.nil? || @match_initial_value
         return "expected #{value_spy.description} to have initially " \
           "been #{@expected_initial_value.inspect}, but was " \
-          "#{initial_value.inspect}"
+          "#{value_spy.initial_inspect}"
       end
 
       message = "expected #{value_spy.description} not to have changed"
 
       message <<
-        ", but did change from #{initial_value.inspect} to " <<
+        ", but did change from #{value_spy.initial_inspect} to " <<
         current_value.inspect
 
       message
