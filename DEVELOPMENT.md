@@ -2,20 +2,19 @@
 
 ## Version 2.5
 
+### Maintenance
+
+- Refactor all macro specs from spec/rspec/sleeping_king_studios/matchers/macros to the directories corresponding to the source files.
+
+## Version 2.6
+
 ### Features - Matchers
 
-- HaveChanged: |
-    update to match built-in #change matcher
-    - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
 - RespondToMatcher: |
     update to match core respond_to matcher
     - uses the signature from initialize to validate checks for new
     - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
   subclass BeConstructibleMatcher from RespondTo ?
-
-### Maintenance
-
-- Refactor all macro specs from spec/rspec/sleeping_king_studios/matchers/macros to the directories corresponding to the source files.
 
 ## Version 2.6+
 
