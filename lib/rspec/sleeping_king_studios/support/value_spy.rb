@@ -1,3 +1,5 @@
+# frozen_string_literals: true
+
 require 'rspec/sleeping_king_studios/support'
 
 module RSpec::SleepingKingStudios::Support
@@ -23,8 +25,8 @@ module RSpec::SleepingKingStudios::Support
   #   value.initial_value #=> 4
   #   value.current_value #=> 3
   class ValueSpy
-    # @overload initialize(object, method_name)
-    #   @param [Object] object The object to watch.
+    # @overload initialize(receiver, method_name)
+    #   @param [Object] receiver The object to watch.
     #
     #   @param [Symbol, String] method_name The name of the method to watch.
     #
@@ -32,23 +34,34 @@ module RSpec::SleepingKingStudios::Support
     #   @yield The value to watch. The block will be called each time the value
     #     is requested, and the return value of the block will be given as the
     #     current value.
-    def initialize(object = nil, method_name = nil, &block)
+    def initialize(receiver = nil, method_name = nil, &block)
       @observed_block = if block_given?
         block
       else
         @method_name = method_name
 
-        -> { object.send(method_name) }
+        -> { receiver.send(method_name) }
       end
 
-      @initial_value = current_value
+      @receiver        = receiver
+      @initial_hash    = current_value.hash
+      @initial_inspect = current_value.inspect
+      @initial_value   = current_value
     end
+
+    # @return [Integer] the hash of the watched value at the time the spy was
+    #   initialized.
+    attr_reader :initial_hash
+
+    # @return [String] the string representation of the watched value at the
+    #   time the spy was initialized
+    attr_reader :initial_inspect
 
     # @return [Object] the watched value at the time the spy was initialized.
     attr_reader :initial_value
 
     def changed?
-      !RSpec::Support::FuzzyMatcher.values_match?(initial_value, current_value)
+      initial_value != current_value || initial_hash != current_value.hash
     end
 
     # @return [Object] the watched value when #current_value is called.
@@ -61,7 +74,19 @@ module RSpec::SleepingKingStudios::Support
     def description
       return 'result' unless @method_name
 
-      "##{@method_name}"
+      format_message
+    end
+
+    private
+
+    attr_reader :method_name
+
+    attr_reader :receiver
+
+    def format_message
+      return "#{receiver}.#{method_name}" if receiver.is_a?(Module)
+
+      "#{receiver.class}##{method_name}"
     end
   end
 end

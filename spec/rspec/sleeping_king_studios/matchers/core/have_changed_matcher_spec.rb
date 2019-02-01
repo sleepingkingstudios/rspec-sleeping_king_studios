@@ -1,10 +1,14 @@
+# frozen_string_literals: true
+
 require 'spec_helper'
+
+require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/concerns/wrap_examples'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
-
 require 'rspec/sleeping_king_studios/matchers/core/have_changed_matcher'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
+  extend  RSpec::SleepingKingStudios::Concerns::ExampleConstants
   extend  RSpec::SleepingKingStudios::Concerns::WrapExamples
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
@@ -15,6 +19,75 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
       actual # Force evaluation of the memoized helper.
 
       object.value = changed_value
+    end
+  end
+
+  shared_context 'when the value hash has changed' do
+    let(:initial_value) { Spec::FuelTank.new(liquid_fuel: 9.0, oxidizer: 11.0) }
+    let(:changed_value) { Spec::FuelTank.new(liquid_fuel: 9.0, oxidizer: 11.0) }
+
+    example_class 'Spec::FuelTank' do |klass|
+      klass.class_eval do
+        def initialize(liquid_fuel:, oxidizer:)
+          @liquid_fuel = liquid_fuel
+          @oxidizer    = oxidizer
+        end
+
+        attr_reader :liquid_fuel, :oxidizer
+
+        def ==(other)
+          other.is_a?(self.class) &&
+            other.liquid_fuel == liquid_fuel &&
+            other.oxidizer == oxidizer
+        end
+      end
+    end
+
+    before(:example) do
+      actual # Force evaluation of the memoized helper.
+
+      object.value = changed_value
+    end
+  end
+
+  shared_context 'when the value is modified' do
+    let(:initial_value) do
+      [
+        {
+          name:      'Hamburger',
+          price:     '10.0',
+          modifiers: [
+            {
+              name:  'Bacon',
+              price: '1.0'
+            },
+            {
+              name:  'Guacamole',
+              price: '2.0'
+            }
+          ]
+        },
+        {
+          name:      'Onion Rings',
+          price:     '5.0',
+          modifiers: []
+        },
+        {
+          name:      'Vanilla Milkshake',
+          price:     '5.0',
+          modifiers: []
+        }
+      ]
+    end
+    let!(:cached_value) do
+      tools.array.deep_dup(initial_value)
+    end
+    let(:tools) { SleepingKingStudios::Tools::Toolbelt.instance }
+
+    before(:example) do
+      actual # Force evaluation of the memoized helper.
+
+      initial_value.dig(0, :modifiers) << { name: 'Medium Well', price: '0.0' }
     end
   end
 
@@ -168,6 +241,18 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
       include_examples 'should pass with a negative expectation'
     end
 
+    describe 'with a value spy with a changed hash' do
+      include_context 'when the value hash has changed'
+
+      let(:failure_message_when_negated) do
+        super() <<
+          ", but did change from #{initial_value.inspect} to " <<
+          changed_value.inspect
+      end
+
+      include_examples 'should fail with a negative expectation'
+    end
+
     describe 'with a value spy with a changed value' do
       include_context 'when the value has changed'
 
@@ -175,6 +260,18 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         super() <<
           ", but did change from #{initial_value.inspect} to " <<
           changed_value.inspect
+      end
+
+      include_examples 'should fail with a negative expectation'
+    end
+
+    describe 'with a value spy with a modified value' do
+      include_context 'when the value is modified'
+
+      let(:failure_message_when_negated) do
+        super() <<
+          ", but did change from #{cached_value.inspect} to " <<
+          initial_value.inspect
       end
 
       include_examples 'should fail with a negative expectation'
@@ -363,8 +460,20 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
       include_examples 'should fail with a positive expectation'
     end
 
+    describe 'with a value spy with a changed hash' do
+      include_context 'when the value hash has changed'
+
+      include_examples 'should pass with a positive expectation'
+    end
+
     describe 'with a value spy with a changed value' do
       include_context 'when the value has changed'
+
+      include_examples 'should pass with a positive expectation'
+    end
+
+    describe 'with a value spy with a modified value' do
+      include_context 'when the value is modified'
 
       include_examples 'should pass with a positive expectation'
     end

@@ -20,6 +20,10 @@ Implemented the DeepMatcher, which recursively compares data structures.
       }
     )
 
+Improved the HaveChangedMatcher to check the before and after `hash` value. This detects when an object is replaced by different but equal object, or when the initial object is a nested data structure (e.g. an Array of Hashes) and the internal elements are modified.
+
+Improved failure message of the HaveChangedMatcher when given a receiver and message.
+
 ## 2.4.1
 
 Added support for RSpec 3.8.
