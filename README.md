@@ -8,9 +8,9 @@ RSpec::SleepingKingStudios is tested against RSpec 3.3 through 3.7.
 
 Currently, the following versions of Ruby are officially supported:
 
-* 2.3
 * 2.4
 * 2.5
+* 2.6
 
 For Ruby 2.0 support, use version 2.1 or earlier: `gem "rspec-sleeping_king_studios", "~> 2.1.1"`.
 
