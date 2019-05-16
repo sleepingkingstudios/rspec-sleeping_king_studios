@@ -1,11 +1,5 @@
 # Development Notes
 
-## Version 2.5
-
-### Maintenance
-
-- Refactor all macro specs from spec/rspec/sleeping_king_studios/matchers/macros to the directories corresponding to the source files.
-
 ## Version 2.6
 
 ### Features - Matchers

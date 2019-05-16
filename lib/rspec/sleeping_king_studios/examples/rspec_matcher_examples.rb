@@ -8,14 +8,14 @@ require 'rspec/sleeping_king_studios/matchers/base_matcher'
 module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
   extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
-  private def config
+  private def rspec_config
     RSpec.configuration.sleeping_king_studios
-  end # method config
+  end # method rspec_config
 
   private def compare_message actual, expected
     case expected
     when String
-      if config.examples.match_string_failure_message_as == :exact
+      if rspec_config.examples.match_string_failure_message_as == :exact
         expect(actual).to be == expected
       else
         expect(actual).to include expected
@@ -34,7 +34,7 @@ module RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
   end
 
   private def handle_missing_failure_message message
-    case config.examples.handle_missing_failure_message_with
+    case rspec_config.examples.handle_missing_failure_message_with
     when :pending
       skip message
     when :exception
