@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.1
+
+Fixed a compatibility issue with Rails 6 configuration objects.
+
 ## 2.5.0
 
 Added support for Ruby 2.6, dropped support for Ruby 2.3.
