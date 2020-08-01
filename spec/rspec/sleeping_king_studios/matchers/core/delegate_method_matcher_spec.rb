@@ -200,10 +200,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
           let(:exception_class) { ArgumentError }
           let(:exception_message) do
             begin
-              args = arguments.dup
-              args << keywords unless keywords.empty?
-
-              actual.send(method_name, *args)
+              if keywords.empty?
+                actual.send(method_name, *arguments)
+              else
+                actual.send(method_name, *arguments, **keywords)
+              end
             rescue ArgumentError => exception
               exception.message
             end # begin-rescue
@@ -478,7 +479,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
       let(:keywords) do
         { :foo => 'foo', :bar => 'bar', :baz => 'baz' }
       end # let
-      let(:instance) { super().with_keywords(keywords) }
+      let(:instance) { super().with_keywords(**keywords) }
 
       include_examples 'should require a target that responds to the method'
 
@@ -602,7 +603,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
       let(:method_block_given)     { true }
       let(:block_given)            { method_block_given }
       let(:instance) do
-        super().with_arguments(*arguments).with_keywords(keywords).with_a_block
+        super().with_arguments(*arguments).with_keywords(**keywords).with_a_block
       end # let
 
       include_examples 'should require a target that responds to the method'
