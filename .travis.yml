@@ -12,6 +12,7 @@ gemfile:
 - gemfiles/rspec_3_6.gemfile
 - gemfiles/rspec_3_7.gemfile
 - gemfiles/rspec_3_8.gemfile
+- gemfiles/rspec_3_9.gemfile
 matrix:
   allow_failures:
   - gemfile: gemfiles/rspec_edge.gemfile
@@ -20,11 +21,11 @@ matrix:
     - rvm: 2.4.5
       gemfile: gemfiles/rspec_3_4.gemfile
     - rvm: 2.4.5
-      gemfile: gemfiles/rspec_3_8.gemfile
+      gemfile: gemfiles/rspec_3_9.gemfile
     - rvm: 2.5.3
       gemfile: gemfiles/rspec_3_4.gemfile
     - rvm: 2.5.3
-      gemfile: gemfiles/rspec_3_8.gemfile
+      gemfile: gemfiles/rspec_3_9.gemfile
     - rvm: 2.6.3
       gemfile: gemfiles/rspec_edge.gemfile
 script:

@@ -25,6 +25,11 @@ appraise 'rspec-3-8' do
   gem 'rspec',       '~> 3.8.0'
 end
 
+appraise 'rspec-3-9' do
+  gem 'activemodel', '5.2.0'
+  gem 'rspec',       '~> 3.9.0'
+end
+
 appraise 'rspec-edge' do
   gem 'activemodel', '5.2.0'
   gem 'rspec',              git: 'https://github.com/rspec/rspec.git'
@@ -41,15 +46,15 @@ end
 
 appraise 'activemodel-4' do
   gem 'activemodel', '4.2.10'
-  gem 'rspec',       '~> 3.8.0'
+  gem 'rspec',       '~> 3.9.0'
 end
 
 appraise 'activemodel-5-0' do
   gem 'activemodel', '5.0.7'
-  gem 'rspec',       '~> 3.8.0'
+  gem 'rspec',       '~> 3.9.0'
 end
 
 appraise 'activemodel-5-1' do
   gem 'activemodel', '5.1.5'
-  gem 'rspec',       '~> 3.8.0'
+  gem 'rspec',       '~> 3.9.0'
 end
