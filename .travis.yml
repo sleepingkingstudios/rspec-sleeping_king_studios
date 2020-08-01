@@ -28,6 +28,8 @@ matrix:
       gemfile: gemfiles/rspec_3_9.gemfile
     - rvm: 2.6.3
       gemfile: gemfiles/rspec_edge.gemfile
+before_script:
+  - cp .rspec.example .rspec
 script:
 - 'bundle exec thor ci:steps'
 

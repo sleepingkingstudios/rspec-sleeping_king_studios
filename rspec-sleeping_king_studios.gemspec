@@ -35,5 +35,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'aruba',        '~> 0.14'
   gem.add_development_dependency 'cucumber',     '~> 3.1'
 
-  gem.add_development_dependency 'activemodel',  '>= 3.0', '< 6.0'
+  gem.add_development_dependency 'activemodel',  '>= 3.0', '< 7.0'
 end # gemspec
