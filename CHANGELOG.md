@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.0
+
+Updated RespondToMatcher to check the arity of `#initialize` when matching against a class and the method name is `:new`.
+
 ## 2.5.1
 
 Fixed a compatibility issue with Rails 6 configuration objects.
