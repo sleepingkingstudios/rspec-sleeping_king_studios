@@ -1,9 +1,5 @@
 # Development Notes
 
-## Version 2.6
-
-Implement Contracts.
-
 ## Version 2.7+
 
 - DeepMatcher: |

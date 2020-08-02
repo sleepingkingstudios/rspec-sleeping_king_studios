@@ -2,6 +2,28 @@
 
 ## 2.6.0
 
+### Contracts
+
+Implemented `RSpec::SleepingKingStudios::Contract`, which encapsulates a set of RSpec expectations. Using a contract allows for examples to be shared between different specs, or even between projects.
+
+```ruby
+module GreetContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  describe '#greet' do
+    it { expect(subject).to respond_to(:greet).with(1).argument }
+
+    it { expect(subject.greet 'programs').to be == 'Greetings, programs!' }
+  end
+end
+
+RSpec.describe Greeter do
+  include GreetContract
+end
+```
+
+### Matchers
+
 Updated RespondToMatcher to check the arity of `#initialize` when matching against a class and the method name is `:new`.
 
 ## 2.5.1
