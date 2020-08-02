@@ -87,18 +87,18 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
 
         method =
           begin
-            actual.method(method_name)
+            if actual.is_a?(Class) && method_name.intern == :new
+              actual.instance_method(:initialize)
+            else
+              actual.method(method_name)
+            end
           rescue NameError
-            nil
-          end # unless
+            @failing_method_reasons[method_name] = {
+              :is_not_a_method => true
+            } # end hash
 
-        unless method.is_a?(Method)
-          @failing_method_reasons[method_name] = {
-            :is_not_a_method => true
-          } # end hash
-
-          next false
-        end # unless
+            next false
+          end
 
         next true unless method_signature_expectation?
 
