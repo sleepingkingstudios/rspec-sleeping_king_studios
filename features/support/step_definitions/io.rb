@@ -2,6 +2,8 @@
 
 require 'erb'
 
+require 'rspec'
+
 Then /^the output should contain consecutive lines:$/ do |table|
   actual    = all_commands.map { |c| c.output }.join("\n")
   lines     = actual.lines.reject { |s| s.strip.empty? }

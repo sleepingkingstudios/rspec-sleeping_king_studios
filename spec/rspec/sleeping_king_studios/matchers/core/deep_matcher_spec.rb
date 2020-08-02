@@ -3161,7 +3161,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       let(:matching_data) do
         SleepingKingStudios::Tools::Toolbelt
           .instance
-          .hash
+          .hsh
           .deep_dup(expected)
           .tap do |hsh|
             order = hsh[:body]['order']

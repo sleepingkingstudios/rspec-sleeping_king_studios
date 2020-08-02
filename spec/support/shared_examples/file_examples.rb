@@ -40,7 +40,7 @@ module Spec::Support::SharedExamples
       def format_description desc
         desc = desc.gsub(/[^A-Za-z0-9\-_\s]/, '').gsub(/\s{2,}/, ' ')
 
-        tools.string.underscore(desc).gsub(/\s+|-/, '_')
+        tools.str.underscore(desc).gsub(/\s+|-/, '_')
       end # class method format_description
 
       def tools
@@ -93,7 +93,7 @@ module Spec::Support::SharedExamples
           [memo, match[0].length].min
         end # reduce
 
-      tools.string.map_lines(raw) { |line| line[trim..-1] || line }
+      tools.str.map_lines(raw) { |line| line[trim..-1] || line }
     end # method trim_contents
   end # module
 end # module

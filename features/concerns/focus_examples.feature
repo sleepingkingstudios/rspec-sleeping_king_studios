@@ -75,9 +75,8 @@ Feature: `FocusExamples` concern
       """
     When I run `rspec wrapping_examples.rb`
     Then the output should contain "2 examples, 1 failure"
-    Then the output should contain "1) Song with a country song (focused) should be == Metal"
     Then the output should contain consecutive lines:
-      | 1) Song with a country song (focused) should be == Metal |
+      | 1) Song with a country song (focused) <%= RSpec::Version::STRING >= '3.9' ? 'is expected to' : 'should' %> be == Metal |
       |    Failure/Error: it { expect(song.genre).to be == 'Metal' } |
 
   Scenario: skipping an example group

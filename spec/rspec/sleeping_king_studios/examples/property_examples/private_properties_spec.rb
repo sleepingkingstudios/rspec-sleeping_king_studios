@@ -18,7 +18,7 @@ RSpec.describe RSpec::SleepingKingStudios::Examples::PropertyExamples do
   shared_context 'with a spec file with examples' do |custom_contents|
     custom_contents =
       tools.
-        string.
+        str.
         map_lines(custom_contents) do |line, index|
           index.zero? ? line : "#{' ' * 10}#{line}"
         end # map_lines

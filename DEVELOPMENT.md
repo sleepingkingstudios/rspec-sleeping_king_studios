@@ -2,6 +2,9 @@
 
 ## Version 2.6
 
+- Support ActiveModel 6
+- Support RSpec 3.9
+
 ### Features - Matchers
 
 - RespondToMatcher: |

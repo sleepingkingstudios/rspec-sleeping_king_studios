@@ -187,14 +187,22 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     private
 
-    def call_method arguments, expected_return = DEFAULT_EXPECTED_RETURN
+    def call_method(arguments:, keywords:, expected_return: DEFAULT_EXPECTED_RETURN)
       if @expected_block
         @received_block = false
         block           = ->(*args, **kwargs, &block) {}
 
-        return_value = @actual.send(@expected, *arguments, &block)
+        if keywords.empty?
+          return_value = @actual.send(@expected, *arguments, &block)
+        else
+          return_value = @actual.send(@expected, *arguments, **keywords, &block)
+        end
       else
-        return_value = @actual.send(@expected, *arguments)
+        if keywords.empty?
+          return_value = @actual.send(@expected, *arguments)
+        else
+          return_value = @actual.send(@expected, *arguments, **keywords)
+        end
       end
 
       @received_return_values << return_value
@@ -215,19 +223,22 @@ module RSpec::SleepingKingStudios::Matchers::Core
     def delegates_method?
       stub_target!
 
-      args = @expected_arguments.dup
-      args << @expected_keywords unless @expected_keywords.empty?
-
       if @expected_return_values.empty?
-        call_method(args)
+        call_method(arguments: @expected_arguments, keywords: @expected_keywords)
       else
         @expected_return_values.each do |return_value|
-          call_method(args, return_value)
+          call_method(arguments: @expected_arguments, keywords: @expected_keywords, expected_return: return_value)
         end # each
       end # if-else
 
       matcher = RSpec::Mocks::Matchers::HaveReceived.new(@expected)
-      matcher = matcher.with(*args) unless args.empty?
+      if !@expected_arguments.empty? && !@expected_keywords.empty?
+        matcher = matcher.with(*@expected_arguments, **@expected_keywords)
+      elsif !@expected_arguments.empty?
+        matcher = matcher.with(*@expected_arguments)
+      elsif !@expected_keywords.empty?
+        matcher = matcher.with(**@expected_keywords)
+      end
 
       unless @expected_return_values.empty?
         matcher = matcher.exactly(@expected_return_values.count).times

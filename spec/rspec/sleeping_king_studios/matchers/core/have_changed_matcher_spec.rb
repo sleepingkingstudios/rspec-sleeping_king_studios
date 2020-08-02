@@ -80,7 +80,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
       ]
     end
     let!(:cached_value) do
-      tools.array.deep_dup(initial_value)
+      tools.ary.deep_dup(initial_value)
     end
     let(:tools) { SleepingKingStudios::Tools::Toolbelt.instance }
 
