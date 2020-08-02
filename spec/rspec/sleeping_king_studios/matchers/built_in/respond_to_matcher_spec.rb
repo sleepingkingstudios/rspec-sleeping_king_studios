@@ -139,6 +139,97 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
   end # describe
 
   describe '#matches?' do
+    shared_examples 'should match a private method' do
+      context 'when the method is private' do
+        before(:example) do
+          actual.class.send(:private, method_name)
+        end
+
+        describe 'with include_all => false' do
+          let(:failure_message) do
+            super() << ", but #{actual.inspect} does not respond to #{method_name.inspect}"
+          end # let
+
+          include_examples 'should fail with a positive expectation'
+
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with include_all => true' do
+          let(:instance) { described_class.new method_name, true }
+
+          include_examples 'should respond to method with signature'
+        end # describe
+      end # describe
+    end
+
+    shared_examples 'should validate the method signature' do
+      describe 'when the method takes no arguments' do
+        let(:implementation) { -> {} }
+
+        include_examples 'should respond to method with signature'
+      end # describe
+
+      describe 'when the method takes required arguments' do
+        let(:implementation) { ->(a, b, c = nil) {} }
+
+        include_examples 'should respond to method with signature',
+          :min_arguments => 2,
+          :max_arguments => 3
+      end # describe
+
+      describe 'when the method takes variadic arguments' do
+        let(:implementation) { ->(a, b, c, *rest) {} }
+
+        include_examples 'should respond to method with signature',
+          :min_arguments => 3,
+          :unlimited_arguments => true
+      end # describe
+
+      describe 'when the method takes optional keywords' do
+        let(:implementation) { ->(x: nil, y: nil) {} }
+
+        include_examples 'should respond to method with signature',
+          :optional_keywords => [:x, :y]
+      end # describe
+
+      describe 'when the method takes required keywords' do
+        let(:implementation) { ->(x:, y:, u: nil, v: nil) {} }
+
+        include_examples 'should respond to method with signature',
+          :optional_keywords => [:u, :v],
+          :required_keywords => [:x, :y]
+      end # describe
+
+      describe 'when the method takes variadic keywords' do
+        let(:implementation) { ->(x:, y:, **kwargs) {} }
+
+        include_examples 'should respond to method with signature',
+          :required_keywords  => [:x, :y],
+          :arbitrary_keywords => true
+      end # describe
+
+      describe 'when the method takes a block argument' do
+        let(:implementation) { ->(&block) {} }
+
+        include_examples 'should respond to method with signature',
+          :block_argument => true
+      end # describe
+
+      describe 'when the method takes complex parameters' do
+        let(:implementation) do
+          ->(a, b, c = nil, d = nil, x:, y:, u: nil, v: nil, &block) {}
+        end
+
+        include_examples 'should respond to method with signature',
+          :min_arguments     => 2,
+          :max_arguments     => 4,
+          :optional_keywords => [:u, :v],
+          :required_keywords => [:x, :y],
+          :block_argument    => true
+      end # describe
+    end
+
     let(:failure_message) do
       "expected #{actual.inspect} to respond to #{method_name.inspect}"
     end # let
@@ -172,126 +263,66 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
       include_examples 'should pass with a negative expectation'
     end # describe
 
-    describe 'with a matching method with no arguments' do
+    describe 'with an object with a matching method' do
+      let(:implementation) { -> {} }
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->() {}
+          klass.send :define_method, method_name, implementation
         end.new
-      end # let
+      end
 
-      include_examples 'should respond to method with signature'
-    end # describe
+      include_examples 'should match a private method'
 
-    describe 'with a matching private method with no arguments' do
+      include_examples 'should validate the method signature'
+    end
+
+    describe 'with an object with a :new method' do
+      let(:method_name) { :new }
+      let(:implementation) { -> {} }
       let(:actual) do
         Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->() {}
-          klass.send :private, method_name
+          klass.send :define_method, method_name, implementation
         end.new
-      end # let
+      end
 
-      describe 'with no argument expectation' do
-        let(:failure_message) do
-          super() << ", but #{actual.inspect} does not respond to #{method_name.inspect}"
-        end # let
+      include_examples 'should match a private method'
 
-        include_examples 'should fail with a positive expectation'
+      include_examples 'should validate the method signature'
+    end
 
-        include_examples 'should pass with a negative expectation'
+    describe 'with a class and method_name: :new' do
+      let(:method_name) { :new }
+      let(:implementation) { -> {} }
+      let(:actual) do
+        Class.new.tap do |klass|
+          klass.send :define_method, :initialize, implementation
+        end
+      end
+
+      include_examples 'should validate the method signature'
+
+      context 'when the method is private' do
+        before(:example) do
+          actual.singleton_class.send(:private, :new)
+        end
+
+        describe 'with include_all => false' do
+          let(:failure_message) do
+            super() << ", but #{actual.inspect} does not respond to #{method_name.inspect}"
+          end # let
+
+          include_examples 'should fail with a positive expectation'
+
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with include_all => true' do
+          let(:instance) { described_class.new method_name, true }
+
+          include_examples 'should respond to method with signature'
+        end # describe
       end # describe
-
-      describe 'with include_all => true' do
-        let(:instance) { described_class.new method_name, true }
-
-        include_examples 'should respond to method with signature'
-      end # describe
-    end # describe
-
-    describe 'with a matching method with required arguments' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(a, b, c = nil) {}
-        end.new
-      end # let
-
-      include_examples 'should respond to method with signature',
-        :min_arguments => 2,
-        :max_arguments => 3
-    end # describe
-
-    describe 'with a matching method with variadic arguments' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(a, b, c, *rest) {}
-        end.new
-      end # let
-
-      include_examples 'should respond to method with signature',
-        :min_arguments => 3,
-        :unlimited_arguments => true
-    end # describe
-
-    describe 'with a matching method with optional keywords' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(x: nil, y: nil) {}
-        end.new
-      end # let
-
-      include_examples 'should respond to method with signature',
-        :optional_keywords => [:x, :y]
-    end # describe
-
-    describe 'with a matching method with required keywords' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(x:, y:, u: nil, v: nil) {}
-        end.new
-      end # let
-
-      include_examples 'should respond to method with signature',
-        :optional_keywords => [:u, :v],
-        :required_keywords => [:x, :y]
-    end # describe
-
-    describe 'with a matching method with variadic keywords' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(x:, y:, **kwargs) {}
-        end.new
-      end # let
-
-      include_examples 'should respond to method with signature',
-        :required_keywords  => [:x, :y],
-        :arbitrary_keywords => true
-    end # describe
-
-    describe 'with a matching method with a block argument' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, method_name, ->(&block) {}
-        end.new
-      end # let
-
-      include_examples 'should respond to method with signature',
-        :block_argument => true
-    end # describe
-
-    describe 'with a matching method with complex parameters' do
-      let(:actual) do
-        Class.new.tap do |klass|
-          klass.send :define_method, method_name,
-            ->(a, b, c = nil, d = nil, x:, y:, u: nil, v: nil, &block) {}
-        end.new
-      end # let
-
-      include_examples 'should respond to method with signature',
-        :min_arguments     => 2,
-        :max_arguments     => 4,
-        :optional_keywords => [:u, :v],
-        :required_keywords => [:x, :y],
-        :block_argument    => true
-    end # describe
+    end
   end # describe
 
   describe '#with' do
