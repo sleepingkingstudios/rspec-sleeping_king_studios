@@ -2,18 +2,9 @@
 
 ## Version 2.6
 
-- Support ActiveModel 6
-- Support RSpec 3.9
+Implement Contracts.
 
-### Features - Matchers
-
-- RespondToMatcher: |
-    update to match core respond_to matcher
-    - uses the signature from initialize to validate checks for new
-    - see https://github.com/rspec/rspec-expectations/blob/master/Changelog.md
-  subclass BeConstructibleMatcher from RespondTo ?
-
-## Version 2.6+
+## Version 2.7+
 
 - DeepMatcher: |
   - indifferent - symbol/string keys
