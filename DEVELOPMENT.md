@@ -11,6 +11,7 @@
 ## Version 3.0
 
 - Extract out Rails-specific matchers to RSpec::SleepingKingStudios::Rails.
+  - Drop Rails 3 support.
 - Refactor property, constant matchers to Define$1Matcher.
   - HaveConstantMatcher, HaveReaderMatcher, HavePredicateMatcher, HavePropertyMatcher, HaveWriterMatcher.
   - Designate define_* macros as primary, have_* as aliases.
