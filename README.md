@@ -322,7 +322,85 @@ A simplified syntax for re-using shared context or examples without having to ex
 
 (also `::xwrap_context`) A shortcut for wrapping the context or examples in an automatically-skipped `describe` block, similar to the built-in `xit` and `xdescribe` methods.
 
-## Custom Matchers
+## Contracts
+
+```ruby
+require 'rspec/sleepingkingstudios/contract'
+```
+
+A Contract encapsulates a set of RSpec expectations, which can then be used when defining a spec.
+
+```ruby
+module GreetContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  describe '#greet' do
+    it { expect(subject).to respond_to(:greet).with(1).argument }
+
+    it { expect(subject.greet 'programs').to be == 'Greetings, programs!' }
+  end
+end
+
+RSpec.describe Greeter do
+  include GreetContract
+end
+```
+
+Using a contract allows for examples to be shared between different specs, or even between projects.
+
+### Contract Methods
+
+Not all RSpec methods are defined in a Contract. Only methods that define an example (`it`) or an example group (`context` or `describe`) can be used at the top level of a Contract. However, all RSpec methods (including methods that modify the current scope, such as `let` and the `before`/`around`/`after` filters) can be used inside an example group as normal.
+
+#### `::context`
+
+Defines an example group inside the contract. This example group will be defined on all specs that include the contract.
+
+```ruby
+module TransformationContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  context 'when the moon is full' do
+    let(:moon_phase) { :full }
+
+    it { expect(werewolf).to be_transformed }
+  end
+end
+```
+
+#### `::describe`
+
+Defines an example group inside the contract. This example group will be defined on all specs that include the contract.
+
+```ruby
+module SilverContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  describe 'with a silver weapon' do
+    before(:example) do
+      weapon.material = 'silver'
+    end
+
+    it 'should kill the werewolf' do
+      expect(attack(werewolf, weapon)).to change(werewolf, :alive?).to be false
+    end
+  end
+end
+```
+
+#### `::it`
+
+Defines an example inside the contract.
+
+```ruby
+module HowlingContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  it { expect(werewolf).to respond_to(:howl) }
+end
+```
+
+## Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be required individually or by category:
 

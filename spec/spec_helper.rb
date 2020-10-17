@@ -11,6 +11,8 @@ module Spec; end
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
+  config.disable_monkey_patching!
+
   # Limit a spec run to individual examples or groups you care about by tagging
   # them with `:focus` metadata.
   config.filter_run :focus
