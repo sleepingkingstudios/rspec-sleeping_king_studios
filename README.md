@@ -400,6 +400,87 @@ module HowlingContract
 end
 ```
 
+#### `::shared_context`
+
+Defines a shared example group.
+
+```ruby
+module MoonContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  shared_context 'when the moon is full' do
+    before(:example) { moon.phase = :full }
+  end
+end
+```
+
+**Note:** When the `Contract` is included in an RSpec example group, any shared example groups defined at the top level of a contract are also included in that example group, even outside of the contract itself. This may cause namespace collisions with shared example groups defined elsewhere in the example group or by other included contracts.
+
+#### `::shared_examples`
+
+Defines a shared example group.
+
+```ruby
+module HairContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  shared_examples 'should be hairy' do
+    describe '#hairy?' do
+      it { expect(werewolf.hairy?).to be true }
+    end
+  end
+end
+```
+
+**Note:** When the `Contract` is included in an RSpec example group, any shared example groups defined at the top level of a contract are also included in that example group, even outside of the contract itself. This may cause namespace collisions with shared example groups defined elsewhere in the example group or by other included contracts.
+
+### Developing Contracts
+
+```ruby
+module VampireContract
+  extend RSpec::SleepingKingStudios::Contract
+  extend RSpec::SleepingKingStudios::Contracts::Development
+
+  fdescribe '#drink' do
+    it { expect(drink 'blood').to be true }
+
+    xit { expect(drink 'holy water').to be false }
+  end
+
+  pending
+end
+```
+
+The `RSpec::SleepingKingStudios::Contracts::Development` module provides methods for defining focused or pending examples and example groups. These are intended for use when developing a contract, and should not be included in the final version. Having skipped or focused example groups in a shared contract can have unexpected effects when the contract is included by the end user.
+
+#### `::fcontext`
+
+Defines a focused example group inside the contract.
+
+#### `::fdescribe`
+
+Defines a focused example group inside the contract.
+
+#### `::fit`
+
+Defines a focused example inside the contract.
+
+#### `::pending`
+
+Marks the contract as pending.
+
+#### `::xcontext`
+
+Defines a skipped example group inside the contract.
+
+#### `::xdescribe`
+
+Defines a skipped example group inside the contract.
+
+#### `::xit`
+
+Defines a skipped example inside the contract.
+
 ## Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be required individually or by category:

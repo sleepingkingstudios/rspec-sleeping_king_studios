@@ -6,8 +6,11 @@ require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/contract'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
+require 'support/shared_examples/contract_examples'
+
 RSpec.describe RSpec::SleepingKingStudios::Contract do
-  extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
+  extend  RSpec::SleepingKingStudios::Concerns::ExampleConstants
+  include Spec::Support::SharedExamples::ContractExamples
 
   shared_context 'when the contract defines examples' do
     let(:examples) do
@@ -68,74 +71,6 @@ RSpec.describe RSpec::SleepingKingStudios::Contract do
     example_constant 'Spec::IncludedContract' do
       Module.new do
         extend RSpec::SleepingKingStudios::Contract
-      end
-    end
-  end
-
-  shared_examples 'should define an example' do
-    let(:description)    { 'should do something' }
-    let(:implementation) { -> {} }
-
-    it 'should define an example' do
-      expect { described_class.send method_name, description, &implementation }
-        .to change { described_class.examples.size }
-        .by(1)
-    end
-
-    it 'should add the definition to .examples' do
-      described_class.send method_name, description, &implementation
-
-      expect(described_class.examples.last).to be == {
-        block:       implementation,
-        description: description,
-        method_name: method_name
-      }
-    end
-  end
-
-  shared_examples 'should validate the description and block' do
-    describe 'with description: nil' do
-      let(:error_message) { "description can't be blank" }
-
-      it 'should raise an error' do
-        expect { described_class.send method_name, nil }
-          .to raise_error ArgumentError, error_message
-      end
-    end
-
-    describe 'with description: a Object' do
-      let(:error_message) { 'description must be a String or a Symbol' }
-
-      it 'should raise an error' do
-        expect { described_class.send method_name, Object.new.freeze }
-          .to raise_error ArgumentError, error_message
-      end
-    end
-
-    describe 'with description: an empty String' do
-      let(:error_message) { "description can't be blank" }
-
-      it 'should raise an error' do
-        expect { described_class.send method_name, '' }
-          .to raise_error ArgumentError, error_message
-      end
-    end
-
-    describe 'with description: an empty Symbol' do
-      let(:error_message) { "description can't be blank" }
-
-      it 'should raise an error' do
-        expect { described_class.send method_name, '' }
-          .to raise_error ArgumentError, error_message
-      end
-    end
-
-    describe 'without a block' do
-      let(:error_message) { 'called without a block' }
-
-      it 'should raise an error' do
-        expect { described_class.send method_name, '#something' }
-          .to raise_error ArgumentError, error_message
       end
     end
   end
@@ -268,7 +203,36 @@ RSpec.describe RSpec::SleepingKingStudios::Contract do
 
     it 'should define the class method' do
       expect(described_class)
-        .to respond_to(:it).with(1).argument
+        .to respond_to(:it).with(0..1).arguments
+        .and_a_block
+    end
+
+    include_examples 'should validate the description and block',
+      allow_nil: true
+
+    include_examples 'should define an example'
+  end
+
+  describe '.shared_context' do
+    let(:method_name) { :shared_context }
+
+    it 'should define the class method' do
+      expect(described_class)
+        .to respond_to(:shared_context).with(1).argument
+        .and_a_block
+    end
+
+    include_examples 'should validate the description and block'
+
+    include_examples 'should define an example'
+  end
+
+  describe '.shared_examples' do
+    let(:method_name) { :shared_examples }
+
+    it 'should define the class method' do
+      expect(described_class)
+        .to respond_to(:shared_examples).with(1).argument
         .and_a_block
     end
 
