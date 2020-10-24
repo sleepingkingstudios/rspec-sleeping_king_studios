@@ -400,6 +400,40 @@ module HowlingContract
 end
 ```
 
+#### `::shared_context`
+
+Defines a shared example group.
+
+```ruby
+module MoonContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  shared_context 'when the moon is full' do
+    before(:example) { moon.phase = :full }
+  end
+end
+```
+
+**Note:** When the `Contract` is included in an RSpec example group, any shared example groups defined at the top level of a contract are also included in that example group, even outside of the contract itself. This may cause namespace collisions with shared example groups defined elsewhere in the example group or by other included contracts.
+
+#### `::shared_examples`
+
+Defines a shared example group.
+
+```ruby
+module HairContract
+  extend RSpec::SleepingKingStudios::Contract
+
+  shared_examples 'should be hairy' do
+    describe '#hairy?' do
+      it { expect(werewolf.hairy?).to be true }
+    end
+  end
+end
+```
+
+**Note:** When the `Contract` is included in an RSpec example group, any shared example groups defined at the top level of a contract are also included in that example group, even outside of the contract itself. This may cause namespace collisions with shared example groups defined elsewhere in the example group or by other included contracts.
+
 ## Matchers
 
 To enable a custom matcher, simply require the associated file. Matchers can be required individually or by category:

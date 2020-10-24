@@ -81,13 +81,35 @@ module RSpec::SleepingKingStudios
 
     # Defines an example.
     #
-    # @param description [String] The description for the example.
+    # @param description [String, nil] The description for the example.
     #
     # @yield The block is used to define the example.
     #
     # @see RSpec::Core::ExampleGroup.it
-    def it(description, &block)
-      add_example :it, description, &block
+    def it(description = nil, &block)
+      add_example :it, description, allow_nil: true, &block
+    end
+
+    # Defines a shared example group.
+    #
+    # @param description [String] The description for the shared example group.
+    #
+    # @yield The block is used to define the shared example group.
+    #
+    # @see RSpec::Core::ExampleGroup.shared_examples
+    def shared_context(description, &block)
+      add_example :shared_context, description, &block
+    end
+
+    # Defines a shared example group.
+    #
+    # @param description [String] The description for the shared example group.
+    #
+    # @yield The block is used to define the shared example group.
+    #
+    # @see RSpec::Core::ExampleGroup.shared_context
+    def shared_examples(description, &block)
+      add_example :shared_examples, description, &block
     end
 
     protected
@@ -100,8 +122,8 @@ module RSpec::SleepingKingStudios
 
     private
 
-    def add_example(method_name, description, &block)
-      validate_description(description)
+    def add_example(method_name, description, allow_nil: false, &block)
+      validate_description(description, allow_nil: allow_nil)
 
       unless block_given?
         raise ArgumentError, 'called without a block', caller(1..-1)
@@ -141,8 +163,10 @@ module RSpec::SleepingKingStudios
       end
     end
 
-    def validate_description(description)
+    def validate_description(description, allow_nil:)
       if description.nil?
+        return if allow_nil
+
         raise ArgumentError, "description can't be blank", caller(2..-1)
       end
 
