@@ -29,7 +29,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
   end # let
 
   def format_expected_items items
-    items = (RSpec::Version::STRING < "3.3.0") ? expected_items : items
+    items = (Spec::RSPEC_VERSION < "3.3.0") ? expected_items : items
     items = items.map do |item|
       case item
       when Proc
@@ -37,7 +37,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
       when Hash
         item.inspect.gsub(/(\S)=>(\S)/, '\1 => \2')
       when ->(item) { item.respond_to?(:description) && item.respond_to?(:matches?) }
-        (RSpec::Version::STRING < "3.3.0") ? item.description : "(#{item.description})"
+        (Spec::RSPEC_VERSION < "3.3.0") ? item.description : "(#{item.description})"
       else
         item.inspect
       end # case
@@ -116,7 +116,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
       let(:expected_items) do
         hash = expectations
 
-        hash = sort_keys(hash) if RSpec::Version::STRING >= '3.8.0'
+        hash = sort_keys(hash) if Spec::RSPEC_VERSION >= '3.8.0'
 
         [hash]
       end # let
@@ -250,7 +250,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
       let(:actual_string) do
         hash = actual
 
-        hash = sort_keys(hash) if RSpec::Version::STRING >= '3.8.0'
+        hash = sort_keys(hash) if Spec::RSPEC_VERSION >= '3.8.0'
 
         hash.inspect.gsub(/(\S)=>(\S)/, '\1 => \2')
       end
