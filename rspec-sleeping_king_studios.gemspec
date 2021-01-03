@@ -1,4 +1,4 @@
-# rspec-sleeping_king_studios.gemspec
+# frozen_string_literal: true
 
 $LOAD_PATH.unshift File.expand_path('./lib')
 require 'rspec/sleeping_king_studios/version'
@@ -23,17 +23,17 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'hashdiff',                    '~> 0.3.8'
   gem.add_runtime_dependency 'rspec',                       '~> 3.4'
-  gem.add_runtime_dependency 'sleeping_king_studios-tools', '~> 0.7'
+  gem.add_runtime_dependency 'sleeping_king_studios-tools', '~> 0.8'
 
   gem.add_development_dependency 'appraisal',    '~> 2.2'
   gem.add_development_dependency 'byebug',       '~> 10.0'
   gem.add_development_dependency 'rake',         '~> 12.3'
   gem.add_development_dependency 'thor',         '~> 0.20', '>= 0.19.4'
   gem.add_development_dependency 'sleeping_king_studios-tasks',
-    '~> 0.1'
+    '~> 0.4'
 
   gem.add_development_dependency 'aruba',        '~> 0.14'
   gem.add_development_dependency 'cucumber',     '~> 3.1'
 
   gem.add_development_dependency 'activemodel',  '>= 3.0', '< 7.0'
-end # gemspec
+end

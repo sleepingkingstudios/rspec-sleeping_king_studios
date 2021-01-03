@@ -1,10 +1,10 @@
-# rspec-sleeping_king_studios.thor
+# frozen_string_literal: true
 
 begin
   require 'byebug'
 rescue LoadError
   # Probably don't need this.
-end # begin-rescue
+end
 
 require 'sleeping_king_studios/tasks'
 
@@ -17,17 +17,17 @@ SleepingKingStudios::Tasks.configure do |config|
         %i(rspec rspec_each cucumber)
       else
         %i(rspec cucumber)
-      end # if-else
-  end # ci
+      end
+  end
 
   config.file do |file|
     file.template_paths =
       [
         '../sleeping_king_studios-templates/lib',
         file.class.default_template_path
-      ] # end template paths
-  end # file
-end # configure
+      ]
+  end
+end
 
 load 'sleeping_king_studios/tasks/ci/tasks.thor'
 load 'sleeping_king_studios/tasks/file/tasks.thor'

@@ -53,4 +53,4 @@ Feature: `Contract`
     When I run `rspec greeter_spec.rb`
     Then the output should contain "3 examples, 1 failure"
     Then the output should contain consecutive lines:
-      | 1) Greeter#taunt <%= RSpec::Version::STRING >= '3.9' ? 'is expected to' : 'should' %> respond to #taunt |
+      | 1) Greeter#taunt <%= Spec::RSPEC_VERSION >= '3.9' ? 'is expected to' : 'should' %> respond to #taunt |

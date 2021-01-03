@@ -492,7 +492,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
 
         let(:method_body) { 'target.send(method)' }
         let(:expected_keywords) do
-          if RSpec::Version::STRING >= '3.8.0'
+          if Spec::RSPEC_VERSION >= '3.8.0'
             ':bar=>"bar", :baz=>"baz", :foo=>"foo"'
           else
             ':foo=>"foo", :bar=>"bar", :baz=>"baz"'
@@ -593,7 +593,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
         { :uno => 'uno', :dos => 'dos', :tres => 'tres' }
       end # let
       let(:expected_keywords) do
-        if RSpec::Version::STRING >= '3.8.0'
+        if Spec::RSPEC_VERSION >= '3.8.0'
           ':dos=>"dos", :tres=>"tres", :uno=>"uno"'
         else
           ':uno=>"uno", :dos=>"dos", :tres=>"tres"'

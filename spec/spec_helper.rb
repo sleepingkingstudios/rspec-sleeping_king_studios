@@ -5,7 +5,32 @@ require 'byebug'
 
 require 'rspec/sleeping_king_studios'
 
-module Spec; end
+module Spec
+  class GemVersion
+    include Comparable
+
+    def initialize(version)
+      @segments = version.split('.').map do |str|
+        str.to_i.to_s == str ? str.to_i : str
+      end
+    end
+
+    def <=>(version)
+      version = GemVersion.new(version) if version.is_a?(String)
+
+      segments
+        .zip(version.segments)
+        .map { |u, v| u <=> v }
+        .find(&:nonzero?) || 0
+    end
+
+    protected
+
+    attr_reader :segments
+  end
+
+  RSPEC_VERSION = Spec::GemVersion.new(RSpec::Version::STRING)
+end
 
 #=# Require Factories, Custom Matchers, &c #=#
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |f| require f }

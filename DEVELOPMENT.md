@@ -1,12 +1,8 @@
 # Development Notes
 
-## Version 2.7+
+## Version 2.6
 
-- DeepMatcher: |
-  - indifferent - symbol/string keys
-  - ordered - pre-sort arrays?
-    - only homogenous arrays?
-    - odd results unless equality comparison
+- Deprecate `delegate_method` matcher, `include` matcher with block.
 
 ## Version 3.0
 
@@ -21,6 +17,12 @@
 - Add SimpleCov CI step.
 
 ## Future Tasks
+
+- DeepMatcher: |
+  - indifferent - symbol/string keys
+  - ordered - pre-sort arrays?
+    - only homogenous arrays?
+    - odd results unless equality comparison
 
 ### Bug Fixes
 
