@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "activemodel", "~> 6.0"
+gem "activemodel", "~> 6.1"
 gem "rspec", git: "https://github.com/rspec/rspec.git", branch: "main"
 gem "sleeping_king_studios-tasks", git: "https://github.com/sleepingkingstudios/sleeping_king_studios-tasks"
 gem "rspec-core", git: "https://github.com/rspec/rspec-core.git", branch: "main"
