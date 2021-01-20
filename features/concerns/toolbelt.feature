@@ -23,9 +23,9 @@ Feature: `Toolbelt` concern
           shared_examples 'should count' do |count, label|
             label =
               if count == 1
-                tools.string.singularize(label)
+                tools.str.singularize(label)
               else
-                tools.string.pluralize(label)
+                tools.str.pluralize(label)
               end # if-else
 
             let(:expected) do
