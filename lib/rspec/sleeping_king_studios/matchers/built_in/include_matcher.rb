@@ -17,7 +17,12 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     #   should return true if and only if the item matches the desired
     #   predicate.
     def initialize *expected, &block
-      expected << block if block_given?
+      if block_given?
+        SleepingKingStudios::Tools::CoreTools
+          .deprecate('IncludeMatcher with a block')
+
+          expected << block
+      end
 
       if expected.empty? && !allow_empty_matcher?
         raise ArgumentError,

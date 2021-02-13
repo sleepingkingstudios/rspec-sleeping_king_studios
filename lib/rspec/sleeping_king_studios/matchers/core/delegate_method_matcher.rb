@@ -125,6 +125,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # (see BaseMatcher#matches?)
     def matches? actual
+      SleepingKingStudios::Tools::CoreTools.deprecate('DelegateMethodMatcher')
+
       super
 
       raise ArgumentError.new('must specify a target') if @target.nil?

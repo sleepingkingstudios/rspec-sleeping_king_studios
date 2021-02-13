@@ -371,7 +371,19 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
       " and return #{tools.humanize_list values}"
     end # method format_return_values
 
+    before(:example) do
+      allow(SleepingKingStudios::Tools::CoreTools).to receive(:deprecate)
+    end
+
     it { expect(instance).to respond_to(:matches?).with(1).arguments }
+
+    it 'should print a deprecation warning' do
+      instance.to(Object.new.freeze).matches?(nil)
+
+      expect(SleepingKingStudios::Tools::CoreTools)
+        .to have_received(:deprecate)
+        .with('DelegateMethodMatcher')
+    end
 
     describe 'with an actual that does not respond to the method' do
       include_examples 'should require a target'
