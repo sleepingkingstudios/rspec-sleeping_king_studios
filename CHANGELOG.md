@@ -2,25 +2,9 @@
 
 ## 2.6.0
 
-### Contracts
+Deprecated the DelegateMethod matcher. Use `rspec-mocks` expectations instead.
 
-Implemented `RSpec::SleepingKingStudios::Contract`, which encapsulates a set of RSpec expectations. Using a contract allows for examples to be shared between different specs, or even between projects.
-
-```ruby
-module GreetContract
-  extend RSpec::SleepingKingStudios::Contract
-
-  describe '#greet' do
-    it { expect(subject).to respond_to(:greet).with(1).argument }
-
-    it { expect(subject.greet 'programs').to be == 'Greetings, programs!' }
-  end
-end
-
-RSpec.describe Greeter do
-  include GreetContract
-end
-```
+Deprecated the Include matcher with a block. Use the `satisfy` matcher instead.
 
 ### Matchers
 
