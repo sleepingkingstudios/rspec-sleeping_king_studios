@@ -101,6 +101,10 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
       "include #{included_string}"
     end # let
 
+    before(:example) do
+      allow(SleepingKingStudios::Tools::CoreTools).to receive(:deprecate)
+    end
+
     it { expect(instance).to respond_to(:description).with(0).arguments }
 
     it { expect(instance.description).to be == expected }
@@ -133,6 +137,18 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
   end # describe
 
   describe '#matches?' do
+    before(:example) do
+      allow(SleepingKingStudios::Tools::CoreTools).to receive(:deprecate)
+    end
+
+    it 'should print a deprecation warning' do
+      described_class.new {}.matches?(nil)
+
+      expect(SleepingKingStudios::Tools::CoreTools)
+        .to have_received(:deprecate)
+        .with('IncludeMatcher with a block')
+    end
+
     describe 'with an object that does not respond to #include?' do
       let(:failure_message) do
         "#{super()}, but it does not respond to `include?`"
