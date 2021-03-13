@@ -1,4 +1,4 @@
-# frozen_string_literals: true
+# frozen_string_literal: true
 
 module RSpec
   module SleepingKingStudios
@@ -15,9 +15,9 @@ module RSpec
       # Patch version.
       PATCH = 0
       # Prerelease version.
-      PRERELEASE = :rc
+      PRERELEASE = nil
       # Build metadata.
-      BUILD = 0
+      BUILD = nil
 
       # Generates the gem version string from the Version constants.
       #
