@@ -47,7 +47,22 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::AliasMethodMatcher do
     end # let
     let(:actual) { actual_class.new }
 
+    before(:example) do
+      allow(SleepingKingStudios::Tools::CoreTools).to receive(:deprecate)
+    end
+
     it { expect(instance).to respond_to(:matches?).with(1).argument }
+
+    it 'should print a deprecation warning' do
+      described_class.new(old_method_name).as(:new_method_name).matches?(nil)
+
+      expect(SleepingKingStudios::Tools::CoreTools)
+        .to have_received(:deprecate)
+        .with(
+          'AliasMethodMatcher',
+          message: 'Use a HaveAliasedMethodMatcher instead.'
+        )
+    end
 
     shared_examples 'should require a new method name' do
       it 'should raise an error' do

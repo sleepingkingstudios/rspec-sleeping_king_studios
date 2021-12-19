@@ -5,7 +5,7 @@ require 'active_model'
 require 'spec_helper'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
-require 'rspec/sleeping_king_studios/matchers/core/alias_method'
+require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors_matcher'
 
@@ -190,7 +190,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatc
   describe '#with_messages' do
     it { expect(instance).to respond_to(:with_messages).with_unlimited_arguments }
 
-    it { expect(instance).to alias_method(:with_messages).as(:with) }
+    it { expect(instance).to have_aliased_method(:with_messages).as(:with) }
 
     it { expect { instance.with_messages 'bar', /baz/ }.to raise_error ArgumentError,
       /no attribute specified for error message/i }

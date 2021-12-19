@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/be_kind_of'
-require 'rspec/sleeping_king_studios/matchers/core/alias_method'
+require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
   let(:matcher_class) do
@@ -17,7 +17,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
 
     it { expect(example_group).to respond_to(:be_kind_of).with(1).arguments }
 
-    it { expect(example_group).to alias_method(:be_kind_of).as(:be_a) }
+    it { expect(example_group).to have_aliased_method(:be_kind_of).as(:be_a) }
 
     it { expect(matcher).to be_a matcher_class }
   end # describe
