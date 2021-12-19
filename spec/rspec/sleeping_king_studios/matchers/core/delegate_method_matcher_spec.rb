@@ -377,371 +377,381 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
 
     it { expect(instance).to respond_to(:matches?).with(1).arguments }
 
-    it 'should print a deprecation warning' do
-      instance.to(Object.new.freeze).matches?(nil)
+    if RUBY_VERSION < '3.0'
+      it 'should print a deprecation warning' do
+        instance.to(Object.new.freeze).matches?(nil)
 
-      expect(SleepingKingStudios::Tools::CoreTools)
-        .to have_received(:deprecate)
-        .with('DelegateMethodMatcher')
-    end
+        expect(SleepingKingStudios::Tools::CoreTools)
+          .to have_received(:deprecate)
+          .with('DelegateMethodMatcher')
+      end
 
-    describe 'with an actual that does not respond to the method' do
-      include_examples 'should require a target'
+      describe 'with an actual that does not respond to the method' do
+        include_examples 'should require a target'
 
-      wrap_context 'with a delegate that responds to the method' do
-        let(:failure_message) do
-          super() <<
-            ", but #{actual.inspect} does not respond to #{method_name.inspect}"
-        end # let
+        wrap_context 'with a delegate that responds to the method' do
+          let(:failure_message) do
+            super() <<
+              ", but #{actual.inspect} does not respond to #{method_name.inspect}"
+          end # let
 
-        include_examples 'should fail with a positive expectation'
+          include_examples 'should fail with a positive expectation'
 
-        include_examples 'should pass with a negative expectation'
-      end # context
-    end # describe
-
-    describe 'with an actual that responds to the method with no arguments' do
-      include_context 'with an actual that responds to the method'
-
-      include_examples 'should require a target that responds to the method'
-
-      include_examples 'should require an actual that delegates to the target'
-
-      include_examples 'should handle raised errors'
-
-      describe 'with an actual that delegates the method to the target' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) { 'target.send(method)' }
-        let(:failure_message) do
-          super() << format_arguments
-        end # let
-        let(:failure_message_when_negated) do
-          super() << format_arguments
-        end # let
-
-        include_examples 'should pass with a positive expectation'
-
-        include_examples 'should fail with a negative expectation'
-
-        include_examples 'should require the actual to return the delegate value'
+          include_examples 'should pass with a negative expectation'
+        end # context
       end # describe
-    end # describe
 
-    describe 'with an actual that responds to the method with required arguments' do
-      include_context 'with an actual that responds to the method'
+      describe 'with an actual that responds to the method with no arguments' do
+        include_context 'with an actual that responds to the method'
 
-      let(:method_parameter_names) { %i(foo bar baz) }
-      let(:arguments)              { %i(ichi ni san) }
-      let(:instance)               { super().with_arguments(*arguments) }
+        include_examples 'should require a target that responds to the method'
 
-      include_examples 'should require a target that responds to the method'
+        include_examples 'should require an actual that delegates to the target'
 
-      include_examples 'should require an actual that delegates to the target'
+        include_examples 'should handle raised errors'
 
-      include_examples 'should handle raised errors'
+        describe 'with an actual that delegates the method to the target' do
+          include_context 'with a delegate that responds to the method'
 
-      describe 'with an actual that delegates the method to the target with no arguments' do
-        include_context 'with a delegate that responds to the method'
+          let(:method_body) { 'target.send(method)' }
+          let(:failure_message) do
+            super() << format_arguments
+          end # let
+          let(:failure_message_when_negated) do
+            super() << format_arguments
+          end # let
 
-        let(:method_body) { 'target.send(method)' }
-        let(:failure_message) do
-          include(
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+
+          include_examples 'should require the actual to return the delegate value'
+        end # describe
+      end # describe
+
+      describe 'with an actual that responds to the method with required arguments' do
+        include_context 'with an actual that responds to the method'
+
+        let(:method_parameter_names) { %i(foo bar baz) }
+        let(:arguments)              { %i(ichi ni san) }
+        let(:instance)               { super().with_arguments(*arguments) }
+
+        include_examples 'should require a target that responds to the method'
+
+        include_examples 'should require an actual that delegates to the target'
+
+        include_examples 'should handle raised errors'
+
+        describe 'with an actual that delegates the method to the target with no arguments' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) { 'target.send(method)' }
+          let(:failure_message) do
+            include(
+              super() << format_arguments <<
+                ", but #{delegate.inspect} received :#{method_name} with "\
+                "unexpected arguments"
+            ).and include(
+              "expected: (:ichi, :ni, :san)"
+            ).and include(
+              "got: (no args)"
+            ) # end match
+          end # let
+
+          include_examples 'should fail with a positive expectation'
+
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with an actual that delegates the method to the target with the required arguments' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) do
+            "target.send(method, #{method_parameter_names.join (', ')})"
+          end # let
+          let(:delegate_parameter_names) { method_parameter_names }
+          let(:failure_message) do
+            super() << format_arguments
+          end # let
+          let(:failure_message_when_negated) do
+            super() << format_arguments
+          end # let
+
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+
+          include_examples 'should require the actual to return the delegate value'
+        end # describe
+      end # describe
+
+      describe 'with an actual that responds to the method with required keywords' do
+        include_context 'with an actual that responds to the method'
+
+        let(:method_keyword_names) { keywords.keys }
+        let(:keywords) do
+          { :foo => 'foo', :bar => 'bar', :baz => 'baz' }
+        end # let
+        let(:instance) { super().with_keywords(**keywords) }
+
+        include_examples 'should require a target that responds to the method'
+
+        include_examples 'should require an actual that delegates to the target'
+
+        include_examples 'should handle raised errors'
+
+        describe 'with an actual that delegates the method to the target with no arguments' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) { 'target.send(method)' }
+          let(:expected_keywords) do
+            if Spec::RSPEC_VERSION >= '3.8.0'
+              ':bar=>"bar", :baz=>"baz", :foo=>"foo"'
+            else
+              ':foo=>"foo", :bar=>"bar", :baz=>"baz"'
+            end # if-else
+          end # let
+          let(:failure_message) do
+            include(
+              super() << format_arguments <<
+                ", but #{delegate.inspect} received :#{method_name} with "\
+                "unexpected arguments"
+            ).and include(
+              "expected: ({#{expected_keywords}})"
+            ).and include(
+              "got: (no args)"
+            ) # end match
+          end # let
+
+          include_examples 'should fail with a positive expectation'
+
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with an actual that delegates the method to the target with the required keywords' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) do
+            keyword_names = method_keyword_names.map do |keyword_name|
+              "#{keyword_name}: #{keyword_name}"
+            end.join(', ')
+
+            "target.send(method, #{keyword_names})"
+          end # let
+          let(:delegate_keyword_names) { method_keyword_names }
+          let(:failure_message) do
+            super() << format_arguments
+          end # let
+          let(:failure_message_when_negated) do
+            super() << format_arguments
+          end # let
+
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+
+          include_examples 'should require the actual to return the delegate value'
+        end # describe
+      end # describe
+
+      describe 'with an actual that responds to the method with a block' do
+        include_context 'with an actual that responds to the method'
+
+        let(:method_block_name)  { 'block' }
+        let(:method_block_given) { true }
+        let(:block_given)        { method_block_given }
+        let(:instance)           { super().with_a_block }
+
+        include_examples 'should require a target that responds to the method'
+
+        include_examples 'should require an actual that delegates to the target'
+
+        include_examples 'should handle raised errors'
+
+        describe 'with an actual that delegates the method to the target without the block' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) { 'target.send(method)' }
+          let(:failure_message) do
             super() << format_arguments <<
-              ", but #{delegate.inspect} received :#{method_name} with "\
-              "unexpected arguments"
-          ).and include(
-            "expected: (:ichi, :ni, :san)"
-          ).and include(
-            "got: (no args)"
-          ) # end match
-        end # let
+              ', but the block was not passed to the delegate'
+          end # let
 
-        include_examples 'should fail with a positive expectation'
+          include_examples 'should fail with a positive expectation'
 
-        include_examples 'should pass with a negative expectation'
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with an actual that delegates the method to the target with the block' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) { "target.send(method, &#{method_block_name})" }
+          let(:failure_message_when_negated) do
+            super() << format_arguments
+          end # let
+
+          include_examples 'should fail with a negative expectation'
+
+          include_examples 'should pass with a positive expectation'
+        end # describe
       end # describe
 
-      describe 'with an actual that delegates the method to the target with the required arguments' do
-        include_context 'with a delegate that responds to the method'
+      describe 'with an actual that responds to the method with required arguments, keywords, and a block' do
+        include_context 'with an actual that responds to the method'
 
-        let(:method_body) do
-          "target.send(method, #{method_parameter_names.join (', ')})"
+        let(:method_parameter_names) { %i(foo bar baz) }
+        let(:method_keyword_names)   { keywords.keys }
+        let(:arguments)              { %i(ichi ni san) }
+        let(:keywords) do
+          { :uno => 'uno', :dos => 'dos', :tres => 'tres' }
         end # let
-        let(:delegate_parameter_names) { method_parameter_names }
-        let(:failure_message) do
-          super() << format_arguments
-        end # let
-        let(:failure_message_when_negated) do
-          super() << format_arguments
-        end # let
-
-        include_examples 'should pass with a positive expectation'
-
-        include_examples 'should fail with a negative expectation'
-
-        include_examples 'should require the actual to return the delegate value'
-      end # describe
-    end # describe
-
-    describe 'with an actual that responds to the method with required keywords' do
-      include_context 'with an actual that responds to the method'
-
-      let(:method_keyword_names) { keywords.keys }
-      let(:keywords) do
-        { :foo => 'foo', :bar => 'bar', :baz => 'baz' }
-      end # let
-      let(:instance) { super().with_keywords(**keywords) }
-
-      include_examples 'should require a target that responds to the method'
-
-      include_examples 'should require an actual that delegates to the target'
-
-      include_examples 'should handle raised errors'
-
-      describe 'with an actual that delegates the method to the target with no arguments' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) { 'target.send(method)' }
         let(:expected_keywords) do
           if Spec::RSPEC_VERSION >= '3.8.0'
-            ':bar=>"bar", :baz=>"baz", :foo=>"foo"'
+            ':dos=>"dos", :tres=>"tres", :uno=>"uno"'
           else
-            ':foo=>"foo", :bar=>"bar", :baz=>"baz"'
+            ':uno=>"uno", :dos=>"dos", :tres=>"tres"'
           end # if-else
         end # let
-        let(:failure_message) do
-          include(
+        let(:method_block_name)      { 'block' }
+        let(:method_block_given)     { true }
+        let(:block_given)            { method_block_given }
+        let(:instance) do
+          super().with_arguments(*arguments).with_keywords(**keywords).with_a_block
+        end # let
+
+        include_examples 'should require a target that responds to the method'
+
+        include_examples 'should require an actual that delegates to the target'
+
+        include_examples 'should handle raised errors'
+
+        describe 'with an actual that delegates the method to the target with no arguments' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) { 'target.send(method)' }
+          let(:failure_message) do
+            include(
+              super() << format_arguments <<
+                ", but #{delegate.inspect} received :#{method_name} with "\
+                "unexpected arguments"
+            ).and include(
+              "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
+            ).and include(
+              "got: (no args)"
+            ) # end match
+          end # let
+
+          include_examples 'should fail with a positive expectation'
+
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with an actual that delegates the method to the target with the required arguments' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) do
+            "target.send(method, #{method_parameter_names.join (', ')})"
+          end # let
+          let(:delegate_parameter_names) { method_parameter_names }
+          let(:failure_message) do
+            include(
+              super() << format_arguments <<
+                ", but #{delegate.inspect} received :#{method_name} with "\
+                "unexpected arguments"
+            ).and include(
+              "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
+            ).and include(
+              "got: (:ichi, :ni, :san)"
+            ) # end match
+          end # let
+
+          include_examples 'should fail with a positive expectation'
+
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with an actual that delegates the method to the target with the required keywords' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) do
+            keyword_names = method_keyword_names.map do |keyword_name|
+              "#{keyword_name}: #{keyword_name}"
+            end.join(', ')
+
+            "target.send(method, #{keyword_names})"
+          end # let
+          let(:delegate_keyword_names) { method_keyword_names }
+          let(:failure_message) do
+            include(
+              super() << format_arguments <<
+                ", but #{delegate.inspect} received :#{method_name} with "\
+                "unexpected arguments"
+            ).and include(
+              "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
+            ).and include(
+              "got: ({#{expected_keywords}})"
+            ) # end match
+          end # let
+
+          include_examples 'should fail with a positive expectation'
+
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with an actual that delegates the method to the target with the required arguments and keywords' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) do
+            keyword_names = method_keyword_names.map do |keyword_name|
+              "#{keyword_name}: #{keyword_name}"
+            end.join(', ')
+
+            "target.send(method, #{method_parameter_names.join (', ')}, "\
+            "#{keyword_names})"
+          end # let
+          let(:delegate_parameter_names) { method_parameter_names }
+          let(:delegate_keyword_names)   { method_keyword_names }
+          let(:failure_message) do
             super() << format_arguments <<
-              ", but #{delegate.inspect} received :#{method_name} with "\
-              "unexpected arguments"
-          ).and include(
-            "expected: ({#{expected_keywords}})"
-          ).and include(
-            "got: (no args)"
-          ) # end match
-        end # let
+              ', but the block was not passed to the delegate'
+          end # let
 
-        include_examples 'should fail with a positive expectation'
+          include_examples 'should fail with a positive expectation'
 
-        include_examples 'should pass with a negative expectation'
+          include_examples 'should pass with a negative expectation'
+        end # describe
+
+        describe 'with an actual that delegates the method to the target with the required arguments, keywords, and block' do
+          include_context 'with a delegate that responds to the method'
+
+          let(:method_body) do
+            keyword_names = method_keyword_names.map do |keyword_name|
+              "#{keyword_name}: #{keyword_name}"
+            end.join(', ')
+
+            "target.send(method, #{method_parameter_names.join (', ')}, "\
+            "#{keyword_names}, &#{method_block_name})"
+          end # let
+          let(:delegate_parameter_names) { method_parameter_names }
+          let(:delegate_keyword_names)   { method_keyword_names }
+          let(:failure_message_when_negated) do
+            super() << format_arguments
+          end # let
+
+          include_examples 'should fail with a negative expectation'
+
+          include_examples 'should pass with a positive expectation'
+        end # describe
       end # describe
-
-      describe 'with an actual that delegates the method to the target with the required keywords' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) do
-          keyword_names = method_keyword_names.map do |keyword_name|
-            "#{keyword_name}: #{keyword_name}"
-          end.join(', ')
-
-          "target.send(method, #{keyword_names})"
-        end # let
-        let(:delegate_keyword_names) { method_keyword_names }
-        let(:failure_message) do
-          super() << format_arguments
-        end # let
-        let(:failure_message_when_negated) do
-          super() << format_arguments
-        end # let
-
-        include_examples 'should pass with a positive expectation'
-
-        include_examples 'should fail with a negative expectation'
-
-        include_examples 'should require the actual to return the delegate value'
-      end # describe
-    end # describe
-
-    describe 'with an actual that responds to the method with a block' do
-      include_context 'with an actual that responds to the method'
-
-      let(:method_block_name)  { 'block' }
-      let(:method_block_given) { true }
-      let(:block_given)        { method_block_given }
-      let(:instance)           { super().with_a_block }
-
-      include_examples 'should require a target that responds to the method'
-
-      include_examples 'should require an actual that delegates to the target'
-
-      include_examples 'should handle raised errors'
-
-      describe 'with an actual that delegates the method to the target without the block' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) { 'target.send(method)' }
-        let(:failure_message) do
-          super() << format_arguments <<
-            ', but the block was not passed to the delegate'
-        end # let
-
-        include_examples 'should fail with a positive expectation'
-
-        include_examples 'should pass with a negative expectation'
-      end # describe
-
-      describe 'with an actual that delegates the method to the target with the block' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) { "target.send(method, &#{method_block_name})" }
-        let(:failure_message_when_negated) do
-          super() << format_arguments
-        end # let
-
-        include_examples 'should fail with a negative expectation'
-
-        include_examples 'should pass with a positive expectation'
-      end # describe
-    end # describe
-
-    describe 'with an actual that responds to the method with required arguments, keywords, and a block' do
-      include_context 'with an actual that responds to the method'
-
-      let(:method_parameter_names) { %i(foo bar baz) }
-      let(:method_keyword_names)   { keywords.keys }
-      let(:arguments)              { %i(ichi ni san) }
-      let(:keywords) do
-        { :uno => 'uno', :dos => 'dos', :tres => 'tres' }
-      end # let
-      let(:expected_keywords) do
-        if Spec::RSPEC_VERSION >= '3.8.0'
-          ':dos=>"dos", :tres=>"tres", :uno=>"uno"'
-        else
-          ':uno=>"uno", :dos=>"dos", :tres=>"tres"'
-        end # if-else
-      end # let
-      let(:method_block_name)      { 'block' }
-      let(:method_block_given)     { true }
-      let(:block_given)            { method_block_given }
-      let(:instance) do
-        super().with_arguments(*arguments).with_keywords(**keywords).with_a_block
-      end # let
-
-      include_examples 'should require a target that responds to the method'
-
-      include_examples 'should require an actual that delegates to the target'
-
-      include_examples 'should handle raised errors'
-
-      describe 'with an actual that delegates the method to the target with no arguments' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) { 'target.send(method)' }
-        let(:failure_message) do
-          include(
-            super() << format_arguments <<
-              ", but #{delegate.inspect} received :#{method_name} with "\
-              "unexpected arguments"
-          ).and include(
-            "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
-          ).and include(
-            "got: (no args)"
-          ) # end match
-        end # let
-
-        include_examples 'should fail with a positive expectation'
-
-        include_examples 'should pass with a negative expectation'
-      end # describe
-
-      describe 'with an actual that delegates the method to the target with the required arguments' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) do
-          "target.send(method, #{method_parameter_names.join (', ')})"
-        end # let
-        let(:delegate_parameter_names) { method_parameter_names }
-        let(:failure_message) do
-          include(
-            super() << format_arguments <<
-              ", but #{delegate.inspect} received :#{method_name} with "\
-              "unexpected arguments"
-          ).and include(
-            "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
-          ).and include(
-            "got: (:ichi, :ni, :san)"
-          ) # end match
-        end # let
-
-        include_examples 'should fail with a positive expectation'
-
-        include_examples 'should pass with a negative expectation'
-      end # describe
-
-      describe 'with an actual that delegates the method to the target with the required keywords' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) do
-          keyword_names = method_keyword_names.map do |keyword_name|
-            "#{keyword_name}: #{keyword_name}"
-          end.join(', ')
-
-          "target.send(method, #{keyword_names})"
-        end # let
-        let(:delegate_keyword_names) { method_keyword_names }
-        let(:failure_message) do
-          include(
-            super() << format_arguments <<
-              ", but #{delegate.inspect} received :#{method_name} with "\
-              "unexpected arguments"
-          ).and include(
-            "expected: (:ichi, :ni, :san, {#{expected_keywords}})"
-          ).and include(
-            "got: ({#{expected_keywords}})"
-          ) # end match
-        end # let
-
-        include_examples 'should fail with a positive expectation'
-
-        include_examples 'should pass with a negative expectation'
-      end # describe
-
-      describe 'with an actual that delegates the method to the target with the required arguments and keywords' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) do
-          keyword_names = method_keyword_names.map do |keyword_name|
-            "#{keyword_name}: #{keyword_name}"
-          end.join(', ')
-
-          "target.send(method, #{method_parameter_names.join (', ')}, "\
-          "#{keyword_names})"
-        end # let
-        let(:delegate_parameter_names) { method_parameter_names }
-        let(:delegate_keyword_names)   { method_keyword_names }
-        let(:failure_message) do
-          super() << format_arguments <<
-            ', but the block was not passed to the delegate'
-        end # let
-
-        include_examples 'should fail with a positive expectation'
-
-        include_examples 'should pass with a negative expectation'
-      end # describe
-
-      describe 'with an actual that delegates the method to the target with the required arguments, keywords, and block' do
-        include_context 'with a delegate that responds to the method'
-
-        let(:method_body) do
-          keyword_names = method_keyword_names.map do |keyword_name|
-            "#{keyword_name}: #{keyword_name}"
-          end.join(', ')
-
-          "target.send(method, #{method_parameter_names.join (', ')}, "\
-          "#{keyword_names}, &#{method_block_name})"
-        end # let
-        let(:delegate_parameter_names) { method_parameter_names }
-        let(:delegate_keyword_names)   { method_keyword_names }
-        let(:failure_message_when_negated) do
-          super() << format_arguments
-        end # let
-
-        include_examples 'should fail with a negative expectation'
-
-        include_examples 'should pass with a positive expectation'
-      end # describe
-    end # describe
+    else
+      it 'should raise a deprecation error' do
+        expect { instance.to(Object.new.freeze).matches?(nil) }
+          .to raise_error(
+            SleepingKingStudios::Tools::CoreTools::DeprecationError,
+            'DelegateMethodMatcher has been deprecated.'
+          )
+      end
+    end
   end # describe
 
   describe '#to' do
