@@ -1,8 +1,8 @@
 # Development Notes
 
-## Version 2.6
+## Version 2.7
 
-- Deprecate `delegate_method` matcher, `include` matcher with block.
+Deprecate the `#alias_method` macro. Use `#be_an_alias_of` instead.
 
 ## Version 3.0
 

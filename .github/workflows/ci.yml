@@ -17,6 +17,7 @@ jobs:
     env: # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
     strategy:
+      fail-fast: false
       matrix:
         gemfile:
           - activemodel_3
@@ -36,6 +37,13 @@ jobs:
           - '2.5'
           - '2.6'
           - '2.7'
+        include:
+          - gemfile: activemodel_6_0
+            ruby-version: '3.0'
+          - gemfile: rspec_3_9
+            ruby-version: '3.0'
+          - gemfile: rspec_3_10
+            ruby-version: '3.0'
 
     steps:
     - uses: actions/checkout@v2

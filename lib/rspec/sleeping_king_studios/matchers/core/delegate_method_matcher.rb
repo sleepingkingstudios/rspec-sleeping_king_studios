@@ -125,7 +125,14 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     # (see BaseMatcher#matches?)
     def matches? actual
-      SleepingKingStudios::Tools::CoreTools.deprecate('DelegateMethodMatcher')
+      # :nocov:
+      if RUBY_VERSION < '3.0'
+        SleepingKingStudios::Tools::CoreTools.deprecate('DelegateMethodMatcher')
+      else
+        SleepingKingStudios::Tools::CoreTools
+          .new(deprecation_strategy: 'raise')
+          .deprecate('DelegateMethodMatcher')
+      end
 
       super
 

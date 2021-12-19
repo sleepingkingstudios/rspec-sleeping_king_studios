@@ -30,6 +30,7 @@ Feature: `delegate_method` matcher
   ```
 
   Scenario: basic usage
+    When the Ruby version is less than "3.0"
     Given a file named "delegate_method_matcher_spec.rb" with:
       """ruby
         require 'rspec/sleeping_king_studios/matchers/core/delegate_method'
