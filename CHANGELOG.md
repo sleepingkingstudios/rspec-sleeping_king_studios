@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.7.0
+
+Renamed the `#alias_method` matcher to `#have_aliased_method`, and renamed the AliasMethodMatcher to HaveAliasedMethodMatcher. Using the older matcher will trigger a deprecation warning.
+
 ## 2.6.0
 
 Deprecated the DelegateMethod matcher. Use `rspec-mocks` expectations instead.

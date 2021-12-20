@@ -3,8 +3,8 @@
 require 'spec_helper'
 require 'rspec/sleeping_king_studios/concerns/wrap_examples'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
-require 'rspec/sleeping_king_studios/matchers/core/alias_method'
 require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
+require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 
 require 'rspec/sleeping_king_studios/matchers/core/have_predicate_matcher'
 
@@ -227,7 +227,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HavePredicateMatcher 
   describe '#with_value' do
     it { expect(instance).to respond_to(:with_value).with(1).arguments }
 
-    it { expect(instance).to alias_method(:with_value).as(:with) }
+    it { expect(instance).to have_aliased_method(:with_value).as(:with) }
 
     it { expect(instance.with_value false).to be instance }
   end # describe with

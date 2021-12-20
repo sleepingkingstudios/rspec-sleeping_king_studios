@@ -5,7 +5,7 @@ require 'rspec/sleeping_king_studios/concerns/focus_examples'
 require 'rspec/sleeping_king_studios/concerns/wrap_examples'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
-require 'rspec/sleeping_king_studios/matchers/core/alias_method'
+require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 require 'rspec/sleeping_king_studios/matchers/core/have_reader'
 
 require 'rspec/sleeping_king_studios/matchers/core/delegate_method_matcher'
@@ -73,7 +73,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
   describe '#expected' do
     it { expect(instance).to have_reader(:expected).with_value(method_name) }
 
-    it { expect(instance).to alias_method(:expected).as(:method_name) }
+    it { expect(instance).to have_aliased_method(:expected).as(:method_name) }
   end # describe
 
   describe '#matches?' do
@@ -765,7 +765,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
   describe '#with_a_block' do
     it { expect(instance).to respond_to(:with_a_block).with(0).arguments }
 
-    it { expect(instance).to alias_method(:with_a_block).as(:and_a_block) }
+    it { expect(instance).to have_aliased_method(:with_a_block).as(:and_a_block) }
 
     it { expect(instance.with_a_block).to be instance }
   end # describe
@@ -773,7 +773,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
   describe '#with_arguments' do
     it { expect(instance).to respond_to(:with_arguments).with_unlimited_arguments }
 
-    it { expect(instance).to alias_method(:with_arguments).as(:and_arguments) }
+    it { expect(instance).to have_aliased_method(:with_arguments).as(:and_arguments) }
 
     it { expect(instance.with_arguments :ichi, :ni, :san).to be instance }
   end # describe to
@@ -781,7 +781,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
   describe '#with_keywords' do
     it { expect(instance).to respond_to(:with_keywords).with_any_keywords }
 
-    it { expect(instance).to alias_method(:with_keywords).as(:and_keywords) }
+    it { expect(instance).to have_aliased_method(:with_keywords).as(:and_keywords) }
 
     it { expect(instance.with_keywords :foo => 'foo', :bar => 'bar').to be instance }
   end # describe to

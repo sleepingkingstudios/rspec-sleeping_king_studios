@@ -2,7 +2,7 @@
 
 ## Version 2.7
 
-Deprecate the `#alias_method` macro. Use `#be_an_alias_of` instead.
+Add support for contracts.
 
 ## Version 3.0
 

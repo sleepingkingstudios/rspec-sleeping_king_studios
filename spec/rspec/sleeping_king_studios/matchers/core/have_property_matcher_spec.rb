@@ -4,8 +4,8 @@ require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
-require 'rspec/sleeping_king_studios/matchers/core/alias_method'
 require 'rspec/sleeping_king_studios/matchers/core/construct'
+require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 require 'rspec/sleeping_king_studios/matchers/core/have_predicate'
 require 'rspec/sleeping_king_studios/matchers/core/have_property_matcher'
 
@@ -243,7 +243,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher d
   describe '#with_value' do
     it { expect(instance).to respond_to(:with_value).with(1).arguments }
 
-    it { expect(instance).to alias_method(:with_value).as(:with) }
+    it { expect(instance).to have_aliased_method(:with_value).as(:with) }
 
     it { expect(instance.with_value false).to be instance }
   end # describe with

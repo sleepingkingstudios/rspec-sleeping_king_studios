@@ -1,7 +1,7 @@
 # spec/rspec/sleeping_king_studios/matchers/macros/construct_spec.rb
 
 require 'spec_helper'
-require 'rspec/sleeping_king_studios/matchers/core/alias_method'
+require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 
 require 'rspec/sleeping_king_studios/matchers/core/construct'
 
@@ -16,7 +16,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
 
     it { expect(example_group).to respond_to(:be_constructible).with(0).arguments }
 
-    it { expect(example_group).to alias_method(:be_constructible).as(:construct) }
+    it { expect(example_group).to have_aliased_method(:be_constructible).as(:construct) }
 
     it { expect(matcher).to be_a matcher_class }
   end # describe

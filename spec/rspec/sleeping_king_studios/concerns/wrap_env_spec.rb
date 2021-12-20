@@ -5,7 +5,7 @@ require 'spec_helper'
 require 'rspec/sleeping_king_studios/concerns/wrap_env'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
-require 'rspec/sleeping_king_studios/matchers/core/alias_method'
+require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 
 require 'support/mock_example_group'
 
@@ -23,7 +23,9 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapEnv do
 
     it { expect(described_class).to respond_to(:wrap_env).with(1..2).arguments }
 
-    it { expect(described_class).to alias_method(:wrap_env).as(:stub_env) }
+    it 'should alias the method' do
+      expect(described_class).to have_aliased_method(:wrap_env).as(:stub_env)
+    end
 
     describe 'with a variable name and value' do
       it 'should overwrite the environment variable' do
@@ -74,7 +76,9 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapEnv do
 
     it { expect(instance).to respond_to(:wrap_env).with(2).arguments }
 
-    it { expect(instance).to alias_method(:wrap_env).as(:stub_env) }
+    it 'should alias the method' do
+      expect(instance).to have_aliased_method(:wrap_env).as(:stub_env)
+    end
 
     it 'should overwrite the environment variable' do
       expect(ENV[var]).to be nil

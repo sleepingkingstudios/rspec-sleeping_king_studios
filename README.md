@@ -590,22 +590,6 @@ Now has additional chaining functionality to validate the number of arguments ac
 
 These matchers check core functionality, such as object boolean-ness, the existence of properties, and so on.
 
-#### `#alias_method` Matcher
-
-    require 'rspec/sleeping_king_studios/matchers/core/alias_method'
-
-Checks if the object aliases the specified method with the specified other name. Matches if and only if the object responds to both the old and new method names, and if the old method and the new method are the same method.
-
-**How To Use**:
-
-    expect(object).to alias_method(:old_method).as(:new_method)
-
-**Parameters:** Old method name. Expects the name of the method which has been aliased as a String or Symbol.
-
-**Chaining:**
-
-* **`#as`:** Required. Expects one String or Symbol, which is the name of the generated method.
-
 #### `#be_a_uuid` Matcher
 
     require 'rspec/sleeping_king_studios/matchers/core/be_a_uuid'
@@ -709,34 +693,21 @@ When the value does not match the expectation, the failure message will provide 
     #   + :errors => got ["Insufficient funds"]
     #   ~ :status => expected 200, got 400
 
-#### `#delegate_method` Matcher
+#### `#have_aliased_method` Matcher
 
-    require 'rspec/sleeping_king_studios/matchers/core/delegate_method'
+    require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 
-Checks if the actual object forwards the specified method to the specified target. Can also specify that arguments, keywords, and/or a block are passed to the target, and that the object returns the specified values.
+Checks if the object aliases the specified method with the specified other name. Matches if and only if the object responds to both the old and new method names, and if the old method and the new method are the same method.
 
-**How To Use:**
+**How To Use**:
 
-    expect(object).to delegate_method(:my_method).to(target)
+    expect(object).to have_aliased_method(:old_method).as(:new_method)
 
-    # Specify that arguments must be passed to the target.
-    expect(object).to delegate_method(:my_method).to(target).with_arguments(:ichi, :ni, :san)
-    expect(object).to delegate_method(:my_method).to(target).with_keywords(:foo => 'foo', :bar => 'bar')
-    expect(object).to delegate_method(:my_method).to(target).with_a_block
-
-    # Specify that the method must return the specified value.
-    expect(object).to delegate_method(:my_method).to(target).and_return(true)    # Called 1 time.
-    expect(object).to delegate_method(:my_method).to(target).and_return(0, 1, 2) # Called 3 times.
-
-**Parameters:** Method name. Expects a string or symbol that is a valid identifier.
+**Parameters:** Old method name. Expects the name of the method which has been aliased as a String or Symbol.
 
 **Chaining:**
 
-* **`#to`:** Required. Expects an object, which is the target the method should be forwarded to.
-* **`#with_arguments`:** (also `and_arguments`) Expects one or more arguments. Specifies that when the method is called on the actual object with the given arguments, those arguments are then passed on to the target object when the method is called on the target.
-* **`#with_keywords:`** (also `and_keywords`) Expects a hash of keywords and values. Specifies that when the method is called on the actual object with the given keywords, those keywords are then passed on to the target object when the method is called on the target.
-* **`#with_a_block:`** (also `and_a_block`) Specifies that when the method is called on the actual object a block argument, thhe block is then passed on to the target object when the method is called on the target.
-* **`#and_return`:** Expects one or more arguments. The method is called on the actual object one time for each value passed into `#and_return`. Specifies that the return value of calling the method on the actual object is the corresponding value passed into `#and_return`.
+* **`#as`:** Required. Expects one String or Symbol, which is the name of the generated method.
 
 #### `#have_changed` Matcher
 
