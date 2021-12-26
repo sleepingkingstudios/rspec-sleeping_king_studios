@@ -41,10 +41,13 @@ module RSpec::SleepingKingStudios::Concerns
   #   end
   #
   #   RSpec.describe Array do
+  #     extend RSpec::SleepingKingStudios::Concerns::IncludeContract
+  #
   #     include_contract ExampleContracts::SHOULD_BE_ENUMERABLE_CONTRACT
   #   end
   #
   #   RSpec.describe Hash do
+  #     extend  RSpec::SleepingKingStudios::Concerns::IncludeContract
   #     include ExampleContracts
   #
   #     include_contract 'should be enumerable'
@@ -91,6 +94,7 @@ module RSpec::SleepingKingStudios::Concerns
   #     end
   #
   #   RSpec.describe CaptainPicard do
+  #     extend  RSpec::SleepingKingStudios::Concerns::IncludeContract
   #     include SerializerContracts
   #
   #     include_contract 'should serialize attributes',
@@ -102,6 +106,8 @@ module RSpec::SleepingKingStudios::Concerns
   #         end
   #     end
   #   end
+  #
+  # @see RSpec::SleepingKingStudios::Contract.
   module IncludeContract
     class << self
       # @private

@@ -5,6 +5,7 @@ require 'spec_helper'
 require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/concerns/include_contract'
 require 'rspec/sleeping_king_studios/concerns/wrap_examples'
+require 'rspec/sleeping_king_studios/contract'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 RSpec.describe RSpec::SleepingKingStudios::Concerns::IncludeContract do
@@ -181,6 +182,15 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::IncludeContract do
       end
     end
 
+    shared_context 'when the contract is a contract object' do
+      let(:contract) { Spec::Contract }
+
+      example_class 'Spec::Contract', RSpec::SleepingKingStudios::Contract \
+      do |klass|
+        klass.contract(&implementation)
+      end
+    end
+
     shared_examples 'should pass the parameters to the contract' do
       it 'should pass the arguments to the contract' do
         include_contract_in_example_group
@@ -263,6 +273,10 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::IncludeContract do
       end
 
       wrap_context 'when the contract responds to #to_proc' do
+        include_examples 'should include the contract in the example group'
+      end
+
+      wrap_context 'when the contract is a contract object' do
         include_examples 'should include the contract in the example group'
       end
     end
