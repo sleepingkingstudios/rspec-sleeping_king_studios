@@ -4,6 +4,10 @@
 
 Renamed the `#alias_method` matcher to `#have_aliased_method`, and renamed the AliasMethodMatcher to HaveAliasedMethodMatcher. Using the older matcher will trigger a deprecation warning.
 
+### Concerns
+
+Implemented RSpec::SleepingKingStudios::Contract and the IncludeContract concern. These provide a mechanism for documenting and sharing specifications between projects.
+
 ## 2.6.0
 
 Deprecated the DelegateMethod matcher. Use `rspec-mocks` expectations instead.

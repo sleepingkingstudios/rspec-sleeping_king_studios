@@ -185,8 +185,9 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::IncludeContract do
     shared_context 'when the contract is a contract object' do
       let(:contract) { Spec::Contract }
 
-      example_class 'Spec::Contract', RSpec::SleepingKingStudios::Contract \
-      do |klass|
+      example_class 'Spec::Contract' do |klass|
+        klass.extend RSpec::SleepingKingStudios::Contract
+
         klass.contract(&implementation)
       end
     end

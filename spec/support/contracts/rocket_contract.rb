@@ -6,7 +6,9 @@ require 'support/contracts'
 require 'support/entities/rocket_engine'
 
 module Spec::Support::Contracts
-  class RocketContract < RSpec::SleepingKingStudios::Contract
+  class RocketContract
+    extend RSpec::SleepingKingStudios::Contract
+
     contract do |fuel_type:|
       let(:engine) { Spec::Support::Entities::RocketEngine.new(fuel_type) }
 

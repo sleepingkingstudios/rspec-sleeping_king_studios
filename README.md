@@ -149,6 +149,113 @@ Sets the value of the named constant to the specified value within the context o
 
 Creates a new class with the specified base class and sets the value of the named constant to the created class within the context of the current example.
 
+<a id="include-contract"></a>
+
+### Include Contract
+
+```ruby
+require 'rspec/sleepingkingstudios/concerns/include_contract'
+```
+
+Defines helpers for including reusable contracts in RSpec example groups.
+
+Contracts are a mechanism for sharing tests between projects. For example, one library may define an interface or specification for a type of object, while a second library implements that object. By defining a contract and sharing that contract as part of the library, the developer ensures that any object that matches the contract has correctly implemented and conforms to the interface. This reduces duplication of tests and provides resiliency as an interface is developed over time and across versions of the library.
+
+Mechanically speaking, each contract encapsulates a section of RSpec code. When the contract is included in a spec, that code is then injected into the spec. Writing a contract, therefore, is no different than writing any other RSpec specification - it is only the delivery mechanism that differs. A contract can be any object that responds to #to_proc; the simplest contract is therefore a Proc or lambda that contains some RSpec code.
+
+Although the examples use bare `lambda`s, any object that responds to `#to_proc` can be used as a contract. See also [Contracts](#contracts), which provide an approach to defining contracts that makes documenting contracts much cleaner.
+
+```ruby
+module ExampleContracts
+  # This contract asserts that the object has the Enumerable module as an
+  # ancestor, and that it responds to the #each method.
+  SHOULD_BE_ENUMERABLE_CONTRACT = lambda do
+    it 'should be Enumerable' do
+      expect(subject).to be_a Enumerable
+    end
+
+    it 'should respond to #each' do
+      expect(subject).to respond_to(:each).with(0).arguments
+    end
+  end
+end
+
+RSpec.describe Array do
+  extend RSpec::SleepingKingStudios::Concerns::IncludeContract
+
+  include_contract ExampleContracts::SHOULD_BE_ENUMERABLE_CONTRACT
+end
+
+RSpec.describe Hash do
+  extend  RSpec::SleepingKingStudios::Concerns::IncludeContract
+  include ExampleContracts
+
+  include_contract 'should be enumerable'
+end
+```
+
+We can also write contracts that take parameters, allowing us to customize the expected behavior of the object.
+
+```ruby
+module SerializerContracts
+  # This contract asserts that the serialized result has the expected values.
+  SHOULD_SERIALIZE_ATTRIBUTES_CONTRACT = lambda \
+  do |*attributes, **values, &block|
+    describe '#serialize' do
+      let(:serialized) { subject.serialize }
+
+      it { expect(subject).to respond_to(:serialize).with(0).arguments }
+
+      attributes.each do |attribute|
+        it "should serialize #{attribute}" do
+          expect(serialized[attribute]).to be == subject[attribute]
+        end
+      end
+
+      values.each do |attribute, value|
+        it "should serialize #{attribute}" do
+          expect(serialized[attribute]).to be == value
+        end
+      end
+
+      instance_exec(&block) if block
+    end
+  end
+end
+
+RSpec.describe CaptainPicard do
+  extend  RSpec::SleepingKingStudios::Concerns::IncludeContract
+  include SerializerContracts
+
+  include_contract 'should serialize attributes',
+    :name,
+    :rank,
+    lights: 4 do
+      it 'should serialize the catchphrase' do
+        expect(serialized[:catchphrase]).to be == 'Make it so.'
+      end
+  end
+end
+```
+
+First, we pass the contract a series of attribute names. These are used to assert that the serialized attributes match the values on the original object.
+
+Second, we pass the contract a set of attribute names and values. These are used to assert that the serialized attributes have the specified values.
+
+Finally, we can pass the contract a block, which the contract then executes. Note that the block is executed in the context of our describe block, and thus can take advantage of our memoized #serialized helper method.
+
+#### `.include_contract`
+
+The `.include_contract` class method applies the contract to the current example group. It passes any additional arguments, keywords, or block to the contract implementation.
+
+#### `.finclude_contract`
+
+The `.finclude_contract` class method creates a new focused context inside the current example group and applies the contract to that context. If RSpec is configured to run only focused specs, then only the contract specs will be run. This is useful to quickly focus and run the specs from a particular contract.
+
+#### `.xinclude_contract`
+
+The `.xinclude_contract` class method creates a new skipped context inside the current example group and applies the contract to that context. The contract specs will not be run, but will instead be marked as pending. This is useful to temporarily disable the specs from a particular contract.
+
 ### Focus Examples
 
     require 'rspec/sleeping_king_studios/concerns/focus_examples'
@@ -328,158 +435,146 @@ A simplified syntax for re-using shared context or examples without having to ex
 require 'rspec/sleepingkingstudios/contract'
 ```
 
-A Contract encapsulates a set of RSpec expectations, which can then be used when defining a spec.
+An `RSpec::SleepingKingStudios::Contract` object encapsulates a partial RSpec specification. Unlike a traditional shared example group, a contract can be reused across projects, allowing a library to define an interface, provide a reference implementation, and publish tests that validate other implementations.
+
+Contracts can be added to an example group either through the `.apply` method or using the [Include Contract concern](#include-contract).
 
 ```ruby
-module GreetContract
-  extend RSpec::SleepingKingStudios::Contract
+module ExampleContracts
+  # This contract asserts that the object has the Enumerable module as an
+  # ancestor, and that it responds to the #each method.
+  class ShouldBeEnumerableContract < RSpec::SleepingKingStudios::Contract
+    # @!method apply(example_group)
+    #   Adds the contract to the example group.
 
-  describe '#greet' do
-    it { expect(subject).to respond_to(:greet).with(1).argument }
+    contract do
+      it 'should be Enumerable' do
+        expect(subject).to be_a Enumerable
+      end
 
-    it { expect(subject.greet 'programs').to be == 'Greetings, programs!' }
+      it 'should respond to #each' do
+        expect(subject).to respond_to(:each).with(0).arguments
+      end
+    end
   end
 end
 
-RSpec.describe Greeter do
-  include GreetContract
+RSpec.describe Array do
+  ExampleContracts::SHOULD_BE_ENUMERABLE_CONTRACT.apply(self)
+end
+
+RSpec.describe Hash do
+  extend  RSpec::SleepingKingStudios::Concerns::IncludeContract
+  include ExampleContracts
+
+  include_contract 'should be enumerable'
 end
 ```
 
-Using a contract allows for examples to be shared between different specs, or even between projects.
+The major advantage a Contract object provides over using a Proc is documentation - tools such as YARD do not gracefully handle bare lambdas, while the functionality and requirements of a Contract can be specified using standard patterns, such as documenting the parameters passed to a contract using the #apply method.
+
+Contracts can be defined with parameters, which allows us to customize the expected behavior of the object.
+
+```ruby
+module SerializerContracts
+  # This contract asserts that the serialized result has the expected
+  # values.
+  #
+  # First, we pass the contract a series of attribute names. These are
+  # used to assert that the serialized attributes match the values on the
+  # original object.
+  #
+  # Second, we pass the contract a set of attribute names and values.
+  # These are used to assert that the serialized attributes have the
+  # specified values.
+  #
+  # Finally, we can pass the contract a block, which the contract then
+  # executes. Note that the block is executed in the context of our
+  # describe block, and thus can take advantage of our memoized
+  # #serialized helper method.
+  class ShouldSerializeAttributesContract
+    extend RSpec::SleepingKingStudios::Contract
+
+    contract do |*attributes, **values, &block|
+      describe '#serialize' do
+        let(:serialized) { subject.serialize }
+
+        it { expect(subject).to respond_to(:serialize).with(0).arguments }
+
+        attributes.each do |attribute|
+          it "should serialize #{attribute}" do
+            expect(serialized[attribute]).to be == subject[attribute]
+          end
+        end
+
+        values.each do |attribute, value|
+          it "should serialize #{attribute}" do
+            expect(serialized[attribute]).to be == value
+          end
+        end
+
+        instance_exec(&block) if block
+      end
+    end
+  end
+
+RSpec.describe CaptainPicard do
+  SerializerContracts::ShouldSerializeAttributesContract.apply(
+    self,
+    :name,
+    :rank,
+    lights: 4) \
+  do
+    it 'should serialize the catchphrase' do
+      expect(serialized[:catchphrase]).to be == 'Make it so.'
+    end
+  end
+end
+```
 
 ### Contract Methods
 
-Not all RSpec methods are defined in a Contract. Only methods that define an example (`it`) or an example group (`context` or `describe`) can be used at the top level of a Contract. However, all RSpec methods (including methods that modify the current scope, such as `let` and the `before`/`around`/`after` filters) can be used inside an example group as normal.
+Each `RSpec::SleepingKingStudios::Contract` defines the following methods.
 
-#### `::context`
+#### `.apply`
 
-Defines an example group inside the contract. This example group will be defined on all specs that include the contract.
+The `.apply` method adds the contract to the given example group, using the same internals used in the [Include Contract concern](#include-contract).
 
 ```ruby
-module TransformationContract
-  extend RSpec::SleepingKingStudios::Contract
+RSpec.describe Book do
+  subject(:book) { Book.first }
 
-  context 'when the moon is full' do
-    let(:moon_phase) { :full }
-
-    it { expect(werewolf).to be_transformed }
-  end
+  SerializerContracts::ShouldSerializeAttributesContract.apply(
+    self,
+    :title,
+    author: book.author.as_json
+  )
 end
 ```
 
-#### `::describe`
+#### `.contract`
 
-Defines an example group inside the contract. This example group will be defined on all specs that include the contract.
+The `.contract` method is used to define the contract implementation.
 
 ```ruby
-module SilverContract
-  extend RSpec::SleepingKingStudios::Contract
+module ModelContracts
+  class ShouldHavePrimaryKey
+    extend RSpec::SleepingKingStudios::Contract
 
-  describe 'with a silver weapon' do
-    before(:example) do
-      weapon.material = 'silver'
-    end
-
-    it 'should kill the werewolf' do
-      expect(attack(werewolf, weapon)).to change(werewolf, :alive?).to be false
+    contract do |primary_key_name: :id|
+      describe "##{primary_key_name}" do
+        it { expect(subject).to respond_to(primary_key_name).with(0).arguments }
+      end
     end
   end
 end
 ```
 
-#### `::it`
+If a block is not given, it returns the current implementation as a `Proc` (or `nil`, if a contract implementation has not yet been set).
 
-Defines an example inside the contract.
+#### `.to_proc`
 
-```ruby
-module HowlingContract
-  extend RSpec::SleepingKingStudios::Contract
-
-  it { expect(werewolf).to respond_to(:howl) }
-end
-```
-
-#### `::shared_context`
-
-Defines a shared example group.
-
-```ruby
-module MoonContract
-  extend RSpec::SleepingKingStudios::Contract
-
-  shared_context 'when the moon is full' do
-    before(:example) { moon.phase = :full }
-  end
-end
-```
-
-**Note:** When the `Contract` is included in an RSpec example group, any shared example groups defined at the top level of a contract are also included in that example group, even outside of the contract itself. This may cause namespace collisions with shared example groups defined elsewhere in the example group or by other included contracts.
-
-#### `::shared_examples`
-
-Defines a shared example group.
-
-```ruby
-module HairContract
-  extend RSpec::SleepingKingStudios::Contract
-
-  shared_examples 'should be hairy' do
-    describe '#hairy?' do
-      it { expect(werewolf.hairy?).to be true }
-    end
-  end
-end
-```
-
-**Note:** When the `Contract` is included in an RSpec example group, any shared example groups defined at the top level of a contract are also included in that example group, even outside of the contract itself. This may cause namespace collisions with shared example groups defined elsewhere in the example group or by other included contracts.
-
-### Developing Contracts
-
-```ruby
-module VampireContract
-  extend RSpec::SleepingKingStudios::Contract
-  extend RSpec::SleepingKingStudios::Contracts::Development
-
-  fdescribe '#drink' do
-    it { expect(drink 'blood').to be true }
-
-    xit { expect(drink 'holy water').to be false }
-  end
-
-  pending
-end
-```
-
-The `RSpec::SleepingKingStudios::Contracts::Development` module provides methods for defining focused or pending examples and example groups. These are intended for use when developing a contract, and should not be included in the final version. Having skipped or focused example groups in a shared contract can have unexpected effects when the contract is included by the end user.
-
-#### `::fcontext`
-
-Defines a focused example group inside the contract.
-
-#### `::fdescribe`
-
-Defines a focused example group inside the contract.
-
-#### `::fit`
-
-Defines a focused example inside the contract.
-
-#### `::pending`
-
-Marks the contract as pending.
-
-#### `::xcontext`
-
-Defines a skipped example group inside the contract.
-
-#### `::xdescribe`
-
-Defines a skipped example group inside the contract.
-
-#### `::xit`
-
-Defines a skipped example inside the contract.
+The `.to_proc` method returns the current implementation as a `Proc` (or `nil`, if a contract implementation has not yet been set).
 
 ## Matchers
 

@@ -117,11 +117,13 @@ module RSpec::SleepingKingStudios::Concerns
         method_name << '_' << tools.str.underscore(SecureRandom.uuid)
         method_name = method_name.tr(' ', '_').intern
 
-        context.singleton_class.define_method(method_name, &contract)
+        context.define_singleton_method(method_name, &contract)
 
         yield method_name
       ensure
-        context.singleton_class.remove_method(method_name)
+        if context.singleton_class.respond_to?(method_name)
+          context.singleton_class.remove_method(method_name)
+        end
       end
 
       # @private

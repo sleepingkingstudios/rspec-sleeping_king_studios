@@ -1,9 +1,5 @@
 # Development Notes
 
-## Version 2.7
-
-Add support for contracts.
-
 ## Version 3.0
 
 - Extract out Rails-specific matchers to RSpec::SleepingKingStudios::Rails.

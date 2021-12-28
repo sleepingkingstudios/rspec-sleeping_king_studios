@@ -18,7 +18,9 @@ module RSpec::SleepingKingStudios
   #   module ExampleContracts
   #     # This contract asserts that the object has the Enumerable module as an
   #     # ancestor, and that it responds to the #each method.
-  #     class ShouldBeEnumerableContract < RSpec::SleepingKingStudios::Contract
+  #     class ShouldBeEnumerableContract
+  #       extend RSpec::SleepingKingStudios::Contract
+  #
   #       # @!method apply(example_group)
   #       #   Adds the contract to the example group.
   #
@@ -62,7 +64,9 @@ module RSpec::SleepingKingStudios
   #     # executes. Note that the block is executed in the context of our
   #     # describe block, and thus can take advantage of our memoized
   #     # #serialized helper method.
-  #     class ShouldSerializeAttributesContract < RSpec::SleepingKingStudios::Contract
+  #     class ShouldSerializeAttributesContract
+  #       extend RSpec::SleepingKingStudios::Contract
+  #
   #       contract do |*attributes, **values, &block|
   #         describe '#serialize' do
   #           let(:serialized) { subject.serialize }
@@ -88,6 +92,7 @@ module RSpec::SleepingKingStudios
   #
   #   RSpec.describe CaptainPicard do
   #     SerializerContracts::ShouldSerializeAttributesContract.apply(
+  #       self,
   #       :name,
   #       :rank,
   #       lights: 4) \
@@ -99,106 +104,8 @@ module RSpec::SleepingKingStudios
   #   end
   #
   # @see RSpec::SleepingKingStudios::Concerns::IncludeContract.
-  class Contract
-    # Error class used when defining a contract on an abstract class.
-    class AbstractContractError < StandardError; end
-
-    class << self
-      # Adds the contract to the given example group.
-      #
-      # @param example_group [RSpec::Core::ExampleGroup] The example group to
-      #   which the contract is applied.
-      # @param arguments [Array] Optional arguments to pass to the contract.
-      # @param keywords [Hash] Optional keywords to pass to the contract.
-      #
-      # @yield A block to pass to the contract.
-      #
-      # @see #to_proc
-      def apply(example_group, *arguments, **keywords, &block)
-        concern = RSpec::SleepingKingStudios::Concerns::IncludeContract
-
-        concern.define_contract_method(
-          context:  example_group,
-          contract: self,
-          name:     tools.str.underscore(name).gsub('::', '_')
-        ) do |method_name|
-          if keywords.empty?
-            example_group.send(method_name, *arguments, &block)
-          else
-            example_group.send(method_name, *arguments, **keywords, &block)
-          end
-        end
-      end
-
-      # @overload contract()
-      #   @return [Proc, nil] the contract implementation for the class.
-      #
-      # @overload contract()
-      #   Sets the contract implementation for the class.
-      #
-      #   @yield [*arguments, **keywords, &block] The implementation to
-      #     configure for the class.
-      #
-      #   @yieldparam arguments [Array] Optional arguments to pass to the
-      #     contract.
-      #   @yieldparam keywords [Hash] Optional keywords defined for the
-      #     contract.
-      #   @yieldparam block [Array] A block to pass to the contract.
-      def contract(&block)
-        return get_contract unless block_given?
-
-        set_contract(block)
-      end
-
-      # @return [Proc, nil] the contract implementation for the class.
-      def to_proc
-        get_contract
-      end
-
-      private
-
-      def get_contract
-        return @contract if @contract
-
-        if superclass < RSpec::SleepingKingStudios::Contract
-          return superclass.contract
-        end
-
-        nil
-      end
-
-      def set_contract(contract)
-        unless self < RSpec::SleepingKingStudios::Contract
-          raise AbstractContractError,
-            'RSpec::SleepingKingStudios::Contract is an abstract class -' \
-              ' create a subclass to define a contract'
-        end
-
-        @contract = contract
-      end
-
-      def tools
-        SleepingKingStudios::Tools::Toolbelt.instance
-      end
-    end
-
-    # @yield [*arguments, **keywords, &block] The implementation to configure
-    #   for the instance.
-    #
-    # @yieldparam arguments [Array] Optional arguments to pass to the contract.
-    # @yieldparam keywords [Hash] Optional keywords defined for the contract.
-    # @yieldparam block [Array] A block to pass to the contract.
-    def initialize(&contract)
-      @contract = contract
-    end
-
+  module Contract
     # Adds the contract to the given example group.
-    #
-    # If the contract was initialized with a block implementation, then that
-    # implementation will be called in the context of the example group with the
-    # given attributes, keywords, and block. Otherwise, the configured
-    # implementation for the class (if any) will be applied to the example
-    # group.
     #
     # @param example_group [RSpec::Core::ExampleGroup] The example group to
     #   which the contract is applied.
@@ -210,15 +117,11 @@ module RSpec::SleepingKingStudios
     # @see #to_proc
     def apply(example_group, *arguments, **keywords, &block)
       concern = RSpec::SleepingKingStudios::Concerns::IncludeContract
-      name    =
-        unless self.class == RSpec::SleepingKingStudios::Contract
-          tools.str.underscore(self.class.name).gsub('::', '_')
-        end
 
       concern.define_contract_method(
         context:  example_group,
         contract: self,
-        name:     name
+        name:     tools.str.underscore(name).gsub('::', '_')
       ) do |method_name|
         if keywords.empty?
           example_group.send(method_name, *arguments, &block)
@@ -228,14 +131,32 @@ module RSpec::SleepingKingStudios
       end
     end
 
-    # @return [Proc, nil] the contract implementation for the instance or class.
+    # @overload contract()
+    #   @return [Proc, nil] the contract implementation for the class.
+    #
+    # @overload contract()
+    #   Sets the contract implementation for the class.
+    #
+    #   @yield [*arguments, **keywords, &block] The implementation to
+    #     configure for the class.
+    #
+    #   @yieldparam arguments [Array] Optional arguments to pass to the
+    #     contract.
+    #   @yieldparam keywords [Hash] Optional keywords defined for the
+    #     contract.
+    #   @yieldparam block [Array] A block to pass to the contract.
+    def contract(&block)
+      return @contract = block if block_given?
+
+      @contract
+    end
+
+    # @return [Proc, nil] the contract implementation for the class.
     def to_proc
-      contract || self.class.to_proc
+      @contract
     end
 
     private
-
-    attr_reader :contract
 
     def tools
       SleepingKingStudios::Tools::Toolbelt.instance
