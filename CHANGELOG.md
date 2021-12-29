@@ -2,11 +2,13 @@
 
 ## 2.7.0
 
-Renamed the `#alias_method` matcher to `#have_aliased_method`, and renamed the AliasMethodMatcher to HaveAliasedMethodMatcher. Using the older matcher will trigger a deprecation warning.
-
 ### Concerns
 
 Implemented RSpec::SleepingKingStudios::Contract and the IncludeContract concern. These provide a mechanism for documenting and sharing specifications between projects.
+
+### Matchers
+
+Renamed the `#alias_method` matcher to `#have_aliased_method`, and renamed the AliasMethodMatcher to HaveAliasedMethodMatcher. Using the older matcher will trigger a deprecation warning.
 
 ## 2.6.0
 

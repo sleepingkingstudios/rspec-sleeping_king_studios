@@ -10,7 +10,7 @@ RSpec::SleepingKingStudios is tested against the following dependencies:
 
 - Ruby (MRI) 2.6 through 3.0
 - RSpec versions 3.4 through 3.10
-- ActiveModel versions 3.0 through 6.0
+- ActiveModel versions 3.0 through 6.1
 
 ### Documentation
 

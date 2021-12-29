@@ -11,31 +11,45 @@ module RSpec
       # Major version.
       MAJOR = 2
       # Minor version.
-      MINOR = 6
+      MINOR = 7
       # Patch version.
       PATCH = 0
       # Prerelease version.
-      PRERELEASE = nil
+      PRERELEASE = :rc
       # Build metadata.
-      BUILD = nil
+      BUILD = 0
 
-      # Generates the gem version string from the Version constants.
-      #
-      # Inlined here because dependencies may not be loaded when processing a
-      # gemspec, which results in the user being unable to install the gem for
-      # the first time.
-      #
-      # @see SleepingKingStudios::Tools::SemanticVersion#to_gem_version
-      def self.to_gem_version
-        str = "#{MAJOR}.#{MINOR}.#{PATCH}"
+      class << self
+        # Generates the gem version string from the Version constants.
+        #
+        # Inlined here because dependencies may not be loaded when processing a
+        # gemspec, which results in the user being unable to install the gem for
+        # the first time.
+        #
+        # @see SleepingKingStudios::Tools::SemanticVersion#to_gem_version
+        def to_gem_version
+          str = "#{MAJOR}.#{MINOR}.#{PATCH}"
 
-        prerelease = self.const_defined?(:PRERELEASE) ? PRERELEASE : nil
-        str << ".#{prerelease}" unless prerelease.nil? || (prerelease.respond_to?(:empty?) && prerelease.empty?)
+          prerelease = value_of(:PRERELEASE)
+          str = "#{str}.#{prerelease}" if prerelease
 
-        build = self.const_defined?(:BUILD) ? BUILD : nil
-        str << ".#{build}" unless build.nil? || (build.respond_to?(:empty?) && build.empty?)
+          build = value_of(:BUILD)
+          str = "#{str}.#{build}" if build
 
-        str
+          str
+        end
+
+        private
+
+        def value_of(constant)
+          return nil unless const_defined?(constant)
+
+          value = const_get(constant)
+
+          return nil if value.respond_to?(:empty?) && value.empty?
+
+          value
+        end
       end
     end
 
