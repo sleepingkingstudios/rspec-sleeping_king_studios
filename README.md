@@ -2,31 +2,38 @@
 
 A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends built-in matchers with new functionality, such as support for Ruby 2.0+ keyword arguments, and adds new matchers for testing boolean-ness, object reader/writer properties, object constructor arguments, ActiveModel validations, and more. Also defines shared example groups for more expressive testing.
 
-## Support
+## About
 
-RSpec::SleepingKingStudios is tested against RSpec 3.3 through 3.7.
+### Compatibility
 
-Currently, the following versions of Ruby are officially supported:
+RSpec::SleepingKingStudios is tested against the following dependencies:
 
-* 2.4
-* 2.5
-* 2.6
+- Ruby (MRI) 2.6 through 3.0
+- RSpec versions 3.4 through 3.10
+- ActiveModel versions 3.0 through 6.0
 
-For Ruby 2.0 support, use version 2.1 or earlier: `gem "rspec-sleeping_king_studios", "~> 2.1.1"`.
+### Documentation
 
-For RSpec 3.0 to 3.2 support, use version 2.2 or earlier: `gem "rspec-sleeping_king_studios", "~> 2.2.2"`.
+Documentation is generated using [YARD](https://yardoc.org/), and can be generated locally using the `yard` gem.
 
-If you require a previous version of Ruby or RSpec, the 1.0 branch supports Ruby 1.9.3 and RSpec 2: `gem "rspec-sleeping_king_studios", "~> 1.0.1"`. However, changes from 2.0 and higher will not be backported.
+### License
 
-## Contribute
+Copyright (c) 2013-2021 Rob Smith
 
-### GitHub
+RSpec::SleepingKingStudios is released under the [MIT License](https://opensource.org/licenses/MIT).
+
+### Contribute
 
 The canonical repository for this gem is located at https://github.com/sleepingkingstudios/rspec-sleeping_king_studios.
 
-### A Note From The Developer
+To report a bug or submit a feature request, please use the [Issue Tracker](https://github.com/sleepingkingstudios/rspec-sleeping_king_studios/issues).
 
-Hi, I'm Rob Smith, a Ruby Engineer and the developer of this library. I use these tools every day, but they're not just written for me. If you find this project helpful in your own work, or if you have any questions, suggestions or critiques, please feel free to get in touch! I can be reached on GitHub (see above, and feel encouraged to submit bug reports or merge requests there) or via email at `merlin@sleepingkingstudios.com`. I look forward to hearing from you!
+To contribute code, please fork the repository, make the desired updates, and then provide a [Pull Request](https://github.com/sleepingkingstudios/rspec-sleeping_king_studios/pulls). Pull requests must include appropriate tests for consideration, and all code must be properly formatted.
+
+### Code of Conduct
+
+Please note that the `RSpec::SleepingKingStudios` project is released with a [Contributor Code of Conduct](https://github.com/sleepingkingstudios/rspec-sleeping_king_studios/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+
 
 ## Configuration
 
