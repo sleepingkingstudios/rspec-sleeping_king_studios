@@ -572,8 +572,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_context 'when the value has changed'
 
         let(:error_message) do
-          "undefined method `-' for #{changed_value.inspect}:String\n" \
-          "Did you mean?  -@"
+          /undefined method `-' for #{changed_value.inspect}:String/
         end
 
         it 'should raise an error' do

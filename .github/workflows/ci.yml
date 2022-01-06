@@ -34,7 +34,6 @@ jobs:
           - rspec_3_9
           - rspec_3_10
         ruby-version:
-          - '2.5'
           - '2.6'
           - '2.7'
         include:
@@ -44,6 +43,12 @@ jobs:
             ruby-version: '3.0'
           - gemfile: rspec_3_10
             ruby-version: '3.0'
+          - gemfile: activemodel_6_0
+            ruby-version: '3.1'
+          - gemfile: rspec_3_9
+            ruby-version: '3.1'
+          - gemfile: rspec_3_10
+            ruby-version: '3.1'
 
     steps:
     - uses: actions/checkout@v2

@@ -173,9 +173,10 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
         end # around example
 
         it 'should raise an error' do
-          message =
+          message = Regexp.new(
             "constant #{constant_name} is already defined with value "\
             "#{prior_value.inspect}"
+          )
 
           described_class.example_constant constant_name, constant_value
 
