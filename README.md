@@ -439,7 +439,7 @@ A simplified syntax for re-using shared context or examples without having to ex
 ## Contracts
 
 ```ruby
-require 'rspec/sleepingkingstudios/contract'
+require 'rspec/sleeping_king_studios/contract'
 ```
 
 An `RSpec::SleepingKingStudios::Contract` object encapsulates a partial RSpec specification. Unlike a traditional shared example group, a contract can be reused across projects, allowing a library to define an interface, provide a reference implementation, and publish tests that validate other implementations.
@@ -450,7 +450,9 @@ Contracts can be added to an example group either through the `.apply` method or
 module ExampleContracts
   # This contract asserts that the object has the Enumerable module as an
   # ancestor, and that it responds to the #each method.
-  class ShouldBeEnumerableContract < RSpec::SleepingKingStudios::Contract
+  class ShouldBeEnumerableContract
+    extend RSpec::SleepingKingStudios::Contract
+
     # @!method apply(example_group)
     #   Adds the contract to the example group.
 
