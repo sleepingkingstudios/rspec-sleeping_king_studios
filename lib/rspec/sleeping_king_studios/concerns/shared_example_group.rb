@@ -69,8 +69,11 @@ module RSpec::SleepingKingStudios::Concerns
     # example group by including the module. The shared examples must be
     # defined before including the module, or they will not be available in the
     # example group.
-    def shared_examples name, *metadata_args, &block
-      RSpec.world.shared_example_group_registry.add(self, name, *metadata_args, &block)
+    def shared_examples(name, *metadata_args, **metadata_kwargs, &block)
+      RSpec
+        .world
+        .shared_example_group_registry
+        .add(self, name, *metadata_args, **metadata_kwargs, &block)
     end # method shared_examples
     alias_method :shared_context, :shared_examples
 
