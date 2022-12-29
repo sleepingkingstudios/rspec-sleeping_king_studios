@@ -2,8 +2,8 @@
 
 source 'https://rubygems.org'
 
-gem 'activemodel', '~> 6.1.0'
+gem 'activemodel', '~> 7.0'
 
-gem 'rspec', '~> 3.10.0'
+gem 'rspec', '~> 3.12'
 
 gemspec

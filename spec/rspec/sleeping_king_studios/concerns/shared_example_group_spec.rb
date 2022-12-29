@@ -153,9 +153,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::SharedExampleGroup do
     it { expect(instance).to respond_to(:shared_context).with(1..9001).arguments.and_a_block }
 
     it 'should define a shared example group' do
-      expect(registry).to receive(:add).with(instance, examples_name, :key => :value).and_call_original
+      allow(registry).to receive(:add).and_call_original
 
       instance.shared_context(examples_name, :key => :value, &definition)
+
+      expect(registry)
+        .to have_received(:add)
+        .with(instance, examples_name, key: :value)
 
       expect_to_define_example_group(instance, examples_name, definition)
     end # it
@@ -164,9 +168,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::SharedExampleGroup do
       include_examples 'with a defined example group'
 
       it 'should define a shared example group' do
-        expect(registry).to receive(:add).with(instance, examples_name, :key => :value).and_call_original
+        allow(registry).to receive(:add).and_call_original
 
         instance.shared_context(examples_name, :key => :value, &definition)
+
+        expect(registry)
+          .to have_received(:add)
+          .with(instance, examples_name, key: :value)
 
         expect_to_define_example_group(instance, examples_name, definition)
         expect_to_define_example_group(instance, 'defined examples')
@@ -181,9 +189,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::SharedExampleGroup do
     it { expect(instance).to respond_to(:shared_examples).with(1..9001).arguments.and_a_block }
 
     it 'should define a shared example group' do
-      expect(registry).to receive(:add).with(instance, examples_name, :key => :value).and_call_original
+      allow(registry).to receive(:add).and_call_original
 
       instance.shared_examples(examples_name, :key => :value, &definition)
+
+      expect(registry)
+        .to have_received(:add)
+        .with(instance, examples_name, key: :value)
 
       expect_to_define_example_group(instance, examples_name, definition)
     end # it
@@ -192,9 +204,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::SharedExampleGroup do
       include_examples 'with a defined example group'
 
       it 'should define a shared example group' do
-        expect(registry).to receive(:add).with(instance, examples_name, :key => :value).and_call_original
+        allow(registry).to receive(:add).and_call_original
 
         instance.shared_examples(examples_name, :key => :value, &definition)
+
+        expect(registry)
+          .to have_received(:add)
+          .with(instance, examples_name, key: :value)
 
         expect_to_define_example_group(instance, examples_name, definition)
         expect_to_define_example_group(instance, 'defined examples')

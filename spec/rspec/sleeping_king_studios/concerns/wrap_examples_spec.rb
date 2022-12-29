@@ -71,9 +71,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(described_class).to receive(:include_examples).with(examples_name, **example_kwargs)
+          allow(described_class).to receive(:include_examples)
 
           perform_action
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, **example_kwargs)
         end # it
       end # it
 
@@ -83,9 +87,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs)
+          allow(described_class).to receive(:include_examples)
 
           perform_action
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, *example_args, **example_kwargs)
         end # it
       end # it
 
@@ -95,7 +103,7 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group and evaluate the block' do
-          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs) do
+          allow(described_class).to receive(:include_examples) do
             described_class.examples_included = true
           end # expect
 
@@ -119,6 +127,10 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
           expect(is_describe_block).to be true
           expect(is_focus).to be true
           expect(is_skipped).to be false
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, *example_args, **example_kwargs)
         end # it
       end # describe
     end # context
@@ -180,9 +192,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(described_class).to receive(:include_examples).with(examples_name, **example_kwargs)
+          allow(described_class).to receive(:include_examples)
 
           perform_action
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, **example_kwargs)
         end # it
       end # it
 
@@ -192,9 +208,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs)
+          allow(described_class).to receive(:include_examples)
 
           perform_action
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, *example_args, **example_kwargs)
         end # it
       end # it
 
@@ -204,7 +224,7 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group and evaluate the block' do
-          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs) do
+          allow(described_class).to receive(:include_examples) do
             described_class.examples_included = true
           end # expect
 
@@ -228,6 +248,10 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
           expect(is_describe_block).to be true
           expect(is_focus).to be false
           expect(is_skipped).to be true
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, *example_args, **example_kwargs)
         end # it
       end # describe
     end # context
@@ -289,9 +313,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(described_class).to receive(:include_examples).with(examples_name, **example_kwargs)
+          allow(described_class).to receive(:include_examples)
 
           perform_action
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, **example_kwargs)
         end # it
       end # it
 
@@ -301,9 +329,13 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group' do
-          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs)
+          allow(described_class).to receive(:include_examples)
 
           perform_action
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, *example_args, **example_kwargs)
         end # it
       end # it
 
@@ -313,7 +345,7 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
         end # method perform_action
 
         it 'should include the shared example group and evaluate the block' do
-          expect(described_class).to receive(:include_examples).with(examples_name, *example_args, **example_kwargs) do
+          allow(described_class).to receive(:include_examples) do
             described_class.examples_included = true
           end # expect
 
@@ -337,6 +369,10 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::WrapExamples do
           expect(is_describe_block).to be true
           expect(is_focus).to be false
           expect(is_skipped).to be false
+
+          expect(described_class)
+            .to have_received(:include_examples)
+            .with(examples_name, *example_args, **example_kwargs)
         end # it
       end # describe
     end # context
