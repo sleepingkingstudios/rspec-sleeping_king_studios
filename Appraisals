@@ -1,38 +1,23 @@
 # Appraisals
 
-appraise 'rspec-3-4' do
-  gem 'activemodel', '~> 6.1'
-  gem 'rspec',       '~> 3.4.0'
-end
-
-appraise 'rspec-3-5' do
-  gem 'activemodel', '~> 6.1'
-  gem 'rspec',       '~> 3.5.0'
-end
-
-appraise 'rspec-3-6' do
-  gem 'activemodel', '~> 6.1'
-  gem 'rspec',       '~> 3.6.0'
-end
-
-appraise 'rspec-3-7' do
-  gem 'activemodel', '~> 6.1'
-  gem 'rspec',       '~> 3.7.0'
-end
-
-appraise 'rspec-3-8' do
-  gem 'activemodel', '~> 6.1'
-  gem 'rspec',       '~> 3.8.0'
-end
-
 appraise 'rspec-3-9' do
-  gem 'activemodel', '~> 6.1'
-  gem 'rspec',       '~> 3.9.0'
+  gem 'activemodel', '~> 7.0'
+  gem 'rspec',       '~> 3.9'
 end
 
 appraise 'rspec-3-10' do
-  gem 'activemodel', '~> 6.1'
-  gem 'rspec',       '~> 3.10.0'
+  gem 'activemodel', '~> 7.0'
+  gem 'rspec',       '~> 3.10'
+end
+
+appraise 'rspec-3-11' do
+  gem 'activemodel', '~> 7.0'
+  gem 'rspec',       '~> 3.11'
+end
+
+appraise 'rspec-3-12' do
+  gem 'activemodel', '~> 7.0'
+  gem 'rspec',       '~> 3.11'
 end
 
 appraise 'rspec-edge' do
@@ -54,32 +39,12 @@ appraise 'rspec-edge' do
     branch: 'main'
 end
 
-appraise 'activemodel-3' do
-  gem 'activemodel', '~> 3.2.0'
-  gem 'rspec',       '~> 3.4.0'
-end
-
-appraise 'activemodel-4' do
-  gem 'activemodel', '~> 4.2.0'
-  gem 'rspec',       '~> 3.10.0'
-end
-
-appraise 'activemodel-5-0' do
-  gem 'activemodel', '~> 5.0.0'
-  gem 'rspec',       '~> 3.10.0'
-end
-
-appraise 'activemodel-5-1' do
-  gem 'activemodel', '~> 5.1.0'
-  gem 'rspec',       '~> 3.10.0'
-end
-
-appraise 'activemodel-5-2' do
-  gem 'activemodel', '~> 5.2.0'
-  gem 'rspec',       '~> 3.10.0'
-end
-
 appraise 'activemodel-6-0' do
-  gem 'activemodel', '~> 6.0.0'
-  gem 'rspec',       '~> 3.10.0'
+  gem 'activemodel', '~> 6.0'
+  gem 'rspec',       '~> 3.12'
+end
+
+appraise 'activemodel-6-1' do
+  gem 'activemodel', '~> 6.1'
+  gem 'rspec',       '~> 3.12'
 end
