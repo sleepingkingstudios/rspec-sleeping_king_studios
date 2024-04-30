@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 require 'rspec/sleeping_king_studios/configuration'
@@ -5,7 +7,7 @@ require 'rspec/sleeping_king_studios/configuration'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 require 'rspec/sleeping_king_studios/matchers/core/construct'
 
-RSpec.describe RSpec.configuration do
+RSpec.describe RSpec.configuration do # rubocop:disable RSpec/DescribeClass
   subject(:instance) { RSpec.configuration }
 
   describe '#sleeping_king_studios' do

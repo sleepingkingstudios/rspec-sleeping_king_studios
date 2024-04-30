@@ -2,6 +2,7 @@
 
 # Ignore local configuration files.
 /.rspec
+/.rubocop
 /.ruby-gemset
 /.ruby-version
 
@@ -20,8 +21,6 @@ gemfiles/*.lock
 
 # Ignore temporary files.
 /.byebug_history
-/.rubocop.yml
-/.rubocop_todo.yml
 /tmp
 
 # Vim Swap files

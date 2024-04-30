@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 $LOAD_PATH.unshift File.expand_path('./lib')
+
 require 'rspec/sleeping_king_studios/version'
 
 Gem::Specification.new do |gem|
   gem.name        = 'rspec-sleeping_king_studios'
   gem.version     = RSpec::SleepingKingStudios::VERSION
-  gem.date        = Time.now.utc.strftime '%Y-%m-%d'
   gem.summary     = 'A collection of RSpec patches and custom matchers.'
   gem.description = <<-DESCRIPTION
     A collection of RSpec patches and custom matchers. The features can be
@@ -19,10 +19,12 @@ Gem::Specification.new do |gem|
   gem.license     = 'MIT'
 
   gem.metadata = {
-    'bug_tracker_uri' => 'https://github.com/sleepingkingstudios/rspec-sleeping_king_studios/issues',
-    'source_code_uri' => 'https://github.com/sleepingkingstudios/rspec-sleeping_king_studios'
+    'bug_tracker_uri'       => 'https://github.com/sleepingkingstudios/rspec-sleeping_king_studios/issues',
+    'source_code_uri'       => 'https://github.com/sleepingkingstudios/rspec-sleeping_king_studios',
+    'rubygems_mfa_required' => 'true'
   }
 
+  gem.required_ruby_version = ['>= 2.7', '< 4.0']
   gem.require_path = 'lib'
   gem.files        = Dir['lib/**/*.rb', 'LICENSE', '*.md']
 
