@@ -1,0 +1,115 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  Include:
+    - Gemfile
+    - rspec-sleeping_king_studios.gemspec
+    - '*.thor'
+  Exclude:
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+
+RSpec:
+  Language:
+    ExampleGroups:
+      Regular:
+        - context
+        - describe
+        - wrap_context
+      Skipped:
+        - xcontext
+        - xdescribe
+        - xwrap_context
+      Focused:
+        - fcontext
+        - fdescribe
+        - fwrap_context
+    Includes:
+      Examples:
+        - finclude_contract
+        - finclude_examples
+        - fwrap_examples
+        - include_contract
+        - include_examples
+        - wrap_examples
+        - xinclude_contract
+        - xinclude_examples
+        - xwrap_examples
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+
+Layout/LineContinuationLeadingSpace:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 80
+
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
+  IndentationWidth: ~
+
+Metrics/BlockLength:
+  Exclude:
+    - '*.gemspec'
+    - 'spec/**/*.rb'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Naming/FileName:
+  Exclude:
+    - Gemfile
+
+Naming/RescuedExceptionsVariableName:
+  PreferredName: exception
+
+RSpec/BeNil:
+  Enabled: false
+
+RSpec/Eq:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 10
+
+RSpec/ExampleWording:
+  Enabled: false
+
+RSpec/HookArgument:
+  EnforcedStyle: example
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+RSpec/NestedGroups:
+  Max: 5
+
+RSpec/RepeatedDescription:
+  # Does not recognize :wrap_context nodes.
+  Enabled: false
+
+RSpec/RepeatedExample:
+  # Does not recognize :wrap_context nodes.
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  # Checks the style of children definitions at classes and modules.
+  #
+  # Our preferred style is compact-plus-one, which does not match any of the
+  # existing styles, so we disable this cop.
+  Enabled: false
+
+Style/NestedParenthesizedCalls:
+  # This cop is excessively strict, especially in cases where the nested method
+  # call has only one argument, e.g. outer_method(inner_method arg). Adding the
+  # inner parentheses reduces readability.
+  Enabled: false
