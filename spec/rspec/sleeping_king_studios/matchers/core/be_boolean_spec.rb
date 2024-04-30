@@ -15,9 +15,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
 
     it { expect(example_group).to respond_to(:be_boolean).with(0).arguments }
 
-    it { expect(matcher).to be_a RSpec::Matchers::AliasedMatcher }
-
     it { expect(matcher.base_matcher).to be_a matcher_class }
+
+    it { expect(matcher.class).to be RSpec::Matchers::AliasedMatcher }
 
     it 'should have a custom description' do
       expect(matcher.description).to be == 'true or false'

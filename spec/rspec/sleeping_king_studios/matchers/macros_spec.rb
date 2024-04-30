@@ -32,7 +32,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
         expect(example_group).to respond_to(:a_dance)
 
         aliased = example_group.a_dance
-        expect(aliased).to be_a RSpec::Matchers::AliasedMatcher
+        expect(aliased.class).to be RSpec::Matchers::AliasedMatcher
         expect(aliased.base_matcher).to be_a dance_matcher
       end # it
 
