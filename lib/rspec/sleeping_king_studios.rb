@@ -1,10 +1,11 @@
-# lib/rspec/sleeping_king_studios.rb
+# frozen_string_literal: true
 
 require 'rspec/core'
 
 module RSpec
   # Hic Iacet Arthurus, Rex Quondam, Rexque Futurus.
   module SleepingKingStudios
+    # @return [String] the path to the installed gem.
     def self.gem_path
       pattern =
         /#{File::SEPARATOR}lib#{File::SEPARATOR}rspec#{File::SEPARATOR}?\z/
@@ -12,11 +13,12 @@ module RSpec
       __dir__.sub(pattern, '')
     end
 
+    # @return [String] the gem version.
     def self.version
       @version ||= RSpec::SleepingKingStudios::Version.to_gem_version
-    end # class method version
-  end # end module
-end # module
+    end
+  end
+end
 
 require 'rspec/sleeping_king_studios/configuration'
 require 'rspec/sleeping_king_studios/version'

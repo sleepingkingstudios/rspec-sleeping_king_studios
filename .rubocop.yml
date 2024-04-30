@@ -7,6 +7,12 @@ AllCops:
   Include:
     - Gemfile
     - rspec-sleeping_king_studios.gemspec
+    - lib/rspec/sleeping_king_studios.rb
+    - lib/rspec/sleeping_king_studios/configuration.rb
+    - lib/rspec/sleeping_king_studios/version.rb
+    - spec/rspec/configuration_spec.rb
+    - spec/rspec/sleeping_king_studios_spec.rb
+    - spec/rspec/sleeping_king_studios/configuration_spec.rb
     - '*.thor'
   Exclude:
     - 'tmp/**/*'
