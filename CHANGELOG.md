@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.8.0
+
+### Concerns
+
+#### Memoized Helpers
+
+Implemented the `let?` memoized helper, which defines a helper method if there is not already a method with the given name.
+
 ## 2.7.0
 
 ### Concerns

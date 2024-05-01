@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/configuration'
 
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'

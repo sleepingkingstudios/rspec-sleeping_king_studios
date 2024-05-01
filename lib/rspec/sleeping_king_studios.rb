@@ -5,6 +5,8 @@ require 'rspec/core'
 module RSpec
   # Hic Iacet Arthurus, Rex Quondam, Rexque Futurus.
   module SleepingKingStudios
+    autoload :Concerns, 'rspec/sleeping_king_studios/concerns'
+
     # @return [String] the path to the installed gem.
     def self.gem_path
       pattern =

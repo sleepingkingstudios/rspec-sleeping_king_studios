@@ -1,9 +1,6 @@
-# .gitignore
-
 # Ignore local configuration files.
 /.rspec
 /.rubocop
-/.ruby-gemset
 /.ruby-version
 
 # Ignore compiled gem files.
@@ -21,6 +18,7 @@ gemfiles/*.lock
 
 # Ignore temporary files.
 /.byebug_history
+/spec/examples.txt
 /tmp
 
 # Vim Swap files
