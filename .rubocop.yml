@@ -13,6 +13,7 @@ AllCops:
     - lib/rspec/sleeping_king_studios/configuration.rb
     - lib/rspec/sleeping_king_studios/version.rb
     - spec/rspec/configuration_spec.rb
+    - spec/integration/concerns/**/*
     - spec/rspec/sleeping_king_studios_spec.rb
     - spec/rspec/sleeping_king_studios/concerns/memoized_helpers_spec.rb
     - spec/rspec/sleeping_king_studios/configuration_spec.rb
@@ -37,6 +38,10 @@ RSpec:
         - fcontext
         - fdescribe
         - fwrap_context
+    Helpers:
+      - let
+      - let!
+      - let?
     Includes:
       Examples:
         - finclude_contract
@@ -94,6 +99,10 @@ RSpec/ExampleLength:
 RSpec/ExampleWording:
   Enabled: false
 
+RSpec/FilePath:
+  Exclude:
+    - spec/integration/**/*
+
 RSpec/HookArgument:
   EnforcedStyle: example
 
@@ -110,6 +119,10 @@ RSpec/RepeatedDescription:
 RSpec/RepeatedExample:
   # Does not recognize :wrap_context nodes.
   Enabled: false
+
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - spec/integration/**/*
 
 Style/ClassAndModuleChildren:
   # Checks the style of children definitions at classes and modules.

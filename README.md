@@ -1,4 +1,4 @@
-# RSpec::SleepingKingStudios [![Build Status](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios.svg?branch=master)](https://travis-ci.org/sleepingkingstudios/rspec-sleeping_king_studios)
+# RSpec::SleepingKingStudios
 
 A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends built-in matchers with new functionality, such as support for Ruby 2.0+ keyword arguments, and adds new matchers for testing boolean-ness, object reader/writer properties, object constructor arguments, ActiveModel validations, and more. Also defines shared example groups for more expressive testing.
 
@@ -9,8 +9,8 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends bui
 RSpec::SleepingKingStudios is tested against the following dependencies:
 
 - Ruby (MRI) 2.7 through 3.3
-- RSpec versions 3.9 through 3.12
-- ActiveModel versions 6.0 through 7.0
+- RSpec versions 3.9 through 3.13
+- ActiveModel versions 6.0 through 7.1
 
 ### Documentation
 
@@ -301,6 +301,44 @@ A simplified syntax for re-using shared context or examples without having to ex
 #### `::xinclude_examples`
 
 (also `::xinclude_context`) A shortcut for skipping the example group by wrapping it in a `describe` block, similar to the built-in `xit` and `xdescribe` methods.
+
+### Memoized Helpers
+
+```ruby
+require 'rspec/sleepingkingstudios/concerns/memoized_helpers'
+```
+
+Methods for defining memoized helpers, similar to the core RSpec `let` method.
+
+#### `.let?`
+
+The `.let?` class method defines a memoized helper if and only if there is not an existing method with the same name defined in the example group. Among other use cases, this allows for defining default values in shared examples.
+
+```ruby
+RSpec.describe Rocket do
+  subject(:rocket) { described_class.new(name: 'Imp IV') }
+
+  shared_examples 'should launch the rocket' do
+    let?(:launch_site) { 'KSC' }
+
+    it 'should launch the rocket' do
+      expect { rocket.launch_from(launch_site) }
+        .to change(rocket, :launched?)
+        .to be true
+    end
+  end
+
+  describe '#launch_from' do
+    include_examples 'should launch the rocket'
+
+    describe 'with launch_site: value' do
+      let(:launch_site) { 'Baikerbanur' }
+
+      include_examples 'should launch the rocket'
+    end
+  end
+end
+```
 
 ### Shared Example Groups
 
