@@ -1,4 +1,4 @@
-# spec/spec_helper.rb
+# frozen_string_literal: true
 
 require 'rspec'
 require 'byebug'
@@ -15,11 +15,11 @@ module Spec
       end
     end
 
-    def <=>(version)
-      version = GemVersion.new(version) if version.is_a?(String)
+    def <=>(other)
+      other = GemVersion.new(other) if other.is_a?(String)
 
       segments
-        .zip(version.segments)
+        .zip(other.segments)
         .map { |u, v| u <=> v }
         .find(&:nonzero?) || 0
     end
@@ -32,16 +32,22 @@ module Spec
   RSPEC_VERSION = Spec::GemVersion.new(RSpec::Version::STRING)
 end
 
-#=# Require Factories, Custom Matchers, &c #=#
-Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |f| require f }
+# Require Factories, Custom Matchers, &c
+support_path = File.join(__dir__, '/support/**/*.rb')
+Dir[support_path].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.disable_monkey_patching!
 
   # Limit a spec run to individual examples or groups you care about by tagging
   # them with `:focus` metadata.
-  config.filter_run :focus
-  config.run_all_when_everything_filtered = true
+  config.filter_run_when_matching :focus
+
+  # Allows RSpec to persist some state between runs.
+  config.example_status_persistence_file_path = 'spec/examples.txt'
+
+  # Print the 10 slowest examples and example groups.
+  config.profile_examples = 10 if ENV['CI']
 
   # Allow more verbose output when running an individual spec file.
   config.default_formatter = 'doc' if config.files_to_run.one?
@@ -54,7 +60,9 @@ RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     # Enable only the newer, non-monkey-patching expect syntax.
     expectations.syntax = :expect
-  end # expect_with
+
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
 
   # rspec-mocks config goes here.
   config.mock_with :rspec do |mocks|
@@ -64,13 +72,20 @@ RSpec.configure do |config|
     # Prevents you from mocking or stubbing a method that does not exist on
     # a real object. This is generally recommended.
     mocks.verify_partial_doubles = true
-  end # mock_with
+  end
 
-  config.sleeping_king_studios do |config|
-    config.examples do |config|
-      config.handle_missing_failure_message_with = :exception
+  # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
+  # have no way to turn it off -- the option exists only for backwards
+  # compatibility in RSpec 3). It causes shared context metadata to be
+  # inherited by the metadata hash of host groups and examples, rather than
+  # triggering implicit auto-inclusion in groups with matching metadata.
+  config.shared_context_metadata_behavior = :apply_to_host_groups
 
-      config.match_string_failure_message_as = :exact
-    end # config
-  end # config
-end # config
+  config.sleeping_king_studios do |sks|
+    sks.examples do |examples|
+      examples.handle_missing_failure_message_with = :exception
+
+      examples.match_string_failure_message_as = :exact
+    end
+  end
+end

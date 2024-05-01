@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios'
 
 RSpec.describe RSpec::SleepingKingStudios do
