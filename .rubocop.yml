@@ -11,12 +11,16 @@ AllCops:
     - lib/rspec/sleeping_king_studios/concerns.rb
     - lib/rspec/sleeping_king_studios/concerns/memoized_helpers.rb
     - lib/rspec/sleeping_king_studios/configuration.rb
+    - lib/rspec/sleeping_king_studios/deferred.rb
+    - lib/rspec/sleeping_king_studios/deferred/**/*
     - lib/rspec/sleeping_king_studios/version.rb
     - spec/rspec/configuration_spec.rb
     - spec/integration/concerns/**/*
     - spec/rspec/sleeping_king_studios_spec.rb
     - spec/rspec/sleeping_king_studios/concerns/memoized_helpers_spec.rb
     - spec/rspec/sleeping_king_studios/configuration_spec.rb
+    - spec/rspec/sleeping_king_studios/deferred/**/*
+    - spec/rspec/sleeping_king_studios/support/shared_examples/deferred_call_examples.rb
     - spec/spec_helper.rb
     - '*.thor'
   Exclude:
@@ -24,6 +28,10 @@ AllCops:
     - 'vendor/**/*'
 
 RSpec:
+  Include:
+    - '**/*_examples.rb'
+    - '**/*_contract.rb'
+    - '**/*_spec.rb'
   Language:
     ExampleGroups:
       Regular:
