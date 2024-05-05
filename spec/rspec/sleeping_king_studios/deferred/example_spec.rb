@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'rspec/sleeping_king_studios/deferred/call'
+require 'rspec/sleeping_king_studios/deferred/example'
 
 require 'support/shared_examples/deferred_call_examples'
 
-RSpec.describe RSpec::SleepingKingStudios::Deferred::Call do
+RSpec.describe RSpec::SleepingKingStudios::Deferred::Example do
   include Spec::Support::SharedExamples::DeferredCallExamples
 
   subject(:deferred) do
@@ -19,6 +19,6 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Call do
   include_examples 'should be a deferred call'
 
   describe '#type' do
-    it { expect(deferred.type).to be nil }
+    it { expect(deferred.type).to be :example }
   end
 end

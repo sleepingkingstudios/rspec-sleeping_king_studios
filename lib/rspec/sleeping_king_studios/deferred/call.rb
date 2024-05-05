@@ -41,6 +41,11 @@ module RSpec::SleepingKingStudios::Deferred
       receiver.send(method_name, *arguments, **keywords, &block)
     end
 
+    # @return [Symbol, nil] the type of deferred call.
+    def type
+      nil
+    end
+
     private
 
     def tools

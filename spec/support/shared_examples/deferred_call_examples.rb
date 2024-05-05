@@ -209,6 +209,10 @@ module Spec::Support::SharedExamples
             .with_value(method_name)
         end
       end
+
+      describe '#type' do
+        it { expect(deferred).to define_reader(:type) }
+      end
     end
   end
 end
