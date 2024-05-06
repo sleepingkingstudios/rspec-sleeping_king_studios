@@ -66,8 +66,18 @@ module RSpec::SleepingKingStudios::Deferred
 
       # Methods that define a deferred example.
       EXAMPLE_METHODS = %i[
+        example
+        fexample
+        fit
+        focus
+        fspecify
+        it
         pending
         skip
+        specify
+        xexample
+        xit
+        xspecify
       ].freeze
 
       class << self
@@ -85,23 +95,74 @@ module RSpec::SleepingKingStudios::Deferred
         end
       end
 
-      # @!method pending(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred pending example.
-      #
+      # @!macro [new] example_method
       #   @param doc_string [String] the example's doc string.
       #   @param flags [Array<Symbol>] metadata flags for the example. Will be
       #     transformed into metadata entries with true values.
       #   @param metadata [Hash] metadata for the example.
       #   @param block [Proc] the implementation of the example.
+      #
+      #   @return [void]
+
+      # @!method example(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example.
+      #
+      #   @!macro example_method
+
+      # @!method fexample(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example with focus: true.
+      #
+      #   @!macro example_method
+
+      # @!method fit(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example with focus: true.
+      #
+      #   @!macro example_method
+
+      # @!method focus(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example with focus: true.
+      #
+      #   @!macro example_method
+
+      # @!method fspecify(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example with focus: true.
+      #
+      #   @!macro example_method
+
+      # @!method example(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example.
+      #
+      #   @!macro example_method
 
       # @!method pending(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred pending example.
+      #   Defines a deferred example with pending: true.
       #
-      #   @param doc_string [String] the example's doc string.
-      #   @param flags [Array<Symbol>] metadata flags for the example. Will be
-      #     transformed into metadata entries with true values.
-      #   @param metadata [Hash] metadata for the example.
-      #   @param block [Proc] the implementation of the example.
+      #   @!macro example_method
+
+      # @!method skip(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example with skip: true.
+      #
+      #   @!macro example_method
+
+      # @!method specify(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example.
+      #
+      #   @!macro example_method
+
+      # @!method xexample(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example with skip: 'Temporarily skipped ...'.
+      #
+      #   @!macro example_method
+
+      # @!method xit(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example with skip: 'Temporarily skipped ...'.
+      #
+      #   @!macro example_method
+
+      # @!method xspecify(doc_string = nil, *flags, **metadata, &block)
+      #   Defines a deferred example with skip: 'Temporarily skipped ...'.
+      #
+      #   @!macro example_method
 
       EXAMPLE_METHODS.each do |method_name|
         define_deferred_example(method_name)
@@ -114,6 +175,9 @@ module RSpec::SleepingKingStudios::Deferred
     # and Deferred::Examples::DSL modules.
     #
     # @param other [Module] the other module or class.
+    #
+    # @see RSpec::SleepingKingStudios::Deferred::Definitions.
+    # @see RSpec::SleepingKingStudios::Deferred::DSL.
     def self.included(other)
       super
 

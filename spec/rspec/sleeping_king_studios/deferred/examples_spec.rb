@@ -69,6 +69,30 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
   end
 
+  describe '.example' do
+    include_examples 'should define an example macro', :example
+  end
+
+  describe '.fexample' do
+    include_examples 'should define an example macro', :fexample
+  end
+
+  describe '.fit' do
+    include_examples 'should define an example macro', :fit
+  end
+
+  describe '.focus' do
+    include_examples 'should define an example macro', :focus
+  end
+
+  describe '.fspecify' do
+    include_examples 'should define an example macro', :fspecify
+  end
+
+  describe '.it' do
+    include_examples 'should define an example macro', :it
+  end
+
   describe '.ordered_deferred_calls' do
     it 'should define the private class reader' do
       expect(described_class)
@@ -85,5 +109,21 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
   describe '.skip' do
     include_examples 'should define an example macro', :skip
+  end
+
+  describe '.specify' do
+    include_examples 'should define an example macro', :specify
+  end
+
+  describe '.xexample' do
+    include_examples 'should define an example macro', :xexample
+  end
+
+  describe '.xit' do
+    include_examples 'should define an example macro', :xit
+  end
+
+  describe '.xspecify' do
+    include_examples 'should define an example macro', :xspecify
   end
 end
