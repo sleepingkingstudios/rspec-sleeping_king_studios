@@ -11,23 +11,32 @@ module RSpec::SleepingKingStudios::Deferred
   module Examples
     # Class methods for defining a registry of deferred calls.
     module Definitions
-      # The defined ordering for calling deferred calls by type.
-      DEFERRED_CALL_ORDERING = %i[
-        example
-        example_group
+      DEFERRED_CALL_ORDERING = [
+        :example,
+        :example_group,
+        nil
       ].freeze
-
-      ORDERED_TYPES = Set.new(DEFERRED_CALL_ORDERING).freeze
       private_constant :DEFERRED_CALL_ORDERING
 
-      def call(example_group)
-        ordered_calls = ordered_deferred_calls
+      ORDERED_TYPES = Set.new(DEFERRED_CALL_ORDERING).freeze
+      private_constant :ORDERED_TYPES
 
-        ORDERED_TYPES.each do |type|
-          ordered_calls[type].each do |deferred|
-            deferred.call(example_group)
-          end
+      def call(example_group)
+        ordered_deferred_calls.each do |deferred|
+          deferred.call(example_group)
         end
+      end
+
+      # Callback invoked when the module is included in another module or class.
+      #
+      # Calls the deferred calls with the other module as the receiver if the
+      # module is an RSpec::Core::ExampleGroup.
+      #
+      # @param other [Module] the other module or class.
+      def included(other)
+        super
+
+        call(other) if other < RSpec::Core::ExampleGroup
       end
 
       protected
@@ -48,7 +57,7 @@ module RSpec::SleepingKingStudios::Deferred
         [*DEFERRED_CALL_ORDERING, nil].to_h { |key| [key, []] }
       end
 
-      def ordered_deferred_calls # rubocop:disable Metrics/MethodLength
+      def grouped_deferred_calls # rubocop:disable Metrics/MethodLength
         ancestors.reduce(empty_ordered_calls) do |memo, ancestor|
           unless ancestor < RSpec::SleepingKingStudios::Deferred::Examples
             return memo
@@ -64,6 +73,14 @@ module RSpec::SleepingKingStudios::Deferred
           end
         end
       end
+
+      def ordered_deferred_calls
+        grouped = grouped_deferred_calls
+
+        DEFERRED_CALL_ORDERING.reduce([]) do |calls, key|
+          calls + grouped[key]
+        end
+      end
     end
 
     # DSL for defining deferred examples and test setup.
@@ -75,12 +92,13 @@ module RSpec::SleepingKingStudios::Deferred
 
         def define_example_method(method_name)
           define_method(method_name) do |*args, **kwargs, &block|
-            deferred_calls << RSpec::SleepingKingStudios::Deferred::Example.new(
-              method_name,
-              *args,
-              **kwargs,
-              &block
-            )
+            deferred_calls <<
+              RSpec::SleepingKingStudios::Deferred::Example.new(
+                method_name,
+                *args,
+                **kwargs,
+                &block
+              )
           end
         end
 
@@ -99,7 +117,7 @@ module RSpec::SleepingKingStudios::Deferred
 
       # @!macro [new] define_example_group_method
       #   @!method $1(doc_string = nil, *flags, **metadata, &block)
-      #     Defines a deferred example group.
+      #     Defines a deferred example group using the $1 method.
       #
       #     @param doc_string [String] the example group's doc string.
       #     @param flags [Array<Symbol>] metadata flags for the example group.
@@ -111,7 +129,7 @@ module RSpec::SleepingKingStudios::Deferred
 
       # @!macro [new] define_example_method
       #   @!method $1(doc_string = nil, *flags, **metadata, &block)
-      #     Defines a deferred example.
+      #     Defines a deferred example using the $1 method.
       #
       #     @param doc_string [String] the example's doc string.
       #     @param flags [Array<Symbol>] metadata flags for the example. Will be

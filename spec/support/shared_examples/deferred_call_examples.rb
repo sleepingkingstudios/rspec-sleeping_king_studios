@@ -75,6 +75,97 @@ module Spec::Support::SharedExamples
         end
       end
 
+      describe '#==' do
+        let(:other_mname)  { method_name }
+        let(:other_args)   { arguments }
+        let(:other_kwargs) { keywords }
+        let(:other_block)  { block }
+        let(:other) do
+          described_class
+            .new(other_mname, *other_args, **other_kwargs, &other_block)
+        end
+
+        describe 'with nil' do
+          it { expect(deferred == nil).to be false } # rubocop:disable Style/NilComparison
+        end
+
+        describe 'with an Object' do
+          it { expect(deferred == Object.new.freeze).to be false }
+        end
+
+        describe 'with a deferred call with non-matching type' do
+          before(:example) do
+            allow(other).to receive(:type).and_return(:invalid)
+          end
+
+          it { expect(deferred == other).to be false }
+        end
+
+        describe 'with a deferred call with matching type' do
+          it { expect(deferred == other).to be true }
+
+          describe 'with a non-matching method name' do
+            let(:other_mname) { :other_method }
+
+            it { expect(deferred == other).to be false }
+          end
+
+          describe 'with non-matching arguments' do
+            let(:other_args) { %i[other arguments array] }
+
+            it { expect(deferred == other).to be false }
+          end
+
+          describe 'with non-matching keywords' do
+            let(:other_kwargs) { { other: 'value', kwargs: 'value' } }
+
+            it { expect(deferred == other).to be false }
+          end
+
+          describe 'with a non-matching block' do
+            let(:other_block) { -> { false } }
+
+            it { expect(deferred == other).to be false }
+          end
+        end
+
+        wrap_context 'when initialized with arguments' do
+          describe 'with a deferred call with matching type' do
+            it { expect(deferred == other).to be true }
+
+            describe 'with non-matching arguments' do
+              let(:other_args) { %i[other arguments array] }
+
+              it { expect(deferred == other).to be false }
+            end
+          end
+        end
+
+        wrap_context 'when initialized with a block' do
+          describe 'with a deferred call with matching type' do
+            it { expect(deferred == other).to be true }
+
+            describe 'with a non-matching block' do
+              let(:other_block) { -> { false } }
+
+              it { expect(deferred == other).to be false }
+            end
+          end
+        end
+
+        wrap_context 'when initialized with keywords' do
+          describe 'with a deferred call with matching type' do
+            it { expect(deferred == other).to be true }
+
+            describe 'with non-matching keywords' do
+              let(:other_kwargs) { { other: 'value', kwargs: 'value' } }
+
+              it { expect(deferred == other).to be false }
+            end
+          end
+        end
+      end
+
       describe '#arguments' do
         it 'should define the reader method' do
           expect(deferred).to define_reader(:arguments).with_value(arguments)

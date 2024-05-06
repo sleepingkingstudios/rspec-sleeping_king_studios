@@ -32,6 +32,30 @@ module RSpec::SleepingKingStudios::Deferred
     # @return [String, Symbol] the name of the method to call.
     attr_reader :method_name
 
+    # Compares the other object with the deferred call.
+    #
+    # Returns true if and only if:
+    # - The other object is an instance of Deferred::Call.
+    # - The other object's method name and type match the deferred call.
+    # - The other object's arguments, keywords, and block all match the deferred
+    #   call.
+    #
+    # @param other [Object] the object to compare.
+    #
+    # @return [Boolean] true if the other matches the deferred call; otherwise
+    #   false.
+    def ==(other)
+      unless other.is_a?(RSpec::SleepingKingStudios::Deferred::Call)
+        return false
+      end
+
+      other.type == type &&
+        other.method_name == method_name &&
+        other.arguments == arguments &&
+        other.keywords == keywords &&
+        other.block == block
+    end
+
     # Invokes the deferred method call on the receiver.
     #
     # @param receiver [Object] the receiver for the method call.
