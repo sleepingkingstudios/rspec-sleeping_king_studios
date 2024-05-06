@@ -4,6 +4,7 @@ require 'set'
 
 require 'rspec/sleeping_king_studios/deferred'
 require 'rspec/sleeping_king_studios/deferred/example'
+require 'rspec/sleeping_king_studios/deferred/example_group'
 
 module RSpec::SleepingKingStudios::Deferred
   # Defines a deferred example group for declaring shared tests.
@@ -13,6 +14,7 @@ module RSpec::SleepingKingStudios::Deferred
       # The defined ordering for calling deferred calls by type.
       DEFERRED_CALL_ORDERING = %i[
         example
+        example_group
       ].freeze
 
       ORDERED_TYPES = Set.new(DEFERRED_CALL_ORDERING).freeze
@@ -42,8 +44,12 @@ module RSpec::SleepingKingStudios::Deferred
         deferred_call.type
       end
 
+      def empty_ordered_calls
+        [*DEFERRED_CALL_ORDERING, nil].to_h { |key| [key, []] }
+      end
+
       def ordered_deferred_calls # rubocop:disable Metrics/MethodLength
-        ancestors.reduce({}) do |memo, ancestor|
+        ancestors.reduce(empty_ordered_calls) do |memo, ancestor|
           unless ancestor < RSpec::SleepingKingStudios::Deferred::Examples
             return memo
           end
@@ -52,7 +58,7 @@ module RSpec::SleepingKingStudios::Deferred
           do |deferred_call, calls|
             key = deferred_call_key(deferred_call)
 
-            (calls[key] ||= []) << deferred_call
+            calls[key] << deferred_call
 
             calls
           end
@@ -64,26 +70,10 @@ module RSpec::SleepingKingStudios::Deferred
     module DSL
       include RSpec::SleepingKingStudios::Deferred::Examples::Definitions
 
-      # Methods that define a deferred example.
-      EXAMPLE_METHODS = %i[
-        example
-        fexample
-        fit
-        focus
-        fspecify
-        it
-        pending
-        skip
-        specify
-        xexample
-        xit
-        xspecify
-      ].freeze
-
       class << self
         private
 
-        def define_deferred_example(method_name)
+        def define_example_method(method_name)
           define_method(method_name) do |*args, **kwargs, &block|
             deferred_calls << RSpec::SleepingKingStudios::Deferred::Example.new(
               method_name,
@@ -93,80 +83,100 @@ module RSpec::SleepingKingStudios::Deferred
             )
           end
         end
+
+        def define_example_group_method(method_name)
+          define_method(method_name) do |*args, **kwargs, &block|
+            deferred_calls <<
+              RSpec::SleepingKingStudios::Deferred::ExampleGroup.new(
+                method_name,
+                *args,
+                **kwargs,
+                &block
+              )
+          end
+        end
       end
 
-      # @!macro [new] example_method
-      #   @param doc_string [String] the example's doc string.
-      #   @param flags [Array<Symbol>] metadata flags for the example. Will be
-      #     transformed into metadata entries with true values.
-      #   @param metadata [Hash] metadata for the example.
-      #   @param block [Proc] the implementation of the example.
+      # @!macro [new] define_example_group_method
+      #   @!method $1(doc_string = nil, *flags, **metadata, &block)
+      #     Defines a deferred example group.
       #
-      #   @return [void]
-
-      # @!method example(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example.
+      #     @param doc_string [String] the example group's doc string.
+      #     @param flags [Array<Symbol>] metadata flags for the example group.
+      #       Will be transformed into metadata entries with true values.
+      #     @param metadata [Hash] metadata for the example group.
+      #     @param block [Proc] the implementation of the example group.
       #
-      #   @!macro example_method
+      #     @return [void]
 
-      # @!method fexample(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with focus: true.
+      # @!macro [new] define_example_method
+      #   @!method $1(doc_string = nil, *flags, **metadata, &block)
+      #     Defines a deferred example.
       #
-      #   @!macro example_method
-
-      # @!method fit(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with focus: true.
+      #     @param doc_string [String] the example's doc string.
+      #     @param flags [Array<Symbol>] metadata flags for the example. Will be
+      #       transformed into metadata entries with true values.
+      #     @param metadata [Hash] metadata for the example.
+      #     @param block [Proc] the implementation of the example.
       #
-      #   @!macro example_method
+      #     @return [void]
 
-      # @!method focus(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with focus: true.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :example
 
-      # @!method fspecify(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with focus: true.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :fexample
 
-      # @!method example(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :fit
 
-      # @!method pending(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with pending: true.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :focus
 
-      # @!method skip(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with skip: true.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :fspecify
 
-      # @!method specify(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :it
 
-      # @!method xexample(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with skip: 'Temporarily skipped ...'.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :pending
 
-      # @!method xit(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with skip: 'Temporarily skipped ...'.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :skip
 
-      # @!method xspecify(doc_string = nil, *flags, **metadata, &block)
-      #   Defines a deferred example with skip: 'Temporarily skipped ...'.
-      #
-      #   @!macro example_method
+      # @!macro define_example_method
+      define_example_method :specify
 
-      EXAMPLE_METHODS.each do |method_name|
-        define_deferred_example(method_name)
-      end
+      # @!macro define_example_method
+      define_example_method :xexample
+
+      # @!macro define_example_method
+      define_example_method :xit
+
+      # @!macro define_example_method
+      define_example_method :xspecify
+
+      # @!macro define_example_group_method
+      define_example_group_method :context
+
+      # @!macro define_example_group_method
+      define_example_group_method :describe
+
+      # @!macro define_example_group_method
+      define_example_group_method :example_group
+
+      # @!macro define_example_group_method
+      define_example_group_method :fcontext
+
+      # @!macro define_example_group_method
+      define_example_group_method :fdescribe
+
+      # @!macro define_example_group_method
+      define_example_group_method :xcontext
+
+      # @!macro define_example_group_method
+      define_example_group_method :xdescribe
     end
 
     # Callback invoked when the module is included in another module or class.

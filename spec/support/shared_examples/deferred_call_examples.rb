@@ -99,13 +99,6 @@ module Spec::Support::SharedExamples
         let(:empty_parameters) do
           RUBY_VERSION < '3.0.0' ? {} : no_args
         end
-        let(:receiver) do
-          instance_double(Spec::Rocket, launch: nil)
-        end
-
-        example_class 'Spec::Rocket' do |klass|
-          klass.define_method(:launch) { |*, **| nil }
-        end
 
         before(:example) do
           allow(receiver).to receive(method_name) do |*, **, &block|
