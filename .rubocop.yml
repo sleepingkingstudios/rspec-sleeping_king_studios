@@ -16,12 +16,15 @@ AllCops:
     - lib/rspec/sleeping_king_studios/version.rb
     - spec/rspec/configuration_spec.rb
     - spec/integration/concerns/**/*
+    - spec/integration/deferred/**/*
     - spec/rspec/sleeping_king_studios_spec.rb
     - spec/rspec/sleeping_king_studios/concerns/memoized_helpers_spec.rb
     - spec/rspec/sleeping_king_studios/configuration_spec.rb
     - spec/rspec/sleeping_king_studios/deferred/**/*
     - spec/rspec/sleeping_king_studios/support/shared_examples/deferred_call_examples.rb
     - spec/spec_helper.rb
+    - spec/support/integration/**/*.rb
+    - spec/support/sandbox.rb
     - '*.thor'
   Exclude:
     - 'tmp/**/*'
@@ -114,6 +117,10 @@ RSpec/FilePath:
 RSpec/HookArgument:
   EnforcedStyle: example
 
+RSpec/NamedSubject:
+  Exclude:
+    - '**/*_examples.rb'
+
 RSpec/MultipleMemoizedHelpers:
   Max: 10
 
@@ -131,6 +138,10 @@ RSpec/RepeatedExample:
 RSpec/SpecFilePathFormat:
   Exclude:
     - spec/integration/**/*
+
+RSpec/SpecFilePathSuffix:
+  Exclude:
+    - '**/*spec.fixture.rb'
 
 Style/ClassAndModuleChildren:
   # Checks the style of children definitions at classes and modules.
