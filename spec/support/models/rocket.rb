@@ -35,6 +35,14 @@ module Spec
       def launched?
         @launched
       end
+
+      def program
+        return @program if @program
+
+        @program, @ordinal = name.split(' ')
+
+        @program
+      end
     end
   end
 end

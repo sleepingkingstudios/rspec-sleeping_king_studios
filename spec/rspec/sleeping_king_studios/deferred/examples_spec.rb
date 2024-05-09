@@ -287,6 +287,19 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
       include_examples 'should call the deferred calls'
     end
+
+    context 'when there are inherited calls' do
+      include_context 'when there are inherited calls'
+
+      include_examples 'should call the deferred calls'
+    end
+
+    context 'when there are deferred and inherited calls' do
+      include_context 'when there are deferred calls'
+      include_context 'when there are inherited calls'
+
+      include_examples 'should call the deferred calls'
+    end
   end
 
   describe '.context' do
