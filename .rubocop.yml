@@ -76,6 +76,8 @@ Layout/LineContinuationLeadingSpace:
   Enabled: false
 
 Layout/LineLength:
+  AllowedPatterns:
+    - '\A\s*#'
   Max: 80
 
 Layout/ParameterAlignment:

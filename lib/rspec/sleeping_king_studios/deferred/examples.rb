@@ -13,6 +13,8 @@ module RSpec::SleepingKingStudios::Deferred
       'rspec/sleeping_king_studios/deferred/examples/definitions'
     autoload :Dsl,
       'rspec/sleeping_king_studios/deferred/examples/dsl'
+    autoload :Missing,
+      'rspec/sleeping_king_studios/deferred/examples/missing'
 
     # Callback invoked when the module is included in another module or class.
     #

@@ -134,6 +134,46 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
       )
     end
   end
+
+  shared_context 'when there are missing calls' do
+    example_implementations = [
+      -> { expect(1).to be_a Integer },
+      -> { it { expect(Object.new.freeze).to be_a Object } }
+    ]
+
+    let(:expected_missing) do
+      [
+        RSpec::SleepingKingStudios::Deferred::Call.new(
+          :custom_example,
+          'should be an Integer',
+          :aggregate_failures,
+          &example_implementations[0]
+        ),
+        RSpec::SleepingKingStudios::Deferred::Call.new(
+          :custom_example_group,
+          'should be numeric',
+          focus: false,
+          &example_implementations[1]
+        )
+      ]
+    end
+
+    before(:example) do
+      described_class.include(described_class::Missing)
+
+      described_class.custom_example(
+        'should be an Integer',
+        :aggregate_failures,
+        &example_implementations[0]
+      )
+
+      described_class.custom_example_group(
+        'should be numeric',
+        focus: false,
+        &example_implementations[1]
+      )
+    end
+  end
   # rubocop:enable RSpec/ExpectActual, RSpec/IdenticalEqualityAssertion
 
   shared_examples 'should define an example macro' do |method_name|
@@ -300,6 +340,12 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
       include_examples 'should call the deferred calls'
     end
+
+    context 'when there are missing calls' do
+      include_context 'when there are missing calls'
+
+      include_examples 'should call the deferred calls'
+    end
   end
 
   describe '.context' do
@@ -392,6 +438,12 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
       include_examples 'should call the deferred calls'
     end
+
+    context 'when there are missing calls' do
+      include_context 'when there are missing calls'
+
+      include_examples 'should call the deferred calls'
+    end
   end
 
   describe '.it' do
@@ -467,6 +519,16 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
       end
 
       it 'should define the deferred calls' do
+        expect(described_class.send(:ordered_deferred_calls)).to be == expected
+      end
+    end
+
+    context 'when there are missing calls' do
+      include_context 'when there are missing calls'
+
+      let(:expected) { expected_missing }
+
+      it 'should define the deferred examples' do
         expect(described_class.send(:ordered_deferred_calls)).to be == expected
       end
     end

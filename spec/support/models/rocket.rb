@@ -36,6 +36,14 @@ module Spec
         @launched
       end
 
+      def ordinal
+        return @ordinal if @ordinal
+
+        @program, @ordinal = name.split(' ')
+
+        @ordinal
+      end
+
       def program
         return @program if @program
 
