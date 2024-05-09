@@ -6,6 +6,7 @@ module RSpec
   # Hic Iacet Arthurus, Rex Quondam, Rexque Futurus.
   module SleepingKingStudios
     autoload :Concerns, 'rspec/sleeping_king_studios/concerns'
+    autoload :Deferred, 'rspec/sleeping_king_studios/deferred'
 
     # @return [String] the path to the installed gem.
     def self.gem_path
