@@ -13,5 +13,7 @@ module RSpec::SleepingKingStudios
       'rspec/sleeping_king_studios/deferred/examples'
     autoload :ExampleGroup,
       'rspec/sleeping_king_studios/deferred/example_group'
+    autoload :Hook,
+      'rspec/sleeping_king_studios/deferred/hook'
   end
 end

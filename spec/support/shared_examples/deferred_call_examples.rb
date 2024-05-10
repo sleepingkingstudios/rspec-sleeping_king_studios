@@ -13,18 +13,18 @@ module Spec::Support::SharedExamples
     extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
     shared_context 'when initialized with a block' do
-      let(:block) { -> {} }
+      let(:block) { super() || -> {} }
     end
 
     shared_context 'when initialized with arguments' do
-      let(:arguments) { ['KSC', 'Launchpad 3'] }
+      let(:arguments) { super() + ['KSC', 'Launchpad 3'] }
     end
 
     shared_context 'when initialized with keywords' do
-      let(:keywords) { { payload: :satellite } }
+      let(:keywords) { super().merge(payload: :satellite) }
     end
 
-    shared_examples 'should be a deferred call' do
+    shared_examples 'should be a deferred call' do |**examples_options|
       extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
       extend RSpec::SleepingKingStudios::Concerns::WrapExamples
 
@@ -105,13 +105,20 @@ module Spec::Support::SharedExamples
           it { expect(deferred == other).to be true }
 
           describe 'with a non-matching method name' do
-            let(:other_mname) { :other_method }
+            let(:other_mname) do
+              examples_options.fetch(:other_method_name, :other_method)
+            end
 
             it { expect(deferred == other).to be false }
           end
 
           describe 'with non-matching arguments' do
-            let(:other_args) { %i[other arguments array] }
+            let(:other_args) do
+              examples_options.fetch(
+                :other_arguments,
+                %i[other arguments array]
+              )
+            end
 
             it { expect(deferred == other).to be false }
           end
@@ -134,7 +141,12 @@ module Spec::Support::SharedExamples
             it { expect(deferred == other).to be true }
 
             describe 'with non-matching arguments' do
-              let(:other_args) { %i[other arguments array] }
+              let(:other_args) do
+                examples_options.fetch(
+                  :other_arguments,
+                  %i[other arguments array]
+                )
+              end
 
               it { expect(deferred == other).to be false }
             end
@@ -178,7 +190,7 @@ module Spec::Support::SharedExamples
 
       describe '#block' do
         it 'should define the reader method' do
-          expect(deferred).to define_reader(:block).with_value(nil)
+          expect(deferred).to define_reader(:block).with_value(block)
         end
 
         wrap_context 'when initialized with a block' do
@@ -188,7 +200,12 @@ module Spec::Support::SharedExamples
 
       describe '#call' do
         let(:empty_parameters) do
-          RUBY_VERSION < '3.0.0' ? {} : no_args
+          RUBY_VERSION < '3.0.0' ? [{}] : no_args
+        end
+        let(:expected_arguments) do
+          next empty_parameters if arguments.empty?
+
+          RUBY_VERSION < '3.0.0' ? [*arguments, {}] : arguments
         end
 
         before(:example) do
@@ -204,7 +221,9 @@ module Spec::Support::SharedExamples
         it 'should call the deferred method' do
           deferred.call(receiver)
 
-          expect(receiver).to have_received(method_name).with(empty_parameters)
+          expect(receiver)
+            .to have_received(method_name)
+            .with(*expected_arguments)
         end
 
         it 'should return the value' do
@@ -229,7 +248,9 @@ module Spec::Support::SharedExamples
           it 'should call the deferred method' do
             deferred.call(receiver)
 
-            expect(receiver).to have_received(method_name).with(**keywords)
+            expect(receiver)
+              .to have_received(method_name)
+              .with(*arguments, **keywords)
           end
         end
 
@@ -239,12 +260,12 @@ module Spec::Support::SharedExamples
 
             expect(receiver)
               .to have_received(method_name)
-              .with(empty_parameters)
+              .with(*expected_arguments)
           end
 
           it 'should yield the block' do
             expect do |block|
-              deferred = described_class.new(method_name, &block)
+              deferred = described_class.new(method_name, *arguments, &block)
 
               deferred.call(receiver)
             end
@@ -267,7 +288,7 @@ module Spec::Support::SharedExamples
 
           it 'should yield the block' do
             expect do |block|
-              deferred = described_class.new(method_name, &block)
+              deferred = described_class.new(method_name, *arguments, &block)
 
               deferred.call(receiver)
             end
