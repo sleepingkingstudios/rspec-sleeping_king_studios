@@ -17,6 +17,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
       Spec::Models::Rocket#launch should set the launch site
       Spec::Models::Rocket#launch_site is expected to equal nil
       Spec::Models::Rocket#launched? is expected to equal false
+      Spec::Models::Rocket#launched? when the rocket has been launched is expected to equal true
       Spec::Models::Rocket#name is expected to respond to #name with 0 arguments
       Spec::Models::Rocket#name is expected to be a kind of String
       Spec::Models::Rocket#type is expected to respond to #type with 0 arguments
@@ -25,7 +26,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
   end
 
   it 'should apply the deferred examples', :aggregate_failures do
-    expect(result.summary).to be == '8 examples, 0 failures'
+    expect(result.summary).to be == '9 examples, 0 failures'
 
     expect(result.example_descriptions).to be == expected_examples
   end
