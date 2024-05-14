@@ -13,6 +13,8 @@ module RSpec::SleepingKingStudios::Deferred
       'rspec/sleeping_king_studios/deferred/examples/definitions'
     autoload :Dsl,
       'rspec/sleeping_king_studios/deferred/examples/dsl'
+    autoload :Hooks,
+      'rspec/sleeping_king_studios/deferred/examples/hooks'
     autoload :Missing,
       'rspec/sleeping_king_studios/deferred/examples/missing'
 
@@ -29,6 +31,7 @@ module RSpec::SleepingKingStudios::Deferred
       super
 
       other.extend(RSpec::SleepingKingStudios::Deferred::Examples::Dsl)
+      other.extend(RSpec::SleepingKingStudios::Deferred::Examples::Hooks)
     end
   end
 end
