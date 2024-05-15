@@ -69,12 +69,140 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
   end
 
+  shared_context 'when there are deferred hooks' do
+    example_implementations = [
+      -> { 'before.deferred.first' },
+      -> { 'before.deferred.second' },
+      -> { 'prepend_before.deferred' },
+      -> { 'after.deferred' },
+      -> { 'append_after.deferred' },
+      -> { 'around.example' }
+    ]
+
+    let(:expected_hooks) do
+      [
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :before,
+          :example,
+          &example_implementations[0]
+        ),
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :before,
+          :example,
+          &example_implementations[1]
+        ),
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :prepend_before,
+          :example,
+          &example_implementations[2]
+        ),
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :after,
+          :example,
+          &example_implementations[3]
+        ),
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :append_after,
+          :example,
+          &example_implementations[4]
+        ),
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :around,
+          :example,
+          &example_implementations[5]
+        )
+      ].reverse
+    end
+
+    before(:example) do
+      described_class.before(
+        :example,
+        &example_implementations[0]
+      )
+
+      described_class.before(
+        :example,
+        &example_implementations[1]
+      )
+
+      described_class.prepend_before(
+        :example,
+        &example_implementations[2]
+      )
+
+      described_class.after(
+        :example,
+        &example_implementations[3]
+      )
+
+      described_class.append_after(
+        :example,
+        &example_implementations[4]
+      )
+
+      described_class.around(
+        :example,
+        &example_implementations[5]
+      )
+    end
+  end
+
+  shared_context 'when there are inherited hooks' do
+    example_implementations = [
+      -> { 'before.inherited' },
+      -> { 'prepend_before.inherited.first' },
+      -> { 'prepend_before.inherited.second' }
+    ]
+
+    let(:inherited_hooks) do
+      [
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :before,
+          :example,
+          &example_implementations[0]
+        ),
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :prepend_before,
+          :example,
+          &example_implementations[1]
+        ),
+        RSpec::SleepingKingStudios::Deferred::Hook.new(
+          :prepend_before,
+          :example,
+          &example_implementations[2]
+        )
+      ].reverse
+    end
+
+    before(:example) do
+      described_class.include(Spec::InheritedExamples)
+
+      Spec::InheritedExamples.before(
+        :example,
+        &example_implementations[0]
+      )
+
+      Spec::InheritedExamples.prepend_before(
+        :example,
+        &example_implementations[1]
+      )
+
+      Spec::InheritedExamples.prepend_before(
+        :example,
+        &example_implementations[2]
+      )
+    end
+  end
+
   shared_context 'when there are deferred calls' do
     include_context 'when there are deferred examples'
     include_context 'when there are deferred example groups'
+    include_context 'when there are deferred hooks'
   end
 
   shared_context 'when there are inherited calls' do
+    include_context 'when there are inherited hooks'
+
     example_implementations = [
       lambda do
         it { expect([]).to be_a Array }
@@ -107,12 +235,6 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
           &example_implementations[0]
         )
       ]
-    end
-
-    example_constant 'Spec::InheritedExamples' do
-      Module.new do
-        include RSpec::SleepingKingStudios::Deferred::Examples
-      end
     end
 
     before(:example) do
@@ -278,9 +400,70 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
   end
 
+  shared_examples 'should define a hook macro' \
+  do |method_name, position: nil, reversed: false|
+    let(:scope)     { :example }
+    let(:arguments) { %w[tag_0 tag_1] }
+    let(:keywords)  { { option: 'value' } }
+    let(:block)     { -> {} }
+
+    it 'should define the class method' do
+      expect(described_class)
+        .to respond_to(method_name)
+        .with(1).argument
+        .and_unlimited_arguments
+        .and_any_keywords
+        .and_a_block
+    end
+
+    it 'should add a deferred hook to the class' do
+      expect do
+        described_class.send(method_name, scope, *arguments, **keywords, &block)
+      end
+        .to change(described_class, :ordered_deferred_calls)
+    end
+
+    it 'should define a deferred hook', :aggregate_failures do
+      described_class.send(method_name, scope, *arguments, **keywords, &block)
+
+      deferred = described_class.send(:ordered_deferred_calls).last
+
+      expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Hook)
+      expect(deferred.method_name).to be method_name
+      expect(deferred.position).to be == (position || method_name)
+      expect(deferred.reverse_order?).to be reversed
+      expect(deferred.scope).to be == scope
+      expect(deferred.arguments).to be == [scope, *arguments]
+      expect(deferred.keywords).to be == keywords
+      expect(deferred.block).to be == block
+    end
+
+    context 'when the deferred examples are called' do
+      let(:example_group) { instance_double(RSpec::Core::ExampleGroup) }
+
+      it 'should call the deferred example' do
+        described_class.send(method_name, scope, *arguments, **keywords, &block)
+
+        deferred = described_class.send(:ordered_deferred_calls).last
+
+        allow(deferred).to receive(:call)
+
+        described_class.call(example_group)
+
+        expect(deferred).to have_received(:call).with(example_group)
+      end
+    end
+  end
+
   let(:described_class) { Spec::DeferredExamples }
 
   example_constant 'Spec::DeferredExamples' do
+    Module.new do
+      include RSpec::SleepingKingStudios::Deferred::Examples
+    end
+  end
+
+  example_constant 'Spec::InheritedExamples' do
     Module.new do
       include RSpec::SleepingKingStudios::Deferred::Examples
     end
@@ -343,6 +526,18 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
     context 'when there are missing calls' do
       include_context 'when there are missing calls'
+
+      include_examples 'should call the deferred calls'
+    end
+
+    context 'when there are deferred hooks' do
+      include_context 'when there are deferred hooks'
+
+      include_examples 'should call the deferred calls'
+    end
+
+    context 'when there are inherited hooks' do
+      include_context 'when there are inherited hooks'
 
       include_examples 'should call the deferred calls'
     end
@@ -444,6 +639,18 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
       include_examples 'should call the deferred calls'
     end
+
+    context 'when there are deferred hooks' do
+      include_context 'when there are deferred hooks'
+
+      include_examples 'should call the deferred calls'
+    end
+
+    context 'when there are inherited hooks' do
+      include_context 'when there are inherited hooks'
+
+      include_examples 'should call the deferred calls'
+    end
   end
 
   describe '.it' do
@@ -483,11 +690,52 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
       end
     end
 
+    context 'when there are missing calls' do
+      include_context 'when there are missing calls'
+
+      let(:expected) { expected_missing }
+
+      it 'should define the deferred examples' do
+        expect(described_class.send(:ordered_deferred_calls)).to be == expected
+      end
+    end
+
+    context 'when there are deferred hooks' do
+      include_context 'when there are deferred hooks'
+
+      let(:expected) { expected_hooks }
+
+      it 'should define the deferred calls' do
+        expect(described_class.send(:ordered_deferred_calls)).to be == expected
+      end
+    end
+
+    context 'when there are inherited hooks' do
+      include_context 'when there are inherited hooks'
+
+      let(:expected) { inherited_hooks }
+
+      it 'should define the deferred calls' do
+        expect(described_class.send(:ordered_deferred_calls)).to be == expected
+      end
+    end
+
+    context 'when there are deferred and inherited hooks' do
+      include_context 'when there are deferred hooks'
+      include_context 'when there are inherited hooks'
+
+      let(:expected) { inherited_hooks + expected_hooks }
+
+      it 'should define the deferred hooks' do
+        expect(described_class.send(:ordered_deferred_calls)).to be == expected
+      end
+    end
+
     context 'when there are deferred calls' do
       include_context 'when there are deferred calls'
 
       let(:expected) do
-        expected_examples + expected_example_groups
+        expected_examples + expected_example_groups + expected_hooks
       end
 
       it 'should define the deferred calls' do
@@ -499,7 +747,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
       include_context 'when there are inherited calls'
 
       let(:expected) do
-        inherited_examples + inherited_example_groups
+        inherited_examples + inherited_example_groups + inherited_hooks
       end
 
       it 'should define the deferred calls' do
@@ -515,20 +763,12 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
         expected_examples +
           inherited_examples +
           expected_example_groups +
-          inherited_example_groups
+          inherited_example_groups +
+          inherited_hooks +
+          expected_hooks
       end
 
       it 'should define the deferred calls' do
-        expect(described_class.send(:ordered_deferred_calls)).to be == expected
-      end
-    end
-
-    context 'when there are missing calls' do
-      include_context 'when there are missing calls'
-
-      let(:expected) { expected_missing }
-
-      it 'should define the deferred examples' do
         expect(described_class.send(:ordered_deferred_calls)).to be == expected
       end
     end

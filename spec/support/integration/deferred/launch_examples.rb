@@ -30,6 +30,12 @@ module Spec::Integration::Deferred
 
     describe '#launched?' do
       it { expect(subject.launched?).to be false }
+
+      context 'when the rocket has been launched' do
+        before(:example) { subject.launch(launch_site: 'KSC') }
+
+        it { expect(subject.launched?).to be true }
+      end
     end
   end
 end

@@ -8,6 +8,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
     DEFERRED_CALL_ORDERING = [
       :example,
       :example_group,
+      :hooks,
       nil
     ].freeze
     private_constant :DEFERRED_CALL_ORDERING
