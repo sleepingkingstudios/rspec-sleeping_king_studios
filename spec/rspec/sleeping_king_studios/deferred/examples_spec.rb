@@ -4,6 +4,8 @@ require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/deferred/examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
+require 'support/isolated_example_group'
+
 RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
   extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
 
@@ -475,7 +477,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
         described_class.send(:ordered_deferred_calls)
       end
       let(:example_group) do
-        instance_double(RSpec::Core::ExampleGroup)
+        Spec::Support.isolated_example_group
       end
 
       before(:example) do
