@@ -125,7 +125,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
     end
 
     def grouped_deferred_calls
-      super().merge(hooks: group_hooks)
+      super.merge(hooks: group_hooks)
     end
   end
 end
