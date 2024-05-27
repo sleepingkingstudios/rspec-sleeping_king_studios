@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rspec/sleeping_king_studios/deferred/examples'
+require 'rspec/sleeping_king_studios/deferred'
 
-module RSpec::SleepingKingStudios::Deferred::Examples
+module RSpec::SleepingKingStudios::Deferred
   # Class methods for defining a registry of deferred calls.
   module Definitions
     DEFERRED_CALL_ORDERING = [

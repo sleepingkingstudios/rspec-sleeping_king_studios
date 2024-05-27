@@ -2,13 +2,13 @@
 
 require 'rspec/sleeping_king_studios/deferred/calls/example'
 require 'rspec/sleeping_king_studios/deferred/calls/example_group'
+require 'rspec/sleeping_king_studios/deferred/definitions'
 require 'rspec/sleeping_king_studios/deferred/examples'
-require 'rspec/sleeping_king_studios/deferred/examples/definitions'
 
 module RSpec::SleepingKingStudios::Deferred::Examples
   # Domain-specific language for defining deferred examples and test setup.
   module Dsl
-    include RSpec::SleepingKingStudios::Deferred::Examples::Definitions
+    include RSpec::SleepingKingStudios::Deferred::Definitions
 
     # Meta-DSL for defining example and example group macros.
     module Meta

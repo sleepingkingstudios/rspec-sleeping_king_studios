@@ -9,6 +9,8 @@ module RSpec::SleepingKingStudios
       'rspec/sleeping_king_studios/deferred/call'
     autoload :Calls,
       'rspec/sleeping_king_studios/deferred/calls'
+    autoload :Definitions,
+      'rspec/sleeping_king_studios/deferred/definitions'
     autoload :Examples,
       'rspec/sleeping_king_studios/deferred/examples'
   end

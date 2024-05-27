@@ -7,8 +7,6 @@ require 'rspec/sleeping_king_studios/deferred'
 module RSpec::SleepingKingStudios::Deferred
   # Defines a deferred example group for declaring shared tests.
   module Examples
-    autoload :Definitions,
-      'rspec/sleeping_king_studios/deferred/examples/definitions'
     autoload :Dsl,
       'rspec/sleeping_king_studios/deferred/examples/dsl'
     autoload :Hooks,
@@ -18,12 +16,12 @@ module RSpec::SleepingKingStudios::Deferred
 
     # Callback invoked when the module is included in another module or class.
     #
-    # Extends the class or module with the Deferred::Examples::Definitions
+    # Extends the class or module with the Deferred::Definitions
     # and Deferred::Examples::DSL modules.
     #
     # @param other [Module] the other module or class.
     #
-    # @see RSpec::SleepingKingStudios::Deferred::Examples::Definitions.
+    # @see RSpec::SleepingKingStudios::Deferred::Definitions.
     # @see RSpec::SleepingKingStudios::Deferred::Examples::Dsl.
     def self.included(other)
       super

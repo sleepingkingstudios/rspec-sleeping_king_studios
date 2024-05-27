@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/deferred/calls/hook'
+require 'rspec/sleeping_king_studios/deferred/definitions'
 require 'rspec/sleeping_king_studios/deferred/examples'
-require 'rspec/sleeping_king_studios/deferred/examples/definitions'
 
 module RSpec::SleepingKingStudios::Deferred::Examples
   # Domain-specific language for defining deferred hooks.
   module Hooks
-    include RSpec::SleepingKingStudios::Deferred::Examples::Definitions
+    include RSpec::SleepingKingStudios::Deferred::Definitions
 
     # Defines a deferred hook using the #after method.
     #

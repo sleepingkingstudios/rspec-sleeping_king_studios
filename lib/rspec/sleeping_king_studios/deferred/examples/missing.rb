@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/deferred/call'
+require 'rspec/sleeping_king_studios/deferred/definitions'
 require 'rspec/sleeping_king_studios/deferred/examples'
-require 'rspec/sleeping_king_studios/deferred/examples/definitions'
 
 module RSpec::SleepingKingStudios::Deferred::Examples
   # Optional support for deferring unrecognized methods.
   module Missing
     # Methods extended into the class when included in a class or module.
     module ClassMethods
-      include RSpec::SleepingKingStudios::Deferred::Examples::Definitions
+      include RSpec::SleepingKingStudios::Deferred::Definitions
 
       private
 
