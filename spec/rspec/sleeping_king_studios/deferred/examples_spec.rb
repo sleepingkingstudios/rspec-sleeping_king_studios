@@ -18,12 +18,12 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
     let(:expected_examples) do
       [
-        RSpec::SleepingKingStudios::Deferred::Example.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Example.new(
           :specify,
           'should be nil',
           &example_implementations[0]
         ),
-        RSpec::SleepingKingStudios::Deferred::Example.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Example.new(
           :specify,
           'should be an Object',
           &example_implementations[1]
@@ -55,7 +55,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
     let(:expected_example_groups) do
       [
-        RSpec::SleepingKingStudios::Deferred::ExampleGroup.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::ExampleGroup.new(
           :example_group,
           'should be booleans',
           &example_group_implementations[0]
@@ -83,32 +83,32 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
     let(:expected_hooks) do
       [
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :before,
           :example,
           &example_implementations[0]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :before,
           :example,
           &example_implementations[1]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :prepend_before,
           :example,
           &example_implementations[2]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :after,
           :example,
           &example_implementations[3]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :append_after,
           :example,
           &example_implementations[4]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :around,
           :example,
           &example_implementations[5]
@@ -158,17 +158,17 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
     let(:inherited_hooks) do
       [
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :before,
           :example,
           &example_implementations[0]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :prepend_before,
           :example,
           &example_implementations[1]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :prepend_before,
           :example,
           &example_implementations[2]
@@ -217,12 +217,12 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
     let(:inherited_examples) do
       [
-        RSpec::SleepingKingStudios::Deferred::Example.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Example.new(
           :specify,
           'should be a String',
           &example_implementations[1]
         ),
-        RSpec::SleepingKingStudios::Deferred::Example.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Example.new(
           :specify,
           'should be a Symbol',
           &example_implementations[2]
@@ -231,7 +231,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
     let(:inherited_example_groups) do
       [
-        RSpec::SleepingKingStudios::Deferred::ExampleGroup.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::ExampleGroup.new(
           :example_group,
           'should be collections',
           &example_implementations[0]
@@ -326,7 +326,8 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
 
       deferred = described_class.send(:ordered_deferred_calls).last
 
-      expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Example)
+      expect(deferred)
+        .to be_a(RSpec::SleepingKingStudios::Deferred::Calls::Example)
       expect(deferred.method_name).to be method_name
       expect(deferred.arguments).to be == arguments
       expect(deferred.keywords).to be == keywords
@@ -378,7 +379,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
         described_class.send(:ordered_deferred_calls).last
 
       expect(deferred)
-        .to be_a(RSpec::SleepingKingStudios::Deferred::ExampleGroup)
+        .to be_a(RSpec::SleepingKingStudios::Deferred::Calls::ExampleGroup)
       expect(deferred.method_name).to be method_name
       expect(deferred.arguments).to be == arguments
       expect(deferred.keywords).to be == keywords
@@ -425,12 +426,13 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
         .to change(described_class, :ordered_deferred_calls)
     end
 
-    it 'should define a deferred hook', :aggregate_failures do
+    it 'should define a deferred hook', :aggregate_failures do # rubocop:disable RSpec/ExampleLength
       described_class.send(method_name, scope, *arguments, **keywords, &block)
 
       deferred = described_class.send(:ordered_deferred_calls).last
 
-      expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Hook)
+      expect(deferred)
+        .to be_a(RSpec::SleepingKingStudios::Deferred::Calls::Hook)
       expect(deferred.method_name).to be method_name
       expect(deferred.position).to be == (position || method_name)
       expect(deferred.reverse_order?).to be reversed

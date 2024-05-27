@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
+require 'rspec/sleeping_king_studios/deferred/calls/hook'
 require 'rspec/sleeping_king_studios/deferred/examples'
 require 'rspec/sleeping_king_studios/deferred/examples/definitions'
-require 'rspec/sleeping_king_studios/deferred/hook'
 
 module RSpec::SleepingKingStudios::Deferred::Examples
   # Domain-specific language for defining deferred hooks.
@@ -19,7 +19,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
     #
     # @return [void]
     def after(scope, *flags, **conditions, &block)
-      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Hook.new(
+      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :after,
         scope,
         *flags,
@@ -38,7 +38,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
     #
     # @return [void]
     def append_after(scope, *flags, **conditions, &block)
-      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Hook.new(
+      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :append_after,
         scope,
         *flags,
@@ -57,7 +57,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
     #
     # @return [void]
     def around(scope, *flags, **conditions, &block)
-      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Hook.new(
+      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :around,
         scope,
         *flags,
@@ -76,7 +76,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
     #
     # @return [void]
     def before(scope, *flags, **conditions, &block)
-      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Hook.new(
+      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :before,
         scope,
         *flags,
@@ -95,7 +95,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
     #
     # @return [void]
     def prepend_before(scope, *flags, **conditions, &block)
-      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Hook.new(
+      deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :prepend_before,
         scope,
         *flags,

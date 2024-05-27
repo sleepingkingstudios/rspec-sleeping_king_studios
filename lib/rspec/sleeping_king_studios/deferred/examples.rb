@@ -3,8 +3,6 @@
 require 'set'
 
 require 'rspec/sleeping_king_studios/deferred'
-require 'rspec/sleeping_king_studios/deferred/example'
-require 'rspec/sleeping_king_studios/deferred/example_group'
 
 module RSpec::SleepingKingStudios::Deferred
   # Defines a deferred example group for declaring shared tests.

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rspec/sleeping_king_studios/deferred/calls/example'
+require 'rspec/sleeping_king_studios/deferred/calls/example_group'
 require 'rspec/sleeping_king_studios/deferred/examples'
 require 'rspec/sleeping_king_studios/deferred/examples/definitions'
 
@@ -18,7 +20,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
       def define_example_method(method_name)
         define_method(method_name) do |*args, **kwargs, &block|
           deferred_calls <<
-            RSpec::SleepingKingStudios::Deferred::Example.new(
+            RSpec::SleepingKingStudios::Deferred::Calls::Example.new(
               method_name,
               *args,
               **kwargs,
@@ -37,7 +39,7 @@ module RSpec::SleepingKingStudios::Deferred::Examples
       def define_example_group_method(method_name)
         define_method(method_name) do |*args, **kwargs, &block|
           deferred_calls <<
-            RSpec::SleepingKingStudios::Deferred::ExampleGroup.new(
+            RSpec::SleepingKingStudios::Deferred::Calls::ExampleGroup.new(
               method_name,
               *args,
               **kwargs,

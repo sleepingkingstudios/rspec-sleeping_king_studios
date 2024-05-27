@@ -21,32 +21,32 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Hooks do
 
     let(:expected_hooks) do
       [
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :before,
           :example,
           &example_implementations[0]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :before,
           :example,
           &example_implementations[1]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :prepend_before,
           :example,
           &example_implementations[2]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :after,
           :example,
           &example_implementations[3]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :append_after,
           :example,
           &example_implementations[4]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :around,
           :example,
           &example_implementations[5]
@@ -96,17 +96,17 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Hooks do
 
     let(:inherited_hooks) do
       [
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :before,
           :example,
           &example_implementations[0]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :prepend_before,
           :example,
           &example_implementations[1]
         ),
-        RSpec::SleepingKingStudios::Deferred::Hook.new(
+        RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
           :prepend_before,
           :example,
           &example_implementations[2]
@@ -161,7 +161,8 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Hooks do
 
       deferred = described_class.send(:ordered_deferred_calls).last
 
-      expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Hook)
+      expect(deferred)
+        .to be_a(RSpec::SleepingKingStudios::Deferred::Calls::Hook)
       expect(deferred.method_name).to be method_name
       expect(deferred.scope).to be == scope
       expect(deferred.arguments).to be == [scope, *arguments]
