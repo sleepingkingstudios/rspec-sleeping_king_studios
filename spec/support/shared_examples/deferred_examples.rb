@@ -10,6 +10,129 @@ module Spec::Support::SharedExamples
   module DeferredExamples
     extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
+    shared_examples 'should define deferred calls' do
+      describe '.call' do
+        let(:example_group) { instance_double(RSpec::Core::ExampleGroup) }
+
+        it { expect(subject).to respond_to(:call).with(1).argument }
+
+        context 'when there are many deferred calls' do
+          let(:deferred_calls) do
+            Array.new(3) do |index|
+              instance_double(
+                RSpec::SleepingKingStudios::Deferred::Call,
+                call:    nil,
+                inspect: "deferred-#{index}"
+              )
+            end
+          end
+          let(:applied_calls) { [] }
+
+          before(:example) do
+            allow(subject)
+              .to receive(:deferred_calls)
+              .and_return(deferred_calls)
+
+            deferred_calls.each do |deferred|
+              allow(deferred).to receive(:call) do
+                applied_calls << deferred.inspect
+              end
+            end
+          end
+
+          it 'should call the deferred calls on the receiver',
+            :aggregate_failures \
+          do
+            subject.call(example_group)
+
+            expect(deferred_calls)
+              .to all have_received(:call)
+              .with(example_group)
+            expect(applied_calls).to be == deferred_calls.map(&:inspect)
+          end
+        end
+      end
+
+      describe '.deferred_calls' do
+        it { expect(subject).to respond_to(:deferred_calls).with(0).arguments }
+
+        it { expect(subject.deferred_calls).to be == [] }
+      end
+
+      describe '.included' do
+        before(:example) do
+          allow(subject).to receive(:call)
+
+          allow(ancestor_examples).to receive(:call)
+        end
+
+        describe 'with a Module' do
+          let(:other) { Module.new }
+
+          it 'should not call the deferred examples' do
+            other.include(subject)
+
+            expect(subject).not_to have_received(:call)
+          end
+
+          it 'should not call the inherited examples' do
+            other.include(subject)
+
+            expect(ancestor_examples).not_to have_received(:call)
+          end
+        end
+
+        describe 'with deferred examples' do
+          let(:other) do
+            Module.new do
+              include RSpec::SleepingKingStudios::Deferred::Definitions
+            end
+          end
+
+          it 'should not call the deferred examples' do
+            other.include(subject)
+
+            expect(subject).not_to have_received(:call)
+          end
+
+          it 'should not call the inherited examples' do
+            other.include(subject)
+
+            expect(ancestor_examples).not_to have_received(:call)
+          end
+        end
+
+        describe 'with an example group' do
+          let(:example_group) do
+            Spec::Support.isolated_example_group
+          end
+          let(:applied_calls) { [] }
+
+          before(:example) do
+            allow(subject).to receive(:call) do
+              applied_calls << 'examples'
+            end
+
+            allow(ancestor_examples).to receive(:call) do
+              applied_calls << 'ancestor'
+            end
+          end
+
+          it 'should call the deferred and inherited examples',
+            :aggregate_failures \
+          do
+            example_group.include(subject)
+
+            expect(subject).to have_received(:call).with(example_group)
+            expect(ancestor_examples)
+              .to have_received(:call)
+              .with(example_group)
+            expect(applied_calls).to be == %w[ancestor examples]
+          end
+        end
+      end
+    end
+
     shared_examples 'should define deferred examples' do
       shared_examples 'should define an example macro' do |method_name|
         let(:arguments) { %w[tag_0 tag_1] }

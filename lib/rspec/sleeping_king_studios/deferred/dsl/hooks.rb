@@ -82,6 +82,15 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       )
     end
 
+    # (see RSpec::SleepingKingStudios::Deferred::Examples#call)
+    def call(example_group)
+      super
+
+      deferred_hooks.reverse_each do |deferred_hook|
+        deferred_hook.call(example_group)
+      end
+    end
+
     # @api private
     def deferred_hooks
       @deferred_hooks ||= []
@@ -104,24 +113,6 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
         **conditions,
         &block
       )
-    end
-
-    private
-
-    def group_hooks
-      ancestors
-        .reduce([]) do |memo, ancestor|
-          unless ancestor.singleton_class.method_defined?(:deferred_hooks)
-            break memo
-          end
-
-          memo + ancestor.deferred_hooks
-        end
-        .reverse
-    end
-
-    def grouped_deferred_calls
-      super.merge(hooks: group_hooks)
     end
   end
 

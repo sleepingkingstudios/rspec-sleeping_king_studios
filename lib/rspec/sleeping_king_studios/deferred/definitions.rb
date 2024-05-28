@@ -5,19 +5,13 @@ require 'rspec/sleeping_king_studios/deferred'
 module RSpec::SleepingKingStudios::Deferred
   # Class methods for defining a registry of deferred calls.
   module Definitions
-    DEFERRED_CALL_ORDERING = [
-      :example,
-      :example_group,
-      :hooks,
-      nil
-    ].freeze
-    private_constant :DEFERRED_CALL_ORDERING
-
-    ORDERED_TYPES = Set.new(DEFERRED_CALL_ORDERING).freeze
-    private_constant :ORDERED_TYPES
-
+    # Invokes the deferred examples on the given example group.
+    #
+    # @param example_group [RSpec::Core::ExampleGroup] the example group.
+    #
+    # @return [void]
     def call(example_group)
-      ordered_deferred_calls.each do |deferred|
+      deferred_calls.each do |deferred|
         deferred.call(example_group)
       end
     end
@@ -36,43 +30,12 @@ module RSpec::SleepingKingStudios::Deferred
     def included(other)
       super
 
-      call(other) if other < RSpec::Core::ExampleGroup
-    end
+      return unless other < RSpec::Core::ExampleGroup
 
-    private
+      ancestors.reverse_each do |ancestor|
+        next unless ancestor.singleton_class.method_defined?(:deferred_calls)
 
-    def deferred_call_key(deferred_call)
-      return nil unless ORDERED_TYPES.include?(deferred_call.type)
-
-      deferred_call.type
-    end
-
-    def empty_ordered_calls
-      [*DEFERRED_CALL_ORDERING, nil].to_h { |key| [key, []] }
-    end
-
-    def grouped_deferred_calls # rubocop:disable Metrics/MethodLength
-      ancestors.reduce(empty_ordered_calls) do |memo, ancestor|
-        unless ancestor.singleton_class.method_defined?(:deferred_calls)
-          return memo
-        end
-
-        ancestor.deferred_calls.each_with_object(memo) \
-        do |deferred_call, calls|
-          key = deferred_call_key(deferred_call)
-
-          calls[key] << deferred_call
-
-          calls
-        end
-      end
-    end
-
-    def ordered_deferred_calls
-      grouped = grouped_deferred_calls
-
-      DEFERRED_CALL_ORDERING.reduce([]) do |calls, key|
-        calls + grouped[key]
+        ancestor.call(other)
       end
     end
   end
