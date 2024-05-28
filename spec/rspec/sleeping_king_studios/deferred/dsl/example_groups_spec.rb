@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/deferred/definitions'
-require 'rspec/sleeping_king_studios/deferred/dsl'
+require 'rspec/sleeping_king_studios/deferred/dsl/example_groups'
 
 require 'support/shared_examples/deferred_examples'
 
-RSpec.describe RSpec::SleepingKingStudios::Deferred::Dsl do
+RSpec.describe RSpec::SleepingKingStudios::Deferred::Dsl::ExampleGroups do
   extend  RSpec::SleepingKingStudios::Concerns::ExampleConstants
   include Spec::Support::SharedExamples::DeferredExamples
 
@@ -18,19 +18,17 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Dsl do
   example_constant 'Spec::InheritedExamples' do
     Module.new do
       extend RSpec::SleepingKingStudios::Deferred::Definitions
-      extend RSpec::SleepingKingStudios::Deferred::Dsl
+      extend RSpec::SleepingKingStudios::Deferred::Dsl::ExampleGroups
     end
   end
 
   example_constant 'Spec::DeferredExamples' do
     Module.new do
       extend  RSpec::SleepingKingStudios::Deferred::Definitions
-      extend  RSpec::SleepingKingStudios::Deferred::Dsl
+      extend  RSpec::SleepingKingStudios::Deferred::Dsl::ExampleGroups
       include Spec::InheritedExamples
     end
   end
-
-  include_examples 'should define deferred examples'
 
   include_examples 'should define deferred example groups'
 end

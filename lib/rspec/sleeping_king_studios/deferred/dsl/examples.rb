@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'rspec/sleeping_king_studios/deferred/calls/example'
 require 'rspec/sleeping_king_studios/deferred/dsl'
 
 module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documentation
