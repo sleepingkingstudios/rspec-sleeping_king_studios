@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/deferred/calls/hook'
-require 'rspec/sleeping_king_studios/deferred/definitions'
-require 'rspec/sleeping_king_studios/deferred/examples'
+require 'rspec/sleeping_king_studios/deferred/dsl'
 
-module RSpec::SleepingKingStudios::Deferred::Examples
+module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documentation
   # Domain-specific language for defining deferred hooks.
   module Hooks
-    include RSpec::SleepingKingStudios::Deferred::Definitions
-
     # Defines a deferred hook using the #after method.
     #
     # @param scope [Symbol] the scope for the hook. Must be one of :context,
@@ -85,6 +82,11 @@ module RSpec::SleepingKingStudios::Deferred::Examples
       )
     end
 
+    # @api private
+    def deferred_hooks
+      @deferred_hooks ||= []
+    end
+
     # Defines a deferred hook using the #prepend_before method.
     #
     # @param scope [Symbol] the scope for the hook. Must be one of :context,
@@ -102,12 +104,6 @@ module RSpec::SleepingKingStudios::Deferred::Examples
         **conditions,
         &block
       )
-    end
-
-    protected
-
-    def deferred_hooks
-      @deferred_hooks ||= []
     end
 
     private
@@ -128,4 +124,6 @@ module RSpec::SleepingKingStudios::Deferred::Examples
       super.merge(hooks: group_hooks)
     end
   end
+
+  include Hooks
 end

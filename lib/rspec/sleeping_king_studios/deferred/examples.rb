@@ -27,7 +27,7 @@ module RSpec::SleepingKingStudios::Deferred
       super
 
       other.extend(RSpec::SleepingKingStudios::Deferred::Examples::Dsl)
-      other.extend(RSpec::SleepingKingStudios::Deferred::Examples::Hooks)
+      other.extend(RSpec::SleepingKingStudios::Deferred::Dsl::Hooks)
     end
   end
 end
