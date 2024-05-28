@@ -10,5 +10,6 @@ module RSpec::SleepingKingStudios
     autoload :Definitions, 'rspec/sleeping_king_studios/deferred/definitions'
     autoload :Dsl,         'rspec/sleeping_king_studios/deferred/dsl'
     autoload :Examples,    'rspec/sleeping_king_studios/deferred/examples'
+    autoload :Missing,     'rspec/sleeping_king_studios/deferred/missing'
   end
 end

@@ -283,7 +283,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
 
     before(:example) do
-      described_class.include(described_class::Missing)
+      described_class.include RSpec::SleepingKingStudios::Deferred::Missing
 
       described_class.custom_example(
         'should be an Integer',
