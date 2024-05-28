@@ -22,6 +22,11 @@ module RSpec::SleepingKingStudios::Deferred
       end
     end
 
+    # @api private
+    def deferred_calls
+      @deferred_calls ||= []
+    end
+
     # Callback invoked when the module is included in another module or class.
     #
     # Calls the deferred calls with the other module as the receiver if the
@@ -32,12 +37,6 @@ module RSpec::SleepingKingStudios::Deferred
       super
 
       call(other) if other < RSpec::Core::ExampleGroup
-    end
-
-    protected
-
-    def deferred_calls
-      @deferred_calls ||= []
     end
 
     private
