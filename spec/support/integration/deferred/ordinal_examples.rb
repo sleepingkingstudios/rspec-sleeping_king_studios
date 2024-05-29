@@ -7,7 +7,7 @@ require 'support/integration/deferred'
 module Spec::Integration::Deferred
   module OrdinalExamples
     include RSpec::SleepingKingStudios::Deferred::Examples
-    include RSpec::SleepingKingStudios::Deferred::Examples::Missing
+    include RSpec::SleepingKingStudios::Deferred::Missing
 
     custom_example do
       expect(subject).to respond_to(:ordinal).with(0).arguments

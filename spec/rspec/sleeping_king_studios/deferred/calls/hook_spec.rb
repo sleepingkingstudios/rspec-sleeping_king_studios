@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/concerns/example_constants'
-require 'rspec/sleeping_king_studios/deferred/hook'
+require 'rspec/sleeping_king_studios/deferred/calls/hook'
 
 require 'support/shared_examples/deferred_call_examples'
 
-RSpec.describe RSpec::SleepingKingStudios::Deferred::Hook do
+RSpec.describe RSpec::SleepingKingStudios::Deferred::Calls::Hook do
   extend  RSpec::SleepingKingStudios::Concerns::ExampleConstants
   include Spec::Support::SharedExamples::DeferredCallExamples
 

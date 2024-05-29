@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/deferred/call'
-require 'rspec/sleeping_king_studios/deferred/examples'
-require 'rspec/sleeping_king_studios/deferred/examples/definitions'
+require 'rspec/sleeping_king_studios/deferred/definitions'
+require 'rspec/sleeping_king_studios/deferred'
 
-module RSpec::SleepingKingStudios::Deferred::Examples
+module RSpec::SleepingKingStudios::Deferred
   # Optional support for deferring unrecognized methods.
   module Missing
     # Methods extended into the class when included in a class or module.
     module ClassMethods
-      include RSpec::SleepingKingStudios::Deferred::Examples::Definitions
+      include RSpec::SleepingKingStudios::Deferred::Definitions
 
       private
 
@@ -39,12 +39,12 @@ module RSpec::SleepingKingStudios::Deferred::Examples
     #
     # @param other [Module] the other module or class.
     #
-    # @see RSpec::SleepingKingStudios::Deferred::Examples::Missing::ClassMethods.
+    # @see RSpec::SleepingKingStudios::Deferred::Missing::ClassMethods.
     def self.included(other)
       super
 
       other.extend(
-        RSpec::SleepingKingStudios::Deferred::Examples::Missing::ClassMethods
+        RSpec::SleepingKingStudios::Deferred::Missing::ClassMethods
       )
     end
   end

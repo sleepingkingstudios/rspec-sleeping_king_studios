@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/concerns/example_constants'
-require 'rspec/sleeping_king_studios/deferred/examples/missing'
+require 'rspec/sleeping_king_studios/deferred/definitions'
+require 'rspec/sleeping_king_studios/deferred/missing'
 
-RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Missing do
+require 'support/isolated_example_group'
+
+RSpec.describe RSpec::SleepingKingStudios::Deferred::Missing do
   extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
 
   shared_context 'when there are missing calls' do
@@ -48,7 +51,8 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Missing do
 
   example_constant 'Spec::DeferredExamples' do
     Module.new do
-      include RSpec::SleepingKingStudios::Deferred::Examples::Missing
+      include RSpec::SleepingKingStudios::Deferred::Definitions
+      include RSpec::SleepingKingStudios::Deferred::Missing
     end
   end
 
@@ -57,7 +61,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Missing do
       include_context 'when there are missing calls'
 
       let(:deferred_calls) do
-        described_class.send(:ordered_deferred_calls)
+        described_class.deferred_calls
       end
       let(:example_group) do
         instance_double(RSpec::Core::ExampleGroup)
@@ -80,10 +84,10 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Missing do
       include_context 'when there are missing calls'
 
       let(:deferred_calls) do
-        described_class.send(:ordered_deferred_calls)
+        described_class.deferred_calls
       end
       let(:example_group) do
-        Class.new(RSpec::Core::ExampleGroup)
+        Spec::Support.isolated_example_group
       end
 
       before(:example) do
@@ -108,13 +112,13 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Missing do
       expect do
         described_class.send(method_name, *arguments, **keywords, &block)
       end
-        .to change(described_class, :ordered_deferred_calls)
+        .to change(described_class, :deferred_calls)
     end
 
     it 'should define a deferred call', :aggregate_failures do
       described_class.send(method_name, *arguments, **keywords, &block)
 
-      deferred = described_class.send(:ordered_deferred_calls).last
+      deferred = described_class.deferred_calls.last
 
       expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Call)
       expect(deferred.method_name).to be method_name
@@ -129,25 +133,13 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples::Missing do
       it 'should call the deferred example' do
         described_class.send(method_name, *arguments, **keywords, &block)
 
-        deferred = described_class.send(:ordered_deferred_calls).last
+        deferred = described_class.deferred_calls.last
 
         allow(deferred).to receive(:call)
 
         described_class.call(example_group)
 
         expect(deferred).to have_received(:call).with(example_group)
-      end
-    end
-  end
-
-  describe '.ordered_deferred_calls' do
-    context 'when there are missing calls' do
-      include_context 'when there are missing calls'
-
-      let(:expected) { expected_missing }
-
-      it 'should define the deferred missing calls' do
-        expect(described_class.send(:ordered_deferred_calls)).to be == expected
       end
     end
   end

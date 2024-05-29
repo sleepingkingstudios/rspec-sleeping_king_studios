@@ -13,15 +13,15 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
   end
   let(:expected_examples) do
     <<~EXAMPLES.lines.map(&:strip)
+      Spec::Models::Rocket#name is expected to respond to #name with 0 arguments
+      Spec::Models::Rocket#name is expected to be a kind of String
+      Spec::Models::Rocket#type is expected to respond to #type with 0 arguments
+      Spec::Models::Rocket#type is expected to be == rocket
       Spec::Models::Rocket#launch should launch the rocket
       Spec::Models::Rocket#launch should set the launch site
       Spec::Models::Rocket#launch_site is expected to equal nil
       Spec::Models::Rocket#launched? is expected to equal false
       Spec::Models::Rocket#launched? when the rocket has been launched is expected to equal true
-      Spec::Models::Rocket#name is expected to respond to #name with 0 arguments
-      Spec::Models::Rocket#name is expected to be a kind of String
-      Spec::Models::Rocket#type is expected to respond to #type with 0 arguments
-      Spec::Models::Rocket#type is expected to be == rocket
     EXAMPLES
   end
 

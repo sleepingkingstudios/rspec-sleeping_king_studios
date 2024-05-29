@@ -6,7 +6,7 @@ require 'support/integration/deferred'
 
 module Spec::Integration::Deferred
   module CustomExampleGroups
-    extend RSpec::SleepingKingStudios::Deferred::Examples::Dsl::Meta
+    extend RSpec::SleepingKingStudios::Deferred::Dsl::ExampleGroups::Macros
 
     define_example_group_method :custom_example
 
