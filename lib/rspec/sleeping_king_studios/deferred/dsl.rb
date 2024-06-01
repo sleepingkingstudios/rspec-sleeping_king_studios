@@ -10,3 +10,4 @@ end
 require 'rspec/sleeping_king_studios/deferred/dsl/examples'
 require 'rspec/sleeping_king_studios/deferred/dsl/example_groups'
 require 'rspec/sleeping_king_studios/deferred/dsl/hooks'
+require 'rspec/sleeping_king_studios/deferred/dsl/memoized_helpers'
