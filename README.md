@@ -8,9 +8,9 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends bui
 
 RSpec::SleepingKingStudios is tested against the following dependencies:
 
-- Ruby (MRI) 2.7 through 3.3
+- Ruby (MRI) 3.1 through 3.3
 - RSpec versions 3.9 through 3.13
-- ActiveModel versions 6.0 through 7.1
+- ActiveModel versions 6.1 through 7.1
 
 ### Documentation
 
@@ -18,7 +18,7 @@ Documentation is generated using [YARD](https://yardoc.org/), and can be generat
 
 ### License
 
-Copyright (c) 2013-2021 Rob Smith
+Copyright (c) 2013-2024 Rob Smith
 
 RSpec::SleepingKingStudios is released under the [MIT License](https://opensource.org/licenses/MIT).
 
