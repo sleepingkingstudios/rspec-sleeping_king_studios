@@ -37,7 +37,7 @@ module Spec::Support
         doc:    doc.join,
         errors: err.string,
         json:   JSON.parse(raw_json),
-        status: status
+        status:
       )
     end
   end

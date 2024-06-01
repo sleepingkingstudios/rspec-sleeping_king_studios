@@ -13,13 +13,8 @@ module RSpec::SleepingKingStudios::Deferred
 
       private
 
-      def method_missing(symbol, *args, **kwargs, &block)
-        deferred_calls << RSpec::SleepingKingStudios::Deferred::Call.new(
-          symbol,
-          *args,
-          **kwargs,
-          &block
-        )
+      def method_missing(...)
+        deferred_calls << RSpec::SleepingKingStudios::Deferred::Call.new(...)
 
         nil
       end

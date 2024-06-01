@@ -126,20 +126,20 @@ module RSpec::SleepingKingStudios
 
     # Get or set the configuration options for
     # RSpec::SleepingKingStudios::Examples.
-    def examples(&block)
+    def examples(&)
       @examples ||= RSpec::SleepingKingStudios::Configuration::Examples.new
 
-      @examples.instance_eval(&block) if block_given?
+      @examples.instance_eval(&) if block_given?
 
       @examples
     end
 
     # Get or set the configuration options for
     # RSpec::SleepingKingStudios::Matchers.
-    def matchers(&block)
+    def matchers(&)
       @matchers ||= RSpec::SleepingKingStudios::Configuration::Matchers.new
 
-      @matchers.instance_eval(&block) if block_given?
+      @matchers.instance_eval(&) if block_given?
 
       @matchers
     end
@@ -148,10 +148,10 @@ end
 
 class RSpec::Core::Configuration # rubocop:disable Style/Documentation
   # Get or set the configuration options for RSpec::SleepingKingStudios.
-  def sleeping_king_studios(&block)
+  def sleeping_king_studios(&)
     @sleeping_king_studios ||= RSpec::SleepingKingStudios::Configuration.new
 
-    @sleeping_king_studios.instance_eval(&block) if block_given?
+    @sleeping_king_studios.instance_eval(&) if block_given?
 
     @sleeping_king_studios
   end
