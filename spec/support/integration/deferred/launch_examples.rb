@@ -10,7 +10,7 @@ module Spec::Integration::Deferred
       let(:launch_site) { 'KSC' }
 
       def launch_rocket
-        subject.launch(launch_site: launch_site)
+        subject.launch(launch_site:)
       end
 
       it 'should launch the rocket' do

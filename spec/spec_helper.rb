@@ -34,7 +34,7 @@ end
 
 # Require Factories, Custom Matchers, &c
 support_path = File.join(__dir__, '/support/**/*.rb')
-Dir[support_path].sort.each { |f| require f }
+Dir[support_path].each { |f| require f }
 
 RSpec.configure do |config|
   config.disable_monkey_patching!

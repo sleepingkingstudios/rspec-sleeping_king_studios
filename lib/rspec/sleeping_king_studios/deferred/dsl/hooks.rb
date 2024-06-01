@@ -15,13 +15,13 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
     # @param block [Proc] the implementation of the hook.
     #
     # @return [void]
-    def after(scope, *flags, **conditions, &block)
+    def after(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :after,
         scope,
         *flags,
         **conditions,
-        &block
+        &
       )
     end
 
@@ -34,13 +34,13 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
     # @param block [Proc] the implementation of the hook.
     #
     # @return [void]
-    def append_after(scope, *flags, **conditions, &block)
+    def append_after(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :append_after,
         scope,
         *flags,
         **conditions,
-        &block
+        &
       )
     end
 
@@ -53,13 +53,13 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
     # @param block [Proc] the implementation of the hook.
     #
     # @return [void]
-    def around(scope, *flags, **conditions, &block)
+    def around(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :around,
         scope,
         *flags,
         **conditions,
-        &block
+        &
       )
     end
 
@@ -72,13 +72,13 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
     # @param block [Proc] the implementation of the hook.
     #
     # @return [void]
-    def before(scope, *flags, **conditions, &block)
+    def before(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :before,
         scope,
         *flags,
         **conditions,
-        &block
+        &
       )
     end
 
@@ -105,13 +105,13 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
     # @param block [Proc] the implementation of the hook.
     #
     # @return [void]
-    def prepend_before(scope, *flags, **conditions, &block)
+    def prepend_before(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :prepend_before,
         scope,
         *flags,
         **conditions,
-        &block
+        &
       )
     end
   end

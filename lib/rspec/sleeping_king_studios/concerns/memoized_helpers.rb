@@ -10,10 +10,10 @@ module RSpec::SleepingKingStudios::Concerns
     # @param method_name [String] the name of the helper method.
     #
     # @yieldreturn [Object] the value of the memoized helper method.
-    def let?(method_name, &block)
+    def let?(method_name, &)
       return method_name if method_defined?(method_name)
 
-      let(method_name, &block)
+      let(method_name, &)
     end
   end
 end
