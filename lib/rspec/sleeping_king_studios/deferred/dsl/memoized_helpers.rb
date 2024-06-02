@@ -16,7 +16,16 @@ module RSpec::SleepingKingStudios::Deferred::Dsl
 
       return if other.const_defined?(:HelperImplementations, true)
 
-      other.const_set(:HelperImplementations, Module.new)
+      other.const_set(
+        :HelperImplementations,
+        Module.new do
+          named = Module.new
+
+          const_set(:NamedSuper, named)
+
+          include named
+        end
+      )
     end
 
     def call(example_group)
@@ -53,6 +62,34 @@ module RSpec::SleepingKingStudios::Deferred::Dsl
     # @return [void]
     def let!(helper_name, &)
       let(helper_name, &)
+
+      before(:example) { send(helper_name) }
+    end
+
+    # Defines a memoized subject helper.
+    #
+    # @param helper_name [String, Symbol] the name of the helper method.
+    # @param block [Block] the implementation of the helper method.
+    #
+    # @return [void]
+    def subject(helper_name = nil, &)
+      let(:subject, &)
+
+      define_method(helper_name) { subject } if helper_name
+
+      self::HelperImplementations::NamedSuper.define_method(:subject) do
+        raise NotImplementedError, '`super` in named subjects is not supported'
+      end
+    end
+
+    # Defines a memoized subject helper and adds a hook to evaluate it.
+    #
+    # @param helper_name [String, Symbol] the name of the helper method.
+    # @param block [Block] the implementation of the helper method.
+    #
+    # @return [void]
+    def subject!(helper_name = nil, &)
+      subject(helper_name, &)
 
       before(:example) { send(helper_name) }
     end

@@ -446,9 +446,7 @@ module Spec::Support::SharedExamples
       shared_examples 'should define a memoized helper macro' \
       do |method_name, before: false, subject: false|
         shared_context 'when the helper is defined' do
-          before(:example) do
-            described_class.send(method_name, helper_name, &block)
-          end
+          before(:example) { define_helper }
         end
 
         shared_examples 'should call and memoize the block value' do
@@ -480,13 +478,23 @@ module Spec::Support::SharedExamples
             include_context 'when the helper is defined'
 
             let(:block) { -> { super() - 1 } }
-
-            it 'should return the value returned by the block' do
-              expect(call_helper).to be(-2)
+            let(:error_message) do
+              '`super` in named subjects is not supported'
             end
 
-            it 'should memoize the value', :aggregate_failures do
-              3.times { expect(call_helper).to be(-2) }
+            if subject
+              it 'should raise an exception' do
+                expect { call_helper }
+                  .to raise_error NotImplementedError, error_message
+              end
+            else
+              it 'should return the value returned by the block' do
+                expect(call_helper).to be(-2)
+              end
+
+              it 'should memoize the value', :aggregate_failures do
+                3.times { expect(call_helper).to be(-2) }
+              end
             end
           end
         end
@@ -508,6 +516,10 @@ module Spec::Support::SharedExamples
         end
         let(:example_instance) { example_group.new }
 
+        define_method(:define_helper) do
+          described_class.send(method_name, helper_name, &block)
+        end
+
         def call_helper
           example_instance.send(helper_name)
         end
@@ -520,7 +532,7 @@ module Spec::Support::SharedExamples
         end
 
         it 'should define the helper method' do
-          described_class.send(method_name, helper_name, &block)
+          define_helper
 
           expect(example_group.new).to respond_to(helper_name).with(0).arguments
         end
@@ -624,6 +636,51 @@ module Spec::Support::SharedExamples
             expect(value).to be 0
           end
         end
+
+        if subject
+          it 'should define the subject method' do
+            define_helper
+
+            expect(example_group.new).to respond_to(:subject).with(0).arguments
+          end
+
+          context 'when the helper is defined' do
+            include_context 'when the helper is defined'
+
+            it 'should return the value returned by the block' do
+              expect(example_instance.subject).to be 0
+            end
+
+            it 'should memoize the value', :aggregate_failures do
+              3.times { expect(example_instance.subject).to be 0 }
+            end
+
+            it 'should share memoization with the helper method',
+              :aggregate_failures \
+            do
+              expect(call_helper).to be 0
+              expect(example_instance.subject).to be 0
+            end
+          end
+
+          describe 'with no arguments' do
+            let(:helper_name) { :subject }
+
+            define_method(:define_helper) do
+              described_class.send(method_name, &block)
+            end
+
+            it 'should define the subject method' do
+              define_helper
+
+              expect(example_group.new)
+                .to respond_to(:subject)
+                .with(0).arguments
+            end
+
+            include_examples 'should call and memoize the block value'
+          end
+        end
       end
 
       describe '::HelperImplementations' do
@@ -657,6 +714,23 @@ module Spec::Support::SharedExamples
         include_examples 'should define a memoized helper macro',
           :let!,
           before: true
+      end
+
+      # describe '.let?' do
+      #   pending
+      # end
+
+      describe '.subject' do
+        include_examples 'should define a memoized helper macro',
+          :subject,
+          subject: true
+      end
+
+      describe '.subject!' do
+        include_examples 'should define a memoized helper macro',
+          :subject!,
+          before:  true,
+          subject: true
       end
     end
   end

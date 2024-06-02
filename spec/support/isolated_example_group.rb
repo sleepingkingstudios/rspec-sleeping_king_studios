@@ -8,6 +8,8 @@ module Spec
     )
       subclass = Class.new(parent_class)
 
+      subclass.instance_exec { @metadata = { described_class: Object } }
+
       subclass.module_exec(&block) if block
 
       RSpec::Core::MemoizedHelpers.define_helpers_on(subclass)
