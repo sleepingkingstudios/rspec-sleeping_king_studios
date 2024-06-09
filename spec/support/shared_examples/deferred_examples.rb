@@ -445,7 +445,7 @@ module Spec::Support::SharedExamples
 
     shared_examples 'should define memoized helpers' do
       shared_examples 'should define a memoized helper macro' \
-      do |method_name, before: false, subject: false|
+      do |method_name, before: false, optional: false, subject: false|
         shared_context 'when the helper is defined' do
           before(:example) { define_helper }
         end
@@ -545,9 +545,13 @@ module Spec::Support::SharedExamples
             parent_group.let(helper_name, &existing_block)
           end
 
-          include_examples 'should call and memoize the block value'
+          if optional
+            include_examples 'should call the existing implementation'
+          else
+            include_examples 'should call and memoize the block value'
 
-          include_examples 'should wrap the existing implementation'
+            include_examples 'should wrap the existing implementation'
+          end
         end
 
         context 'when a method is declared in a parent example group' do
@@ -555,9 +559,13 @@ module Spec::Support::SharedExamples
             parent_group.define_method(helper_name, &existing_block)
           end
 
-          include_examples 'should call and memoize the block value'
+          if optional
+            include_examples 'should call the existing implementation'
+          else
+            include_examples 'should call and memoize the block value'
 
-          include_examples 'should wrap the existing implementation'
+            include_examples 'should wrap the existing implementation'
+          end
         end
 
         context 'when a helper is defined in the example scope' do
@@ -597,7 +605,11 @@ module Spec::Support::SharedExamples
             ancestor_class.let(helper_name) { -1 }
           end
 
-          include_examples 'should call and memoize the block value'
+          if optional
+            include_examples 'should call the existing implementation'
+          else
+            include_examples 'should call and memoize the block value'
+          end
         end
 
         context 'when a method is defined in inherited examples' do
@@ -605,7 +617,11 @@ module Spec::Support::SharedExamples
             ancestor_class.define_method(helper_name) { -1 }
           end
 
-          include_examples 'should call and memoize the block value'
+          if optional
+            include_examples 'should call the existing implementation'
+          else
+            include_examples 'should call and memoize the block value'
+          end
         end
 
         if before
@@ -717,9 +733,11 @@ module Spec::Support::SharedExamples
           before: true
       end
 
-      # describe '.let?' do
-      #   pending
-      # end
+      describe '.let?' do
+        include_examples 'should define a memoized helper macro',
+          :let?,
+          optional: true
+      end
 
       describe '.subject' do
         include_examples 'should define a memoized helper macro',

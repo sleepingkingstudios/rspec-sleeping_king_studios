@@ -28,6 +28,7 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       )
     end
 
+    # @api private
     def call(example_group)
       super
 
@@ -64,6 +65,25 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       let(helper_name, &)
 
       before(:example) { send(helper_name) }
+    end
+
+    # Defines an optional memoized helper.
+    #
+    # The helper will use the parent value if defined; otherwise, will use the
+    # given value.
+    #
+    # @param helper_name [String, Symbol] the name of the helper method.
+    # @param block [Block] the implementation of the helper method.
+    #
+    # @return [void]
+    def let?(helper_name, &block)
+      wrapped = lambda do
+        next super() if defined?(super())
+
+        instance_exec(&block)
+      end
+
+      let(helper_name, &wrapped)
     end
 
     # Defines a memoized subject helper.
