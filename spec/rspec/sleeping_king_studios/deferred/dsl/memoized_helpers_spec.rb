@@ -3,8 +3,6 @@
 require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/deferred/dsl/hooks'
 require 'rspec/sleeping_king_studios/deferred/dsl/memoized_helpers'
-require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
-require 'rspec/sleeping_king_studios/matchers/core/have_constant'
 
 require 'support/isolated_example_group'
 

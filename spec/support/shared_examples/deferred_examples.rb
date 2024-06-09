@@ -2,6 +2,7 @@
 
 require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
+require 'rspec/sleeping_king_studios/matchers/core/have_constant'
 
 require 'support/isolated_example_group'
 require 'support/shared_examples'

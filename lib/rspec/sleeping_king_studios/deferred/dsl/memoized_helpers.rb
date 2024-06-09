@@ -2,7 +2,7 @@
 
 require 'rspec/sleeping_king_studios/deferred/dsl'
 
-module RSpec::SleepingKingStudios::Deferred::Dsl
+module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documentation
   # DSL for defining memoized helpers for deferred examples.
   module MemoizedHelpers
     # Callback invoked when the module is extended into another module or class.
@@ -94,4 +94,6 @@ module RSpec::SleepingKingStudios::Deferred::Dsl
       before(:example) { send(helper_name) }
     end
   end
+
+  include MemoizedHelpers
 end
