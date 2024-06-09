@@ -19,16 +19,19 @@ module Spec
 
         @launched    = false
         @launch_site = nil
-        @payload     = []
+        @orbit       = nil
+        @payload     = {}
       end
 
       attr_reader \
         :launch_site,
+        :orbit,
         :payload
 
-      def launch(launch_site:, payload: [])
+      def launch(launch_site:, orbit: nil, payload: {})
         @launched    = true
         @launch_site = launch_site
+        @orbit       = orbit
         @payload     = payload
       end
 

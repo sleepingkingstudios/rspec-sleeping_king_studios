@@ -4,6 +4,8 @@ require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/deferred/definitions'
 require 'rspec/sleeping_king_studios/deferred/dsl/hooks'
 
+require 'support/shared_examples/deferred_examples'
+
 RSpec.describe RSpec::SleepingKingStudios::Deferred::Dsl::Hooks do
   extend  RSpec::SleepingKingStudios::Concerns::ExampleConstants
   include Spec::Support::SharedExamples::DeferredExamples
