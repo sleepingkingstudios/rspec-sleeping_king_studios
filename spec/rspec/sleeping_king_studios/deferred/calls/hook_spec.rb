@@ -164,8 +164,4 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Calls::Hook do
       it { expect(deferred.scope).to be :example }
     end
   end
-
-  describe '#type' do
-    it { expect(deferred.type).to be :hook }
-  end
 end

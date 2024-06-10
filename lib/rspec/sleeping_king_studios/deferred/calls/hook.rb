@@ -16,14 +16,9 @@ module RSpec::SleepingKingStudios::Deferred::Calls
     VALID_SCOPES = Set.new(%i[context each example]).freeze
     private_constant :VALID_SCOPES
 
-    # @return [Symbol] the scope of the hook
+    # @return [Symbol] the scope of the hook.
     def scope
       arguments.first&.intern
-    end
-
-    # (see RSpec::SleepingKingStudios::Deferred::Call#type)
-    def type
-      :hook
     end
 
     private

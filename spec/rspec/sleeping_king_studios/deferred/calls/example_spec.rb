@@ -24,8 +24,4 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Calls::Example do
   end
 
   include_examples 'should be a deferred call'
-
-  describe '#type' do
-    it { expect(deferred.type).to be :example }
-  end
 end

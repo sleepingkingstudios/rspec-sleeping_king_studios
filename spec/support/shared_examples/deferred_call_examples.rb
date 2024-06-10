@@ -94,9 +94,13 @@ module Spec::Support::SharedExamples
         end
 
         describe 'with a deferred call with non-matching type' do
-          before(:example) do
-            allow(other).to receive(:type).and_return(:invalid)
+          let(:other) do
+            Spec::CustomDeferredCall
+              .new(other_mname, *other_args, **other_kwargs, &other_block)
           end
+
+          example_class 'Spec::CustomDeferredCall',
+            RSpec::SleepingKingStudios::Deferred::Call
 
           it { expect(deferred == other).to be false }
         end
@@ -313,10 +317,6 @@ module Spec::Support::SharedExamples
             .to define_reader(:method_name)
             .with_value(method_name)
         end
-      end
-
-      describe '#type' do
-        it { expect(deferred).to define_reader(:type) }
       end
     end
   end

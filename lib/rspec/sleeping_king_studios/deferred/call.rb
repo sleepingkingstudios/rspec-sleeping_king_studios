@@ -45,11 +45,7 @@ module RSpec::SleepingKingStudios::Deferred
     # @return [Boolean] true if the other matches the deferred call; otherwise
     #   false.
     def ==(other)
-      unless other.is_a?(RSpec::SleepingKingStudios::Deferred::Call)
-        return false
-      end
-
-      other.type == type &&
+      other.class == self.class &&
         other.method_name == method_name &&
         other.arguments == arguments &&
         other.keywords == keywords &&
@@ -63,11 +59,6 @@ module RSpec::SleepingKingStudios::Deferred
     # @return [Object] the returned value of the method call.
     def call(receiver)
       receiver.send(method_name, *arguments, **keywords, &block)
-    end
-
-    # @return [Symbol, nil] the type of deferred call.
-    def type
-      nil
     end
 
     private
