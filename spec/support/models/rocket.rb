@@ -17,6 +17,7 @@ module Spec
       def initialize(name)
         super(name, :rocket)
 
+        @crew        = []
         @launched    = false
         @launch_site = nil
         @orbit       = nil
@@ -24,12 +25,14 @@ module Spec
       end
 
       attr_reader \
+        :crew,
         :launch_site,
         :orbit,
         :payload
 
-      def launch(launch_site:, orbit: nil, payload: {})
+      def launch(launch_site:, crew: [], orbit: nil, payload: {})
         @launched    = true
+        @crew        = crew
         @launch_site = launch_site
         @orbit       = orbit
         @payload     = payload
