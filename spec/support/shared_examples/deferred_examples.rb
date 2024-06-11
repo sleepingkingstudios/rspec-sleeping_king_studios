@@ -443,6 +443,199 @@ module Spec::Support::SharedExamples
       end
     end
 
+    shared_examples 'should define deferred shared example groups' do
+      shared_examples 'should define an include examples macro' do |method_name|
+        let(:name)      { 'should do something' }
+        let(:arguments) { %w[tag_0 tag_1] }
+        let(:keywords)  { { option: 'value' } }
+        let(:block)     { -> {} }
+
+        it 'should define the class method' do
+          expect(described_class)
+            .to respond_to(method_name)
+            .with(1).arguments
+            .and_unlimited_arguments
+            .and_any_keywords
+            .and_a_block
+        end
+
+        it 'should add a deferred included example group to the class' do
+          expect do
+            described_class
+              .send(method_name, name, *arguments, **keywords, &block)
+          end
+            .to change(described_class, :deferred_calls)
+        end
+
+        it 'should define a deferred included example group',
+          :aggregate_failures \
+        do
+          described_class.send(method_name, name, *arguments, **keywords, &block)
+
+          deferred = described_class.deferred_calls.last
+
+          expect(deferred).to be_a(
+            RSpec::SleepingKingStudios::Deferred::Calls::IncludedExamples
+          )
+          expect(deferred.method_name).to be method_name
+          expect(deferred.name).to be == name
+          expect(deferred.arguments).to be == [name, *arguments]
+          expect(deferred.keywords).to be == keywords
+          expect(deferred.block).to be == block
+        end
+
+        context 'when the deferred examples are called' do
+          let(:example_group) { instance_double(RSpec::Core::ExampleGroup) }
+
+          it 'should call the deferred included example group' do
+            described_class
+              .send(method_name, name, *arguments, **keywords, &block)
+
+            deferred = described_class.deferred_calls.last
+
+            allow(deferred).to receive(:call)
+
+            described_class.call(example_group)
+
+            expect(deferred).to have_received(:call).with(example_group)
+          end
+        end
+      end
+
+      shared_examples 'should define a shared examples macro' do |method_name|
+        let(:name)      { 'should do something' }
+        let(:arguments) { %w[tag_0 tag_1] }
+        let(:keywords)  { { option: 'value' } }
+        let(:block)     { -> {} }
+
+        it 'should define the class method' do
+          expect(described_class)
+            .to respond_to(method_name)
+            .with(1).arguments
+            .and_unlimited_arguments
+            .and_any_keywords
+            .and_a_block
+        end
+
+        it 'should add a deferred shared example group to the class' do
+          expect do
+            described_class
+              .send(method_name, name, *arguments, **keywords, &block)
+          end
+            .to change(described_class, :deferred_calls)
+        end
+
+        it 'should define a deferred shared example group',
+          :aggregate_failures \
+        do
+          described_class.send(method_name, name, *arguments, **keywords, &block)
+
+          deferred = described_class.deferred_calls.last
+
+          expect(deferred).to be_a(
+            RSpec::SleepingKingStudios::Deferred::Calls::SharedExamples
+          )
+          expect(deferred.method_name).to be method_name
+          expect(deferred.name).to be == name
+          expect(deferred.arguments).to be == [name, *arguments]
+          expect(deferred.keywords).to be == keywords
+          expect(deferred.block).to be == block
+        end
+
+        context 'when the deferred examples are called' do
+          let(:example_group) { instance_double(RSpec::Core::ExampleGroup) }
+
+          it 'should call the deferred shared example group' do
+            described_class
+              .send(method_name, name, *arguments, **keywords, &block)
+
+            deferred = described_class.deferred_calls.last
+
+            allow(deferred).to receive(:call)
+
+            described_class.call(example_group)
+
+            expect(deferred).to have_received(:call).with(example_group)
+          end
+        end
+      end
+
+      describe '.finclude_examples' do
+        include_examples 'should define an include examples macro',
+          :finclude_examples
+      end
+
+      describe '.fwrap_context' do
+        include_examples 'should define an include examples macro',
+          :fwrap_context
+      end
+
+      describe '.fwrap_examples' do
+        include_examples 'should define an include examples macro',
+          :fwrap_context
+      end
+
+      describe '.include_context' do
+        include_examples 'should define an include examples macro',
+          :include_context
+      end
+
+      describe '.include_examples' do
+        include_examples 'should define an include examples macro',
+          :include_examples
+      end
+
+      describe '.it_behaves_like' do
+        include_examples 'should define an include examples macro',
+          :it_behaves_like
+      end
+
+      describe '.it_should_behave_like' do
+        include_examples 'should define an include examples macro',
+          :it_should_behave_like
+      end
+
+      describe '.shared_context' do
+        include_examples 'should define a shared examples macro',
+          :shared_context
+      end
+
+      describe '.shared_examples' do
+        include_examples 'should define a shared examples macro',
+          :shared_examples
+      end
+
+      describe '.shared_examples_for' do
+        include_examples 'should define a shared examples macro',
+          :shared_examples_for
+      end
+
+      describe '.wrap_context' do
+        include_examples 'should define an include examples macro',
+          :wrap_context
+      end
+
+      describe '.wrap_examples' do
+        include_examples 'should define an include examples macro',
+          :wrap_examples
+      end
+
+      describe '.xinclude_examples' do
+        include_examples 'should define an include examples macro',
+          :xinclude_examples
+      end
+
+      describe '.fwrap_context' do
+        include_examples 'should define an include examples macro',
+          :xwrap_context
+      end
+
+      describe '.fwrap_examples' do
+        include_examples 'should define an include examples macro',
+          :xwrap_context
+      end
+    end
+
     shared_examples 'should define memoized helpers' do
       shared_examples 'should define a memoized helper macro' \
       do |method_name, before: false, optional: false, subject: false|

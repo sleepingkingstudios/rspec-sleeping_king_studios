@@ -11,5 +11,9 @@ module RSpec::SleepingKingStudios::Deferred
       'rspec/sleeping_king_studios/deferred/calls/example_group'
     autoload :Hook,
       'rspec/sleeping_king_studios/deferred/calls/hook'
+    autoload :IncludedExamples,
+      'rspec/sleeping_king_studios/deferred/calls/included_examples'
+    autoload :SharedExamples,
+      'rspec/sleeping_king_studios/deferred/calls/shared_examples'
   end
 end

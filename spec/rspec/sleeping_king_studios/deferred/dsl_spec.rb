@@ -36,5 +36,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Dsl do
 
   include_examples 'should define deferred hooks'
 
+  include_examples 'should define deferred shared example groups'
+
   include_examples 'should define memoized helpers'
 end
