@@ -30,15 +30,15 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
 
     extend Macros
 
-    # @!macro [new] define_example_group_method
+    # @!macro [new] define_example_method
     #   @!method $1(doc_string = nil, *flags, **metadata, &block)
-    #     Defines a deferred example group using the $1 method.
+    #     Defines a deferred example using the $1 method.
     #
-    #     @param doc_string [String] the example group's doc string.
-    #     @param flags [Array<Symbol>] metadata flags for the example group.
-    #       Will be transformed into metadata entries with true values.
-    #     @param metadata [Hash] metadata for the example group.
-    #     @param block [Proc] the implementation of the example group.
+    #     @param doc_string [String] the example's doc string.
+    #     @param flags [Array<Symbol>] metadata flags for the example. Will be
+    #       transformed into metadata entries with true values.
+    #     @param metadata [Hash] metadata for the example.
+    #     @param block [Proc] the implementation of the example.
     #
     #     @return [void]
 
