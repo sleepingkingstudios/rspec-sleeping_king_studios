@@ -2,8 +2,9 @@
 
 source "https://rubygems.org"
 
-gem "sleeping_king_studios-tasks", "~> 0.4", ">= 0.4.1"
 gem "activemodel", "~> 6.1.0"
+gem "sleeping_king_studios-tasks", "~> 0.4", ">= 0.4.1"
+gem "sleeping_king_studios-tools", git: "https://github.com/sleepingkingstudios/sleeping_king_studios-tools.git", branch: "main"
 
 group :development, :test do
   gem "appraisal", "~> 2.5"
