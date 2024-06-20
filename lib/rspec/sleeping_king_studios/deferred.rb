@@ -11,5 +11,6 @@ module RSpec::SleepingKingStudios
     autoload :Dsl,         'rspec/sleeping_king_studios/deferred/dsl'
     autoload :Examples,    'rspec/sleeping_king_studios/deferred/examples'
     autoload :Missing,     'rspec/sleeping_king_studios/deferred/missing'
+    autoload :Registry,    'rspec/sleeping_king_studios/deferred/registry'
   end
 end

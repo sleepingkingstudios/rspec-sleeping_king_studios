@@ -30,5 +30,5 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'hashdiff',                    '~> 0.3.8'
   gem.add_runtime_dependency 'rspec',                       '~> 3.4'
-  gem.add_runtime_dependency 'sleeping_king_studios-tools', '>= 0.8.0', '< 2'
+  gem.add_runtime_dependency 'sleeping_king_studios-tools', '1.2.0.alpha'
 end
