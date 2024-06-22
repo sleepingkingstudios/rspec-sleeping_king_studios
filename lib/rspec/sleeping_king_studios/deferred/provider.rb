@@ -6,14 +6,37 @@ require 'rspec/sleeping_king_studios/deferred'
 
 module RSpec::SleepingKingStudios::Deferred
   # Methods for registering deferred examples.
-  module Registry
+  module Provider
     # Exception raised when the requested deferred examples are not defined.
     class DeferredExamplesNotFoundError < StandardError; end
 
     # Class methods for registering deferred examples.
     module ClassMethods
-      # @api private
-      def add_deferred_examples(description, &block)
+      # Defines deferred examples in the current context.
+      #
+      # @param description [String] the name of the deferred examples.
+      #
+      # @yield [*arguments, **keywords, &block] the definition for the deferred
+      #   examples. Supports the same DSL as an RSpec::Core::ExampleGroup. If
+      #   the block takes parameters, these can be used to customize the
+      #   behavior of the deferred examples when they are included in an example
+      #   group.
+      # @yieldparam arguments [Array] arguments passed to the deferred examples.
+      # @yieldparam keywords [Hash] keywords passed to the deferred examples.
+      # @yieldparam block [Block] a block passed to the deferred examples.
+      #
+      # @example Defining Deferred Examples
+      #   deferred_examples 'should be a Rocket' do
+      #     it { expect(subject).to be_a Rocket }
+      #   end
+      #
+      # @example Defining Parameterized Examples
+      #   deferred_examples 'should be a Vehicle' do |expected_type:|
+      #     it { expect(subject).to be_a Vehicle }
+      #
+      #     it { expect(subject.tyoe).to be == expected_type }
+      #   end
+      def deferred_examples(description, &block)
         raise ArgumentError, 'block is required' unless block_given?
 
         tools.assertions.validate_name(description, as: 'description')

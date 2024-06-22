@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/concerns/example_constants'
-require 'rspec/sleeping_king_studios/deferred/registry'
+require 'rspec/sleeping_king_studios/deferred/provider'
 
 require 'support/isolated_example_group'
 require 'support/shared_examples/deferred_registry_examples'
 
-RSpec.describe RSpec::SleepingKingStudios::Deferred::Registry do
+RSpec.describe RSpec::SleepingKingStudios::Deferred::Provider do
   extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
   include Spec::Support::SharedExamples::DeferredRegistryExamples
 
@@ -17,7 +17,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Registry do
   let(:ancestor_examples) { ancestor_class }
 
   example_class 'Spec::InheritedExamples' do |klass|
-    klass.include RSpec::SleepingKingStudios::Deferred::Registry # rubocop:disable RSpec/DescribedClass
+    klass.include RSpec::SleepingKingStudios::Deferred::Provider # rubocop:disable RSpec/DescribedClass
   end
 
   example_class 'Spec::ExampleGroup', 'Spec::InheritedExamples'

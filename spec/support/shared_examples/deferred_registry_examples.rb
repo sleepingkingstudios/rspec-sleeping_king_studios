@@ -20,7 +20,7 @@ module Spec::Support::SharedExamples
 
         before(:example) do
           ancestor_deferred_examples.each do |description, block|
-            ancestor_class.add_deferred_examples(description, &block)
+            ancestor_class.deferred_examples(description, &block)
           end
 
           ancestor_class.const_set(
@@ -50,7 +50,7 @@ module Spec::Support::SharedExamples
 
         before(:example) do
           expected_deferred_examples.each do |description, block|
-            described_class.add_deferred_examples(description, &block)
+            described_class.deferred_examples(description, &block)
           end
 
           described_class.const_set(
@@ -76,13 +76,13 @@ module Spec::Support::SharedExamples
         end
       end
 
-      describe '.add_deferred_examples' do
+      describe '.deferred_examples' do
         let(:description) { 'should do something' }
         let(:block)       { -> {} }
 
         it 'should define the class method' do
           expect(described_class)
-            .to respond_to(:add_deferred_examples)
+            .to respond_to(:deferred_examples)
             .with(1).argument
             .and_a_block
         end
@@ -93,7 +93,7 @@ module Spec::Support::SharedExamples
           end
 
           it 'should raise an exception' do
-            expect { described_class.add_deferred_examples(description) }
+            expect { described_class.deferred_examples(description) }
               .to raise_error ArgumentError, error_message
           end
         end
@@ -104,7 +104,7 @@ module Spec::Support::SharedExamples
           end
 
           it 'should raise an exception' do
-            expect { described_class.add_deferred_examples(nil, &block) }
+            expect { described_class.deferred_examples(nil, &block) }
               .to raise_error ArgumentError, error_message
           end
         end
@@ -117,7 +117,7 @@ module Spec::Support::SharedExamples
 
           it 'should raise an exception' do
             expect do
-              described_class.add_deferred_examples(description, &block)
+              described_class.deferred_examples(description, &block)
             end
               .to raise_error ArgumentError, error_message
           end
@@ -129,7 +129,7 @@ module Spec::Support::SharedExamples
           end
 
           it 'should raise an exception' do
-            expect { described_class.add_deferred_examples('', &block) }
+            expect { described_class.deferred_examples('', &block) }
               .to raise_error ArgumentError, error_message
           end
         end
@@ -140,14 +140,14 @@ module Spec::Support::SharedExamples
           end
 
           it 'should raise an exception' do
-            expect { described_class.add_deferred_examples(:'', &block) }
+            expect { described_class.deferred_examples(:'', &block) }
               .to raise_error ArgumentError, error_message
           end
         end
 
         describe 'with description: a String' do
           it 'should add the definition to the deferred examples' do
-            described_class.add_deferred_examples(description, &block)
+            described_class.deferred_examples(description, &block)
 
             expect(
               described_class.defined_deferred_examples.fetch(description)
@@ -160,7 +160,7 @@ module Spec::Support::SharedExamples
           let(:description) { :should_do_something }
 
           it 'should add the definition to the deferred examples' do
-            described_class.add_deferred_examples(description, &block)
+            described_class.deferred_examples(description, &block)
 
             expect(
               described_class.defined_deferred_examples.fetch(description.to_s)
@@ -250,7 +250,7 @@ module Spec::Support::SharedExamples
         describe 'with invalid String' do
           let(:description) { 'should do nothing' }
           let(:error_class) do
-            namespace = RSpec::SleepingKingStudios::Deferred::Registry
+            namespace = RSpec::SleepingKingStudios::Deferred::Provider
 
             namespace::DeferredExamplesNotFoundError
           end
@@ -268,7 +268,7 @@ module Spec::Support::SharedExamples
         describe 'with invalid Symbol' do
           let(:description) { :should_do_nothing }
           let(:error_class) do
-            namespace = RSpec::SleepingKingStudios::Deferred::Registry
+            namespace = RSpec::SleepingKingStudios::Deferred::Provider
 
             namespace::DeferredExamplesNotFoundError
           end
@@ -289,7 +289,7 @@ module Spec::Support::SharedExamples
           describe 'with an invalid String' do
             let(:description) { 'should do nothing' }
             let(:error_class) do
-              namespace = RSpec::SleepingKingStudios::Deferred::Registry
+              namespace = RSpec::SleepingKingStudios::Deferred::Provider
 
               namespace::DeferredExamplesNotFoundError
             end
@@ -307,7 +307,7 @@ module Spec::Support::SharedExamples
           describe 'with an invalid Symbol' do
             let(:description) { :should_do_nothing }
             let(:error_class) do
-              namespace = RSpec::SleepingKingStudios::Deferred::Registry
+              namespace = RSpec::SleepingKingStudios::Deferred::Provider
 
               namespace::DeferredExamplesNotFoundError
             end
@@ -374,7 +374,7 @@ module Spec::Support::SharedExamples
           describe 'with an invalid String' do
             let(:description) { 'should do nothing' }
             let(:error_class) do
-              namespace = RSpec::SleepingKingStudios::Deferred::Registry
+              namespace = RSpec::SleepingKingStudios::Deferred::Provider
 
               namespace::DeferredExamplesNotFoundError
             end
@@ -392,7 +392,7 @@ module Spec::Support::SharedExamples
           describe 'with an invalid Symbol' do
             let(:description) { :should_do_nothing }
             let(:error_class) do
-              namespace = RSpec::SleepingKingStudios::Deferred::Registry
+              namespace = RSpec::SleepingKingStudios::Deferred::Provider
 
               namespace::DeferredExamplesNotFoundError
             end
@@ -460,7 +460,7 @@ module Spec::Support::SharedExamples
           describe 'with an invalid String' do
             let(:description) { 'should do nothing' }
             let(:error_class) do
-              namespace = RSpec::SleepingKingStudios::Deferred::Registry
+              namespace = RSpec::SleepingKingStudios::Deferred::Provider
 
               namespace::DeferredExamplesNotFoundError
             end
@@ -478,7 +478,7 @@ module Spec::Support::SharedExamples
           describe 'with an invalid Symbol' do
             let(:description) { :should_do_nothing }
             let(:error_class) do
-              namespace = RSpec::SleepingKingStudios::Deferred::Registry
+              namespace = RSpec::SleepingKingStudios::Deferred::Provider
 
               namespace::DeferredExamplesNotFoundError
             end
