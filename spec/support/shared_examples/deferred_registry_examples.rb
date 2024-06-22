@@ -623,5 +623,191 @@ module Spec::Support::SharedExamples
         end
       end
     end
+
+    shared_examples 'should implement including deferred examples' do
+      describe '.include_deferred' do
+        let(:description) { 'should do something' }
+        let(:deferred_module) do
+          described_class.ancestors.find do |ancestor|
+            next false unless ancestor.is_a?(Module)
+
+            unless ancestor < RSpec::SleepingKingStudios::Deferred::Examples
+              next false
+            end
+
+            ancestor.respond_to?(:description) &&
+              ancestor.description == description
+          end
+        end
+
+        it 'should define the class method' do
+          expect(described_class)
+            .to respond_to(:include_deferred)
+            .with(1).argument
+            .and_unlimited_arguments
+            .and_any_keywords
+            .and_a_block
+        end
+
+        describe 'with nil' do
+          let(:error_message) do
+            "description can't be blank"
+          end
+
+          it 'should raise an exception' do
+            expect { described_class.include_deferred(nil) }
+              .to raise_error ArgumentError, error_message
+          end
+        end
+
+        describe 'with an Object' do
+          let(:error_message) do
+            'description is not a String or a Symbol'
+          end
+
+          it 'should raise an exception' do
+            expect { described_class.include_deferred(Object.new.freeze) }
+              .to raise_error ArgumentError, error_message
+          end
+        end
+
+        describe 'with an empty String' do
+          let(:error_message) do
+            "description can't be blank"
+          end
+
+          it 'should raise an exception' do
+            expect { described_class.include_deferred('') }
+              .to raise_error ArgumentError, error_message
+          end
+        end
+
+        describe 'with an empty Symbol' do
+          let(:error_message) do
+            "description can't be blank"
+          end
+
+          it 'should raise an exception' do
+            expect { described_class.include_deferred(:'') }
+              .to raise_error ArgumentError, error_message
+          end
+        end
+
+        describe 'with an invalid String' do
+          let(:description) { 'should do nothing' }
+          let(:error_class) do
+            namespace = RSpec::SleepingKingStudios::Deferred::Provider
+
+            namespace::DeferredExamplesNotFoundError
+          end
+          let(:error_message) do
+            'deferred examples not found with description ' \
+              "#{description.to_s.inspect}"
+          end
+
+          it 'should raise an exception' do
+            expect { described_class.include_deferred(description) }
+              .to raise_error error_class, error_message
+          end
+        end
+
+        describe 'with an invalid Symbol' do
+          let(:description) { :should_do_nothing }
+          let(:error_class) do
+            namespace = RSpec::SleepingKingStudios::Deferred::Provider
+
+            namespace::DeferredExamplesNotFoundError
+          end
+          let(:error_message) do
+            'deferred examples not found with description ' \
+              "#{description.to_s.inspect}"
+          end
+
+          it 'should raise an exception' do
+            expect { described_class.include_deferred(description) }
+              .to raise_error error_class, error_message
+          end
+        end
+
+        describe 'with a module name defined on the registry' do
+          before(:example) do
+            described_class.const_set(
+              :ShouldDoSomething,
+              Module.new do
+                include RSpec::SleepingKingStudios::Deferred::Examples
+
+                define_singleton_method(:deferred_parameters) { [] }
+              end
+            )
+          end
+
+          it 'should include the deferred examples', :aggregate_failures do
+            described_class.include_deferred(description)
+
+            expect(deferred_module).to be_a Module
+            expect(deferred_module.deferred_parameters).to be == []
+          end
+        end
+
+        describe 'with defined examples with no parameters' do
+          let(:implementation) do
+            -> { define_singleton_method(:deferred_parameters) { [] } }
+          end
+
+          before(:example) do
+            described_class.deferred_examples(description, &implementation)
+          end
+
+          it 'should include the deferred examples', :aggregate_failures do
+            described_class.include_deferred(description)
+
+            expect(deferred_module).to be_a Module
+            expect(deferred_module.deferred_parameters).to be == []
+          end
+        end
+
+        describe 'with defined examples with parameters' do
+          let(:implementation) do
+            lambda do |*args, **kwargs, &block|
+              define_singleton_method(:deferred_parameters) do
+                [args, kwargs, block]
+              end
+            end
+          end
+
+          before(:example) do
+            described_class.deferred_examples(description, &implementation)
+          end
+
+          it 'should include the deferred examples', :aggregate_failures do
+            described_class.include_deferred(description)
+
+            expect(deferred_module).to be_a Module
+            expect(deferred_module.deferred_parameters).to be == [[], {}, nil]
+          end
+
+          describe 'with parameters' do
+            let(:arguments) { %i[ichi ni san] }
+            let(:keywords)  { { option: 'value' } }
+            let(:block)     { -> { { ok: true } } }
+            let(:expected_parameters) do
+              [arguments, keywords, block]
+            end
+
+            it 'should include the deferred examples' do
+              described_class.include_deferred(
+                description,
+                *arguments,
+                **keywords,
+                &block
+              )
+
+              expect(deferred_module.deferred_parameters)
+                .to be == expected_parameters
+            end
+          end
+        end
+      end
+    end
   end
 end

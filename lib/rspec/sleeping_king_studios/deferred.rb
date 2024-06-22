@@ -7,6 +7,7 @@ module RSpec::SleepingKingStudios
   module Deferred
     autoload :Call,        'rspec/sleeping_king_studios/deferred/call'
     autoload :Calls,       'rspec/sleeping_king_studios/deferred/calls'
+    autoload :Consumer,    'rspec/sleeping_king_studios/deferred/consumer'
     autoload :Definitions, 'rspec/sleeping_king_studios/deferred/definitions'
     autoload :Dsl,         'rspec/sleeping_king_studios/deferred/dsl'
     autoload :Examples,    'rspec/sleeping_king_studios/deferred/examples'

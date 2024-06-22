@@ -96,7 +96,7 @@ module RSpec::SleepingKingStudios::Deferred
 
       def find_deferred_by_description(description)
         ancestors.each do |ancestor|
-          break unless ancestor.respond_to?(:defined_deferred_examples)
+          next unless ancestor.respond_to?(:defined_deferred_examples)
 
           deferred =
             ancestor.find_deferred_definition(description) ||
