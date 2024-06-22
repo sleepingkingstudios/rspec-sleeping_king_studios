@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 require 'sleeping_king_studios/tools/toolbelt'
+require 'sleeping_king_studios/tools/toolbox/mixin'
 
 require 'rspec/sleeping_king_studios/deferred'
 
 module RSpec::SleepingKingStudios::Deferred
   # Methods for registering deferred examples.
   module Provider
+    extend SleepingKingStudios::Tools::Toolbox::Mixin
+
     # Exception raised when the requested deferred examples are not defined.
     class DeferredExamplesNotFoundError < StandardError; end
 
@@ -68,29 +71,36 @@ module RSpec::SleepingKingStudios::Deferred
 
       protected
 
-      def find_deferred_by_name(description, const_name, full_name)
-        if defined_deferred_examples.key?(description)
-          return defined_deferred_examples[description]
-        end
+      def find_deferred_definition(description)
+        defined_deferred_examples.fetch(description, nil)
+      end
 
-        return const_get(const_name) if const_defined?(const_name, false)
+      def find_deferred_module(description)
+        constants(false)
+          .each do |const_name|
+            value = const_get(const_name)
 
-        const_get(full_name) if full_name && const_defined?(full_name, false)
+            next false unless value.is_a?(Module)
+
+            unless value < RSpec::SleepingKingStudios::Deferred::Examples
+              next false
+            end
+
+            return value if matches_description?(description, const_name, value)
+          end
+
+        nil
       end
 
       private
 
-      def find_deferred_by_description(description) # rubocop:disable Metrics/MethodLength
-        const_name =
-          tools.string_tools.camelize(description.tr(' ', '_').tr('-', ' '))
-        full_name  =
-          const_name.end_with?('Examples') ? nil : "#{const_name}Examples"
-
+      def find_deferred_by_description(description)
         ancestors.each do |ancestor|
           break unless ancestor.respond_to?(:defined_deferred_examples)
 
           deferred =
-            ancestor.find_deferred_by_name(description, const_name, full_name)
+            ancestor.find_deferred_definition(description) ||
+            ancestor.find_deferred_module(description)
 
           return deferred if deferred
         end
@@ -98,20 +108,21 @@ module RSpec::SleepingKingStudios::Deferred
         nil
       end
 
+      def matches_description?(description, const_name, value)
+        return true if value.description == description
+
+        const_name = const_name.to_s
+
+        return true if const_name == description
+
+        const_name = const_name.gsub(/(Context|Examples?)\z/, '')
+
+        const_name == description
+      end
+
       def tools
         SleepingKingStudios::Tools::Toolbelt.instance
       end
-    end
-
-    # Callback invoked when the module is included in another module or class.
-    #
-    # Extends ClassMethods into the other module.
-    #
-    # @param other [Module] the other module or class.
-    def self.included(other)
-      super
-
-      other.extend(ClassMethods)
     end
   end
 end

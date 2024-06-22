@@ -8,74 +8,76 @@ module Spec::Support::SharedExamples
   module DeferredRegistryExamples
     extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
 
+    shared_context 'when the parent registry has deferred examples' do
+      let(:ancestor_deferred_examples) do
+        {
+          'should do a thing'        => -> {},
+          'should do something else' => -> {},
+          'should act as expected'   => -> {}
+        }
+      end
+
+      before(:example) do
+        ancestor_deferred_examples.each do |description, block|
+          ancestor_class.deferred_examples(description, &block)
+        end
+
+        ancestor_class.const_set(
+          :ShouldBehaveLikeABasicObjectExamples,
+          Module.new do
+            include RSpec::SleepingKingStudios::Deferred::Examples
+
+            self.description = 'should behave like a BasicObject'
+          end
+        )
+
+        ancestor_class.const_set(
+          :ShouldBehaveLikeAnObjectExamples,
+          Module.new do
+            include RSpec::SleepingKingStudios::Deferred::Examples
+          end
+        )
+      end
+    end
+
+    shared_context 'when the registry has deferred examples' do
+      let(:expected_deferred_examples) do
+        {
+          'should do something'           => -> {},
+          'should do something else'      => -> {},
+          'should do something different' => -> {}
+        }
+      end
+
+      before(:example) do
+        expected_deferred_examples.each do |description, block|
+          described_class.deferred_examples(description, &block)
+        end
+
+        described_class.const_set(
+          :ShouldBehaveLikeAnObjectExamples,
+          Module.new do
+            include RSpec::SleepingKingStudios::Deferred::Examples
+          end
+        )
+
+        described_class.const_set(
+          :ShouldBehaveLikeAComplexObjectExamples,
+          Module.new do
+            include RSpec::SleepingKingStudios::Deferred::Examples
+          end
+        )
+
+        described_class.const_set(
+          :ShouldActAsExpectedExamples,
+          Module.new do
+            include RSpec::SleepingKingStudios::Deferred::Examples
+          end
+        )
+      end
+    end
+
     shared_examples 'should define a registry for deferred examples' do
-      shared_context 'when the parent registry has deferred examples' do
-        let(:ancestor_deferred_examples) do
-          {
-            'should do a thing'        => -> {},
-            'should do something else' => -> {},
-            'should act as expected'   => -> {}
-          }
-        end
-
-        before(:example) do
-          ancestor_deferred_examples.each do |description, block|
-            ancestor_class.deferred_examples(description, &block)
-          end
-
-          ancestor_class.const_set(
-            :ShouldBehaveLikeABasicObjectExamples,
-            Module.new do
-              include RSpec::SleepingKingStudios::Deferred::Examples
-            end
-          )
-
-          ancestor_class.const_set(
-            :ShouldBehaveLikeAnObjectExamples,
-            Module.new do
-              include RSpec::SleepingKingStudios::Deferred::Examples
-            end
-          )
-        end
-      end
-
-      shared_context 'when the registry has deferred examples' do
-        let(:expected_deferred_examples) do
-          {
-            'should do something'           => -> {},
-            'should do something else'      => -> {},
-            'should do something different' => -> {}
-          }
-        end
-
-        before(:example) do
-          expected_deferred_examples.each do |description, block|
-            described_class.deferred_examples(description, &block)
-          end
-
-          described_class.const_set(
-            :ShouldBehaveLikeAnObjectExamples,
-            Module.new do
-              include RSpec::SleepingKingStudios::Deferred::Examples
-            end
-          )
-
-          described_class.const_set(
-            :ShouldBehaveLikeAComplexObjectExamples,
-            Module.new do
-              include RSpec::SleepingKingStudios::Deferred::Examples
-            end
-          )
-
-          described_class.const_set(
-            :ShouldActAsExpectedExamples,
-            Module.new do
-              include RSpec::SleepingKingStudios::Deferred::Examples
-            end
-          )
-        end
-      end
-
       describe '.deferred_examples' do
         let(:description) { 'should do something' }
         let(:block)       { -> {} }
@@ -236,7 +238,7 @@ module Spec::Support::SharedExamples
           end
         end
 
-        describe 'with empty Symbol' do
+        describe 'with an empty Symbol' do
           let(:error_message) do
             "description can't be blank"
           end
@@ -247,7 +249,7 @@ module Spec::Support::SharedExamples
           end
         end
 
-        describe 'with invalid String' do
+        describe 'with an invalid String' do
           let(:description) { 'should do nothing' }
           let(:error_class) do
             namespace = RSpec::SleepingKingStudios::Deferred::Provider
@@ -265,7 +267,7 @@ module Spec::Support::SharedExamples
           end
         end
 
-        describe 'with invalid Symbol' do
+        describe 'with an invalid Symbol' do
           let(:description) { :should_do_nothing }
           let(:error_class) do
             namespace = RSpec::SleepingKingStudios::Deferred::Provider
@@ -358,7 +360,7 @@ module Spec::Support::SharedExamples
             end
           end
 
-          describe 'with an equivalent module name defined on the parent' do
+          describe 'with the description of a module defined on the parent' do
             let(:description) { 'should behave like a BasicObject' }
 
             it 'should return the matching definition from the parent' do
@@ -443,7 +445,7 @@ module Spec::Support::SharedExamples
             end
           end
 
-          describe 'with an equivalent module name defined on the registry' do
+          describe 'with the description of a module defined on the registry' do
             let(:description) { 'should behave like a complex object' }
 
             it 'should return the matching definition from the parent' do
@@ -565,7 +567,7 @@ module Spec::Support::SharedExamples
             end
           end
 
-          describe 'with an equivalent module name defined on the parent' do
+          describe 'with the description of a module defined on the parent' do
             let(:description) { 'should behave like a BasicObject' }
 
             it 'should return the matching definition from the parent' do
@@ -592,7 +594,7 @@ module Spec::Support::SharedExamples
             end
           end
 
-          describe 'with an equivalent module name defined on the registry' do
+          describe 'with the description of a module defined on the registry' do
             let(:description) { 'should behave like a complex object' }
 
             it 'should return the matching definition from the parent' do

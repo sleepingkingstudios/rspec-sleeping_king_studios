@@ -3,7 +3,6 @@
 require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/deferred/provider'
 
-require 'support/isolated_example_group'
 require 'support/shared_examples/deferred_registry_examples'
 
 RSpec.describe RSpec::SleepingKingStudios::Deferred::Provider do
