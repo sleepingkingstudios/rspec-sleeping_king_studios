@@ -55,9 +55,11 @@ module RSpec::SleepingKingStudios::Deferred
     def self.included(other)
       super
 
-      other.extend ClassMethods
-      other.extend RSpec::SleepingKingStudios::Deferred::Definitions
-      other.extend RSpec::SleepingKingStudios::Deferred::Dsl
+      other.extend  ClassMethods
+      other.extend  RSpec::SleepingKingStudios::Deferred::Definitions
+      other.extend  RSpec::SleepingKingStudios::Deferred::Dsl
+      other.include RSpec::SleepingKingStudios::Deferred::Provider
+      other.include RSpec::SleepingKingStudios::Deferred::Consumer
     end
   end
 end

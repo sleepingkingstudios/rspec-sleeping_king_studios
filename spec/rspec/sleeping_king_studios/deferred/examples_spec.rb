@@ -4,10 +4,12 @@ require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/deferred/examples'
 
 require 'support/shared_examples/deferred_examples'
+require 'support/shared_examples/deferred_registry_examples'
 
 RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
   extend  RSpec::SleepingKingStudios::Concerns::ExampleConstants
   include Spec::Support::SharedExamples::DeferredExamples
+  include Spec::Support::SharedExamples::DeferredRegistryExamples
 
   subject(:definitions) { described_class }
 
@@ -142,4 +144,8 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
   include_examples 'should define deferred shared example groups'
 
   include_examples 'should define memoized helpers'
+
+  include_examples 'should define a registry for deferred examples'
+
+  include_examples 'should implement including deferred examples'
 end
