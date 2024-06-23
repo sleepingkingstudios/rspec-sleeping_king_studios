@@ -8,9 +8,7 @@ RSpec.describe Spec::Models::Rocket do
 
   subject(:rocket) { described_class.new('Imp IV') }
 
-  include_deferred 'should be a Vehicle', vehicle_type: :rocket
+  xinclude_deferred 'should be a SpaceVehicle'
 
-  include_deferred 'should be a SpaceVehicle'
-
-  wrap_deferred 'should behave like a rocket'
+  xwrap_deferred 'should behave like a rocket'
 end

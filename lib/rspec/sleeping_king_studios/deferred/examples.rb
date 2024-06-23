@@ -27,6 +27,12 @@ module RSpec::SleepingKingStudios::Deferred
         @description = value.to_s.tr('_', ' ')
       end
 
+      # @return [Boolean] flag indicating that the included module has deferred
+      #   examples, rather than including another deferred examples module.
+      def deferred_examples?
+        true
+      end
+
       private
 
       def format_description

@@ -80,11 +80,7 @@ module RSpec::SleepingKingStudios::Deferred
           .each do |const_name|
             value = const_get(const_name)
 
-            next false unless value.is_a?(Module)
-
-            unless value < RSpec::SleepingKingStudios::Deferred::Examples
-              next false
-            end
+            next false unless module_is_deferred_examples?(value)
 
             return value if matches_description?(description, const_name, value)
           end
@@ -118,6 +114,14 @@ module RSpec::SleepingKingStudios::Deferred
         const_name = const_name.gsub(/(Context|Examples?)\z/, '')
 
         const_name == description
+      end
+
+      def module_is_deferred_examples?(value)
+        return false unless value.is_a?(Module)
+
+        return false unless value.respond_to?(:deferred_examples?)
+
+        value.deferred_examples?
       end
 
       def tools

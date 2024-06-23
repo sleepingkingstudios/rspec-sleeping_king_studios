@@ -30,6 +30,16 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
   end
 
+  describe '.deferred_examples?' do
+    it 'should define the predicate' do
+      expect(described_class)
+        .to respond_to(:deferred_examples?)
+        .with(0).arguments
+    end
+
+    it { expect(described_class.deferred_examples?).to be true }
+  end
+
   describe '.description' do
     let(:module_name) { 'ShouldDoSomething' }
 
