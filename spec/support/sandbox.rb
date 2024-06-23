@@ -27,7 +27,9 @@ module Spec::Support
         "--pattern=#{files.join(',')}"
       ]
 
-      RSpec::Core::Sandbox.sandboxed do
+      RSpec::Core::Sandbox.sandboxed do |config|
+        config.filter_run_when_matching :focus
+
         status = RSpec::Core::Runner.run(args, err, out)
       end
 

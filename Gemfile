@@ -4,9 +4,13 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'activemodel', '~> 7.0'
+
 gem 'sleeping_king_studios-tasks', '~> 0.4', '>= 0.4.1'
 
-gem 'activemodel', '~> 7.0'
+gem 'sleeping_king_studios-tools',
+  git:    'https://github.com/sleepingkingstudios/sleeping_king_studios-tools.git',
+  branch: 'main'
 
 group :development, :test do
   gem 'appraisal', '~> 2.5'

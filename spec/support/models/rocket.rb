@@ -13,7 +13,9 @@ module Spec
         :type
     end
 
-    class Rocket < Vehicle
+    class SpaceVehicle < Vehicle; end
+
+    class Rocket < SpaceVehicle
       def initialize(name)
         super(name, :rocket)
 
