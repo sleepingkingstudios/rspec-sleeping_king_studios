@@ -8,6 +8,10 @@
 
 Implemented the `let?` memoized helper, which defines a helper method if there is not already a method with the given name.
 
+### Deferred Examples
+
+Implemented deferred examples, which provide an alternative implementation for sharing specifications between projects.
+
 ## 2.7.0
 
 ### Concerns
