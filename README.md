@@ -1001,6 +1001,80 @@ Creates a value spy that watches the value of a method call or block. The spy al
 
 **Chaining:** None.
 
+## Deferred Examples
+
+`RSpec::SleepingKingStudios::Deferred` provides a mechanism for defining specifications that can be reused and shared between projects. For example, a library could use deferred examples to define an interface and test a reference implementation; projects that use that library could then use the published deferred examples to validate their own implementations of that interface.
+
+At its core, a deferred example group is a Ruby `module`, and hooks into the inheritance hierarchy when `include`d into an example group. This gives certain advantages relative to traditional shared examples (and contracts):
+
+- Deferred examples are defined in a specific context, and can be shared by simply `include`-ing the containing module (or the deferred examples directly). There is no global namespace, and using deferred examples (even from other projects) is as simple as an `include` call.
+- Deferred examples stack, rather than conflict. This means helper methods and memoized helpers can reference other included examples using `super()`, rather than simply overwriting other helpers at the same "level".
+- Unlike shared example groups, deferred examples defined via a `Provider` (see [Parameterized Examples](#parameterized-examples), below) can accept a block parameter.
+
+```ruby
+module ShouldBeAVehicleExamples
+  include RSpec::SleepingKingStudios::Deferred::Examples
+
+  describe '#type' do
+    it { expect(subject).to respond_to(:type).with(0).arguments }
+
+    it { expect(subject.type).to be == expected_type }
+  end
+end
+
+RSpec.describe Rocket do
+  include ShouldBeAVehicleExamples
+
+  subject(:rocket) { described_class.new }
+
+  let(:expected_type) { :rocket }
+
+  describe '#launch' do
+    it { expect(rocket).to respond_to(:launch) }
+  end
+end
+```
+
+### Parameterized Examples
+
+Deferred examples can also be defined with parameters using the `Deferred::Provider` DSL.
+
+```ruby
+module VehicleExamples
+  include RSpec::SleepingKingStudios::Deferred::Provider
+
+  deferred_examples 'should be a Vehicle' do |vehicle_type:|
+    it { expect(subject).to be_a Spec::Models::Vehicle }
+
+    describe '#type' do
+      it { expect(subject.type).to be == vehicle_type }
+    end
+  end
+end
+
+RSpec.describe Car do
+  include RSpec::SleepingKingStudios::Deferred::Consumer
+  include VehicleExamples
+
+  subject(:car) { described_class.new }
+
+  include_deferred 'should be a Vehicle', vehicle_type: :car
+end
+
+RSpec.describe Rocket do
+  include RSpec::SleepingKingStudios::Deferred::Consumer
+  include VehicleExamples
+
+  subject(:rocket) { described_class.new }
+
+  include_deferred 'should be a Vehicle', vehicle_type: :rocket
+end
+```
+
+Defining a parameterized example group allows for defining and sharing specs that describe complex and conditional behavior.
+
+For deferred specs that set up a context rather than examples, `deferred_context` is provided as an alias to `Provider.deferred_examples`.
+
 ## Shared Examples
 
 To use a custom example group, `require` the associated file and then `include`
