@@ -48,6 +48,7 @@ module RSpec::SleepingKingStudios::Deferred
 
         nil
       end
+      alias deferred_context deferred_examples
 
       # @api private
       def defined_deferred_examples

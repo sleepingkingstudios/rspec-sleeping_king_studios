@@ -89,6 +89,12 @@ module Spec::Support::SharedExamples
             .and_a_block
         end
 
+        it 'should alias the method' do
+          expect(described_class)
+            .to have_aliased_method(:deferred_examples)
+            .as(:deferred_context)
+        end
+
         describe 'with block: nil' do
           let(:error_message) do
             'block is required'
