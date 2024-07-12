@@ -130,7 +130,7 @@ Feature: `deep_match` matcher
              expected: == {"author"=>"J.R.R. Tolkien", "id"=>an instance of Integer, "title"=>"The Hobbit"}
                   got:    {"id"=>0, "title"=>"The Hobbit", "author"=>"J.R.R. Tolkien", "page_count"=>300}
 
-             (compared using HashDiff)
+             (compared using Hashdiff)
 
              Diff:
              + "page_count" => got 300
@@ -142,7 +142,7 @@ Feature: `deep_match` matcher
              expected: == {"author"=>"J.R.R. Tolkien", "id"=>an instance of Integer, "title"=>"The Hobbit"}
                   got:    {"id"=>0, "title"=>"The Hobbit"}
 
-             (compared using HashDiff)
+             (compared using Hashdiff)
 
              Diff:
              - "author" => expected "J.R.R. Tolkien"
@@ -154,7 +154,7 @@ Feature: `deep_match` matcher
              expected: == {"author"=>"J.R.R. Tolkien", "id"=>an instance of Integer, "title"=>"The Hobbit"}
                   got:    {"id"=>0, "title"=>"The Fellowship of the Ring", "author"=>"J.R.R. Tolkien"}
 
-             (compared using HashDiff)
+             (compared using Hashdiff)
 
              Diff:
              ~ "title" => expected "The Hobbit", got "The Fellowship of the Ring"
@@ -166,7 +166,7 @@ Feature: `deep_match` matcher
              expected: == {"author"=>"J.R.R. Tolkien", "id"=>an instance of Integer, "title"=>"The Hobbit"}
                   got:    {"id"=>0, "title"=>"The Fellowship of the Ring", "page_count"=>300}
 
-             (compared using HashDiff)
+             (compared using Hashdiff)
 
              Diff:
              - "author" => expected "J.R.R. Tolkien"
@@ -215,7 +215,7 @@ Feature: `deep_match` matcher
              expected: == {"body"=>{"lights"=>{"count"=>an instance of Integer, "format"=>"There are %i lights!"}}, "status"=>200}
                   got:    {"status"=>500, "errors"=>["Too many lights!"], "body"=>{"lights"=>{"count"=>5}}}
 
-             (compared using HashDiff)
+             (compared using Hashdiff)
 
              Diff:
              - "body"."lights"."format" => expected "There are %i lights!"
