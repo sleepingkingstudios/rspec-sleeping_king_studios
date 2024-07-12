@@ -107,7 +107,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       "`expect(#{format_expected(expected)}).not_to be == #{actual.inspect}`"
     end
     let(:diff_message) do
-      "\n\n(compared using HashDiff)\n\nDiff:\n"
+      "\n\n(compared using Hashdiff)\n\nDiff:\n"
     end
 
     context 'when expected is nil' do

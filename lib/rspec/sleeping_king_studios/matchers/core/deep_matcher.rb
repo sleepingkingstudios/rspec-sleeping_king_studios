@@ -93,7 +93,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end
 
     def compare_hashes(expected, actual)
-      HashDiff.diff(expected, actual, array_path: true, use_lcs: false) \
+      Hashdiff.diff(expected, actual, array_path: true, use_lcs: false) \
       do |path, exp, act|
         # Handle missing keys with matcher values.
         next nil unless nested_key?(actual, path)
@@ -191,7 +191,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
       "expected: == #{format_expected(@expected)}\n" \
       "     got:    #{@actual.inspect}\n" \
       "\n" \
-      "(compared using HashDiff)\n" \
+      "(compared using Hashdiff)\n" \
       "\n" \
       "Diff:\n" \
       "#{format_diff(diff)}"

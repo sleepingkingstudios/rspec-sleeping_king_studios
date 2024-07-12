@@ -2,6 +2,8 @@
 
 ## 2.8.0
 
+Updated minimum `Hashdiff` version to `~> 1.1`.
+
 ### Concerns
 
 #### Memoized Helpers

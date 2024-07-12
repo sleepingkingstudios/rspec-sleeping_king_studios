@@ -826,7 +826,7 @@ When the value does not match the expectation, the failure message will provide 
     #   expected: == {:body=>{:order=>{:id=>an instance of Integer, :total=>"9.99"}}, :status=>200}
     #        got:    {:status=>400, :body=>{:order=>{:fulfilled=>false, :total=>"19.99"}}, :errors=>["Insufficient funds"]}
     #
-    #   (compared using HashDiff)
+    #   (compared using Hashdiff)
     #
     #   Diff:
     #   + :body.:order.:fulfilled => got false
