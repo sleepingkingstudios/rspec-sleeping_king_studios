@@ -1037,11 +1037,20 @@ end
 
 ### Parameterized Examples
 
-Deferred examples can also be defined with parameters using the `Deferred::Provider` DSL.
+Deferred examples can also be defined with parameters using the `Deferred::Provider` DSL. Defining a parameterized example group allows for defining and sharing specs that describe complex and conditional behavior.
+
+For deferred specs that set up a context rather than examples, `deferred_context` is provided as an alias to `Provider.deferred_examples`.
 
 ```ruby
 module VehicleExamples
   include RSpec::SleepingKingStudios::Deferred::Provider
+
+  deferred_context 'when the vehicle needs to be serviced' \
+  do |serviced_at: '2020-01-01'|
+    before(:example) do
+      vehicle.last_serviced_at = serviced_at
+    end
+  end
 
   deferred_examples 'should be a Vehicle' do |vehicle_type:|
     it { expect(subject).to be_a Spec::Models::Vehicle }
@@ -1051,7 +1060,11 @@ module VehicleExamples
     end
   end
 end
+```
 
+The deferred examples can be included in example groups using the `Deferred::Consumer` DSL.
+
+```ruby
 RSpec.describe Car do
   include RSpec::SleepingKingStudios::Deferred::Consumer
   include VehicleExamples
@@ -1071,9 +1084,22 @@ RSpec.describe Rocket do
 end
 ```
 
-Defining a parameterized example group allows for defining and sharing specs that describe complex and conditional behavior.
+`Deferred::Consumer` also defines support for wrapped deferred examples, which automatically generate a new context and include the deferred examples in the new example group. If `#wrap_deferred` is passed a block, that block will automatically be evaluated in the context of the example group, allowing you to define additional context or examples.
 
-For deferred specs that set up a context rather than examples, `deferred_context` is provided as an alias to `Provider.deferred_examples`.
+```ruby
+RSpec.describe Car do
+  include RSpec::SleepingKingStudios::Deferred::Consumer
+  include VehicleExamples
+
+  subject(:car) { described_class.new }
+
+  wrap_deferred 'when the vehicle needs to be serviced' do
+    it { expect(car.last_serviced_at).to be == '2020-01-01' }
+  end
+end
+```
+
+Finally, `Deferred::Consumer` includes the shortcuts `#finclude_deferred` and `#fwrap_deferred` to automatically focus deferred examples, or `#xinclude_deferred` and `#xwrap_deferred` to skip deferred examples.
 
 ## Shared Examples
 
