@@ -676,17 +676,68 @@ module Spec::Support::SharedExamples
           allow(child_example_group).to receive(:include_deferred)
         end
 
-        it 'should wrap the deferred examples in a focused example group',
-          :aggregate_failures \
-        do
+        it 'should define an example group' do
           described_class.public_send(method_name, description)
 
           expect(described_class)
             .to have_received(example_group_method)
             .with(example_group_name.gsub(':description', description))
+        end
+
+        it 'should include the deferred examples in the example group' do
+          described_class.public_send(method_name, description)
+
           expect(child_example_group)
             .to have_received(:include_deferred)
             .with(description)
+        end
+      end
+
+      shared_examples 'should wrap the deferred examples and the block' \
+      do |example_group_method:, example_group_name:, method_name:|
+        let(:description) { 'should do something' }
+        let(:examples) do
+          lambda do
+            specify 'should include the examples'
+          end
+        end
+        let(:child_example_group) do
+          Spec::Support.isolated_example_group do
+            include RSpec::SleepingKingStudios::Deferred::Consumer
+          end
+        end
+
+        before(:example) do
+          allow(described_class).to receive(example_group_method) do |_, &block|
+            child_example_group.instance_exec(&block)
+          end
+
+          allow(child_example_group).to receive(:include_deferred)
+          allow(child_example_group).to receive(:specify)
+        end
+
+        it 'should define an example group' do
+          described_class.public_send(method_name, description, &examples)
+
+          expect(described_class)
+            .to have_received(example_group_method)
+            .with(example_group_name.gsub(':description', description))
+        end
+
+        it 'should include the deferred examples in the example group' do
+          described_class.public_send(method_name, description, &examples)
+
+          expect(child_example_group)
+            .to have_received(:include_deferred)
+            .with(description)
+        end
+
+        it 'should include the examples block in the example group' do
+          described_class.public_send(method_name, description, &examples)
+
+          expect(child_example_group)
+            .to have_received(:specify)
+            .with('should include the examples')
         end
       end
 
@@ -717,6 +768,11 @@ module Spec::Support::SharedExamples
         end
 
         include_examples 'should wrap the deferred examples',
+          example_group_method: :fdescribe,
+          example_group_name:   '(focused) :description',
+          method_name:          :fwrap_deferred
+
+        include_examples 'should wrap the deferred examples and the block',
           example_group_method: :fdescribe,
           example_group_name:   '(focused) :description',
           method_name:          :fwrap_deferred
@@ -920,6 +976,11 @@ module Spec::Support::SharedExamples
           example_group_method: :describe,
           example_group_name:   ':description',
           method_name:          :wrap_deferred
+
+        include_examples 'should wrap the deferred examples and the block',
+          example_group_method: :describe,
+          example_group_name:   ':description',
+          method_name:          :wrap_deferred
       end
 
       describe '.xinclude_deferred' do
@@ -949,6 +1010,11 @@ module Spec::Support::SharedExamples
         end
 
         include_examples 'should wrap the deferred examples',
+          example_group_method: :xdescribe,
+          example_group_name:   '(skipped) :description',
+          method_name:          :xwrap_deferred
+
+        include_examples 'should wrap the deferred examples and the block',
           example_group_method: :xdescribe,
           example_group_name:   '(skipped) :description',
           method_name:          :xwrap_deferred

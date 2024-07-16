@@ -30,13 +30,21 @@ module RSpec::SleepingKingStudios::Deferred
       # @overload fwrap_deferred(description, *arguments, **keywords, &block)
       #   Includes the deferred examples inside a focused example group.
       #
+      #   Unlike #include_deferred, a block parameter will be included in the
+      #   created example group, not passed to the deferred examples. To wrap
+      #   deferred examples that require a block, create the example group
+      #   separately and call #include_deferred.
+      #
       #   @param description [String] the name of the deferred examples.
       #   @param arguments [Array] arguments passed to the deferred examples.
       #   @param keywords [Hash] keywords passed to the deferred examples.
-      #   @param block [Block] a block passed to the deferred examples.
-      def fwrap_deferred(description, ...)
+      #   @param block [Block] additional examples to be evaluated inside the
+      #     example group.
+      def fwrap_deferred(description, *args, **kwargs, &block)
         fdescribe "(focused) #{description}" do
-          include_deferred(description, ...)
+          include_deferred(description, *args, **kwargs)
+
+          instance_exec(&block) if block_given?
         end
       end
 
@@ -60,13 +68,21 @@ module RSpec::SleepingKingStudios::Deferred
       # @overload wrap_deferred(description, *arguments, **keywords, &block)
       #   Includes the deferred examples inside an example group.
       #
+      #   Unlike #include_deferred, a block parameter will be included in the
+      #   created example group, not passed to the deferred examples. To wrap
+      #   deferred examples that require a block, create the example group
+      #   separately and call #include_deferred.
+      #
       #   @param description [String] the name of the deferred examples.
       #   @param arguments [Array] arguments passed to the deferred examples.
       #   @param keywords [Hash] keywords passed to the deferred examples.
-      #   @param block [Block] a block passed to the deferred examples.
-      def wrap_deferred(description, ...)
+      #   @param block [Block] additional examples to be evaluated inside the
+      #     example group.
+      def wrap_deferred(description, *args, **kwargs, &block)
         describe description do
-          include_deferred(description, ...)
+          include_deferred(description, *args, **kwargs)
+
+          instance_exec(&block) if block_given?
         end
       end
 
@@ -86,13 +102,21 @@ module RSpec::SleepingKingStudios::Deferred
       # @overload xwrap_deferred(description, *arguments, **keywords, &block)
       #   Includes the deferred examples inside a skipped example group.
       #
+      #   Unlike #include_deferred, a block parameter will be included in the
+      #   created example group, not passed to the deferred examples. To wrap
+      #   deferred examples that require a block, create the example group
+      #   separately and call #include_deferred.
+      #
       #   @param description [String] the name of the deferred examples.
       #   @param arguments [Array] arguments passed to the deferred examples.
       #   @param keywords [Hash] keywords passed to the deferred examples.
-      #   @param block [Block] a block passed to the deferred examples.
-      def xwrap_deferred(description, ...)
+      #   @param block [Block] additional examples to be evaluated inside the
+      #     example group.
+      def xwrap_deferred(description, *args, **kwargs, &block)
         xdescribe "(skipped) #{description}" do
-          include_deferred(description, ...)
+          include_deferred(description, *args, **kwargs)
+
+          instance_exec(&block) if block_given?
         end
       end
 
