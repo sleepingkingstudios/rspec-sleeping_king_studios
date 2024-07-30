@@ -2,6 +2,8 @@
 
 require 'stringio'
 
+require 'rspec/core/sandbox'
+
 require 'rspec/sleeping_king_studios'
 
 module RSpec::SleepingKingStudios
