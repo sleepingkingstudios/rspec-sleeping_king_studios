@@ -25,8 +25,9 @@ Gem::Specification.new do |gem|
   }
 
   gem.required_ruby_version = ['>= 3.1', '< 4.0']
-  gem.require_path = 'lib'
-  gem.files        = Dir['lib/**/*.rb', 'LICENSE', '*.md']
+  gem.require_path          = 'lib'
+  gem.files                 =
+    Dir['config/rubocop-rspec.yml', 'lib/**/*.rb', 'LICENSE', '*.md']
 
   gem.add_dependency 'hashdiff',                    '~> 1.1'
   gem.add_dependency 'rspec',                       '~> 3.4'
