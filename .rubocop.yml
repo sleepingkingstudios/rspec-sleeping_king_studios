@@ -1,6 +1,9 @@
 require:
   - rubocop-rspec
 
+inherit_gem:
+  rspec-sleeping_king_studios: config/rubocop-rspec.yml
+
 AllCops:
   TargetRubyVersion: 3.1
   NewCops: enable
@@ -35,35 +38,6 @@ RSpec:
     - '**/*_examples.rb'
     - '**/*_contract.rb'
     - '**/*_spec.rb'
-  Language:
-    ExampleGroups:
-      Regular:
-        - context
-        - describe
-        - wrap_context
-      Skipped:
-        - xcontext
-        - xdescribe
-        - xwrap_context
-      Focused:
-        - fcontext
-        - fdescribe
-        - fwrap_context
-    Helpers:
-      - let
-      - let!
-      - let?
-    Includes:
-      Examples:
-        - finclude_contract
-        - finclude_examples
-        - fwrap_examples
-        - include_contract
-        - include_examples
-        - wrap_examples
-        - xinclude_contract
-        - xinclude_examples
-        - xwrap_examples
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation

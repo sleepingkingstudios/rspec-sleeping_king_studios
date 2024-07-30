@@ -1,0 +1,41 @@
+RSpec:
+  Language:
+    ExampleGroups:
+      Regular:
+        - context
+        - describe
+        - wrap_context
+        - wrap_deferred
+      Skipped:
+        - xcontext
+        - xdescribe
+        - xwrap_context
+        - xwrap_deferred
+      Focused:
+        - fcontext
+        - fdescribe
+        - fwrap_context
+        - fwrap_deferred
+    Helpers:
+      - let
+      - let!
+      - let?
+    Includes:
+      Examples:
+        - finclude_contract
+        - finclude_deferred
+        - finclude_examples
+        - fwrap_examples
+        - include_contract
+        - include_deferred
+        - include_examples
+        - wrap_examples
+        - xinclude_contract
+        - xinclude_deferred
+        - xinclude_examples
+        - xwrap_examples
+    SharedGroups:
+      Examples:
+        - deferred_examples
+      Context:
+        - deferred_context
