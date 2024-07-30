@@ -10,7 +10,7 @@ RSpec.describe Spec::Models::Rocket do
 
   finclude_deferred 'should be a SpaceVehicle'
 
-  fwrap_deferred 'should behave like a rocket'
+  fwrap_deferred 'should behave like a rocket' # rubocop:disable RSpec/Focus
 
   it { expect(rocket.type).to be :submarine }
 end

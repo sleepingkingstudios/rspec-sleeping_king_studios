@@ -10,5 +10,5 @@ RSpec.describe Spec::Models::Rocket do
 
   xinclude_deferred 'should be a SpaceVehicle'
 
-  xwrap_deferred 'should behave like a rocket'
+  xwrap_deferred 'should behave like a rocket' # rubocop:disable RSpec/PendingWithoutReason
 end
