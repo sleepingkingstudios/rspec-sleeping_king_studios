@@ -4,6 +4,15 @@ A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends bui
 
 ## About
 
+### Setup
+
+To add support for `RSpec::SleepingKingStudios` extensions to `rubocop-rspec`, add the following to your `.rubocop.yml` configuration file:
+
+```yml
+inherit_gem:
+  rspec-sleeping_king_studios: 'config/rubocop-rspec.yml'
+```
+
 ### Compatibility
 
 RSpec::SleepingKingStudios is tested against the following dependencies:
@@ -33,7 +42,6 @@ To contribute code, please fork the repository, make the desired updates, and th
 ### Code of Conduct
 
 Please note that the `RSpec::SleepingKingStudios` project is released with a [Contributor Code of Conduct](https://github.com/sleepingkingstudios/rspec-sleeping_king_studios/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
-
 
 ## Configuration
 

@@ -4,6 +4,13 @@
 
 Updated minimum `Hashdiff` version to `~> 1.1`.
 
+Extracted `rubocop-rspec` configuration. To add support for `RSpec::SleepingKingStudios` extensions to `rubocop-rspec`, add the following to your `.rubocop.yml` configuration file:
+
+```yml
+inherit_gem:
+  rspec-sleeping_king_studios: 'config/rubocop-rspec.yml'
+```
+
 ### Concerns
 
 #### Memoized Helpers
