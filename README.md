@@ -1009,6 +1009,53 @@ Creates a value spy that watches the value of a method call or block. The spy al
 
 **Chaining:** None.
 
+## Sandbox
+
+The `RSpec::SleepingKingStudios::Sandbox` module allows for running a spec file or files in an isolated environment and capturing the results. This can be useful for testing code meant to enhance your tests, such as a custom RSpec matcher or a shared example group.
+
+First, define a spec file to run. As a recommended convention, spec files to be run in a sandbox should be given the `spec.fixture.rb` suffix to ensure they are not accidentally run with the main test suite.
+
+```ruby
+# frozen_string_literal: true
+
+# In spec/rocket_spec.fixture.rb:
+RSpec.describe Rocket do
+  describe '#launch' do
+    it 'should launch the rocket' do
+      expect { subject.launch }.to change(subject, :launched?).to be true
+    end
+  end
+end
+```
+
+Defining fixture files rather than generating temporary files is recommended for performance reasons, but both approaches are possible. Once the file is defined, it can be run in a sandbox:
+
+```ruby
+result = RSpec::SleepingKingStudios::Sandbox.run('spec/rocket_spec.fixture.rb')
+
+result.class #=> RSpec::SleepingKingStudios::Sandbox::Result
+result.output #=> """
+# Rocket
+#   #launch
+#     should launch the rocket
+#
+# 1 example, 0 failures
+# """
+result.status #=> 1
+result.summary #=> 1 example, 0 failures
+result.example_descriptions #=> [
+#   'Rocket#launch should launch the rocket'
+# ]
+```
+
+The `.run` method returns an instance of `RSpec::SleepingKingStudios::Sandbox::Result`, which wraps the result of running the specified spec files. It defines the following methods:
+
+- `#errors`: The output captured from STDERR when running the files.
+- `#example_descriptions`: The full description for each evaluated example.
+- `#json`: The json output from running the files.
+- `#output`: The output captured from STDOUT when running the files. The specs are run with the `--format=doc` flag, so this will include the individual examples as well as the summary.
+- `#summary`: The summary line for the tests.
+
 ## Deferred Examples
 
 `RSpec::SleepingKingStudios::Deferred` provides a mechanism for defining specifications that can be reused and shared between projects. For example, a library could use deferred examples to define an interface and test a reference implementation; projects that use that library could then use the published deferred examples to validate their own implementations of that interface.

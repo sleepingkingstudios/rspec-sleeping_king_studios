@@ -7,6 +7,7 @@ module RSpec
   module SleepingKingStudios
     autoload :Concerns, 'rspec/sleeping_king_studios/concerns'
     autoload :Deferred, 'rspec/sleeping_king_studios/deferred'
+    autoload :Sandbox,  'rspec/sleeping_king_studios/sandbox'
 
     # @return [String] the path to the installed gem.
     def self.gem_path

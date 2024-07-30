@@ -16,6 +16,7 @@ AllCops:
     - lib/rspec/sleeping_king_studios/configuration.rb
     - lib/rspec/sleeping_king_studios/deferred.rb
     - lib/rspec/sleeping_king_studios/deferred/**/*
+    - lib/rspec/sleeping_king_studios/sandbox.rb
     - lib/rspec/sleeping_king_studios/version.rb
     - spec/rspec/configuration_spec.rb
     - spec/integration/concerns/**/*
@@ -24,10 +25,11 @@ AllCops:
     - spec/rspec/sleeping_king_studios/concerns/memoized_helpers_spec.rb
     - spec/rspec/sleeping_king_studios/configuration_spec.rb
     - spec/rspec/sleeping_king_studios/deferred/**/*
+    - lib/rspec/sleeping_king_studios/sandbox_spec.rb
+    - lib/rspec/sleeping_king_studios/sandbox/**/*
     - spec/rspec/sleeping_king_studios/support/shared_examples/deferred_call_examples.rb
     - spec/spec_helper.rb
     - spec/support/integration/**/*.rb
-    - spec/support/sandbox.rb
     - '*.thor'
   Exclude:
     - 'tmp/**/*'
@@ -38,6 +40,7 @@ RSpec:
     - '**/*_examples.rb'
     - '**/*_contract.rb'
     - '**/*_spec.rb'
+    - '**/*_spec.fixture.rb'
 
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation

@@ -24,10 +24,10 @@ RSpec.describe Spec::Models::Rocket do
     end
 
     context 'when the rocket has multiple payloads' do
+      let(:expected_payload) { { booster: true, satellite: true } }
+
       include_deferred 'when the payload includes a booster'
       include_deferred 'when the payload includes a satellite'
-
-      let(:expected_payload) { { booster: true, satellite: true } }
 
       it { expect(rocket.payload).to be == expected_payload }
     end

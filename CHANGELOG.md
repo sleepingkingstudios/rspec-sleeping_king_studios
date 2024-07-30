@@ -21,6 +21,10 @@ Implemented the `let?` memoized helper, which defines a helper method if there i
 
 Implemented deferred examples, which provide an alternative implementation for sharing specifications between projects.
 
+### Sandbox
+
+Implemented `RSpec::SleepingKingStudios::Sandbox` for running test files in an isolated environment.
+
 ## 2.7.0
 
 ### Concerns

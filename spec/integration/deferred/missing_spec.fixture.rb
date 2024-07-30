@@ -3,7 +3,7 @@
 require 'support/integration/deferred/ordinal_examples'
 require 'support/models/rocket'
 
-RSpec.describe Spec::Models::Rocket do
+RSpec.describe Spec::Models::Rocket do # rubocop:disable RSpec/EmptyExampleGroup
   class << self
     alias_method :custom_example, :specify
 
