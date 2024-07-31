@@ -19,6 +19,30 @@ module RSpec::SleepingKingStudios
         json['examples'].map { |hsh| hsh['full_description'] }
       end
 
+      # @return [Array<String>] the full description for each run example with
+      #   status "failed".
+      def failing_examples
+        json['examples']
+          .select { |hsh| hsh['status'] == 'failed' }
+          .map { |hsh| hsh['full_description'] }
+      end
+
+      # @return [Array<String>] the full description for each run example with
+      #   status "passed".
+      def passing_examples
+        json['examples']
+          .select { |hsh| hsh['status'] == 'passed' }
+          .map { |hsh| hsh['full_description'] }
+      end
+
+      # @return [Array<String>] the full description for each run example with
+      #   status "pending".
+      def pending_examples
+        json['examples']
+          .select { |hsh| hsh['status'] == 'pending' }
+          .map { |hsh| hsh['full_description'] }
+      end
+
       # @return [String] the summary of the sandboxed spec run.
       def summary
         json['summary_line']
