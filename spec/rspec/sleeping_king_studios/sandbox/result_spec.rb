@@ -21,6 +21,7 @@ RSpec.describe RSpec::SleepingKingStudios::Sandbox::Result do
         #launch
           should launch the rocket
           should set the launch site
+          should not explode
     OUTPUT
   end
   let(:errors) { '' }
@@ -31,12 +32,18 @@ RSpec.describe RSpec::SleepingKingStudios::Sandbox::Result do
       'examples' => [
         {
           'full_description' => 'Spec::Models::Rocket#launch should launch the rocket',
+          'status'           => 'passed'
         },
         {
           'full_description' => 'Spec::Models::Rocket#launch should set the launch site',
+          'status'           => 'failed'
         },
+        {
+          'full_description' => 'Spec::Models::Rocket#launch should not explode',
+          'status'           => 'pending'
+        }
       ],
-      'summary_line' => '2 examples, 0 failures'
+      'summary_line' => '3 examples, 0 failures'
     }
     # rubocop:enable RSpec/LineLength
   end
@@ -55,12 +62,48 @@ RSpec.describe RSpec::SleepingKingStudios::Sandbox::Result do
       -> { expected }
   end
 
+  describe '#failing_examples' do
+    let(:expected) do
+      json['examples']
+        .select { |hsh| hsh['status'] == 'failed' }
+        .map { |hsh| hsh['full_description'] }
+    end
+
+    include_examples 'should define reader',
+      :failing_examples,
+      -> { expected }
+  end
+
   describe '#json' do
     include_examples 'should define reader', :json, -> { json }
   end
 
   describe '#output' do
     include_examples 'should define reader', :output, -> { output }
+  end
+
+  describe '#passing_examples' do
+    let(:expected) do
+      json['examples']
+        .select { |hsh| hsh['status'] == 'passed' }
+        .map { |hsh| hsh['full_description'] }
+    end
+
+    include_examples 'should define reader',
+      :passing_examples,
+      -> { expected }
+  end
+
+  describe '#pending_examples' do
+    let(:expected) do
+      json['examples']
+        .select { |hsh| hsh['status'] == 'pending' }
+        .map { |hsh| hsh['full_description'] }
+    end
+
+    include_examples 'should define reader',
+      :pending_examples,
+      -> { expected }
   end
 
   describe '#status' do
