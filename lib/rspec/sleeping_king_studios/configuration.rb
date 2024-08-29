@@ -81,6 +81,8 @@ module RSpec::SleepingKingStudios
       #
       # @return [Boolean] True if the empty include matchers are permitted,
       #   otherwise false.
+      #
+      # @deprecated [3.0] Will be removed in version 3.0.
       def allow_empty_include_matchers
         value = @allow_empty_include_matchers
 
@@ -101,6 +103,8 @@ module RSpec::SleepingKingStudios
       #
       # @return [Boolean] True if the empty include matchers are permitted,
       #   otherwise false.
+      #
+      # @deprecated [3.0] Will be removed in version 3.0.
       def allow_empty_include_matchers=(value)
         @allow_empty_include_matchers = !!value
       end

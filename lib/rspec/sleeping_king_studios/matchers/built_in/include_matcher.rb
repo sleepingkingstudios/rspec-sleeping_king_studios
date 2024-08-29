@@ -92,7 +92,10 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       end # if-else
     end # method actual_matches_proc?
 
+    # @deprecated [3.0] Will be removed in version 3.0.
     def allow_empty_matcher?
+      return false unless RSpec::Expectations::Version::STRING < '3.12.2'
+
       RSpec.configure { |config| config.sleeping_king_studios.matchers }.allow_empty_include_matchers?
     end # method strict_matching?
 

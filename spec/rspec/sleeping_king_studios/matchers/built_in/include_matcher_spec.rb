@@ -66,9 +66,19 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
           end # begin-ensure
         end # around each
 
-        it 'should not raise an error' do
-          expect { described_class.new }.not_to raise_error
-        end # it
+        # :nocov:
+        if RSpec::Expectations::Version::STRING < '3.12.2'
+          it "should not raise an error" do
+            expect { described_class.new }.not_to raise_error
+          end # it
+        else
+          it 'should raise an error' do
+            expect { described_class.new }.
+              to raise_error ArgumentError,
+                'must specify an item expectation'
+          end # it
+        end
+        # :nocov:
       end # context
 
       context 'when the configuration option is set to false' do
