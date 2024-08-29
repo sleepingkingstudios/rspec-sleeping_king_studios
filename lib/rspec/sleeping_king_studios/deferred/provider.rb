@@ -55,6 +55,22 @@ module RSpec::SleepingKingStudios::Deferred
         @defined_deferred_examples ||= {}
       end
 
+      # Checks if the given deferred example group is defined.
+      #
+      # @param description [String] the name of the deferred examples.
+      #
+      # @return [true, false] true if a deferred example group with the given
+      #   description is defined in the current context; otherwise false.
+      def defined_deferred_examples?(description)
+        ancestors.any? do |ancestor|
+          next false unless ancestor.respond_to?(:defined_deferred_examples)
+
+          ancestor.deferred_definition_exists?(description) ||
+            ancestor.deferred_module_exists?(description)
+        end
+      end
+      alias defined_deferred_context? defined_deferred_examples?
+
       # @api private
       def find_deferred_examples(description)
         tools.assertions.validate_name(description, as: 'description')
@@ -71,6 +87,21 @@ module RSpec::SleepingKingStudios::Deferred
       end
 
       protected
+
+      def deferred_definition_exists?(description)
+        defined_deferred_examples.key?(description)
+      end
+
+      def deferred_module_exists?(description)
+        constants(false)
+          .any? do |const_name|
+            value = const_get(const_name)
+
+            next false unless module_is_deferred_examples?(value)
+
+            return true if matches_description?(description, const_name, value)
+          end
+      end
 
       def find_deferred_definition(description)
         defined_deferred_examples.fetch(description, nil)
