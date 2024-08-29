@@ -1154,7 +1154,24 @@ RSpec.describe Car do
 end
 ```
 
-Finally, `Deferred::Consumer` includes the shortcuts `#finclude_deferred` and `#fwrap_deferred` to automatically focus deferred examples, or `#xinclude_deferred` and `#xwrap_deferred` to skip deferred examples.
+`Deferred::Consumer` also includes the shortcuts `#finclude_deferred` and `#fwrap_deferred` to automatically focus deferred examples, or `#xinclude_deferred` and `#xwrap_deferred` to skip deferred examples.
+
+The `defined_deferred_examples?` and `defined_deferred_context?` methods allow checking for the presence of a deferred example group.
+
+```ruby
+RSpec.describe Boat do
+  include RSpec::SleepingKingStudios::Deferred::Consumer
+  include VehicleExamples
+
+  subject(:boat) { described_class.new }
+
+  if defined_deferred_examples?('should be a water Vehicle')
+    include_deferred 'should be a water Vehicle'
+  else
+    pending 'deferred examples "should be a water Vehicle" is not defined'
+  end
+end
+```
 
 ## Shared Examples
 

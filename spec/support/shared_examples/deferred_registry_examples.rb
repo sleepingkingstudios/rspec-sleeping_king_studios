@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/concerns/shared_example_group'
+require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 
 require 'support/shared_examples'
 
 module Spec::Support::SharedExamples
   module DeferredRegistryExamples
-    extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
+    extend  RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
+    include RSpec::SleepingKingStudios::Matchers::Macros
 
     shared_context 'when the parent registry has deferred examples' do
       let(:ancestor_deferred_examples) do
@@ -199,6 +201,91 @@ module Spec::Support::SharedExamples
           it 'should return the defined examples' do
             expect(described_class.defined_deferred_examples)
               .to be == expected_deferred_examples
+          end
+        end
+      end
+
+      describe '.defined_deferred_examples?' do
+        it 'should define the class method' do
+          expect(described_class)
+            .to respond_to(:defined_deferred_examples?)
+            .with(1).argument
+        end
+
+        it 'should alias the method' do
+          expect(described_class)
+            .to have_aliased_method(:defined_deferred_examples?)
+            .as(:defined_deferred_context?)
+        end
+
+        describe 'with a non-matching description' do
+          let(:description) { 'should do nothing' }
+
+          it 'should return false' do
+            expect(described_class.defined_deferred_examples?(description))
+              .to be false
+          end
+        end
+
+        context 'when the parent registry has deferred examples' do
+          include_context 'when the parent registry has deferred examples'
+
+          describe 'with a non-matching description' do
+            let(:description) { 'should do nothing' }
+
+            it 'should return false' do
+              expect(described_class.defined_deferred_examples?(description))
+                .to be false
+            end
+          end
+
+          describe 'with a description matching a definition' do
+            let(:description) { 'should do a thing' }
+
+            it 'should return true' do
+              expect(described_class.defined_deferred_examples?(description))
+                .to be true
+            end
+          end
+
+          describe 'with a description matching a module' do
+            let(:description) { 'should behave like a BasicObject' }
+
+            it 'should return true' do
+              expect(described_class.defined_deferred_examples?(description))
+                .to be true
+            end
+          end
+        end
+
+        context 'when the registry has deferred examples' do
+          include_context 'when the registry has deferred examples'
+
+          describe 'with a non-matching description' do
+            let(:description) { 'should do nothing' }
+
+            it 'should return false' do
+              expect(described_class.defined_deferred_examples?(description))
+                .to be false
+            end
+          end
+
+          describe 'with a description matching a definition' do
+            let(:description) { 'should do something' }
+
+            it 'should return true' do
+              expect(described_class.defined_deferred_examples?(description))
+                .to be true
+            end
+          end
+
+          describe 'with a description matching a module' do
+            let(:description) { 'should act as expected' }
+
+            it 'should return true' do
+              expect(described_class.defined_deferred_examples?(description))
+                .to be true
+            end
           end
         end
       end
