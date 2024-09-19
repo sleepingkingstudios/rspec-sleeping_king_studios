@@ -7,8 +7,12 @@ require 'support/constants/example_class'
 require 'support/mock_example_group'
 
 RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
+  extend RSpec::SleepingKingStudios::Concerns::ExampleConstants # rubocop:disable RSpec/DescribedClass
+
+  subject(:example) { described_class.new }
+
   let(:described_class) do
-    Class.new(Spec::Support::MockExampleGroup) do
+    Class.new(RSpec::Core::ExampleGroup) do
       extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
 
       def helper_method
@@ -18,51 +22,46 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
   end
 
   describe '::example_class' do
-    shared_examples 'should define the class' do |proc = nil|
+    shared_examples 'should define the class' do
       def define_example_class
         described_class.example_class(class_name, *class_args, &class_proc)
       end
 
-      context 'before the example is run' do # rubocop:disable RSpec/ContextWording
-        it 'should not define the class' do
-          define_example_class
-
-          expect { Object.const_get(class_name) }.to raise_error NameError
+      before(:example) do
+        allow(described_class).to receive(:prepend_before).with(:example) \
+        do |&block|
+          example.instance_exec(&block)
         end
+
+        allow(example).to receive(:stub_const) # rubocop:disable RSpec/SubjectStub
       end
 
-      context 'while the example is running' do # rubocop:disable RSpec/ContextWording
-        it 'should define the class', :aggregate_failures do # rubocop:disable RSpec/ExampleLength
-          defined_class = nil
+      it 'should delegate to #stub_const' do
+        define_example_class
 
-          define_example_class
-
-          allow(described_class.example).to receive(:call) do
-            defined_class = Object.const_get(class_name)
-          end
-
-          described_class.run_example
-
-          expect(defined_class).to be_a Class
-          expect(defined_class.inspect).to be == class_name.to_s
-          expect(defined_class.name).to be == class_name.to_s
-          expect(defined_class.to_s).to be == class_name.to_s
-
-          instance_exec(defined_class, &proc) unless proc.nil?
-        end
+        expect(example) # rubocop:disable RSpec/SubjectStub
+          .to have_received(:stub_const)
+          .with(class_name.to_s, an_instance_of(Class))
       end
 
-      context 'after the example has run' do # rubocop:disable RSpec/ContextWording
-        it 'should not define the class' do
-          define_example_class
+      it 'should define the class', :aggregate_failures do
+        defined_class = nil
 
-          described_class.run_example
-
-          expect { Object.const_get(class_name) }.to raise_error NameError
+        allow(example).to receive(:stub_const) do |_, value| # rubocop:disable RSpec/SubjectStub
+          defined_class = value
         end
+
+        define_example_class
+
+        expect(defined_class).to be_a Class
+        expect(defined_class).to be < base_class
+        expect(defined_class.inspect).to be == class_name.to_s
+        expect(defined_class.name).to be == class_name.to_s
+        expect(defined_class.to_s).to be == class_name.to_s
       end
     end
 
+    let(:base_class) { Object }
     let(:class_name) { 'AnswerClass' }
     let(:class_args) { [] }
     let(:class_proc) { nil }
@@ -140,38 +139,21 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
 
   describe '::example_constant' do
     shared_examples 'should define the constant' do
-      context 'before the example is run' do # rubocop:disable RSpec/ContextWording
-        it 'should not define the constant' do
-          define_example_constant
-
-          expect { Object.const_get(class_name) }.to raise_error NameError
+      before(:example) do
+        allow(described_class).to receive(:prepend_before).with(:example) \
+        do |&block|
+          example.instance_exec(&block)
         end
+
+        allow(example).to receive(:stub_const) # rubocop:disable RSpec/SubjectStub
       end
 
-      context 'while the example is running' do # rubocop:disable RSpec/ContextWording
-        it 'should define the constant' do
-          defined_constant = nil
+      it 'should delegate to #stub_const' do
+        define_example_constant
 
-          define_example_constant
-
-          allow(described_class.example).to receive(:call) do
-            defined_constant = Object.const_get(constant_name)
-          end
-
-          described_class.run_example
-
-          expect(defined_constant).to be constant_value
-        end
-      end
-
-      context 'after the example has run' do # rubocop:disable RSpec/ContextWording
-        it 'should not define the constant' do
-          define_example_constant
-
-          described_class.run_example
-
-          expect { Object.const_get(constant_name) }.to raise_error NameError
-        end
+        expect(example) # rubocop:disable RSpec/SubjectStub
+          .to have_received(:stub_const)
+          .with(constant_name, constant_value)
       end
     end
 
@@ -192,85 +174,6 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
       end
 
       include_examples 'should define the constant'
-
-      context 'when the constant is already defined' do
-        let(:prior_value) { 'Forty-two' }
-        let(:error_message) do
-          "constant #{constant_name} is already defined with value " \
-            "#{prior_value.inspect}"
-        end
-
-        around(:example) do |example|
-          Object.const_set(:THE_ANSWER, prior_value)
-
-          example.call
-        ensure
-          Object.send(:remove_const, :THE_ANSWER) # rubocop:disable RSpec/RemoveConst
-        end
-
-        it 'should raise an error' do
-          described_class.example_constant(constant_name, constant_value)
-
-          expect { described_class.run_example }
-            .to raise_error(NameError, error_message)
-            .and(output.to_stderr)
-        end
-
-        describe 'with force: true' do
-          let(:expected_warning) do
-            /warning: already initialized constant THE_ANSWER/
-          end
-
-          def define_example_constant
-            described_class
-              .example_constant(constant_name, constant_value, force: true)
-          end
-
-          # rubocop:disable RSpec/NestedGroups
-          context 'before the example is run' do # rubocop:disable RSpec/ContextWording
-            it 'should define the constant with the prior value' do
-              define_example_constant
-
-              expect(Object.const_get(constant_name)).to be == prior_value
-            end
-          end
-
-          context 'while the example is running' do # rubocop:disable RSpec/ContextWording
-            it 'should define the constant', :aggregate_failures do
-              defined_constant = nil
-
-              define_example_constant
-
-              allow(described_class.example).to receive(:call) do
-                defined_constant = Object.const_get(constant_name)
-              end
-
-              expect { described_class.run_example }
-                .to output(expected_warning)
-                .to_stderr
-
-              expect(defined_constant).to be constant_value
-            end
-          end
-
-          context 'after the example has run' do # rubocop:disable RSpec/ContextWording
-            # rubocop:disable Style/RedundantLineContinuation
-            it 'should define the constant with the prior value',
-              :aggregate_failures \
-            do
-              define_example_constant
-
-              expect { described_class.run_example }
-                .to output
-                .to_stderr
-
-              expect(Object.const_get(constant_name)).to be == prior_value
-            end
-            # rubocop:enable Style/RedundantLineContinuation
-          end
-          # rubocop:enable RSpec/NestedGroups
-        end
-      end
     end
 
     describe 'with a constant name and a block' do
@@ -281,9 +184,7 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
 
         described_class.send(:define_method, :answer) { value }
 
-        allow(described_class.example)
-          .to receive(:answer)
-          .and_call_original
+        allow(example).to receive(:answer).and_call_original # rubocop:disable RSpec/SubjectStub
       end
 
       def define_example_constant
@@ -302,30 +203,49 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
       end
 
       include_examples 'should define the constant'
+    end
 
-      context 'when the namespace is undefined' do
-        let(:constant_name) { 'Examples::Constants::THE_ANSWER' }
+    describe 'with force: true' do
+      let(:constant_value) { 42 }
 
-        include_examples 'should define the constant'
-
-        context 'before the example is run' do # rubocop:disable RSpec/ContextWording
-          it 'should not define the namespace' do
-            define_example_constant
-
-            expect { Object.const_get('Examples') }.to raise_error NameError
-          end
-        end
-
-        context 'after the example has run' do # rubocop:disable RSpec/ContextWording
-          it 'should not define the namespace' do
-            define_example_constant
-
-            described_class.run_example
-
-            expect { Object.const_get('Examples') }.to raise_error NameError
-          end
-        end
+      before(:example) do
+        allow(tools.core_tools).to receive(:deprecate)
       end
+
+      def tools
+        SleepingKingStudios::Tools::Toolbelt.instance
+      end
+
+      it 'should print a deprecation warning' do
+        described_class
+          .example_constant(constant_name, constant_value, force: true)
+
+        expect(tools.core_tools)
+          .to have_received(:deprecate)
+          .with(
+            'ExampleConstants.example_constant with force: true',
+            message: 'The :force parameter is no longer required.'
+          )
+      end
+    end
+
+    context 'when the constant is already defined' do
+      let(:prior_value)    { 'Forty-two' }
+      let(:constant_value) { 42 }
+
+      def define_example_constant
+        described_class.example_constant(constant_name, constant_value)
+      end
+
+      around(:example) do |example|
+        Object.const_set(:THE_ANSWER, prior_value)
+
+        example.call
+      ensure
+        Object.send(:remove_const, :THE_ANSWER) # rubocop:disable RSpec/RemoveConst
+      end
+
+      include_examples 'should define the constant'
     end
   end
 end

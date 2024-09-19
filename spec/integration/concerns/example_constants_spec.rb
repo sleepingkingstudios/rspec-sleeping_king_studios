@@ -5,7 +5,7 @@ require 'rspec/sleeping_king_studios'
 RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
   extend RSpec::SleepingKingStudios::Concerns::ExampleConstants # rubocop:disable RSpec/DescribedClass
 
-  describe '#example_class' do
+  describe '.example_class' do
     let(:described_class) { ExampleClass }
 
     describe 'with a class name' do
@@ -69,9 +69,45 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
 
       it { expect(instance.ok).to be true }
     end
+
+    describe 'hooks' do
+      let(:ref) { Struct.new(:value).new }
+
+      example_class 'ExampleClass'
+
+      before(:example) do
+        ref.value = ExampleClass
+      end
+
+      it { expect(ref.value).to be_a Class }
+    end
+
+    describe 'inheritance' do
+      example_class 'Spec::Grandparent'
+
+      it { expect(Spec::Grandparent).to be_a Class }
+
+      describe 'with a child example group' do
+        example_class 'Spec::Parent', 'Spec::Grandparent'
+
+        it { expect(Spec::Grandparent).to be_a Class }
+
+        it { expect(Spec::Parent).to be_a Class }
+
+        describe 'with a grandchild example group' do
+          example_class 'Spec::Child', 'Spec::Parent'
+
+          it { expect(Spec::Grandparent).to be_a Class }
+
+          it { expect(Spec::Parent).to be_a Class }
+
+          it { expect(Spec::Child).to be_a Class }
+        end
+      end
+    end
   end
 
-  describe '#example_constant' do
+  describe '.example_constant' do
     describe 'with a constant name and a block' do
       let(:the_answer) { 42 }
 
