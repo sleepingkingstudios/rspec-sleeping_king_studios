@@ -1,49 +1,49 @@
-# spec/support/mock_example_group.rb
+# frozen_string_literal: true
 
 module Spec
   module Support
     class MockExampleGroup
       def self.around(_scope, &block)
-        hooks << ->(example) {
+        hooks << lambda { |example|
           example.instance_exec(example, &block)
-        } # end hook
-      end # class method around
+        }
+      end
 
       def self.before(scope, &block)
         around(scope) do |example|
           example.instance_exec(example, &block)
 
           example.call
-        end # around
-      end # class method before
+        end
+      end
 
       def self.example
         @example ||= new
-      end # class method example
+      end
 
       def self.hooks
         @hooks ||= []
-      end # class method hooks
+      end
 
       def self.run_example
         wrapped =
           hooks.reverse.reduce(example) do |wrapped_example, hook|
-            ->() { hook.call(wrapped_example) }
-          end # hook
+            -> { hook.call(wrapped_example) }
+          end
 
         wrapped.call
-      end # class method run_example
+      end
 
       def call; end
 
       def example
         self
-      end # method example
+      end
 
       def inspect
         '#<MockExampleGroup>'
-      end # method inspect
-      alias_method :to_s, :inspect
-    end # class
-  end # module
-end # module
+      end
+      alias to_s inspect
+    end
+  end
+end
