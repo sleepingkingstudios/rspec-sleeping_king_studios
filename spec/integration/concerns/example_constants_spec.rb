@@ -105,6 +105,24 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
         end
       end
     end
+
+    describe 'precedence' do
+      let(:options) { {} }
+
+      before(:example) do
+        options[:modified] = true
+      end
+
+      it { expect(options[:modified]).to be true }
+
+      describe 'with an example constant defined in a child example group' do
+        let(:options) { super().merge(value: Spec::Value.new) }
+
+        example_class 'Spec::Value'
+
+        it { expect(options[:modified]).to be true }
+      end
+    end
   end
 
   describe '.example_constant' do

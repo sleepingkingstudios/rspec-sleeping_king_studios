@@ -12,7 +12,7 @@ module RSpec::SleepingKingStudios::Concerns
     ExampleConstant = Struct.new(:name, :value)
 
     # @api private
-    module InstanceMethods
+    module HoistedMethods
       # @api private
       def apply_example_constants(example_constants) # rubocop:disable Metrics/MethodLength
         return if example_constants_applied?
@@ -50,13 +50,6 @@ module RSpec::SleepingKingStudios::Concerns
         example.instance_exec(klass, &block) if block_given?
 
         klass
-      end
-
-      # @api private
-      def extended(other)
-        super
-
-        other.include InstanceMethods
       end
 
       private
@@ -145,15 +138,30 @@ module RSpec::SleepingKingStudios::Concerns
         constant_value || block
       )
 
-      prepend_before(:example) do
-        apply_example_constants(self.class.each_example_constant)
-      end
+      # Ensure that the example constants are defined before all other :before
+      # hooks, even those defined on parent example groups.
+      hoist_example_constants!
     end
 
     protected
 
     def defined_example_constants
       @defined_example_constants ||= []
+    end
+
+    def hoist_example_constants!
+      top_level_example_group =
+        ancestors
+        .reverse_each
+        .find { |ancestor| ancestor < RSpec::Core::ExampleGroup }
+
+      return if top_level_example_group < HoistedMethods
+
+      top_level_example_group.include HoistedMethods
+
+      top_level_example_group.prepend_before(:example) do
+        apply_example_constants(self.class.each_example_constant)
+      end
     end
   end
 end
