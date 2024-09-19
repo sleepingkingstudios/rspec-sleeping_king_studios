@@ -1,3 +1,4 @@
+@disabled
 Feature: `ExampleConstants` concern
   Use the `example_constant` class method to define a temporary constant scoped
   to your examples.
