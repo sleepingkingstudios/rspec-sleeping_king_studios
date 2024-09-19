@@ -235,6 +235,177 @@ module Spec::Support::SharedExamples
       end
     end
 
+    shared_examples 'should define deferred example constants' do
+      describe '.example_class' do
+        let(:class_name) { 'Spec::ExampleClass' }
+
+        it 'should define the class method' do
+          expect(described_class)
+            .to respond_to(:example_class)
+            .with(1..2).arguments
+            .and_a_block
+        end
+
+        it 'should add a deferred call to the class' do
+          expect { described_class.example_class(class_name) }
+            .to change(described_class, :deferred_calls)
+        end
+
+        it 'should define a deferred example class', :aggregate_failures do
+          described_class.example_class(class_name)
+
+          deferred = described_class.deferred_calls.last
+
+          expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Call)
+          expect(deferred.method_name).to be :example_class
+          expect(deferred.arguments).to be == [class_name, nil]
+          expect(deferred.keywords).to be == {}
+          expect(deferred.block).to be nil
+        end
+
+        describe 'with a base class' do
+          let(:base_class) { 'Spec::ParentClass' }
+
+          it 'should define a deferred example class', :aggregate_failures do
+            described_class.example_class(class_name, base_class)
+
+            deferred = described_class.deferred_calls.last
+
+            expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Call)
+            expect(deferred.method_name).to be :example_class
+            expect(deferred.arguments).to be == [class_name, base_class]
+            expect(deferred.keywords).to be == {}
+            expect(deferred.block).to be nil
+          end
+        end
+
+        describe 'with a block' do
+          let(:block) { ->(_) { nil } }
+
+          it 'should define a deferred example class', :aggregate_failures do
+            described_class.example_class(class_name, &block)
+
+            deferred = described_class.deferred_calls.last
+
+            expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Call)
+            expect(deferred.method_name).to be :example_class
+            expect(deferred.arguments).to be == [class_name, nil]
+            expect(deferred.keywords).to be == {}
+            expect(deferred.block).to be == block
+          end
+        end
+
+        context 'when the deferred examples are called' do
+          let(:example_group) { instance_double(RSpec::Core::ExampleGroup) }
+
+          it 'should call the deferred example class' do
+            described_class.example_class(class_name)
+
+            deferred = described_class.deferred_calls.last
+
+            allow(deferred).to receive(:call)
+
+            described_class.call(example_group)
+
+            expect(deferred).to have_received(:call).with(example_group)
+          end
+        end
+      end
+
+      describe '.example_constant' do
+        let(:constant_name)  { 'ANSWER' }
+        let(:constant_value) { 42 }
+
+        it 'should define the class method' do
+          expect(described_class)
+            .to respond_to(:example_constant)
+            .with(1..2).arguments
+            .and_keywords(:force)
+            .and_a_block
+        end
+
+        describe 'with a block' do
+          let(:block) do
+            value = constant_value
+
+            -> { value }
+          end
+
+          it 'should add a deferred call to the class' do
+            expect { described_class.example_constant(constant_name, &block) }
+              .to change(described_class, :deferred_calls)
+          end
+
+          it 'should define a deferred example constant', :aggregate_failures do
+            described_class.example_constant(constant_name, &block)
+
+            deferred = described_class.deferred_calls.last
+
+            expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Call)
+            expect(deferred.method_name).to be :example_constant
+            expect(deferred.arguments).to be == [constant_name]
+            expect(deferred.keywords).to be == { force: false }
+            expect(deferred.block).to be == block
+          end
+        end
+
+        describe 'with a value' do
+          it 'should add a deferred call to the class' do
+            expect do
+              described_class.example_constant(constant_name, constant_value)
+            end
+              .to change(described_class, :deferred_calls)
+          end
+
+          it 'should define a deferred example constant', :aggregate_failures do
+            described_class.example_constant(constant_name, constant_value)
+
+            deferred = described_class.deferred_calls.last
+
+            expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Call)
+            expect(deferred.method_name).to be :example_constant
+            expect(deferred.arguments).to be == [constant_name, constant_value]
+            expect(deferred.keywords).to be == { force: false }
+            expect(deferred.block).to be nil
+          end
+        end
+
+        describe 'with force: true' do
+          it 'should define a deferred example constant', :aggregate_failures do
+            described_class.example_constant(
+              constant_name,
+              constant_value,
+              force: true
+            )
+
+            deferred = described_class.deferred_calls.last
+
+            expect(deferred).to be_a(RSpec::SleepingKingStudios::Deferred::Call)
+            expect(deferred.method_name).to be :example_constant
+            expect(deferred.arguments).to be == [constant_name, constant_value]
+            expect(deferred.keywords).to be == { force: true }
+            expect(deferred.block).to be nil
+          end
+        end
+
+        context 'when the deferred examples are called' do
+          let(:example_group) { instance_double(RSpec::Core::ExampleGroup) }
+
+          it 'should call the deferred example class' do
+            described_class.example_constant(constant_name, constant_value)
+
+            deferred = described_class.deferred_calls.last
+
+            allow(deferred).to receive(:call)
+
+            described_class.call(example_group)
+
+            expect(deferred).to have_received(:call).with(example_group)
+          end
+        end
+      end
+    end
+
     shared_examples 'should define deferred example groups' do
       shared_examples 'should define an example group macro' do |method_name|
         let(:arguments) { %w[tag_0 tag_1] }
