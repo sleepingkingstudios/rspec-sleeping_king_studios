@@ -12,6 +12,7 @@ AllCops:
     - rspec-sleeping_king_studios.gemspec
     - lib/rspec/sleeping_king_studios.rb
     - lib/rspec/sleeping_king_studios/concerns.rb
+    - lib/rspec/sleeping_king_studios/concerns/example_constants.rb
     - lib/rspec/sleeping_king_studios/concerns/memoized_helpers.rb
     - lib/rspec/sleeping_king_studios/configuration.rb
     - lib/rspec/sleeping_king_studios/deferred.rb
@@ -22,6 +23,7 @@ AllCops:
     - spec/integration/concerns/**/*
     - spec/integration/deferred/**/*
     - spec/rspec/sleeping_king_studios_spec.rb
+    - spec/rspec/sleeping_king_studios/concerns/example_constants_spec.rb
     - spec/rspec/sleeping_king_studios/concerns/memoized_helpers_spec.rb
     - spec/rspec/sleeping_king_studios/configuration_spec.rb
     - spec/rspec/sleeping_king_studios/deferred/**/*
@@ -30,6 +32,7 @@ AllCops:
     - spec/rspec/sleeping_king_studios/support/shared_examples/deferred_call_examples.rb
     - spec/spec_helper.rb
     - spec/support/integration/**/*.rb
+    - spec/support/mock_example_group.rb
     - '*.thor'
   Exclude:
     - 'tmp/**/*'
