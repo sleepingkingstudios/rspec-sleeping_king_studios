@@ -254,7 +254,6 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
           end
 
           context 'after the example has run' do # rubocop:disable RSpec/ContextWording
-            # rubocop:disable Style/RedundantLineContinuation
             it 'should define the constant with the prior value',
               :aggregate_failures \
             do
@@ -266,7 +265,6 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::ExampleConstants do
 
               expect(Object.const_get(constant_name)).to be == prior_value
             end
-            # rubocop:enable Style/RedundantLineContinuation
           end
           # rubocop:enable RSpec/NestedGroups
         end
