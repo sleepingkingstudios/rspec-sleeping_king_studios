@@ -1,4 +1,4 @@
-# frozen_string_literals: true
+# frozen_string_literal: true
 
 require 'hashdiff'
 
@@ -9,26 +9,28 @@ module RSpec::SleepingKingStudios::Matchers::Core
   # Matcher for performing a deep comparison between two objects.
   #
   # @since 2.5.0
-  class DeepMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
-    # @param [Object] expected The expected object.
+  class DeepMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher # rubocop:disable Metrics/ClassLength
+    # @param [Object] expected the expected object.
     def initialize(expected)
+      super()
+
       @expected = expected
     end
 
     # (see BaseMatcher#description)
     def description
       "match #{format_expected(@expected)}"
-    end # method description
+    end
 
     # Inverse of #matches? method.
     #
-    # @param [Object] actual The object to check.
+    # @param [Object] actual the object to check.
     #
     # @return [Boolean] true if the actual object does not match the
     #   expectation, otherwise true.
     #
     # @see #matches?
-    def does_not_match? actual
+    def does_not_match?(actual) # rubocop:disable Metrics/MethodLength
       super
 
       if matcher?(@expected)
@@ -45,12 +47,12 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end
 
     # (see BaseMatcher#failure_message)
-    def failure_message
+    def failure_message # rubocop:disable Style/TrivialAccessors
       @failure_message
     end
 
     # (see BaseMatcher#failure_message_when_negated)
-    def failure_message_when_negated
+    def failure_message_when_negated # rubocop:disable Style/TrivialAccessors
       @failure_message_when_negated
     end
 
@@ -65,11 +67,11 @@ module RSpec::SleepingKingStudios::Matchers::Core
     #   value is compared based on the type of the expected value.
     # - Otherwise, the two objects are compared using an equality comparison.
     #
-    # @param [Object] actual The object to check.
+    # @param [Object] actual the object to check.
     #
     # @return [Boolean] true if the actual object matches the expectation,
     #   otherwise false.
-    def matches?(actual)
+    def matches?(actual) # rubocop:disable Metrics/MethodLength
       super
 
       if matcher?(@expected)
@@ -89,7 +91,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     def compare_arrays(expected, actual)
       compare_hashes({ _ary: expected }, { _ary: actual })
-        .map { |(char, path, *values)| [char, path[1..-1], *values] }
+        .map { |(char, path, *values)| [char, path[1..], *values] }
     end
 
     def compare_hashes(expected, actual)
@@ -135,7 +137,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @matches = diff.empty?
 
       @failure_message_when_negated =
-        "`expect(#{format_expected(@expected)}).not_to be == #{actual.inspect}`"
+        "`expect(#{format_expected(@expected)}).not_to be == " \
+        "#{format_expected(@actual)}`"
     end
 
     def diff_hashes
@@ -150,7 +153,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @matches = diff.empty?
 
       @failure_message_when_negated =
-        "`expect(#{format_expected(@expected)}).not_to be == #{actual.inspect}`"
+        "`expect(#{format_expected(@expected)}).not_to be == " \
+        "#{format_expected(@actual)}`"
     end
 
     def equality_matcher
@@ -159,7 +163,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     def format_diff(diff)
       diff
-        .sort_by { |(char, path, *_values)| [path.map(&:to_s)] }
+        .sort_by { |(_char, path, *_values)| [path.map(&:to_s)] }
         .map { |item| format_diff_item(*item) }
         .join "\n"
     end
@@ -177,9 +181,10 @@ module RSpec::SleepingKingStudios::Matchers::Core
       when '-'
         "expected #{format_expected(values.first)}"
       when '~'
-        "expected #{format_expected(values.first)}, got #{values.last.inspect}"
+        "expected #{format_expected(values.first)}, got " \
+        "#{format_expected(values.last)}"
       when '+'
-        "got #{values.last.inspect}"
+        "got #{format_expected(values.last)}"
       end
     end
 
@@ -189,12 +194,12 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
     def format_message(diff)
       "expected: == #{format_expected(@expected)}\n" \
-      "     got:    #{@actual.inspect}\n" \
-      "\n" \
-      "(compared using Hashdiff)\n" \
-      "\n" \
-      "Diff:\n" \
-      "#{format_diff(diff)}"
+        "     got:    #{format_expected(@actual)}\n" \
+        "\n" \
+        "(compared using Hashdiff)\n" \
+        "\n" \
+        "Diff:\n" \
+        "#{format_diff(diff)}"
     end
 
     def matcher?(object)

@@ -1,11 +1,11 @@
-# lib/rspec/sleeping_king_studios/matchers/built_in/include_matcher.rb
+# frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/matchers/built_in'
 require 'rspec/sleeping_king_studios/matchers/description'
 
 module RSpec::SleepingKingStudios::Matchers::BuiltIn
   # Extensions to the built-in RSpec #include matcher.
-  class IncludeMatcher < RSpec::Matchers::BuiltIn::Include
+  class IncludeMatcher < RSpec::Matchers::BuiltIn::Include # rubocop:disable Metrics/ClassLength
     include RSpec::SleepingKingStudios::Matchers::Description
 
     # @param [Array<Hash, Proc, Object>] expected the items expected to be
@@ -16,35 +16,30 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     # @yieldparam [Object] item An item from the actual object; yield(item)
     #   should return true if and only if the item matches the desired
     #   predicate.
-    def initialize *expected, &block
+    def initialize(*expected, &block) # rubocop:disable Metrics/MethodLength
       if block_given?
         SleepingKingStudios::Tools::CoreTools
           .deprecate('IncludeMatcher with a block')
 
-          expected << block
+        expected << block
       end
 
       if expected.empty? && !allow_empty_matcher?
         raise ArgumentError,
           'must specify an item expectation',
           caller
-      end # if
+      end
 
-      super *expected
-    end # constructor
+      super(*expected)
+    end
 
     # (see BaseMatcher#description)
     def description
       desc = super
 
-      # Format hash expectations.
-      desc = desc.gsub(/(\S)=>(\S)/, '\1 => \2')
-
       # Replace processed block expectation stub with proper description.
-      desc = desc.gsub ':__block_comparison__', 'an item matching the block'
-
-      desc
-    end # method description
+      desc.gsub ':__block_comparison__', 'an item matching the block'
+    end
 
     # @api private
     #
@@ -53,7 +48,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       @actual = actual
 
       perform_match(actual) { |v| v }
-    end # method matches?
+    end
 
     # @api private
     #
@@ -61,96 +56,113 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     def does_not_match?(actual)
       @actual = actual
 
-      perform_match(actual) { |v| !v }
-    end # method does_not_match?
+      perform_match(actual, &:!)
+    end
 
     # (see BaseMatcher#failure_message)
     def failure_message
       message = super.sub ':__block_comparison__', 'an item matching the block'
 
-      message << ", but it does not respond to `include?`" unless actual.respond_to?(:include?) || message =~ /does not respond to/
+      unless actual.respond_to?(:include?) || message =~ /does not respond to/
+        message << ', but it does not respond to `include?`'
+      end
 
       message
-    end # method failure_message_for_should
+    end
 
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       message = super.sub ':__block_comparison__', 'an item matching the block'
 
-      message << ", but it does not respond to `include?`" unless actual.respond_to?(:include?) || message =~ /does not respond to/
+      unless actual.respond_to?(:include?) || message =~ /does not respond to/
+        message << ', but it does not respond to `include?`'
+      end
 
       message
-    end # method
+    end
 
     private
 
-    def actual_matches_proc? expected_item
+    def actual_matches_proc?(expected_item)
       if actual.respond_to?(:detect)
         !!actual.detect(&expected_item)
       else
         !!expected_item.call(actual)
-      end # if-else
-    end # method actual_matches_proc?
+      end
+    end
 
     # @deprecated [3.0] Will be removed in version 3.0.
     def allow_empty_matcher?
       return false unless RSpec::Expectations::Version::STRING < '3.12.2'
 
-      RSpec.configure { |config| config.sleeping_king_studios.matchers }.allow_empty_include_matchers?
-    end # method strict_matching?
+      RSpec
+        .configure { |config| config.sleeping_king_studios.matchers }
+        .allow_empty_include_matchers?
+    end
 
-    def comparing_proc? expected_item
+    def comparing_proc?(expected_item)
       expected_item.is_a?(Proc)
-    end # method comparing_proc?
-
-    def excluded_from_actual
-      items = defined?(expecteds) ? expecteds : expected
-
-      return [] unless @actual.respond_to?(:include?)
-
-      items.inject([]) do |memo, expected_item|
-        if comparing_proc?(expected_item)
-          memo << :__block_comparison__ unless yield actual_matches_proc?(expected_item)
-        elsif comparing_hash_to_a_subset?(expected_item)
-          expected_item.each do |(key, value)|
-            memo << { key => value } unless yield actual_hash_includes?(key, value)
-          end # each
-        elsif comparing_hash_keys?(expected_item)
-          memo << expected_item unless yield actual_hash_has_key?(expected_item)
-        else
-          memo << expected_item unless yield actual_collection_includes?(expected_item)
-        end # if-elsif-else
-
-        memo
-      end # inject
-    end # method excluded_from_actual
+    end
 
     def expected_items_for_description
       items = defined?(expecteds) ? expecteds : @expected
 
       # Preprocess items to stub out block expectations.
       items.map { |item| item.is_a?(Proc) ? :__block_comparison__ : item }
-    end # method expected_items_for_description
+    end
 
-    def perform_match(actual, &block)
-      @actual = actual
-      @divergent_items = excluded_from_actual(&block)
-      actual.respond_to?(:include?) && @divergent_items.empty?
-    end # method perform_match
+    def find_excluded_items(&)
+      items = defined?(expecteds) ? expecteds : expected
 
-    # @api private
-    #
-    # Converts the expected item to a human-readable string. Retained for
-    # pre-3.3 compatibility.
-    def to_word expected_item
-      case
-      when is_matcher_with_description?(expected_item)
-        expected_item.description
-      when Proc === expected_item
-        "an item matching the block"
+      return [] unless @actual.respond_to?(:include?)
+
+      items.each.with_object([]) do |expected_item, excluded_items|
+        match_excluded_item(expected_item, excluded_items, &)
+      end
+    end
+
+    def match_excluded_hash_keys(expected_item, excluded_items)
+      return if yield actual_hash_has_key?(expected_item)
+
+      excluded_items << expected_item
+    end
+
+    def match_excluded_hash_subset(expected_item, excluded_items)
+      expected_item.each do |(key, value)|
+        next if yield actual_hash_includes?(key, value)
+
+        excluded_items << { key => value }
+      end
+    end
+
+    def match_excluded_item(expected_item, excluded_items, &)
+      if comparing_proc?(expected_item)
+        match_excluded_proc(expected_item, excluded_items, &)
+      elsif comparing_hash_to_a_subset?(expected_item)
+        match_excluded_hash_subset(expected_item, excluded_items, &)
+      elsif comparing_hash_keys?(expected_item)
+        match_excluded_hash_keys(expected_item, excluded_items, &)
       else
-        expected_item.inspect
-      end # case
-    end # method to_word
-  end # class
-end # module
+        match_excluded_value(expected_item, excluded_items, &)
+      end
+    end
+
+    def match_excluded_proc(expected_item, excluded_items)
+      return if yield actual_matches_proc?(expected_item)
+
+      excluded_items << :__block_comparison__
+    end
+
+    def match_excluded_value(expected_item, excluded_items)
+      return if yield actual_collection_includes?(expected_item)
+
+      excluded_items << expected_item
+    end
+
+    def perform_match(actual, &)
+      @actual = actual
+      @divergent_items = find_excluded_items(&)
+      actual.respond_to?(:include?) && @divergent_items.empty?
+    end
+  end
+end

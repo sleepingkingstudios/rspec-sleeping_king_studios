@@ -27,9 +27,9 @@ RSpec.describe RSpec::SleepingKingStudios::Sandbox::Result do
   let(:errors) { '' }
   let(:status) { 0 }
   let(:json) do
-    # rubocop:disable RSpec/LineLength
+    # rubocop:disable Layout/LineLength
     {
-      'examples' => [
+      'examples'     => [
         {
           'full_description' => 'Spec::Models::Rocket#launch should launch the rocket',
           'status'           => 'passed'
@@ -45,7 +45,7 @@ RSpec.describe RSpec::SleepingKingStudios::Sandbox::Result do
       ],
       'summary_line' => '3 examples, 0 failures'
     }
-    # rubocop:enable RSpec/LineLength
+    # rubocop:enable Layout/LineLength
   end
 
   describe '#errors' do
