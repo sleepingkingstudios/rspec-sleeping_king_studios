@@ -31,8 +31,8 @@ AllCops:
     - spec/rspec/sleeping_king_studios/deferred/**/*
     - spec/rspec/sleeping_king_studios/matchers/built_in/include_matcher_spec.rb
     - spec/rspec/sleeping_king_studios/matchers/core/deep_matcher_spec.rb
-    - lib/rspec/sleeping_king_studios/sandbox_spec.rb
-    - lib/rspec/sleeping_king_studios/sandbox/**/*
+    - spec/rspec/sleeping_king_studios/sandbox_spec.rb
+    - spec/rspec/sleeping_king_studios/sandbox/**/*
     - spec/rspec/sleeping_king_studios/support/shared_examples/deferred_call_examples.rb
     - spec/spec_helper.rb
     - spec/support/integration/**/*.rb
