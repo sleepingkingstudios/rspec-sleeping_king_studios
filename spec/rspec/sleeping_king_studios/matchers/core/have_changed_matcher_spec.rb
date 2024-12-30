@@ -572,7 +572,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
         include_context 'when the value has changed'
 
         let(:error_message) do
-          if RUBY_VERSION >= '3.3'
+          if RUBY_VERSION >= '3.4'
+            /undefined method '-' for an instance of String/
+          elsif RUBY_VERSION >= '3.3'
             /undefined method `-' for an instance of String/
           else
             /undefined method `-' for #{changed_value.inspect}:String/

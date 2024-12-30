@@ -1,4 +1,4 @@
-# frozen_string_literals: true
+# frozen_string_literal: true
 
 require 'bigdecimal'
 
@@ -93,6 +93,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
           san:  3
         }
       end
+      let(:description) do
+        "match #{format_expected(expected)}"
+      end
 
       it { expect(matcher.description).to be == description }
     end
@@ -101,10 +104,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
   describe '#matches?' do
     let(:failure_message) do
       "expected: == #{format_expected(expected)}\n" \
-      "     got:    #{actual.inspect}"
+        "     got:    #{format_expected(actual)}"
     end
     let(:failure_message_when_negated) do
-      "`expect(#{format_expected(expected)}).not_to be == #{actual.inspect}`"
+      "`expect(#{format_expected(expected)}).not_to be == " \
+        "#{format_expected(actual)}`"
     end
     let(:diff_message) do
       "\n\n(compared using Hashdiff)\n\nDiff:\n"
@@ -138,7 +142,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -196,7 +200,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -254,7 +258,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -482,17 +486,18 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
       let(:expected_descriptions) do
         '[' \
-        'an instance of String, ' \
-        'an instance of Integer, ' \
-        'an instance of String' \
-        ']'
+          'an instance of String, ' \
+          'an instance of Integer, ' \
+          'an instance of String' \
+          ']'
       end
       let(:failure_message) do
         "expected: == #{expected_descriptions}\n" \
-        "     got:    #{actual.inspect}"
+          "     got:    #{format_expected(actual)}"
       end
       let(:failure_message_when_negated) do
-        "`expect(#{expected_descriptions}).not_to be == #{actual.inspect}`"
+        "`expect(#{expected_descriptions}).not_to be == " \
+          "#{format_expected(actual)}`"
       end
 
       describe 'with nil' do
@@ -1022,8 +1027,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
               author: 'J.R.R. Tolkien'
             },
             {
-              id:     3,
-              title:  'The Return of the King'
+              id:    3,
+              title: 'The Return of the King'
             }
           ]
         end
@@ -1072,7 +1077,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
           super() + diff_message + expected_diff
         end
         let(:expected_diff) do
-          '+ 0 => got {:id=>0, :title=>"The Hobbit", :author=>"J.R.R. Tolkien"}'
+          "+ 0 => got #{format_expected(actual.first)}"
         end
 
         include_examples 'should fail with a positive expectation'
@@ -1139,7 +1144,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
           super() + diff_message + expected_diff
         end
         let(:expected_diff) do
-          %{~ 1 => expected #{format_expected(expected[1])}, got #<struct title="The Two Towers">}
+          "~ 1 => expected #{format_expected(expected[1])}, got " \
+            '#<struct title="The Two Towers">'
         end
 
         include_examples 'should fail with a positive expectation'
@@ -1192,9 +1198,9 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
               author: 'J.R.R. Tolkien'
             },
             {
-              book:   '1..2 of 6',
-              id:     1,
-              title:  'The Fellowship of the Ring'
+              book:  '1..2 of 6',
+              id:    1,
+              title: 'The Fellowship of the Ring'
             },
             Struct.new(:title).new('The Two Towers'),
             {
@@ -1216,7 +1222,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
             ~ 1.:id => expected 2, got 1
             ~ 1.:title => expected "The Two Towers", got "The Fellowship of the Ring"
             ~ 2 => expected #{format_expected(expected[2])}, got #<struct title="The Two Towers">
-            + 3 => got {:id=>"Three", :title=>"The Return of the King", :author=>"J.R.R. Tolkien"}
+            + 3 => got #{format_expected(actual.last)}
           STRING
         end
 
@@ -1260,7 +1266,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -1503,7 +1509,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -1718,7 +1724,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
               'Thuận Thiên',
               'Cura Si Manjakini'
             ],
-            'generic'   => %w[shortsword longsword greatsword],
+            'generic'   => %w[shortsword longsword greatsword]
           }
         end
         let(:failure_message) do
@@ -1841,7 +1847,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -1967,7 +1973,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
               'jiu' => 9,
               'shi' => 10
             },
-            'french' => {
+            'french'  => {
               'onze'   => 11,
               'douze'  => 12,
               'trieze' => 13
@@ -1980,7 +1986,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
         let(:expected_diff) do
           <<~STRING.strip
             + "chinese"."shi" => got 10
-            + "french" => got {"onze"=>11, "douze"=>12, "trieze"=>13}
+            + "french" => got #{format_expected(actual['french'])}
           STRING
         end
 
@@ -2033,7 +2039,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
               'cinco' => 5,
               'seis'  => 'six'
             },
-            'french' => {
+            'french'  => {
               'sept' => 7,
               'huit' => 8,
               'neuf' => 9
@@ -2047,7 +2053,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
           <<~STRING.strip
             - "chinese" => expected #{format_expected(expected['chinese'])}
             + "english"."four" => got 4
-            + "french" => got {"sept"=>7, "huit"=>8, "neuf"=>9}
+            + "french" => got #{format_expected(actual['french'])}
             - "spanish"."cuatro" => expected 4
             ~ "spanish"."seis" => expected 6, got "six"
           STRING
@@ -2111,11 +2117,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
         let(:expected_diff) do
           <<~STRING.strip
             - "chinese" => expected #{format_expected(expected['chinese'])}
-            + :chinese => got {:qi=>7, :ba=>8, :jiu=>9}
+            + :chinese => got #{format_expected(actual[:chinese])}
             - "english" => expected #{format_expected(expected['english'])}
-            + :english => got {:one=>1, :two=>2, :three=>3}
+            + :english => got #{format_expected(actual[:english])}
             - "spanish" => expected #{format_expected(expected['spanish'])}
-            + :spanish => got {:cuatro=>4, :cinco=>5, :seis=>6}
+            + :spanish => got #{format_expected(actual[:spanish])}
           STRING
         end
 
@@ -2161,7 +2167,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -2319,7 +2325,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -2474,7 +2480,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -2717,7 +2723,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -2902,7 +2908,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -3048,16 +3054,16 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       let(:expected) do
         {
           status: 200,
-          body: {
+          body:   {
             'errors' => [],
             'order'  => {
-              'id'   => an_instance_of(Integer),
-              'user' => {
+              'id'       => an_instance_of(Integer),
+              'user'     => {
                 'id'    => an_instance_of(Integer),
                 'name'  => 'Alan Bradley',
                 'email' => 'alan.bradley@example.com'
               },
-              'items' => [
+              'items'    => [
                 {
                   'id'        => 100,
                   'name'      => 'Hamburger Combo Meal',
@@ -3069,7 +3075,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
                       'modifiers' => [
                         {
                           'id'   => 10,
-                          'name' => 'Medium-Rare',
+                          'name' => 'Medium-Rare'
                         },
                         {
                           'id'    => 11,
@@ -3203,7 +3209,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
       end
 
       describe 'with an Array' do
-        let(:actual) { %w(ichi ni san) }
+        let(:actual) { %w[ichi ni san] }
 
         include_examples 'should fail with a positive expectation'
 
@@ -3260,7 +3266,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
           super() + diff_message + expected_diff
         end
         let(:expected_diff) do
-          '- :body."order"."items".0."modifiers".1."name" => expected "Curly Fries"'
+          '- :body."order"."items".0."modifiers".1."name" => expected ' \
+            '"Curly Fries"'
         end
 
         include_examples 'should fail with a positive expectation'
@@ -3350,9 +3357,11 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
           super() + diff_message + expected_diff
         end
         let(:expected_diff) do
+          modifier = actual.dig(:body, 'order', 'items', 0, 'modifiers', 3)
+
           <<~STRING.strip
             + :body."order"."items".0."modifiers".2."notes" => got "Extra ice."
-            + :body."order"."items".0."modifiers".3 => got {"id"=>5, "name"=>"Special Brownie"}
+            + :body."order"."items".0."modifiers".3 => got #{format_expected(modifier)}
             + :signature => got "rQjuNgOL4g6sXikyeM4i4Q"
           STRING
         end
@@ -3387,7 +3396,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
           super() + diff_message + expected_diff
         end
         let(:expected_diff) do
-          '~ :body."order"."items".0."modifiers".2."name" => expected "Large Soda", got "Chocolate Shake"'
+          '~ :body."order"."items".0."modifiers".2."name" => expected ' \
+            '"Large Soda", got "Chocolate Shake"'
         end
 
         include_examples 'should fail with a positive expectation'
@@ -3457,6 +3467,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
           super() + diff_message + expected_diff
         end
         let(:expected_diff) do
+          modifier = actual.dig(:body, 'order', 'items', 0, 'modifiers', 3)
+
           <<~STRING.strip
             ~ :body."order"."items".0."modifiers".0."modifiers".1."id" => expected 11, got 17
             ~ :body."order"."items".0."modifiers".0."modifiers".1."name" => expected "Grilled Onions", got "Turkey Bacon"
@@ -3464,7 +3476,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
             - :body."order"."items".0."modifiers".1."name" => expected "Curly Fries"
             ~ :body."order"."items".0."modifiers".2."name" => expected "Large Soda", got "Chocolate Shake"
             + :body."order"."items".0."modifiers".2."notes" => got "Extra whipped cream"
-            + :body."order"."items".0."modifiers".3 => got {"id"=>5, "name"=>"Special Brownie"}
+            + :body."order"."items".0."modifiers".3 => got #{format_expected(modifier)}
             - :body."order"."items".1 => expected #{format_expected(expected.dig :body, 'order', 'items', 1)}
             + :signature => got "rQjuNgOL4g6sXikyeM4i4Q"
             ~ :status => expected 200, got 418

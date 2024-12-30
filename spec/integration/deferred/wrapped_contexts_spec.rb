@@ -12,9 +12,9 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
   let(:expected_examples) do
     <<~EXAMPLES.lines.map(&:strip)
       Spec::Models::Rocket when the rocket has been launched is expected to equal true
-      Spec::Models::Rocket when the rocket has been launched when the payload includes a booster is expected to be == {:booster=>true}
-      Spec::Models::Rocket when the rocket has been launched when the payload includes a satellite is expected to be == {:satellite=>true}
-      Spec::Models::Rocket when the rocket has been launched when the rocket has multiple payloads is expected to be == {:booster=>true, :satellite=>true}
+      Spec::Models::Rocket when the rocket has been launched when the payload includes a booster is expected to be == #{{ booster: true }.inspect}
+      Spec::Models::Rocket when the rocket has been launched when the payload includes a satellite is expected to be == #{{ satellite: true }.inspect}
+      Spec::Models::Rocket when the rocket has been launched when the rocket has multiple payloads is expected to be == #{{ booster: true, satellite: true }.inspect}
     EXAMPLES
   end
 
