@@ -9,6 +9,9 @@ module RSpec::SleepingKingStudios::Deferred
   module Examples
     # Class methods for deferred examples.
     module ClassMethods
+      # Store a reference to the parent included deferred examples, if any.
+      attr_accessor :parent_group
+
       # @return [String] the description for the deferred examples. By default,
       #   formats the last segment of the module name in lowercase words,
       #   excepting any trailing "Context" or "Examples".

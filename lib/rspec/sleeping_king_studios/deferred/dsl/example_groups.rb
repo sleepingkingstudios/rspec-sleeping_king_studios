@@ -20,6 +20,8 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
               method_name,
               *args,
               **kwargs,
+              # Store a reference to the deferred example group.
+              deferred_example_group: self,
               &block
             )
 

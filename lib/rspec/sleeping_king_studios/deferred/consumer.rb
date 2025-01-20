@@ -62,6 +62,14 @@ module RSpec::SleepingKingStudios::Deferred
           deferred = define_deferred_module(deferred, description, ...)
         end
 
+        # Store a reference to the parent group to handle nested includes.
+        #
+        # @todo: Need to handle Module-based deferred examples here. Anonymous
+        #   wrapper module?
+        if self <= RSpec::SleepingKingStudios::Deferred::Examples
+          deferred.parent_group = self
+        end
+
         include deferred
       end
 
