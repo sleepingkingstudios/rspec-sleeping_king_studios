@@ -19,7 +19,7 @@ group :development, :test do
 
   gem 'cucumber',      '~> 3.1'
   gem 'rspec',         '~> 3.13'
-  gem 'rubocop',       '~> 1.69'
-  gem 'rubocop-rspec', '~> 3.3'
+  gem 'rubocop',       '~> 1.71'
+  gem 'rubocop-rspec', '~> 3.4'
   gem 'simplecov',     '~> 0.22'
 end

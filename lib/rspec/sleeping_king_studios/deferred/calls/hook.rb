@@ -47,7 +47,7 @@ module RSpec::SleepingKingStudios::Deferred::Calls
       tools.assertions.validate_name(arguments.first, as: :scope)
 
       if method_name == :around
-        return if scope == :each || scope == :example
+        return if scope == :each || scope == :example # rubocop:disable Style/MultipleComparison
 
         raise ArgumentError, 'scope for an :around hook must be :example'
       else
