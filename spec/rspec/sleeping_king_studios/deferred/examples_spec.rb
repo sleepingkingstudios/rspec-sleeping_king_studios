@@ -143,6 +143,30 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
   end
 
+  describe '.parent_group' do
+    it 'should define the reader' do
+      expect(described_class).to respond_to(:parent_group).with(0).arguments
+    end
+
+    it { expect(described_class.parent_group).to be nil }
+  end
+
+  describe '.parent_group=' do
+    let(:value) do
+      Module.new { include RSpec::SleepingKingStudios::Deferred::Examples }
+    end
+
+    it 'should define the writer' do
+      expect(described_class).to respond_to(:parent_group=).with(1).argument
+    end
+
+    it 'should update the parent group' do
+      expect { described_class.parent_group = value }
+        .to change(described_class, :parent_group)
+        .to be == value
+    end
+  end
+
   describe '.source_location' do
     let(:expected) { [__FILE__, 28] }
 

@@ -994,6 +994,17 @@ module Spec::Support::SharedExamples
             expect(deferred_module.ancestors)
               .to include(described_class::ShouldDoSomething)
             expect(deferred_module.deferred_parameters).to be == []
+          end
+
+          it 'should set the parent group' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.parent_group).to be described_class
+          end
+
+          it 'should set the source location' do
+            described_class.include_deferred(description)
+
             expect(deferred_module.source_location).to match source_location
           end
         end
@@ -1013,6 +1024,17 @@ module Spec::Support::SharedExamples
 
             expect(deferred_module).to be_a Module
             expect(deferred_module.deferred_parameters).to be == []
+          end
+
+          it 'should set the parent group' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.parent_group).to be described_class
+          end
+
+          it 'should set the source location' do
+            described_class.include_deferred(description)
+
             expect(deferred_module.source_location).to match source_location
           end
         end
@@ -1025,6 +1047,7 @@ module Spec::Support::SharedExamples
               end
             end
           end
+          let(:source_location) { [__FILE__, an_instance_of(Integer)] }
 
           before(:example) do
             described_class.deferred_examples(description, &implementation)
@@ -1035,6 +1058,18 @@ module Spec::Support::SharedExamples
 
             expect(deferred_module).to be_a Module
             expect(deferred_module.deferred_parameters).to be == [[], {}, nil]
+          end
+
+          it 'should set the parent group' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.parent_group).to be described_class
+          end
+
+          it 'should set the source location' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.source_location).to match source_location
           end
 
           describe 'with parameters' do

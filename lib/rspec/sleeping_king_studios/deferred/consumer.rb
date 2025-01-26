@@ -65,6 +65,8 @@ module RSpec::SleepingKingStudios::Deferred
             wrap_deferred_module(deferred)
           end
 
+        deferred.parent_group = self
+
         include deferred
       end
 
