@@ -1,6 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/core/alias_method_matcher_spec.rb
 
-require 'spec_helper'
 require 'rspec/sleeping_king_studios/concerns/wrap_examples'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 

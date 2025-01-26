@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/examples/property_examples/class_properties_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/examples/property_examples'
 
 require 'support/shared_examples/file_examples'

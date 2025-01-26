@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 require 'support/contracts/rocket_contract'
 require 'support/entities/rocket'
 

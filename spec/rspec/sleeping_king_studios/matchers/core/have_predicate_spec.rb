@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/macros/have_predicate_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/core/have_predicate'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do

@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/core/have_property_matcher_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 require 'rspec/sleeping_king_studios/matchers/core/construct'

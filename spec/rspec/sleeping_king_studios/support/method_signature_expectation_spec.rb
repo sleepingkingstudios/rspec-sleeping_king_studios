@@ -1,6 +1,5 @@
 # spec/rspec/sleeping_king_studios/support/method_signature_expectation_spec.rb
 
-require 'spec_helper'
 require 'rspec/sleeping_king_studios/examples/property_examples'
 
 require 'rspec/sleeping_king_studios/support/method_signature_expectation'

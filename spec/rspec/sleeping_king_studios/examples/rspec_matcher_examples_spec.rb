@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/examples/rspec_matcher_examples_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
 RSpec.describe RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples do

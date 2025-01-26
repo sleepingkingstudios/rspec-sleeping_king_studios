@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/macros/delegate_method_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/core/delegate_method'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do

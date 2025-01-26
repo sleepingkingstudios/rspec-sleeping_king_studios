@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do

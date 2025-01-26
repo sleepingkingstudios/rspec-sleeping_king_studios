@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 require 'sleeping_king_studios/tools/array_tools'
 
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'

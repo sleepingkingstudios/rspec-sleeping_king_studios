@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/description_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/description'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Description do

@@ -46,6 +46,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
     # change this to (see https://github.com/ruby/setup-ruby#versioning):
@@ -53,6 +54,11 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+    # Set up local configuration files.
+    - name: Set up RSpec configuration
+      run: cp .rspec.example .rspec
+
     - name: Run RSpec tests
       run: bundle exec rspec
 
@@ -62,6 +68,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
     # change this to (see https://github.com/ruby/setup-ruby#versioning):
@@ -69,6 +76,11 @@ jobs:
       with:
         ruby-version: '3.4'
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+    # Set up local configuration files.
+    - name: Set up RSpec configuration
+      run: cp .rspec.example .rspec
+
     - name: Run each RSpec test
       run: bundle exec thor ci:rspec_each
 
@@ -78,6 +90,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
     # change this to (see https://github.com/ruby/setup-ruby#versioning):
@@ -85,7 +98,9 @@ jobs:
       with:
         ruby-version: '3.4'
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
     - name: Setup RuboCop configuration
       run: cp .rubocop.example .rubocop
+
     - name: Run RuboCop linter
       run: bundle exec rubocop

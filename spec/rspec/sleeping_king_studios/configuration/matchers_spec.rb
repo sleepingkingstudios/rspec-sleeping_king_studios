@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/configuration'
 
 require 'rspec/sleeping_king_studios/matchers/core/construct'

@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/examples/property_examples/predicates_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/examples/property_examples'
 require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
 

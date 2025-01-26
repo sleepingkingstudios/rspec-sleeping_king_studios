@@ -1,7 +1,5 @@
 # frozen_string_literals: true
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/core/deep_match'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
