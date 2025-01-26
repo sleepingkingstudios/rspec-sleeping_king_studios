@@ -1,7 +1,7 @@
 # Appraisals
 
 appraise 'rspec-3-9' do
-  gem 'activemodel', '~> 7.1.0'
+  gem 'activemodel', '~> 8.0.0'
 
   group :development, :test do
     gem 'rspec', '~> 3.9.0'
@@ -9,7 +9,7 @@ appraise 'rspec-3-9' do
 end
 
 appraise 'rspec-3-10' do
-  gem 'activemodel', '~> 7.1.0'
+  gem 'activemodel', '~> 8.0.0'
 
   group :development, :test do
     gem 'rspec', '~> 3.10.0'
@@ -17,7 +17,7 @@ appraise 'rspec-3-10' do
 end
 
 appraise 'rspec-3-11' do
-  gem 'activemodel', '~> 7.1.0'
+  gem 'activemodel', '~> 8.0.0'
 
   group :development, :test do
     gem 'rspec', '~> 3.11.0'
@@ -25,7 +25,7 @@ appraise 'rspec-3-11' do
 end
 
 appraise 'rspec-3-12' do
-  gem 'activemodel', '~> 7.1.0'
+  gem 'activemodel', '~> 8.0.0'
 
   group :development, :test do
     gem 'rspec', '~> 3.12.0'
@@ -33,7 +33,7 @@ appraise 'rspec-3-12' do
 end
 
 appraise 'rspec-3-13' do
-  gem 'activemodel', '~> 7.1.0'
+  gem 'activemodel', '~> 8.0.0'
 
   group :development, :test do
     gem 'rspec', '~> 3.13.0'
@@ -41,7 +41,7 @@ appraise 'rspec-3-13' do
 end
 
 appraise 'rspec-edge' do
-  gem 'activemodel', '~> 7.1.0'
+  gem 'activemodel', '~> 8.0.0'
 
   group :development, :test do
     gem 'rspec',
@@ -64,6 +64,7 @@ end
 
 appraise 'activemodel-6-1' do
   gem 'activemodel', '~> 6.1.0'
+  gem 'concurrent-ruby', '1.3.4'
 
   group :development, :test do
     gem 'rspec', '~> 3.13.0'
@@ -72,6 +73,23 @@ end
 
 appraise 'activemodel-7-0' do
   gem 'activemodel', '~> 7.0.0'
+  gem 'concurrent-ruby', '1.3.4'
+
+  group :development, :test do
+    gem 'rspec', '~> 3.13.0'
+  end
+end
+
+appraise 'activemodel-7-1' do
+  gem 'activemodel', '~> 7.1.0'
+
+  group :development, :test do
+    gem 'rspec', '~> 3.13.0'
+  end
+end
+
+appraise 'activemodel-7-2' do
+  gem 'activemodel', '~> 7.1.0'
 
   group :development, :test do
     gem 'rspec', '~> 3.13.0'
