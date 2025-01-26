@@ -2,8 +2,6 @@
 
 require 'bigdecimal'
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/core/construct'

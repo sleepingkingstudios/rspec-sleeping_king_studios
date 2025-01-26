@@ -1,7 +1,5 @@
 # lib/rspec/sleeping_king_studios/matchers/macros/be_boolean.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/core/be_boolean'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do

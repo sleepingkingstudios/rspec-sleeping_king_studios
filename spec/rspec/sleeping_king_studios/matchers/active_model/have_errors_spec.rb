@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/macros/have_errors_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/active_model/have_errors'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do

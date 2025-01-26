@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/concerns/wrap_examples_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/concerns/wrap_examples'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 

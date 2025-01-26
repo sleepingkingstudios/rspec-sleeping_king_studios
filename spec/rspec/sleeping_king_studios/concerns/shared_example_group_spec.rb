@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/concerns/shared_example_group_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/concerns/shared_example_group'
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 

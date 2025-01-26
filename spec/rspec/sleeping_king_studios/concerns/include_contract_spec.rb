@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/concerns/example_constants'
 require 'rspec/sleeping_king_studios/concerns/include_contract'
 require 'rspec/sleeping_king_studios/concerns/wrap_examples'

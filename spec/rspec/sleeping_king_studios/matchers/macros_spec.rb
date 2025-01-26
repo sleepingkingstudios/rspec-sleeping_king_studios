@@ -1,6 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/macros_spec.rb
 
-require 'spec_helper'
 require 'rspec/sleeping_king_studios/matchers/base_matcher'
 require 'rspec/sleeping_king_studios/matchers/macros'
 

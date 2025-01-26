@@ -1,6 +1,5 @@
 # frozen_string_literals: true
 
-require 'spec_helper'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 
 require 'rspec/sleeping_king_studios/matchers/core/be_a_uuid_matcher'

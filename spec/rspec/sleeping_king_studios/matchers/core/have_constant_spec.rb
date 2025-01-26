@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/macros/have_constant_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/core/have_constant'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do

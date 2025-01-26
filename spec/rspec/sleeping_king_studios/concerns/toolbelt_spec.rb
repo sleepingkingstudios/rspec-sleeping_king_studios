@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/concerns/toolbelt_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/concerns/toolbelt'
 
 RSpec.describe RSpec::SleepingKingStudios::Concerns::Toolbelt do

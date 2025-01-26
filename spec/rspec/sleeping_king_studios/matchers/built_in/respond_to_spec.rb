@@ -1,7 +1,5 @@
 # spec/rspec/sleeping_king_studios/matchers/macros/respond_to_spec.rb
 
-require 'spec_helper'
-
 require 'rspec/sleeping_king_studios/matchers/built_in/respond_to'
 
 RSpec.describe RSpec::SleepingKingStudios::Matchers::Macros do
