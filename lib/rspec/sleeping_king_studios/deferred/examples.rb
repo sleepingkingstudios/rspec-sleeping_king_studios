@@ -9,6 +9,10 @@ module RSpec::SleepingKingStudios::Deferred
   module Examples
     # Class methods for deferred examples.
     module ClassMethods
+      # @return [Array<String, Integer>] the Ruby source filename and line
+      #   number where the deferred example group was defined.
+      attr_accessor :source_location
+
       # @return [String] the description for the deferred examples. By default,
       #   formats the last segment of the module name in lowercase words,
       #   excepting any trailing "Context" or "Examples".
@@ -66,6 +70,10 @@ module RSpec::SleepingKingStudios::Deferred
       other.extend  RSpec::SleepingKingStudios::Deferred::Dsl
       other.include RSpec::SleepingKingStudios::Deferred::Provider
       other.include RSpec::SleepingKingStudios::Deferred::Consumer
+
+      location = caller_locations(1, 1).first
+
+      other.source_location = [location.path, location.lineno]
     end
   end
 end

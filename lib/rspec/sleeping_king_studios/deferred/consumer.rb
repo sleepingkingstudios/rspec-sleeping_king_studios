@@ -126,7 +126,8 @@ module RSpec::SleepingKingStudios::Deferred
         Module.new do
           include RSpec::SleepingKingStudios::Deferred::Examples
 
-          self.description = description
+          self.description     = description
+          self.source_location = implementation.source_location
 
           define_singleton_method(
             :deferred_examples_implementation,

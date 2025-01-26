@@ -970,6 +970,8 @@ module Spec::Support::SharedExamples
         end
 
         describe 'with a module name defined on the registry' do
+          let(:source_location) { [__FILE__, an_instance_of(Integer)] }
+
           before(:example) do
             described_class.const_set(
               :ShouldDoSomething,
@@ -986,6 +988,7 @@ module Spec::Support::SharedExamples
 
             expect(deferred_module).to be_a Module
             expect(deferred_module.deferred_parameters).to be == []
+            expect(deferred_module.source_location).to match source_location
           end
         end
 
@@ -993,6 +996,7 @@ module Spec::Support::SharedExamples
           let(:implementation) do
             -> { define_singleton_method(:deferred_parameters) { [] } }
           end
+          let(:source_location) { [__FILE__, an_instance_of(Integer)] }
 
           before(:example) do
             described_class.deferred_examples(description, &implementation)
@@ -1003,6 +1007,7 @@ module Spec::Support::SharedExamples
 
             expect(deferred_module).to be_a Module
             expect(deferred_module.deferred_parameters).to be == []
+            expect(deferred_module.source_location).to match source_location
           end
         end
 

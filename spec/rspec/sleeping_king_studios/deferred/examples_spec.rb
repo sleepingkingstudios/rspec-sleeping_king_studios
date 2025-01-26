@@ -143,6 +143,30 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
   end
 
+  describe '.source_location' do
+    let(:expected) { [__FILE__, 28] }
+
+    it 'should define the reader' do
+      expect(described_class).to respond_to(:source_location).with(0).arguments
+    end
+
+    it { expect(described_class.source_location).to be == expected }
+  end
+
+  describe '.source_location=' do
+    let(:value) { ['/path/to/file', 1] }
+
+    it 'should define the writer' do
+      expect(described_class).to respond_to(:source_location=).with(1).argument
+    end
+
+    it 'should update the source location' do
+      expect { described_class.source_location = value }
+        .to change(described_class, :source_location)
+        .to be == value
+    end
+  end
+
   include_examples 'should define deferred calls'
 
   include_examples 'should define deferred examples'
