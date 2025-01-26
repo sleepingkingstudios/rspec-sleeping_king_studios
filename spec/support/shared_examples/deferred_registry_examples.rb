@@ -978,7 +978,11 @@ module Spec::Support::SharedExamples
               Module.new do
                 include RSpec::SleepingKingStudios::Deferred::Examples
 
-                define_singleton_method(:deferred_parameters) { [] }
+                define_singleton_method(:included) do |other|
+                  super(other)
+
+                  other.define_singleton_method(:deferred_parameters) { [] }
+                end
               end
             )
           end
@@ -987,6 +991,8 @@ module Spec::Support::SharedExamples
             described_class.include_deferred(description)
 
             expect(deferred_module).to be_a Module
+            expect(deferred_module.ancestors)
+              .to include(described_class::ShouldDoSomething)
             expect(deferred_module.deferred_parameters).to be == []
             expect(deferred_module.source_location).to match source_location
           end
