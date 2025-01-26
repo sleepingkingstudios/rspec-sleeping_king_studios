@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "activemodel", "~> 7.1.0"
+gem "activemodel", "~> 8.0.0"
 gem "sleeping_king_studios-tasks", "~> 0.4", ">= 0.4.1"
 gem "sleeping_king_studios-tools", git: "https://github.com/sleepingkingstudios/sleeping_king_studios-tools.git", branch: "main"
 
@@ -12,8 +12,8 @@ group :development, :test do
   gem "byebug", "~> 11.1"
   gem "cucumber", "~> 3.1"
   gem "rspec", "~> 3.10.0"
-  gem "rubocop", "~> 1.64"
-  gem "rubocop-rspec", "~> 2.29", ">= 2.29.2"
+  gem "rubocop", "~> 1.71"
+  gem "rubocop-rspec", "~> 3.4"
   gem "simplecov", "~> 0.22"
 end
 

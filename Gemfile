@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'activemodel', '~> 7.0'
+gem 'activemodel', '~> 8.0'
 
 gem 'sleeping_king_studios-tasks', '~> 0.4', '>= 0.4.1'
 

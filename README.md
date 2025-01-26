@@ -17,9 +17,9 @@ inherit_gem:
 
 RSpec::SleepingKingStudios is tested against the following dependencies:
 
-- Ruby (MRI) 3.1 through 3.3
+- Ruby (MRI) 3.1 through 3.4
 - RSpec versions 3.9 through 3.13
-- ActiveModel versions 6.1 through 7.1
+- ActiveModel versions 6.1 through 8.0
 
 ### Documentation
 
@@ -27,7 +27,7 @@ Documentation is generated using [YARD](https://yardoc.org/), and can be generat
 
 ### License
 
-Copyright (c) 2013-2024 Rob Smith
+Copyright (c) 2013-2025 Rob Smith
 
 RSpec::SleepingKingStudios is released under the [MIT License](https://opensource.org/licenses/MIT).
 
