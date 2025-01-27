@@ -970,13 +970,19 @@ module Spec::Support::SharedExamples
         end
 
         describe 'with a module name defined on the registry' do
+          let(:source_location) { [__FILE__, an_instance_of(Integer)] }
+
           before(:example) do
             described_class.const_set(
               :ShouldDoSomething,
               Module.new do
                 include RSpec::SleepingKingStudios::Deferred::Examples
 
-                define_singleton_method(:deferred_parameters) { [] }
+                define_singleton_method(:included) do |other|
+                  super(other)
+
+                  other.define_singleton_method(:deferred_parameters) { [] }
+                end
               end
             )
           end
@@ -985,7 +991,21 @@ module Spec::Support::SharedExamples
             described_class.include_deferred(description)
 
             expect(deferred_module).to be_a Module
+            expect(deferred_module.ancestors)
+              .to include(described_class::ShouldDoSomething)
             expect(deferred_module.deferred_parameters).to be == []
+          end
+
+          it 'should set the parent group' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.parent_group).to be described_class
+          end
+
+          it 'should set the source location' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.source_location).to match source_location
           end
         end
 
@@ -993,6 +1013,7 @@ module Spec::Support::SharedExamples
           let(:implementation) do
             -> { define_singleton_method(:deferred_parameters) { [] } }
           end
+          let(:source_location) { [__FILE__, an_instance_of(Integer)] }
 
           before(:example) do
             described_class.deferred_examples(description, &implementation)
@@ -1003,6 +1024,18 @@ module Spec::Support::SharedExamples
 
             expect(deferred_module).to be_a Module
             expect(deferred_module.deferred_parameters).to be == []
+          end
+
+          it 'should set the parent group' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.parent_group).to be described_class
+          end
+
+          it 'should set the source location' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.source_location).to match source_location
           end
         end
 
@@ -1014,6 +1047,7 @@ module Spec::Support::SharedExamples
               end
             end
           end
+          let(:source_location) { [__FILE__, an_instance_of(Integer)] }
 
           before(:example) do
             described_class.deferred_examples(description, &implementation)
@@ -1024,6 +1058,18 @@ module Spec::Support::SharedExamples
 
             expect(deferred_module).to be_a Module
             expect(deferred_module.deferred_parameters).to be == [[], {}, nil]
+          end
+
+          it 'should set the parent group' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.parent_group).to be described_class
+          end
+
+          it 'should set the source location' do
+            described_class.include_deferred(description)
+
+            expect(deferred_module.source_location).to match source_location
           end
 
           describe 'with parameters' do

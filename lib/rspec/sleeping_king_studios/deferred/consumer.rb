@@ -58,9 +58,14 @@ module RSpec::SleepingKingStudios::Deferred
       def include_deferred(description, ...)
         deferred = find_deferred_examples(description)
 
-        if deferred.is_a?(Proc)
-          deferred = define_deferred_module(deferred, description, ...)
-        end
+        deferred =
+          if deferred.is_a?(Proc)
+            define_deferred_module(deferred, description, ...)
+          else
+            wrap_deferred_module(deferred)
+          end
+
+        deferred.parent_group = self
 
         include deferred
       end
@@ -126,7 +131,8 @@ module RSpec::SleepingKingStudios::Deferred
         Module.new do
           include RSpec::SleepingKingStudios::Deferred::Examples
 
-          self.description = description
+          self.description     = description
+          self.source_location = implementation.source_location
 
           define_singleton_method(
             :deferred_examples_implementation,
@@ -134,6 +140,17 @@ module RSpec::SleepingKingStudios::Deferred
           )
 
           deferred_examples_implementation(...)
+        end
+      end
+
+      def wrap_deferred_module(examples)
+        Module.new do
+          extend  SleepingKingStudios::Tools::Toolbox::Mixin
+          include RSpec::SleepingKingStudios::Deferred::Examples
+          include examples
+
+          self.description     = examples.description
+          self.source_location = examples.source_location
         end
       end
     end

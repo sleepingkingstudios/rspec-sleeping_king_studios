@@ -13,13 +13,14 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       # @param method_name [String, Symbol] the name of the deferred method.
       #
       # @return [void]
-      def define_example_group_method(method_name)
+      def define_example_group_method(method_name) # rubocop:disable Metrics/MethodLength
         define_method(method_name) do |*args, **kwargs, &block|
           deferred_calls <<
             RSpec::SleepingKingStudios::Deferred::Calls::ExampleGroup.new(
               method_name,
               *args,
               **kwargs,
+              deferred_example_group: self,
               &block
             )
 

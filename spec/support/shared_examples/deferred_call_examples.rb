@@ -211,12 +211,21 @@ module Spec::Support::SharedExamples
 
           RUBY_VERSION < '3.0.0' ? [*arguments, {}] : arguments
         end
+        let(:return_value) do
+          next { ok: true } unless examples_options.key?(:return_value)
+
+          value = examples_options[:return_value]
+
+          value = instance_exec(&value) if value.is_a?(Proc)
+
+          value
+        end
 
         before(:example) do
           allow(receiver).to receive(method_name) do |*, **, &block|
             block&.call
 
-            { ok: true }
+            return_value
           end
         end
 
@@ -231,7 +240,7 @@ module Spec::Support::SharedExamples
         end
 
         it 'should return the value' do
-          expect(deferred.call(receiver)).to be == { ok: true }
+          expect(deferred.call(receiver)).to be == return_value
         end
 
         wrap_context 'when initialized with arguments' do
