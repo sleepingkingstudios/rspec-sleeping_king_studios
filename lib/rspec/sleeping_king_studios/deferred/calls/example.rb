@@ -27,5 +27,16 @@ module RSpec::SleepingKingStudios::Deferred::Calls
     # @return [Deferred::Examples] the deferred example group defining the
     #   deferred call.
     attr_reader :deferred_example_group
+
+    # (see RSpec::SleepingKingStudios::Deferred::Call#call)
+    def call(parent_group)
+      example = super
+
+      # Store a reference to the deferred group when adding to an actual example
+      # group.
+      example.metadata[:deferred_example_group] = @deferred_example_group
+
+      example
+    end
   end
 end
