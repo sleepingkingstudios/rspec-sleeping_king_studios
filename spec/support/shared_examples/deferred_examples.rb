@@ -167,6 +167,7 @@ module Spec::Support::SharedExamples
           expect(deferred.arguments).to be == arguments
           expect(deferred.keywords).to be == keywords
           expect(deferred.block).to be == block
+          expect(deferred.deferred_example_group).to be described_class
         end
 
         context 'when the deferred examples are called' do
