@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sleeping_king_studios/tools/toolbox/mixin'
+
 require 'rspec/sleeping_king_studios/deferred'
 require 'rspec/sleeping_king_studios/deferred/definitions'
 require 'rspec/sleeping_king_studios/deferred/dsl'
@@ -7,6 +9,8 @@ require 'rspec/sleeping_king_studios/deferred/dsl'
 module RSpec::SleepingKingStudios::Deferred
   # Defines a deferred example group for declaring shared tests.
   module Examples
+    extend SleepingKingStudios::Tools::Toolbox::Mixin
+
     # Class methods for deferred examples.
     module ClassMethods
       # @return [RSpec::SleepingKingStudios::Deferred::Examples] the deferred
