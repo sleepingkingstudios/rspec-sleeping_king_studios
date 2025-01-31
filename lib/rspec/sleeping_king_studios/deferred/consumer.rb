@@ -127,8 +127,9 @@ module RSpec::SleepingKingStudios::Deferred
 
       private
 
-      def define_deferred_module(implementation, description, ...)
+      def define_deferred_module(implementation, description, ...) # rubocop:disable Metrics/MethodLength
         Module.new do
+          extend  RSpec::SleepingKingStudios::Deferred::Examples::ClassMethods
           include RSpec::SleepingKingStudios::Deferred::Examples
 
           self.description     = description
@@ -145,7 +146,7 @@ module RSpec::SleepingKingStudios::Deferred
 
       def wrap_deferred_module(examples)
         Module.new do
-          extend  SleepingKingStudios::Tools::Toolbox::Mixin
+          extend  RSpec::SleepingKingStudios::Deferred::Examples::ClassMethods
           include RSpec::SleepingKingStudios::Deferred::Examples
           include examples
 
