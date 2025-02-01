@@ -39,7 +39,7 @@ module RSpec::SleepingKingStudios
       #
       #     path =
       #       RSpec::SleepingKingStudios::Deferred
-      #       .reflect(example, source_locations: true)
+      #         .reflect(example, source_locations: true)
       #     path =
       #       SleepingKingStudios::Tools::Toolbelt
       #         .instance

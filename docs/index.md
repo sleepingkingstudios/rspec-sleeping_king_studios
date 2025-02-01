@@ -17,6 +17,13 @@ This is the documentation for the [current development build](https://github.com
 
 ## Reference
 
+RSpec::SleepingKingStudios defines the following tools for writing tests:
+
+- **[Deferred Examples](./deferred)**
+  <br>
+  A mechanism for reusing and sharing RSpec context and examples, even between
+  libraries or projects.
+
 For a full list of defined classes and objects, see [Reference](./reference).
 
 {% include breadcrumbs.md %}
