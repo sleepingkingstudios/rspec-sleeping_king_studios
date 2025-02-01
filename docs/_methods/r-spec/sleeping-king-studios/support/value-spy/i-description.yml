@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Support::ValueSpy#description
+parent_path: r-spec/sleeping-king-studios/support/value-spy
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/value-spy/i-description
+returns:
+- description: |-
+    a human-readable representation of the watched method or
+    block.
+  type:
+  - name: String
+version: "*"

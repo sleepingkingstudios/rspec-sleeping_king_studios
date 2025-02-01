@@ -1,0 +1,39 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::MessageExpectation
+slug: message-expectation
+type: class
+files:
+- lib/rspec/sleeping_king_studios/matchers/active_model/have_errors/message_expectation.rb
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors
+short_description: Stores an expectation of receiving a specified error message.
+instance_attributes:
+- name: expected
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation/i-expected
+  slug: expected
+  inherited: false
+- name: message
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation/i-message
+  slug: message
+  inherited: false
+- name: received
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation/i-received
+  slug: received
+  inherited: false
+instance_methods:
+- name: initialize
+  path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation/i-initialize
+  slug: initialize
+  inherited: false
+  constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation
+constructor: true
+inherited_classes:
+- name: Struct
+  slug: struct
+version: "*"

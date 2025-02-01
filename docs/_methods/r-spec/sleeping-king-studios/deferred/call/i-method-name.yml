@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Call#method_name
+parent_path: r-spec/sleeping-king-studios/deferred/call
+signature: method_name
+slug: method-name
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/call/i-method-name
+returns:
+- description: the name of the method to call.
+  type:
+  - name: String
+  - name: Symbol
+version: "*"

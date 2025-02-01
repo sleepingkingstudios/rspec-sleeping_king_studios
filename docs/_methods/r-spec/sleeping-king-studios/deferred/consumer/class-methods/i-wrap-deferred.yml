@@ -1,0 +1,33 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Consumer::ClassMethods#wrap_deferred
+parent_path: r-spec/sleeping-king-studios/deferred/consumer/class-methods
+signature: wrap_deferred(description, *arguments, **keywords, &block)
+slug: wrap-deferred
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/consumer/class-methods/i-wrap-deferred
+description: |-
+  Unlike #include_deferred, a block parameter will be included in the
+  created example group, not passed to the deferred examples. To wrap
+  deferred examples that require a block, create the example group
+  separately and call #include_deferred.
+params:
+- description: the name of the deferred examples.
+  name: description
+  type:
+  - name: String
+- description: arguments passed to the deferred examples.
+  name: arguments
+  type:
+  - name: Array
+- description: keywords passed to the deferred examples.
+  name: keywords
+  type:
+  - name: Hash
+- description: |-
+    additional examples to be evaluated inside the
+    example group.
+  name: block
+  type:
+  - name: Block
+short_description: Includes the deferred examples inside an example group.
+version: "*"

@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Calls::ExampleGroup#deferred_example_group
+parent_path: r-spec/sleeping-king-studios/deferred/calls/example-group
+signature: deferred_example_group
+slug: deferred-example-group
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/calls/example-group/i-deferred-example-group
+returns:
+- description: |-
+    the deferred example group defining the
+    deferred call.
+  type:
+  - name: Deferred::Examples
+version: "*"

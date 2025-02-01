@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::Toolbelt
+slug: toolbelt
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns/toolbelt.rb
+parent_path: r-spec/sleeping-king-studios/concerns
+short_description: |-
+  Defines ::tools and #tools methods for example groups and examples, exposing
+  an instance of SleepingKingStudios::Tools::Toolbelt.
+defined_modules:
+- name: ClassMethods
+  slug: class-methods
+instance_methods:
+- name: tools
+  path: r-spec/sleeping-king-studios/concerns/toolbelt/i-tools
+  slug: tools
+  inherited: false
+data_path: r-spec/sleeping-king-studios/concerns/toolbelt
+extended_modules:
+- name: SleepingKingStudios::Tools::Toolbox::Mixin
+  slug: mixin
+version: "*"

@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#a_uuid
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: a_uuid
+slug: a-uuid
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-a-uuid
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher#matches?
+    path: r-spec/sleeping-king-studios/matchers/core/be-boolean-matcher#instance-method-matches?
+    text:
+    type: reference
+version: "*"

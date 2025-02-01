@@ -6,15 +6,16 @@ require 'rspec/sleeping_king_studios/deferred/dsl'
 module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documentation
   # Domain-specific language for defining deferred hooks.
   module Hooks
-    # Defines a deferred hook using the #after method.
+    # @overload after(scope, *flags, **conditions, &block)
+    #   Defines a deferred hook using the #after method.
     #
-    # @param scope [Symbol] the scope for the hook. Must be one of :context,
-    #   :each, or :example.
-    # @param flags [Array<Symbol>] condition flags for the hook. Will be
-    #   transformed into conditions entries with true values.
-    # @param block [Proc] the implementation of the hook.
+    #   @param scope [Symbol] the scope for the hook. Must be one of :context,
+    #     :each, or :example.
+    #   @param flags [Array<Symbol>] condition flags for the hook. Will be
+    #     transformed into conditions entries with true values.
+    #   @param block [Proc] the implementation of the hook.
     #
-    # @return [void]
+    #   @return [void]
     def after(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :after,
@@ -25,15 +26,16 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       )
     end
 
-    # Defines a deferred hook using the #append_after method.
+    # @overload append_after(scope, *flags, **conditions, &block)
+    #   Defines a deferred hook using the #append_after method.
     #
-    # @param scope [Symbol] the scope for the hook. Must be one of :context,
-    #   :each, or :example.
-    # @param flags [Array<Symbol>] condition flags for the hook. Will be
-    #   transformed into conditions entries with true values.
-    # @param block [Proc] the implementation of the hook.
+    #   @param scope [Symbol] the scope for the hook. Must be one of :context,
+    #     :each, or :example.
+    #   @param flags [Array<Symbol>] condition flags for the hook. Will be
+    #     transformed into conditions entries with true values.
+    #   @param block [Proc] the implementation of the hook.
     #
-    # @return [void]
+    #   @return [void]
     def append_after(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :append_after,
@@ -44,15 +46,16 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       )
     end
 
-    # Defines a deferred hook using the #around method.
+    # @overload around(scope, *flags, **conditions, &block)
+    #   Defines a deferred hook using the #around method.
     #
-    # @param scope [Symbol] the scope for the hook. Must be one of :context,
-    #   :each, or :example.
-    # @param flags [Array<Symbol>] condition flags for the hook. Will be
-    #   transformed into conditions entries with true values.
-    # @param block [Proc] the implementation of the hook.
+    #   @param scope [Symbol] the scope for the hook. Must be one of :context,
+    #     :each, or :example.
+    #   @param flags [Array<Symbol>] condition flags for the hook. Will be
+    #     transformed into conditions entries with true values.
+    #   @param block [Proc] the implementation of the hook.
     #
-    # @return [void]
+    #   @return [void]
     def around(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :around,
@@ -63,15 +66,16 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       )
     end
 
-    # Defines a deferred hook using the #before method.
+    # @overload before(scope, *flags, **conditions, &block)
+    #   Defines a deferred hook using the #before method.
     #
-    # @param scope [Symbol] the scope for the hook. Must be one of :context,
-    #   :each, or :example.
-    # @param flags [Array<Symbol>] condition flags for the hook. Will be
-    #   transformed into conditions entries with true values.
-    # @param block [Proc] the implementation of the hook.
+    #   @param scope [Symbol] the scope for the hook. Must be one of :context,
+    #     :each, or :example.
+    #   @param flags [Array<Symbol>] condition flags for the hook. Will be
+    #     transformed into conditions entries with true values.
+    #   @param block [Proc] the implementation of the hook.
     #
-    # @return [void]
+    #   @return [void]
     def before(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :before,
@@ -82,7 +86,7 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       )
     end
 
-    # (see RSpec::SleepingKingStudios::Deferred::Examples#call)
+    # (see RSpec::SleepingKingStudios::Deferred::Definitions#call)
     def call(example_group)
       super
 
@@ -91,20 +95,21 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       end
     end
 
-    # @api private
+    # @private
     def deferred_hooks
       @deferred_hooks ||= []
     end
 
-    # Defines a deferred hook using the #prepend_before method.
+    # @overload prepend_before(scope, *flags, **conditions, &block)
+    #   Defines a deferred hook using the #prepend_before method.
     #
-    # @param scope [Symbol] the scope for the hook. Must be one of :context,
-    #   :each, or :example.
-    # @param flags [Array<Symbol>] condition flags for the hook. Will be
-    #   transformed into conditions entries with true values.
-    # @param block [Proc] the implementation of the hook.
+    #   @param scope [Symbol] the scope for the hook. Must be one of :context,
+    #     :each, or :example.
+    #   @param flags [Array<Symbol>] condition flags for the hook. Will be
+    #     transformed into conditions entries with true values.
+    #   @param block [Proc] the implementation of the hook.
     #
-    # @return [void]
+    #   @return [void]
     def prepend_before(scope, *flags, **conditions, &)
       deferred_hooks << RSpec::SleepingKingStudios::Deferred::Calls::Hook.new(
         :prepend_before,

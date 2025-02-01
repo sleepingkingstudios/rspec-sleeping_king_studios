@@ -1,0 +1,35 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleGroups#xdescribe
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/example-groups
+signature: xdescribe(doc_string = nil, *flags, **metadata, &block)
+slug: xdescribe
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/i-xdescribe
+params:
+- description: the example group's doc string.
+  name: doc_string
+  type:
+  - name: String
+  default: nil
+- description: |-
+    metadata flags for the example group.
+    Will be transformed into metadata entries with true values.
+  name: flags
+  type:
+  - name: Array
+    items:
+    - name: Symbol
+- description: metadata for the example group.
+  name: metadata
+  type:
+  - name: Hash
+- description: the implementation of the example group.
+  name: block
+  type:
+  - name: Proc
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Defines a deferred example group using the xdescribe method.
+version: "*"

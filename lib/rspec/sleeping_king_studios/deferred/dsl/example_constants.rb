@@ -48,7 +48,7 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
     #     be referenced.
     #   @yieldreturn the value of the constant.
     #
-    # @deprecate 2.8.0 with force: true parameter.
+    # @deprecated 2.8.0 with force: true parameter.
     def example_constant(
       qualified_name,
       constant_value = nil,

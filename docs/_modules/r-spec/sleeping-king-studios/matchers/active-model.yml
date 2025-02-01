@@ -1,0 +1,17 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel
+slug: active-model
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/active_model.rb
+- lib/rspec/sleeping_king_studios/matchers/active_model/have_errors_matcher.rb
+parent_path: r-spec/sleeping-king-studios/matchers
+short_description: Matchers for ActiveModel object validation testing.
+defined_classes:
+- name: HaveErrorsMatcher
+  slug: have-errors-matcher
+defined_modules:
+- name: HaveErrors
+  slug: have-errors
+data_path: r-spec/sleeping-king-studios/matchers/active-model
+version: "*"

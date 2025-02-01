@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignature#any_keywords?
+parent_path: r-spec/sleeping-king-studios/support/method-signature
+signature: any_keywords?
+slug: any-keywords?
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/method-signature/i-any-keywords?
+metadata:
+  api: private
+returns:
+- description: ''
+  type:
+  - name: Boolean
+version: "*"

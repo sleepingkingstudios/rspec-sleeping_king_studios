@@ -1,0 +1,18 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation::MessagesMethods#received
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods
+signature: received
+slug: received
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods/i-received
+metadata:
+  api: private
+  since:
+  - 1.0.0
+returns:
+- description: Messages that have been received.
+  type:
+  - name: Array
+    items:
+    - name: MessageExpectation
+version: "*"

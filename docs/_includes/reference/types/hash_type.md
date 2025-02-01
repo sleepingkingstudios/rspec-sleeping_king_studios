@@ -1,0 +1,1 @@
+{%- include reference/reference_link.md label=include.type.name path=include.type.path -%}&#123;{% include reference/type_list.md types=include.type.keys %} => {% include reference/type_list.md types=include.type.values %}&#125;

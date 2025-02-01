@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatcher#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher
+signature: initialize(original_name)
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher/i-initialize
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: |-
+    The name of the method that is
+    expected to have an alias.
+  name: original_name
+  type:
+  - name: String
+  - name: Symbol
+returns:
+- description: a new instance of HaveAliasedMethodMatcher
+  type:
+  - name: HaveAliasedMethodMatcher
+version: "*"

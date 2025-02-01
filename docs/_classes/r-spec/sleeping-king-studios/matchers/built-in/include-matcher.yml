@@ -1,0 +1,49 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher
+slug: include-matcher
+type: class
+files:
+- lib/rspec/sleeping_king_studios/matchers/built_in/include_matcher.rb
+parent_path: r-spec/sleeping-king-studios/matchers/built-in
+short_description: 'Extensions to the built-in RSpec #include matcher.'
+constants:
+- name: DEFAULT_EXPECTED_ITEMS
+  path: r-spec/sleeping-king-studios/matchers/description/default-expected-items
+  slug: default-expected-items
+  inherited: true
+instance_methods:
+- name: description
+  path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-description
+  slug: description
+  inherited: false
+- name: does_not_match?
+  path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-does-not-match?
+  slug: does-not-match?
+  inherited: false
+- name: failure_message
+  path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-failure-message
+  slug: failure-message
+  inherited: false
+- name: failure_message_when_negated
+  path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-failure-message-when-negated
+  slug: failure-message-when-negated
+  inherited: false
+- name: initialize
+  path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-initialize
+  slug: initialize
+  inherited: false
+  constructor: true
+- name: matches?
+  path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-matches?
+  slug: matches?
+  inherited: false
+data_path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher
+included_modules:
+- name: RSpec::SleepingKingStudios::Matchers::Description
+  slug: description
+  path: r-spec/sleeping-king-studios/matchers/description
+constructor: true
+inherited_classes:
+- name: RSpec::Matchers::BuiltIn::Include
+  slug: include
+version: "*"

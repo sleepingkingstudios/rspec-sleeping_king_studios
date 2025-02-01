@@ -1,0 +1,15 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignatureExpectation#any_keywords?
+parent_path: r-spec/sleeping-king-studios/support/method-signature-expectation
+signature: any_keywords?
+slug: any-keywords?
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-any-keywords?
+metadata:
+  api: private
+returns:
+- description: ''
+  type:
+  - name: Boolean
+short_description: method matches?
+version: "*"

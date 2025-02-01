@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters#with_a_block
+parent_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
+signature: with_a_block
+slug: with-a-block
+aliases:
+- and_a_block
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters/i-with-a-block
+returns:
+- description: self
+  type: []
+short_description: |-
+  Adds a block expectation. The actual object will only match a block
+  expectation if it expects a parameter of the form &block.
+version: "*"

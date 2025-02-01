@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#watch_value
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: watch_value(object = nil, method_name = nil, &block)
+slug: watch-value
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-watch-value
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Support::ValueSpy#initialize
+    path: r-spec/sleeping-king-studios/support/value-spy#instance-method-initialize
+    text:
+    type: reference
+version: "*"

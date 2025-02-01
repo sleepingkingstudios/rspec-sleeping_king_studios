@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveConstantMatcher#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher
+signature: initialize expected
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher/i-initialize
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: |-
+    The name of the constant to check for on
+    the actual object.
+  name: expected
+  type:
+  - name: String
+  - name: Symbol
+returns:
+- description: a new instance of HaveConstantMatcher
+  type:
+  - name: HaveConstantMatcher
+version: "*"

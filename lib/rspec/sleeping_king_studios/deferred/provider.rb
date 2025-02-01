@@ -50,7 +50,7 @@ module RSpec::SleepingKingStudios::Deferred
       end
       alias deferred_context deferred_examples
 
-      # @api private
+      # @private
       def defined_deferred_examples
         @defined_deferred_examples ||= {}
       end

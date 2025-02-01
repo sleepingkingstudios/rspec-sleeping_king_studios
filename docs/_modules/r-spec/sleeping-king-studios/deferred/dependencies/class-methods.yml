@@ -1,0 +1,15 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dependencies::ClassMethods
+slug: class-methods
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dependencies.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dependencies
+short_description: Class methods for declaring dependent methods.
+instance_methods:
+- name: depends_on
+  path: r-spec/sleeping-king-studios/deferred/dependencies/class-methods/i-depends-on
+  slug: depends-on
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dependencies/class-methods
+version: "*"

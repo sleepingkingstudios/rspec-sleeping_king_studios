@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors
+slug: have-errors
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/active_model/have_errors/error_expectation.rb
+- lib/rspec/sleeping_king_studios/matchers/active_model/have_errors/message_expectation.rb
+parent_path: r-spec/sleeping-king-studios/matchers/active-model
+short_description: Helper objects for the ActiveModel::HaveErrorsMatcher.
+defined_classes:
+- name: ErrorExpectation
+  slug: error-expectation
+- name: MessageExpectation
+  slug: message-expectation
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors
+version: "*"

@@ -1,0 +1,35 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::WrapExamples#fwrap_examples
+parent_path: r-spec/sleeping-king-studios/concerns/wrap-examples
+signature: fwrap_examples name, *args, **kwargs, &block
+slug: fwrap-examples
+aliases:
+- fwrap_context
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/wrap-examples/i-fwrap-examples
+params:
+- description: The name of the shared example group to be wrapped.
+  name: name
+  type:
+  - name: String
+- description: |-
+    Optional array of arguments that are passed on to
+    the shared example group.
+  name: args
+  type:
+  - name: Array
+- description: |-
+    Optional hash of keyword arguments that are passed
+    on to the shared example group.
+  name: kwargs
+  type:
+  - name: Hash
+short_description: |-
+  Includes the specified shared example group and wraps it inside a
+  focused `fdescribe` block. If a block is provided, it is evaluated in the
+  context of the fdescribe block after the example group has been included.
+yields:
+- description: |-
+    Additional code to run in the context of the wrapping `fdescribe`
+    block, such as additional examples or memoized values.
+version: "*"

@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Configuration::Examples#handle_missing_failure_message_with=
+parent_path: r-spec/sleeping-king-studios/configuration/examples
+signature: handle_missing_failure_message_with=(value)
+slug: handle-missing-failure-message-with=
+constructor: false
+data_path: r-spec/sleeping-king-studios/configuration/examples/i-handle-missing-failure-message-with=
+params:
+- description: |-
+    The desired handler. Must be :ignore, :pending,
+    or :exception.
+  name: value
+  type:
+  - name: Symbol
+raises:
+- description: |-
+    ArgumentError If the handler is not one of the recognized
+    values.
+  type: []
+short_description: |-
+  Sets the handler for missing failure messages when using the matcher
+  examples.
+version: "*"

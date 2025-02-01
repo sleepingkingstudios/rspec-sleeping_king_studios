@@ -1,0 +1,39 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::SharedExamples#shared_examples
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples
+signature: shared_examples(name, *flags, **metadata, &block)
+slug: shared-examples
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-shared-examples
+params:
+- description: |-
+    the name for the shared example
+    group.
+  name: name
+  type:
+  - name: String
+  - name: Symbol
+  - name: Module
+- description: |-
+    metadata flags for the shared example
+    group.
+  name: flags
+  type:
+  - name: Array
+    items:
+    - name: Symbol
+- description: metadata for the shared example group.
+  name: metadata
+  type:
+  - name: Hash
+- description: the implementation of the shared example group.
+  name: block
+  type:
+  - name: Proc
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Defines a deferred shared example group using the shared_examples
+  method.
+version: "*"

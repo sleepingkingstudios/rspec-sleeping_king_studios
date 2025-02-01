@@ -1,0 +1,10 @@
+---
+name: RSpec::SleepingKingStudios::Version::PATCH
+parent_path: r-spec/sleeping-king-studios/version
+slug: patch
+short_description: Patch version.
+value: '0'
+data_path: r-spec/sleeping-king-studios/version/patch
+metadata:
+  api: private
+version: "*"

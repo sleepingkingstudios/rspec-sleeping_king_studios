@@ -1,0 +1,82 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignatureExpectation
+slug: method-signature-expectation
+type: class
+files:
+- lib/rspec/sleeping_king_studios/support/method_signature_expectation.rb
+parent_path: r-spec/sleeping-king-studios/support
+short_description: ''
+instance_attributes:
+- name: any_keywords
+  read: false
+  write: true
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-any-keywords=
+  slug: any-keywords=
+  inherited: false
+- name: block_argument
+  read: false
+  write: true
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-block-argument=
+  slug: block-argument=
+  inherited: false
+- name: errors
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-errors
+  slug: errors
+  inherited: false
+- name: keywords
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-keywords
+  slug: keywords
+  inherited: false
+- name: max_arguments
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-max-arguments
+  slug: max-arguments
+  inherited: false
+- name: min_arguments
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-min-arguments
+  slug: min-arguments
+  inherited: false
+- name: unlimited_arguments
+  read: false
+  write: true
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-unlimited-arguments=
+  slug: unlimited-arguments=
+  inherited: false
+instance_methods:
+- name: any_keywords?
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-any-keywords?
+  slug: any-keywords?
+  inherited: false
+- name: block_argument?
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-block-argument?
+  slug: block-argument?
+  inherited: false
+- name: description
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-description
+  slug: description
+  inherited: false
+- name: initialize
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-initialize
+  slug: initialize
+  inherited: false
+  constructor: true
+- name: matches?
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-matches?
+  slug: matches?
+  inherited: false
+- name: unlimited_arguments?
+  path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-unlimited-arguments?
+  slug: unlimited-arguments?
+  inherited: false
+data_path: r-spec/sleeping-king-studios/support/method-signature-expectation
+metadata:
+  api: private
+constructor: true
+version: "*"

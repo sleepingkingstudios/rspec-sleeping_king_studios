@@ -1,0 +1,34 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleConstants#example_class
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants
+signature: example_class(class_name, base_class = nil, &)
+slug: example-class
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants/i-example-class
+params:
+- description: the qualified name of the class.
+  name: class_name
+  type:
+  - name: String
+- description: |-
+    the base class or name of the base
+    class. This can be the name of another example class, as long as the
+    base class is defined earlier in the example group or in a parent
+    example group.
+  name: base_class
+  type:
+  - name: Class
+  - name: String
+  default: nil
+short_description: Defines a deferred temporary class scoped to the current example.
+yield_params:
+- description: the temporary class.
+  name: klass
+  type:
+  - name: Class
+yields:
+- description: |-
+    definitions for the temporary class.  This block is evaluated in
+    the context of the example, meaning that methods or memoized helpers
+    can be referenced.
+version: "*"

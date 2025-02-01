@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#be_boolean
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: be_boolean
+slug: be-boolean
+aliases:
+- be_bool
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-be-boolean
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher#matches?
+    path: r-spec/sleeping-king-studios/matchers/core/be-boolean-matcher#instance-method-matches?
+    text:
+    type: reference
+version: "*"

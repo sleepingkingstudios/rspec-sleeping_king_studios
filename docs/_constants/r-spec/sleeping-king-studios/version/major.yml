@@ -1,0 +1,10 @@
+---
+name: RSpec::SleepingKingStudios::Version::MAJOR
+parent_path: r-spec/sleeping-king-studios/version
+slug: major
+short_description: Major version.
+value: '2'
+data_path: r-spec/sleeping-king-studios/version/major
+metadata:
+  api: private
+version: "*"

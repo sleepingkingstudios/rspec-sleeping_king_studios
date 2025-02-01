@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Calls::Hook#scope
+parent_path: r-spec/sleeping-king-studios/deferred/calls/hook
+signature: scope
+slug: scope
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/calls/hook/i-scope
+returns:
+- description: the scope of the hook.
+  type:
+  - name: Symbol
+version: "*"

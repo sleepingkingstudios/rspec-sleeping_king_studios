@@ -1,0 +1,32 @@
+---
+name: RSpec::SleepingKingStudios::Contract#apply
+parent_path: r-spec/sleeping-king-studios/contract
+signature: apply(example_group, *arguments, **keywords, &block)
+slug: apply
+constructor: false
+data_path: r-spec/sleeping-king-studios/contract/i-apply
+metadata:
+  see:
+  - label: "#to_proc"
+    path: r-spec/sleeping-king-studios/contract#instance-method-to-proc
+    text:
+    type: reference
+params:
+- description: |-
+    The example group to
+    which the contract is applied.
+  name: example_group
+  type:
+  - name: RSpec::Core::ExampleGroup
+- description: Optional arguments to pass to the contract.
+  name: arguments
+  type:
+  - name: Array
+- description: Optional keywords to pass to the contract.
+  name: keywords
+  type:
+  - name: Hash
+short_description: Adds the contract to the given example group.
+yields:
+- description: A block to pass to the contract.
+version: "*"

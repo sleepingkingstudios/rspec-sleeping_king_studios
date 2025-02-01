@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignatureExpectation#keywords
+parent_path: r-spec/sleeping-king-studios/support/method-signature-expectation
+signature: keywords
+slug: keywords
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-keywords
+metadata:
+  api: private
+short_description: method initialize
+version: "*"

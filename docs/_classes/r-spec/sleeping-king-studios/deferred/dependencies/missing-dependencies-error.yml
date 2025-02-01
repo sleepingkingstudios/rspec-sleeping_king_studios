@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dependencies::MissingDependenciesError
+slug: missing-dependencies-error
+type: class
+files:
+- lib/rspec/sleeping_king_studios/deferred/dependencies.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dependencies
+short_description: Exception raised when declared dependencies are not defined.
+data_path: r-spec/sleeping-king-studios/deferred/dependencies/missing-dependencies-error
+constructor: false
+inherited_classes:
+- name: StandardError
+  slug: standard-error
+version: "*"

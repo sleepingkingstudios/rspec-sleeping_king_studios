@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::BeAUuidMatcher#description
+parent_path: r-spec/sleeping-king-studios/matchers/core/be-a-uuid-matcher
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/be-a-uuid-matcher/i-description
+metadata:
+  since:
+  - 2.5.0
+version: "*"

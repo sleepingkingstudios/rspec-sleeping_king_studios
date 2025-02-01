@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Examples::PropertyExamples::Predicates
+slug: predicates
+type: module
+files:
+- lib/rspec/sleeping_king_studios/examples/property_examples/predicates.rb
+parent_path: r-spec/sleeping-king-studios/examples/property-examples
+short_description: ''
+class_methods:
+- name: alias_shared_examples
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-alias-shared-examples
+  slug: alias-shared-examples
+  inherited: true
+- name: included
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-included
+  slug: included
+  inherited: true
+- name: shared_examples
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-shared-examples
+  slug: shared-examples
+  inherited: true
+data_path: r-spec/sleeping-king-studios/examples/property-examples/predicates
+extended_modules:
+- name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
+  slug: shared-example-group
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group
+version: "*"

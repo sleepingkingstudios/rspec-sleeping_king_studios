@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BaseMatcher#actual
+parent_path: r-spec/sleeping-king-studios/matchers/base-matcher
+signature: actual
+slug: actual
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/base-matcher/i-actual
+metadata:
+  since:
+  - 1.0.0
+version: "*"

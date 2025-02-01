@@ -1,0 +1,37 @@
+---
+name: RSpec::SleepingKingStudios::Configuration::Examples
+slug: examples
+type: class
+files:
+- lib/rspec/sleeping_king_studios/configuration.rb
+parent_path: r-spec/sleeping-king-studios/configuration
+short_description: Configuration options for RSpec::SleepingKingStudios::Examples.
+constants:
+- name: MISSING_FAILURE_MESSAGE_HANDLERS
+  path: r-spec/sleeping-king-studios/configuration/examples/missing-failure-message-handlers
+  slug: missing-failure-message-handlers
+  inherited: false
+- name: STRING_FAILURE_MESSAGE_MATCH_OPTIONS
+  path: r-spec/sleeping-king-studios/configuration/examples/string-failure-message-match-options
+  slug: string-failure-message-match-options
+  inherited: false
+instance_methods:
+- name: handle_missing_failure_message_with
+  path: r-spec/sleeping-king-studios/configuration/examples/i-handle-missing-failure-message-with
+  slug: handle-missing-failure-message-with
+  inherited: false
+- name: handle_missing_failure_message_with=
+  path: r-spec/sleeping-king-studios/configuration/examples/i-handle-missing-failure-message-with=
+  slug: handle-missing-failure-message-with=
+  inherited: false
+- name: match_string_failure_message_as
+  path: r-spec/sleeping-king-studios/configuration/examples/i-match-string-failure-message-as
+  slug: match-string-failure-message-as
+  inherited: false
+- name: match_string_failure_message_as=
+  path: r-spec/sleeping-king-studios/configuration/examples/i-match-string-failure-message-as=
+  slug: match-string-failure-message-as=
+  inherited: false
+data_path: r-spec/sleeping-king-studios/configuration/examples
+constructor: false
+version: "*"

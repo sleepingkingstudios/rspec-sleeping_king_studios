@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleConstants
+slug: example-constants
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dsl/example_constants.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dsl
+short_description: Domain-specific language for defining deferred example constants.
+instance_methods:
+- name: example_class
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-constants/i-example-class
+  slug: example-class
+  inherited: false
+- name: example_constant
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-constants/i-example-constant
+  slug: example-constant
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Concerns::ExampleConstants
+    path: r-spec/sleeping-king-studios/concerns/example-constants
+    text:
+    type: reference
+version: "*"
