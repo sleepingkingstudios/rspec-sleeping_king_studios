@@ -28,19 +28,20 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       )
     end
 
-    # @api private
+    # (see RSpec::SleepingKingStudios::Deferred::Definitions#call)
     def call(example_group)
       super
 
       include self::HelperImplementations
     end
 
-    # Defines a memoized helper.
+    # @overload let(helper_name = nil, &block)
+    #   Defines a memoized helper.
     #
-    # @param helper_name [String, Symbol] the name of the helper method.
-    # @param block [Block] the implementation of the helper method.
+    #   @param helper_name [String, Symbol] the name of the helper method.
+    #   @param block [Block] the implementation of the helper method.
     #
-    # @return [void]
+    #   @return [void]
     def let(helper_name, &)
       helper_name = helper_name.to_sym
 
@@ -55,12 +56,13 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       end
     end
 
-    # Defines a memoized helper and adds a hook to evaluate it before examples.
+    # @overload let!(helper_name = nil, &block)
+    #   Defines a memoized helper and adds a hook to evaluate it before examples.
     #
-    # @param helper_name [String, Symbol] the name of the helper method.
-    # @param block [Block] the implementation of the helper method.
+    #   @param helper_name [String, Symbol] the name of the helper method.
+    #   @param block [Block] the implementation of the helper method.
     #
-    # @return [void]
+    #   @return [void]
     def let!(helper_name, &)
       let(helper_name, &)
 
@@ -86,12 +88,13 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       let(helper_name, &wrapped)
     end
 
-    # Defines a memoized subject helper.
+    # @overload subject(helper_name = nil, &block)
+    #   Defines a memoized subject helper.
     #
-    # @param helper_name [String, Symbol] the name of the helper method.
-    # @param block [Block] the implementation of the helper method.
+    #   @param helper_name [String, Symbol] the name of the helper method.
+    #   @param block [Block] the implementation of the helper method.
     #
-    # @return [void]
+    #   @return [void]
     def subject(helper_name = nil, &)
       let(:subject, &)
 
@@ -102,12 +105,13 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       end
     end
 
-    # Defines a memoized subject helper and adds a hook to evaluate it.
+    # @overload subject!(helper_name = nil, &block)
+    #   Defines a memoized subject helper and adds a hook to evaluate it.
     #
-    # @param helper_name [String, Symbol] the name of the helper method.
-    # @param block [Block] the implementation of the helper method.
+    #   @param helper_name [String, Symbol] the name of the helper method.
+    #   @param block [Block] the implementation of the helper method.
     #
-    # @return [void]
+    #   @return [void]
     def subject!(helper_name = nil, &)
       subject(helper_name, &)
 

@@ -16,7 +16,7 @@ module RSpec::SleepingKingStudios::Deferred
       end
     end
 
-    # @api private
+    # @private
     def deferred_calls
       @deferred_calls ||= []
     end

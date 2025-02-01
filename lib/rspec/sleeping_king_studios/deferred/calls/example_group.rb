@@ -29,7 +29,7 @@ module RSpec::SleepingKingStudios::Deferred::Calls
     attr_reader :deferred_example_group
 
     # (see RSpec::SleepingKingStudios::Deferred::Call#call)
-    def call(parent_group)
+    def call(receiver)
       example_group = super
 
       # Store a reference to the deferred group when adding to an actual example
