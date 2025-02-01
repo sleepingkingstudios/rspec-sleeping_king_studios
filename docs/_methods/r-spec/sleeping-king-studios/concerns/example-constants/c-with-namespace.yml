@@ -1,0 +1,10 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::ExampleConstants.with_namespace
+parent_path: r-spec/sleeping-king-studios/concerns/example-constants
+signature: with_namespace(module_names)
+slug: with-namespace
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/example-constants/c-with-namespace
+metadata:
+  api: private
+version: "*"

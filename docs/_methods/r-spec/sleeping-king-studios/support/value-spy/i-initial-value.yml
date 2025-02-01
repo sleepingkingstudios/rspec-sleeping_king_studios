@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Support::ValueSpy#initial_value
+parent_path: r-spec/sleeping-king-studios/support/value-spy
+signature: initial_value
+slug: initial-value
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/value-spy/i-initial-value
+returns:
+- description: the watched value at the time the spy was initialized.
+  type:
+  - name: Object
+version: "*"

@@ -10,7 +10,7 @@ RSpec::SleepingKingStudios provides tools for writing and running RSpec tests.
 
 ## Documentation
 
-This is the documentation for the [current development build](https://github.com/sleepingkingstudios/rspec-sleeping_king_studios) of Cuprum.
+This is the documentation for the [current development build](https://github.com/sleepingkingstudios/rspec-sleeping_king_studios) of RSpec::SleepingKingStudios.
 
 <!-- - For the most recent release, see [Version 2.8]({{site.baseurl}}/versions/2.8). -->
 - For previous releases, see the [Versions]({{site.baseurl}}/versions) page.

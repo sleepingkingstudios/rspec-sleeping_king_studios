@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Contract#to_proc
+parent_path: r-spec/sleeping-king-studios/contract
+signature: to_proc
+slug: to-proc
+constructor: false
+data_path: r-spec/sleeping-king-studios/contract/i-to-proc
+returns:
+- description: the contract implementation for the class.
+  type:
+  - name: Proc
+  - name: nil
+version: "*"

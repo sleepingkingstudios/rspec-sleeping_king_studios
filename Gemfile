@@ -35,5 +35,5 @@ group :doc do
     git:    'https://github.com/sleepingkingstudios/sleeping_king_studios-yard.git',
     branch: 'main'
   gem 'webrick', '~> 1.8' # Use Webrick as local content server.
-  gem 'yard', '~> 0.9',  require: false
+  gem 'yard', '~> 0.9', require: false
 end

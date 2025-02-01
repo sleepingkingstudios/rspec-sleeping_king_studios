@@ -1,0 +1,19 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Definitions
+slug: definitions
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/definitions.rb
+parent_path: r-spec/sleeping-king-studios/deferred
+short_description: Class methods for defining a registry of deferred calls.
+instance_methods:
+- name: call
+  path: r-spec/sleeping-king-studios/deferred/definitions/i-call
+  slug: call
+  inherited: false
+- name: included
+  path: r-spec/sleeping-king-studios/deferred/definitions/i-included
+  slug: included
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/definitions
+version: "*"

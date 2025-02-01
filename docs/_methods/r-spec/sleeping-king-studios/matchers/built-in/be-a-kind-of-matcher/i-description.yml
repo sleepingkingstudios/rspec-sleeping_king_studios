@@ -1,0 +1,8 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#description
+parent_path: r-spec/sleeping-king-studios/matchers/built-in/be-a-kind-of-matcher
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/built-in/be-a-kind-of-matcher/i-description
+version: "*"

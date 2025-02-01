@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatcher#failure_message
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher
+signature: failure_message
+slug: failure-message
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher/i-failure-message
+metadata:
+  since:
+  - 2.2.0
+short_description: |-
+  Message for when the object does not match, but was expected to. Make
+  sure to always call #matches? first to set up the matcher state.
+version: "*"

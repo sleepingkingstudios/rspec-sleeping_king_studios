@@ -1,0 +1,18 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::MemoizedHelpers.extended
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers
+signature: extended(other)
+slug: extended
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/c-extended
+description: |-
+  Defines a HelperImplementations module on the module and includes it in
+  the module.
+params:
+- description: the other module or class.
+  name: other
+  type:
+  - name: Module
+short_description: Callback invoked when the module is extended into another module
+  or class.
+version: "*"

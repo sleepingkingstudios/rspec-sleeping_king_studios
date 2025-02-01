@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher::DEFAULT_EXPECTED_RETURN
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+slug: default-expected-return
+short_description: ''
+value: Object.new.freeze
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/default-expected-return
+metadata:
+  api: private
+  since:
+  - 2.2.0
+version: "*"

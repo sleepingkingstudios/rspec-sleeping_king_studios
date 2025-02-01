@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Description#description
+parent_path: r-spec/sleeping-king-studios/matchers/description
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/description/i-description
+metadata:
+  since:
+  - 2.2.0
+returns:
+- description: the matcher description
+  type:
+  - name: String
+short_description: A short string that describes the purpose of the matcher.
+version: "*"

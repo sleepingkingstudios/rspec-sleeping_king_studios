@@ -1,0 +1,37 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::WrapExamples#xwrap_examples
+parent_path: r-spec/sleeping-king-studios/concerns/wrap-examples
+signature: xwrap_examples name, *args, **kwargs, &block
+slug: xwrap-examples
+aliases:
+- xwrap_context
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/wrap-examples/i-xwrap-examples
+params:
+- description: The name of the shared example group to be wrapped.
+  name: name
+  type:
+  - name: String
+- description: |-
+    Optional array of arguments that are passed on to
+    the shared example group.
+  name: args
+  type:
+  - name: Array
+- description: |-
+    Optional hash of keyword arguments that are passed
+    on to the shared example group.
+  name: kwargs
+  type:
+  - name: Hash
+short_description: |-
+  Includes the specified shared example group and wraps it inside a
+  skipped `xdescribe` block. If a block is provided, it is evaluated in the
+  context of the xdescribe block after the example group has been included.
+  Mostly used to temporarily disable a wrapped example group while updating
+  or debugging a spec.
+yields:
+- description: |-
+    Additional code to run in the context of the wrapping `fdescribe`
+    block, such as additional examples or memoized values.
+version: "*"

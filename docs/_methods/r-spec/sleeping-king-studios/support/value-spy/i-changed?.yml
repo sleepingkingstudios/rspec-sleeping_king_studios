@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Support::ValueSpy#changed?
+parent_path: r-spec/sleeping-king-studios/support/value-spy
+signature: changed?
+slug: changed?
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/value-spy/i-changed?
+returns:
+- description: ''
+  type:
+  - name: Boolean
+version: "*"

@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Examples::ClassMethods#deferred_examples?
+parent_path: r-spec/sleeping-king-studios/deferred/examples/class-methods
+signature: deferred_examples?
+slug: deferred-examples?
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-deferred-examples?
+returns:
+- description: |-
+    flag indicating that the included module has deferred
+    examples, rather than including another deferred examples module.
+  type:
+  - name: Boolean
+version: "*"

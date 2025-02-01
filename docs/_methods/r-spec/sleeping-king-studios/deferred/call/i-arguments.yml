@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Call#arguments
+parent_path: r-spec/sleeping-king-studios/deferred/call
+signature: arguments
+slug: arguments
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/call/i-arguments
+returns:
+- description: the arguments to pass to the method.
+  type:
+  - name: Array
+version: "*"

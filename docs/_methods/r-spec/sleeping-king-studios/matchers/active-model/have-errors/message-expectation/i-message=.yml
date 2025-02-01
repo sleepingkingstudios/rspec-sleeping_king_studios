@@ -1,0 +1,18 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::MessageExpectation#message=
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation
+signature: message=(value)
+slug: message=
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation/i-message=
+params:
+- description: the value to set the attribute message to.
+  name: value
+  type:
+  - name: Object
+returns:
+- description: the newly set value
+  type:
+  - name: Object
+short_description: Sets the attribute message
+version: "*"

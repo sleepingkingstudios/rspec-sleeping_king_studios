@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#respond_to
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: respond_to
+slug: respond-to
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-respond-to
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#matches?
+    path:
+    text:
+    type: reference
+version: "*"

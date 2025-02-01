@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Call#block
+parent_path: r-spec/sleeping-king-studios/deferred/call
+signature: block
+slug: block
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/call/i-block
+returns:
+- description: the block to pass to the method.
+  type:
+  - name: Proc
+version: "*"
