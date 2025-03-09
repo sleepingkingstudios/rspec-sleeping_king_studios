@@ -86,7 +86,7 @@ module RSpec::SleepingKingStudios
       def allow_empty_include_matchers
         value = @allow_empty_include_matchers
 
-        value.nil? ? true : value
+        value.nil? ? true : value # rubocop:disable Style/RedundantCondition
       end
       alias allow_empty_include_matchers? allow_empty_include_matchers
 
