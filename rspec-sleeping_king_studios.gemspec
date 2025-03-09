@@ -31,5 +31,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'hashdiff',                    '~> 1.1'
   gem.add_dependency 'rspec',                       '~> 3.4'
-  gem.add_dependency 'sleeping_king_studios-tools', '1.2.0.alpha'
+  gem.add_dependency 'sleeping_king_studios-tools', '>= 1.2.0.alpha', '< 2'
 end
