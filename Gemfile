@@ -31,8 +31,8 @@ group :doc do
   # Use Kramdown to parse GFM-dialect Markdown.
   gem 'kramdown-parser-gfm', '~> 1.1'
 
-  gem 'sleeping_king_studios-yard',
-    git:    'https://github.com/sleepingkingstudios/sleeping_king_studios-yard.git',
+  gem 'sleeping_king_studios-docs',
+    git:    'https://github.com/sleepingkingstudios/sleeping_king_studios-docs.git',
     branch: 'main'
   gem 'webrick', '~> 1.8' # Use Webrick as local content server.
   gem 'yard', '~> 0.9', require: false
