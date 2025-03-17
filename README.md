@@ -2,6 +2,13 @@
 
 A collection of matchers and extensions to ease TDD/BDD using RSpec. Extends built-in matchers with new functionality, such as support for Ruby 2.0+ keyword arguments, and adds new matchers for testing boolean-ness, object reader/writer properties, object constructor arguments, ActiveModel validations, and more. Also defines shared example groups for more expressive testing.
 
+<blockquote>
+  Read The
+  <a href="https://www.sleepingkingstudios.com/rspec-sleeping_king_studios" target="_blank">
+    Documentation
+  </a>
+</blockquote>
+
 ## About
 
 ### Setup
