@@ -205,9 +205,10 @@ To provide a better user experience, you can declare these external dependencies
 ```ruby
 module RocketryExamples
   include RSpec::SleepingKingStudios::Deferred::Provider
-  include RSpec::SleepingKingStudios::Deferred::Dependencies
 
   deferred_examples 'should be a Rocket' do
+    include RSpec::SleepingKingStudios::Deferred::Dependencies
+
     depends_on :rocket, 'an instance of Rocket'
 
     it 'should be a Rocket' do
