@@ -1,0 +1,24 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters#with_keywords
+parent_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
+signature: with_keywords
+slug: with-keywords
+aliases:
+- and_keywords
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters/i-with-keywords
+params:
+- description: |-
+    List of keyword arguments
+    accepted by the method.
+  name: keywords
+  type:
+  - name: Array
+    items:
+    - name: String
+    - name: Symbol
+returns:
+- description: self
+  type: []
+short_description: Adds one or more keyword expectations.
+version: '2.8'

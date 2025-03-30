@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup#included
+parent_path: r-spec/sleeping-king-studios/concerns/shared-example-group
+signature: included other
+slug: included
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-included
+metadata:
+  api: private
+short_description: Hook to merge defined example groups when included in another module.
+version: '2.8'

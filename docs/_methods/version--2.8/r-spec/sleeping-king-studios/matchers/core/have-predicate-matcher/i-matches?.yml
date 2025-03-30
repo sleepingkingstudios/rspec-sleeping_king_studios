@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HavePredicateMatcher#matches?
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-predicate-matcher
+signature: matches? actual
+slug: matches?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-predicate-matcher/i-matches?
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: The object to check.
+  name: actual
+  type:
+  - name: Object
+returns:
+- description: |-
+    true If the object responds to #expected and matches
+    the value expectation (if any); otherwise false.
+  type:
+  - name: Boolean
+short_description: |-
+  Checks if the object responds to #expected?. Additionally, if a value
+  expectation is set, compares the value of #expected to the specified
+  value.
+version: '2.8'

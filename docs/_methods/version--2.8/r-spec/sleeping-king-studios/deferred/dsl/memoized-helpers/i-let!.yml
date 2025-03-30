@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::MemoizedHelpers#let!
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers
+signature: let!(helper_name = nil, &block)
+slug: let!
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/i-let!
+params:
+- description: the name of the helper method.
+  name: helper_name
+  type:
+  - name: String
+  - name: Symbol
+  default: nil
+- description: the implementation of the helper method.
+  name: block
+  type:
+  - name: Block
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Defines a memoized helper and adds a hook to evaluate it before
+  examples.
+version: '2.8'

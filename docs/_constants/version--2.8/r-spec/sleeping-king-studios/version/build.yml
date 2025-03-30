@@ -1,0 +1,10 @@
+---
+name: RSpec::SleepingKingStudios::Version::BUILD
+parent_path: r-spec/sleeping-king-studios/version
+slug: build
+short_description: Build metadata.
+value: nil
+data_path: r-spec/sleeping-king-studios/version/build
+metadata:
+  api: private
+version: '2.8'

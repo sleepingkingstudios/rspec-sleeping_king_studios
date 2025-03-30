@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher#matches?
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher
+signature: matches?(actual)
+slug: matches?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher/i-matches?
+metadata:
+  since:
+  - 2.4.0
+params:
+- description: |-
+    The
+    observed value.
+  name: actual
+  type:
+  - name: RSpec::SleepingKingStudios::Support::ValueSpy
+    path: r-spec/sleeping-king-studios/support/value-spy
+raises:
+- description: ArgumentError unless the actual object is a value spy.
+  type: []
+returns:
+- description: True if the observed value has changed, otherwise false.
+  type:
+  - name: Boolean
+short_description: Checks if the observed value has changed.
+version: '2.8'

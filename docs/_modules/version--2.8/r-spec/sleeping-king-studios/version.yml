@@ -1,0 +1,43 @@
+---
+name: RSpec::SleepingKingStudios::Version
+slug: version
+type: module
+files:
+- lib/rspec/sleeping_king_studios/version.rb
+parent_path: r-spec/sleeping-king-studios
+short_description: The current version of the gem.
+class_methods:
+- name: to_gem_version
+  path: r-spec/sleeping-king-studios/version/c-to-gem-version
+  slug: to-gem-version
+  inherited: false
+constants:
+- name: BUILD
+  path: r-spec/sleeping-king-studios/version/build
+  slug: build
+  inherited: false
+- name: MAJOR
+  path: r-spec/sleeping-king-studios/version/major
+  slug: major
+  inherited: false
+- name: MINOR
+  path: r-spec/sleeping-king-studios/version/minor
+  slug: minor
+  inherited: false
+- name: PATCH
+  path: r-spec/sleeping-king-studios/version/patch
+  slug: patch
+  inherited: false
+- name: PRERELEASE
+  path: r-spec/sleeping-king-studios/version/prerelease
+  slug: prerelease
+  inherited: false
+data_path: r-spec/sleeping-king-studios/version
+metadata:
+  api: private
+  see:
+  - label: http://semver.org/
+    path: http://semver.org/
+    text:
+    type: link
+version: '2.8'

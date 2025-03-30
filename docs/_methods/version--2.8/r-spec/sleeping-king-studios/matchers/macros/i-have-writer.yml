@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#have_writer
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: 'have_writer expected, allow_private: false'
+slug: have-writer
+aliases:
+- define_writer
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-have-writer
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher#matches?
+    path: r-spec/sleeping-king-studios/matchers/core/have-writer-matcher#instance-method-matches?
+    text:
+    type: reference
+version: '2.8'

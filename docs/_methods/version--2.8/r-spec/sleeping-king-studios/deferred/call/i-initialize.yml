@@ -1,0 +1,30 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Call#initialize
+parent_path: r-spec/sleeping-king-studios/deferred/call
+signature: initialize(method_name, *arguments, **keywords, &block)
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/deferred/call/i-initialize
+params:
+- description: the name of the method to call.
+  name: method_name
+  type:
+  - name: String
+  - name: Symbol
+- description: the arguments to pass to the method.
+  name: arguments
+  type:
+  - name: Array
+- description: the keywords to pass to the method.
+  name: keywords
+  type:
+  - name: Hash
+- description: the block to pass to the method.
+  name: block
+  type:
+  - name: Proc
+returns:
+- description: a new instance of Call
+  type:
+  - name: Call
+version: '2.8'

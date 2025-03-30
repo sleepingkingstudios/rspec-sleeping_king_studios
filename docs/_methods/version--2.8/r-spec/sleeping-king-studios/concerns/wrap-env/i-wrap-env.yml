@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::WrapEnv#wrap_env
+parent_path: r-spec/sleeping-king-studios/concerns/wrap-env
+signature: wrap_env key, value
+slug: wrap-env
+aliases:
+- stub_env
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/wrap-env/i-wrap-env
+short_description: module
+version: '2.8'

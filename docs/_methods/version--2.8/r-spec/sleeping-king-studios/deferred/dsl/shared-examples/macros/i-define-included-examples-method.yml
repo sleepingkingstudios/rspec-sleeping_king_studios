@@ -1,0 +1,19 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::SharedExamples::Macros#define_included_examples_method
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/macros
+signature: define_included_examples_method(method_name)
+slug: define-included-examples-method
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/macros/i-define-included-examples-method
+params:
+- description: the name of the deferred method.
+  name: method_name
+  type:
+  - name: String
+  - name: Symbol
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Registers a method for deferring including a shared example group.
+version: '2.8'

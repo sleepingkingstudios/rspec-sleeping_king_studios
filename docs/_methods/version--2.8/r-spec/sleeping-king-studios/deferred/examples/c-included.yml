@@ -1,0 +1,28 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Examples.included
+parent_path: r-spec/sleeping-king-studios/deferred/examples
+signature: included(other)
+slug: included
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/examples/c-included
+description: |-
+  Extends the class or module with the Deferred::Definitions
+  and Deferred::Examples::DSL modules.
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Deferred::Definitions
+    path: r-spec/sleeping-king-studios/deferred/definitions
+    text:
+    type: reference
+  - label: RSpec::SleepingKingStudios::Deferred::Examples::Dsl
+    path:
+    text:
+    type: reference
+params:
+- description: the other module or class.
+  name: other
+  type:
+  - name: Module
+short_description: Callback invoked when the module is included in another module
+  or class.
+version: '2.8'

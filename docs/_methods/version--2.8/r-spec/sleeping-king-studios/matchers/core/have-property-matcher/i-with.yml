@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher#with
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-property-matcher
+signature: with value
+slug: with
+aliases:
+- with_value
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-property-matcher/i-with
+metadata:
+  since:
+  - 1.0.0
+params:
+- description: The value to set and then compare.
+  name: value
+  type:
+  - name: Object
+returns:
+- description: self
+  type:
+  - name: HavePropertyMatcher
+short_description: |-
+  Sets a value expectation. The matcher will compare the value to the
+  result of calling #property.
+version: '2.8'

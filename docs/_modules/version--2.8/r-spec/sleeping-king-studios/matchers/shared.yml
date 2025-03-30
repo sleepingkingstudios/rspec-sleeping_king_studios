@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Shared
+slug: shared
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/shared/match_property.rb
+- lib/rspec/sleeping_king_studios/matchers/shared/match_parameters.rb
+parent_path: r-spec/sleeping-king-studios/matchers
+short_description: lib/rspec/sleeping_king_studios/matchers/shared/match_property.rb
+defined_modules:
+- name: MatchParameters
+  slug: match-parameters
+- name: MatchProperty
+  slug: match-property
+data_path: r-spec/sleeping-king-studios/matchers/shared
+version: '2.8'

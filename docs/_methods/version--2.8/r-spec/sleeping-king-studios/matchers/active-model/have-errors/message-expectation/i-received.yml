@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::MessageExpectation#received
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation
+signature: received
+slug: received
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation/i-received
+returns:
+- description: the current value of received
+  type:
+  - name: Object
+short_description: Returns the value of attribute received
+version: '2.8'

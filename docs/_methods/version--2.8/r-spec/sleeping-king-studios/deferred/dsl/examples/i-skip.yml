@@ -1,0 +1,35 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::Examples#skip
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/examples
+signature: skip(doc_string = nil, *flags, **metadata, &block)
+slug: skip
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-skip
+params:
+- description: the example's doc string.
+  name: doc_string
+  type:
+  - name: String
+  default: nil
+- description: |-
+    metadata flags for the example. Will be
+    transformed into metadata entries with true values.
+  name: flags
+  type:
+  - name: Array
+    items:
+    - name: Symbol
+- description: metadata for the example.
+  name: metadata
+  type:
+  - name: Hash
+- description: the implementation of the example.
+  name: block
+  type:
+  - name: Proc
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Defines a deferred example using the skip method.
+version: '2.8'

@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros.alias_matcher
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: alias_matcher(new_name, old_name, options = {}, &description_override)
+slug: alias-matcher
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/c-alias-matcher
+metadata:
+  see:
+  - label: RSpec::Matchers::alias_matcher
+    path:
+    text:
+    type: reference
+version: '2.8'

@@ -1,0 +1,50 @@
+---
+name: RSpec::SleepingKingStudios::Contract#contract
+parent_path: r-spec/sleeping-king-studios/contract
+signature: contract(&block)
+slug: contract
+constructor: false
+data_path: r-spec/sleeping-king-studios/contract/i-contract
+overloads:
+- name: RSpec::SleepingKingStudios::Contract#contract
+  parent_path: r-spec/sleeping-king-studios/contract
+  signature: contract()
+  slug: contract
+  constructor: false
+  returns:
+  - description: the contract implementation for the class.
+    type:
+    - name: Proc
+    - name: nil
+- name: RSpec::SleepingKingStudios::Contract#contract
+  parent_path: r-spec/sleeping-king-studios/contract
+  signature: contract()
+  slug: contract
+  constructor: false
+  short_description: Sets the contract implementation for the class.
+  yield_params:
+  - description: |-
+      Optional arguments to pass to the
+      contract.
+    name: arguments
+    type:
+    - name: Array
+  - description: |-
+      Optional keywords defined for the
+      contract.
+    name: keywords
+    type:
+    - name: Hash
+  - description: A block to pass to the contract.
+    name: block
+    type:
+    - name: Array
+  yields:
+  - description: |-
+      The implementation to
+      configure for the class.
+    parameters:
+    - "*arguments"
+    - "**keywords"
+    - "&block"
+version: '2.8'

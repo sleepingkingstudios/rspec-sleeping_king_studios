@@ -1,0 +1,18 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Definitions#call
+parent_path: r-spec/sleeping-king-studios/deferred/definitions
+signature: call(example_group)
+slug: call
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/definitions/i-call
+params:
+- description: the example group.
+  name: example_group
+  type:
+  - name: RSpec::Core::ExampleGroup
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Invokes the deferred examples on the given example group.
+version: '2.8'

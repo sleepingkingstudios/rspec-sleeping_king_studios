@@ -1,0 +1,53 @@
+---
+name: RSpec::SleepingKingStudios
+slug: sleeping-king-studios
+type: module
+files:
+- lib/rspec/sleeping_king_studios.rb
+- lib/rspec/sleeping_king_studios/sandbox.rb
+- lib/rspec/sleeping_king_studios/support.rb
+- lib/rspec/sleeping_king_studios/version.rb
+- lib/rspec/sleeping_king_studios/concerns.rb
+- lib/rspec/sleeping_king_studios/contract.rb
+- lib/rspec/sleeping_king_studios/deferred.rb
+- lib/rspec/sleeping_king_studios/examples.rb
+- lib/rspec/sleeping_king_studios/matchers.rb
+- lib/rspec/sleeping_king_studios/configuration.rb
+parent_path: r-spec
+short_description: Hic Iacet Arthurus, Rex Quondam, Rexque Futurus.
+class_methods:
+- name: gem_path
+  path: r-spec/sleeping-king-studios/c-gem-path
+  slug: gem-path
+  inherited: false
+- name: version
+  path: r-spec/sleeping-king-studios/c-version
+  slug: version
+  inherited: false
+constants:
+- name: VERSION
+  path: r-spec/sleeping-king-studios/version
+  slug: version
+  inherited: false
+defined_classes:
+- name: Configuration
+  slug: configuration
+defined_modules:
+- name: Concerns
+  slug: concerns
+- name: Contract
+  slug: contract
+- name: Deferred
+  slug: deferred
+- name: Examples
+  slug: examples
+- name: Matchers
+  slug: matchers
+- name: Sandbox
+  slug: sandbox
+- name: Support
+  slug: support
+- name: Version
+  slug: version
+data_path: r-spec/sleeping-king-studios
+version: '2.8'
