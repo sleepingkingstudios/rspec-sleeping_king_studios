@@ -1,0 +1,45 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleConstants#example_constant
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants
+signature: 'example_constant(qualified_name, constant_value = nil, force: false, &block)'
+slug: example-constant
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants/i-example-constant
+metadata:
+  deprecated: '2.8.0 with force: true parameter.'
+overloads:
+- name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleConstants#example_constant
+  parent_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants
+  signature: example_constant(constant_name, constant_value)
+  slug: example-constant
+  constructor: false
+  params:
+  - description: the qualified name of the constant.
+    name: constant_name
+    type:
+    - name: String
+  - description: the value of the constant.
+    name: constant_value
+    type:
+    - name: Object
+  short_description: Defines a deferred temporary constant scoped to the current example.
+- name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleConstants#example_constant
+  parent_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants
+  signature: example_constant(constant_name, &block)
+  slug: example-constant
+  constructor: false
+  params:
+  - description: the qualified name of the constant.
+    name: constant_name
+    type:
+    - name: String
+  short_description: Defines a deferred temporary constant scoped to the current example.
+  yield_returns:
+  - description: the value of the constant.
+    type: []
+  yields:
+  - description: |-
+      generates the constant value. This block is evaluated in the
+      context of the example, meaning that methods or memoized helpers can
+      be referenced.
+version: '2.8'

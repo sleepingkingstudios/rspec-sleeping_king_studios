@@ -1,0 +1,36 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Examples::ClassMethods
+slug: class-methods
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/examples.rb
+parent_path: r-spec/sleeping-king-studios/deferred/examples
+short_description: Class methods for deferred examples.
+instance_attributes:
+- name: parent_group
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-parent-group
+  slug: parent-group
+  inherited: false
+- name: source_location
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-source-location
+  slug: source-location
+  inherited: false
+instance_methods:
+- name: deferred_examples?
+  path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-deferred-examples?
+  slug: deferred-examples?
+  inherited: false
+- name: description
+  path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-description
+  slug: description
+  inherited: false
+- name: description=
+  path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-description=
+  slug: description=
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/examples/class-methods
+version: '2.8'

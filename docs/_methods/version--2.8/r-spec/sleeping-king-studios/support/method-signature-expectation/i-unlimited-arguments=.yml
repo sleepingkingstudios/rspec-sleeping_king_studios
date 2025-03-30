@@ -1,0 +1,10 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignatureExpectation#unlimited_arguments=
+parent_path: r-spec/sleeping-king-studios/support/method-signature-expectation
+signature: unlimited_arguments=(value)
+slug: unlimited-arguments=
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-unlimited-arguments=
+metadata:
+  api: private
+version: '2.8'

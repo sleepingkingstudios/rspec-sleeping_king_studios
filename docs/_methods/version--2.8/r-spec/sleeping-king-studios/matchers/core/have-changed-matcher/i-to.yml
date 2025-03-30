@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher#to
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher
+signature: to(value)
+slug: to
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher/i-to
+metadata:
+  since:
+  - 2.4.0
+params:
+- description: The expected current value.
+  name: value
+  type:
+  - name: Object
+returns:
+- description: the matcher instance.
+  type:
+  - name: HaveChangedMatcher
+short_description: |-
+  Creates an expectation on the current value. The matcher will compare the
+  current value from the value spy with the specified value.
+version: '2.8'

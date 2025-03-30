@@ -1,0 +1,44 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::FocusExamples#xinclude_examples
+parent_path: r-spec/sleeping-king-studios/concerns/focus-examples
+signature: xinclude_examples name, *args, **kwargs, &block
+slug: xinclude-examples
+aliases:
+- xinclude_context
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/focus-examples/i-xinclude-examples
+description: groups.
+metadata:
+  notes:
+  - |-
+    Do not use this method with example groups that have side effects,
+    e.g. define a memoized `#let` helper or a `#before` block that is
+    intended to modify the behavior of sibling examples. Wrapping the
+    example group in a `describe` block breaks that relationship. Best
+    practice is to use the `#wrap_examples` method to safely encapsulate
+    example groups with side effects, and the `#xwrap_examples` method to
+    automatically skip such groups.
+params:
+- description: The name of the shared example group to be wrapped.
+  name: name
+  type:
+  - name: String
+- description: |-
+    Optional array of arguments that are passed on to
+    the shared example group.
+  name: args
+  type:
+  - name: Array
+- description: |-
+    Optional hash of keyword arguments that are passed
+    on to the shared example group.
+  name: kwargs
+  type:
+  - name: Hash
+short_description: |-
+  Includes the specified shared example group and wraps it inside an
+  `xdescribe` block named "(skipped)". This will ensure that the wrapped
+  example group is not run.
+yields:
+- description: Optional block that is passed on to the shared example group.
+version: '2.8'

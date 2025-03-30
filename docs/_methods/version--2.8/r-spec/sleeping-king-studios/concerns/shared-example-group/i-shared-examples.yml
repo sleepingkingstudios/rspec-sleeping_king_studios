@@ -1,0 +1,58 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup#shared_examples
+parent_path: r-spec/sleeping-king-studios/concerns/shared-example-group
+signature: shared_examples(name, *metadata_args, **metadata_kwargs, &block)
+slug: shared-examples
+aliases:
+- shared_context
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-shared-examples
+overloads:
+- name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup#shared_examples
+  parent_path: r-spec/sleeping-king-studios/concerns/shared-example-group
+  signature: shared_examples(name, &block)
+  slug: shared-examples
+  aliases:
+  - shared_context
+  constructor: false
+  params:
+  - description: Identifer to use when looking up this shared group.
+    name: name
+    type:
+    - name: String
+  - description: Used to create the shared example group definition.
+    name: block
+    type: []
+- name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup#shared_examples
+  parent_path: r-spec/sleeping-king-studios/concerns/shared-example-group
+  signature: shared_examples(name, metadata, &block)
+  slug: shared-examples
+  aliases:
+  - shared_context
+  constructor: false
+  params:
+  - description: Identifer to use when looking up this shared group.
+    name: name
+    type:
+    - name: String
+  - description: |-
+      Metadata to attach to this group;
+      any example group with matching metadata will automatically include
+      this shared example group.
+    name: metadata
+    type:
+    - name: Array
+      items:
+      - name: Symbol
+    - name: Hash
+  - description: Used to create the shared example group definition.
+    name: block
+    type: []
+short_description: |-
+  Defines a shared example group within the context of the current module.
+  Unlike a top-level example group defined using RSpec#shared_examples,
+  these examples are not globally available, and must be mixed into an
+  example group by including the module. The shared examples must be
+  defined before including the module, or they will not be available in the
+  example group.
+version: '2.8'

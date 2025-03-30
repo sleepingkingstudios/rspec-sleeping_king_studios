@@ -1,0 +1,17 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::WrapEnv::ClassMethods
+slug: class-methods
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns/wrap_env.rb
+parent_path: r-spec/sleeping-king-studios/concerns/wrap-env
+short_description: |-
+  Class methods to define when including
+  RSpec::SleepingKingStudios::Concerns::WrapEnv in a class.
+instance_methods:
+- name: wrap_env
+  path: r-spec/sleeping-king-studios/concerns/wrap-env/class-methods/i-wrap-env
+  slug: wrap-env
+  inherited: false
+data_path: r-spec/sleeping-king-studios/concerns/wrap-env/class-methods
+version: '2.8'

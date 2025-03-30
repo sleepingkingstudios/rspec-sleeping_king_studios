@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Calls
+slug: calls
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/calls.rb
+- lib/rspec/sleeping_king_studios/deferred/calls/hook.rb
+- lib/rspec/sleeping_king_studios/deferred/calls/example.rb
+- lib/rspec/sleeping_king_studios/deferred/calls/example_group.rb
+- lib/rspec/sleeping_king_studios/deferred/calls/shared_examples.rb
+- lib/rspec/sleeping_king_studios/deferred/calls/included_examples.rb
+parent_path: r-spec/sleeping-king-studios/deferred
+short_description: Namespace for deferred call implementations.
+defined_classes:
+- name: Example
+  slug: example
+- name: ExampleGroup
+  slug: example-group
+- name: Hook
+  slug: hook
+- name: IncludedExamples
+  slug: included-examples
+- name: SharedExamples
+  slug: shared-examples
+data_path: r-spec/sleeping-king-studios/deferred/calls
+version: '2.8'

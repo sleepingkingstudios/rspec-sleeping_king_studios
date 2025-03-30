@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#be_kind_of
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: be_kind_of expected
+slug: be-kind-of
+aliases:
+- be_a
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-be-kind-of
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#match
+    path: r-spec/sleeping-king-studios/matchers/built-in/be-a-kind-of-matcher#instance-method-match
+    text:
+    type: reference
+version: '2.8'

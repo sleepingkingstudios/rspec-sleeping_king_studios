@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher#description
+parent_path: r-spec/sleeping-king-studios/matchers/core/deep-matcher
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/deep-matcher/i-description
+metadata:
+  since:
+  - 2.5.0
+version: '2.8'

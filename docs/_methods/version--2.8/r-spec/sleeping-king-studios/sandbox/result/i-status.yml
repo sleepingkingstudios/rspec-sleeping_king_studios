@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox::Result#status
+parent_path: r-spec/sleeping-king-studios/sandbox/result
+signature: status
+slug: status
+constructor: false
+data_path: r-spec/sleeping-king-studios/sandbox/result/i-status
+returns:
+- description: the current value of status
+  type:
+  - name: Object
+short_description: Returns the value of attribute status
+version: '2.8'

@@ -53,7 +53,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     # @api private
     #
     # @return [Boolean]
-    def does_not_match?(actual)
+    def does_not_match?(actual) # rubocop:disable Naming/PredicateName
       @actual = actual
 
       perform_match(actual, &:!)

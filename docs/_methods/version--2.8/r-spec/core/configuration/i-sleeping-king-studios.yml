@@ -1,0 +1,9 @@
+---
+name: RSpec::Core::Configuration#sleeping_king_studios
+parent_path: r-spec/core/configuration
+signature: sleeping_king_studios(&)
+slug: sleeping-king-studios
+constructor: false
+data_path: r-spec/core/configuration/i-sleeping-king-studios
+short_description: Get or set the configuration options for RSpec::SleepingKingStudios.
+version: '2.8'

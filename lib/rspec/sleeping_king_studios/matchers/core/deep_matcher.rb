@@ -30,7 +30,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     #   expectation, otherwise true.
     #
     # @see #matches?
-    def does_not_match?(actual) # rubocop:disable Metrics/MethodLength
+    def does_not_match?(actual) # rubocop:disable Metrics/MethodLength, Naming/PredicateName
       super
 
       if matcher?(@expected)

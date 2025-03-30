@@ -1,0 +1,87 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::SharedExamples
+slug: shared-examples
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dsl/shared_examples.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dsl
+short_description: Methods for defining and including deferred shared example groups.
+class_methods:
+- name: define_included_examples_method
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/macros/i-define-included-examples-method
+  slug: define-included-examples-method
+  inherited: true
+- name: define_shared_examples_method
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/macros/i-define-shared-examples-method
+  slug: define-shared-examples-method
+  inherited: true
+defined_modules:
+- name: Macros
+  slug: macros
+instance_methods:
+- name: finclude_examples
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-finclude-examples
+  slug: finclude-examples
+  inherited: false
+- name: fwrap_context
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-fwrap-context
+  slug: fwrap-context
+  inherited: false
+- name: fwrap_examples
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-fwrap-examples
+  slug: fwrap-examples
+  inherited: false
+- name: include_context
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-include-context
+  slug: include-context
+  inherited: false
+- name: include_examples
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-include-examples
+  slug: include-examples
+  inherited: false
+- name: it_behaves_like
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-it-behaves-like
+  slug: it-behaves-like
+  inherited: false
+- name: it_should_behave_like
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-it-should-behave-like
+  slug: it-should-behave-like
+  inherited: false
+- name: shared_context
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-shared-context
+  slug: shared-context
+  inherited: false
+- name: shared_examples
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-shared-examples
+  slug: shared-examples
+  inherited: false
+- name: shared_examples_for
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-shared-examples-for
+  slug: shared-examples-for
+  inherited: false
+- name: wrap_context
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-wrap-context
+  slug: wrap-context
+  inherited: false
+- name: wrap_examples
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-wrap-examples
+  slug: wrap-examples
+  inherited: false
+- name: xinclude_examples
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xinclude-examples
+  slug: xinclude-examples
+  inherited: false
+- name: xwrap_context
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xwrap-context
+  slug: xwrap-context
+  inherited: false
+- name: xwrap_examples
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xwrap-examples
+  slug: xwrap-examples
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples
+extended_modules:
+- name: RSpec::SleepingKingStudios::Deferred::Dsl::SharedExamples::Macros
+  slug: macros
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/macros
+version: '2.8'

@@ -1,0 +1,71 @@
+---
+name: RSpec::SleepingKingStudios::Support::ValueSpy
+slug: value-spy
+type: class
+files:
+- lib/rspec/sleeping_king_studios/support/value_spy.rb
+parent_path: r-spec/sleeping-king-studios/support
+short_description: |-
+  Encapsulates the value of a method call or block, and captures a snapshot of
+  the value at the time the spy is initialized.
+instance_attributes:
+- name: initial_hash
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/support/value-spy/i-initial-hash
+  slug: initial-hash
+  inherited: false
+- name: initial_inspect
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/support/value-spy/i-initial-inspect
+  slug: initial-inspect
+  inherited: false
+- name: initial_value
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/support/value-spy/i-initial-value
+  slug: initial-value
+  inherited: false
+instance_methods:
+- name: changed?
+  path: r-spec/sleeping-king-studios/support/value-spy/i-changed?
+  slug: changed?
+  inherited: false
+- name: current_value
+  path: r-spec/sleeping-king-studios/support/value-spy/i-current-value
+  slug: current-value
+  inherited: false
+- name: description
+  path: r-spec/sleeping-king-studios/support/value-spy/i-description
+  slug: description
+  inherited: false
+- name: initialize
+  path: r-spec/sleeping-king-studios/support/value-spy/i-initialize
+  slug: initialize
+  inherited: false
+  constructor: true
+data_path: r-spec/sleeping-king-studios/support/value-spy
+metadata:
+  examples:
+  - name: Observing a Method
+    text: |-
+      user  = Person.new(name: 'Alan Bradley')
+      value = ValueSpy.new(user, :name)
+      value.initial_value #=> 'Alan Bradley'
+      value.current_value #=> 'Alan Bradley'
+
+      user.name = 'Ed Dillinger'
+      value.initial_value #=> 'Alan Bradley'
+      value.current_value #=> 'Ed Dillinger'
+  - name: Observing a Block
+    text: |-
+      value = ValueSpy.new { Person.where(virtual: false).count }
+      value.initial_value #=> 4
+      value.current_value #=> 4
+
+      Person.where(name: 'Kevin Flynn').enter_grid!
+      value.initial_value #=> 4
+      value.current_value #=> 3
+constructor: true
+version: '2.8'

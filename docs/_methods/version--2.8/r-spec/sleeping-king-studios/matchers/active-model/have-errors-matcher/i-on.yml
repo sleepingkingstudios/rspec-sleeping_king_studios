@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher#on
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher
+signature: on attribute
+slug: 'on'
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher/i-on
+metadata:
+  examples:
+  - name: Setting an error expectation
+    text: expect(actual).to have_errors.on(:foo)
+  since:
+  - 1.0.0
+params:
+- description:
+  name: attribute
+  type:
+  - name: String
+  - name: Symbol
+returns:
+- description: self
+  type:
+  - name: HaveErrorsMatcher
+short_description: |-
+  Adds an error expectation. If the actual object does not have an error on
+  the specified attribute, #matches? will return false.
+version: '2.8'

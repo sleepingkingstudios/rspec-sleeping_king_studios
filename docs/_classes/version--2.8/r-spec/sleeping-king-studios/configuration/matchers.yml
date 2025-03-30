@@ -1,0 +1,28 @@
+---
+name: RSpec::SleepingKingStudios::Configuration::Matchers
+slug: matchers
+type: class
+files:
+- lib/rspec/sleeping_king_studios/configuration.rb
+parent_path: r-spec/sleeping-king-studios/configuration
+short_description: Configuration options for RSpec::SleepingKingStudios::Matchers.
+instance_methods:
+- name: allow_empty_include_matchers
+  path: r-spec/sleeping-king-studios/configuration/matchers/i-allow-empty-include-matchers
+  slug: allow-empty-include-matchers
+  inherited: false
+- name: allow_empty_include_matchers=
+  path: r-spec/sleeping-king-studios/configuration/matchers/i-allow-empty-include-matchers=
+  slug: allow-empty-include-matchers=
+  inherited: false
+- name: strict_predicate_matching
+  path: r-spec/sleeping-king-studios/configuration/matchers/i-strict-predicate-matching
+  slug: strict-predicate-matching
+  inherited: false
+- name: strict_predicate_matching=
+  path: r-spec/sleeping-king-studios/configuration/matchers/i-strict-predicate-matching=
+  slug: strict-predicate-matching=
+  inherited: false
+data_path: r-spec/sleeping-king-studios/configuration/matchers
+constructor: false
+version: '2.8'

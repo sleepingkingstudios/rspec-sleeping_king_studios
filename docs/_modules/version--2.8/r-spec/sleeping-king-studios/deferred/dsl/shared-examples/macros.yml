@@ -1,0 +1,19 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::SharedExamples::Macros
+slug: macros
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dsl/shared_examples.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples
+short_description: Meta-methods for defining deferred examples.
+instance_methods:
+- name: define_included_examples_method
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/macros/i-define-included-examples-method
+  slug: define-included-examples-method
+  inherited: false
+- name: define_shared_examples_method
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/macros/i-define-shared-examples-method
+  slug: define-shared-examples-method
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/macros
+version: '2.8'

@@ -1,0 +1,127 @@
+---
+name: RSpec::SleepingKingStudios::Contract
+slug: contract
+type: module
+files:
+- lib/rspec/sleeping_king_studios/contract.rb
+parent_path: r-spec/sleeping-king-studios
+short_description: A Contract wraps RSpec functionality for sharing and reusability.
+instance_methods:
+- name: apply
+  path: r-spec/sleeping-king-studios/contract/i-apply
+  slug: apply
+  inherited: false
+- name: contract
+  path: r-spec/sleeping-king-studios/contract/i-contract
+  slug: contract
+  inherited: false
+- name: to_proc
+  path: r-spec/sleeping-king-studios/contract/i-to-proc
+  slug: to-proc
+  inherited: false
+data_path: r-spec/sleeping-king-studios/contract
+description: |-
+  An RSpec::SleepingKingStudios::Contract integrates with the
+  .include_contract class method to share and reuse RSpec examples and
+  configuration. The major advantage a Contract object provides over using a
+  Proc is documentation - tools such as YARD do not gracefully handle bare
+  lambdas, while the functionality and requirements of a Contract can be
+  specified using standard patterns, such as documenting the parameters passed
+  to a contract using the #apply method.
+metadata:
+  examples:
+  - name: Defining A Contract
+    text: |-
+      module ExampleContracts
+        # This contract asserts that the object has the Enumerable module as an
+        # ancestor, and that it responds to the #each method.
+        class ShouldBeEnumerableContract
+          extend RSpec::SleepingKingStudios::Contract
+
+          # @!method apply(example_group)
+          #   Adds the contract to the example group.
+
+          contract do
+            it 'should be Enumerable' do
+              expect(subject).to be_a Enumerable
+            end
+
+            it 'should respond to #each' do
+              expect(subject).to respond_to(:each).with(0).arguments
+            end
+          end
+        end
+      end
+
+      RSpec.describe Array do
+        ExampleContracts::SHOULD_BE_ENUMERABLE_CONTRACT.apply(self)
+      end
+
+      RSpec.describe Hash do
+        extend  RSpec::SleepingKingStudios::Concerns::IncludeContract
+        include ExampleContracts
+
+        include_contract 'should be enumerable'
+      end
+  - name: Defining A Contract With Parameters
+    text: |-
+      module SerializerContracts
+        # This contract asserts that the serialized result has the expected
+        # values.
+        #
+        # First, we pass the contract a series of attribute names. These are
+        # used to assert that the serialized attributes match the values on the
+        # original object.
+        #
+        # Second, we pass the contract a set of attribute names and values.
+        # These are used to assert that the serialized attributes have the
+        # specified values.
+        #
+        # Finally, we can pass the contract a block, which the contract then
+        # executes. Note that the block is executed in the context of our
+        # describe block, and thus can take advantage of our memoized
+        # #serialized helper method.
+        class ShouldSerializeAttributesContract
+          extend RSpec::SleepingKingStudios::Contract
+
+          contract do |*attributes, **values, &block|
+            describe '#serialize' do
+              let(:serialized) { subject.serialize }
+
+              it { expect(subject).to respond_to(:serialize).with(0).arguments }
+
+              attributes.each do |attribute|
+                it "should serialize #{attribute}" do
+                  expect(serialized[attribute]).to be == subject[attribute]
+                end
+              end
+
+              values.each do |attribute, value|
+                it "should serialize #{attribute}" do
+                  expect(serialized[attribute]).to be == value
+                end
+              end
+
+              instance_exec(&block) if block
+            end
+          end
+        end
+
+      RSpec.describe CaptainPicard do
+        SerializerContracts::ShouldSerializeAttributesContract.apply(
+          self,
+          :name,
+          :rank,
+          lights: 4) \
+        do
+          it 'should serialize the catchphrase' do
+            expect(serialized[:catchphrase]).to be == 'Make it so.'
+          end
+        end
+      end
+  see:
+  - label: RSpec::SleepingKingStudios::Concerns::IncludeContract
+    path: r-spec/sleeping-king-studios/concerns/include-contract
+    text:
+    type: reference
+version: '2.8'

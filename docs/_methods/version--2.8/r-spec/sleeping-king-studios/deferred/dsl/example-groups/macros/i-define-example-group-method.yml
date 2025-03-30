@@ -1,0 +1,19 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleGroups::Macros#define_example_group_method
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/macros
+signature: define_example_group_method(method_name)
+slug: define-example-group-method
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/macros/i-define-example-group-method
+params:
+- description: the name of the deferred method.
+  name: method_name
+  type:
+  - name: String
+  - name: Symbol
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Registers a method for deferring an example group.
+version: '2.8'

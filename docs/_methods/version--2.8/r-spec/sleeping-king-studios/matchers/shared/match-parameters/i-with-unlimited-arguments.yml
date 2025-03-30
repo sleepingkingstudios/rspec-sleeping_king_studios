@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters#with_unlimited_arguments
+parent_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
+signature: with_unlimited_arguments
+slug: with-unlimited-arguments
+aliases:
+- and_unlimited_arguments
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters/i-with-unlimited-arguments
+returns:
+- description: self
+  type: []
+short_description: |-
+  Adds an unlimited parameter count expectation, e.g. that the method
+  supports splatted array arguments of the form *args.
+version: '2.8'

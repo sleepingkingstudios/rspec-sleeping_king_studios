@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignature#optional_keywords
+parent_path: r-spec/sleeping-king-studios/support/method-signature
+signature: optional_keywords
+slug: optional-keywords
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/method-signature/i-optional-keywords
+metadata:
+  api: private
+short_description: method initialize
+version: '2.8'

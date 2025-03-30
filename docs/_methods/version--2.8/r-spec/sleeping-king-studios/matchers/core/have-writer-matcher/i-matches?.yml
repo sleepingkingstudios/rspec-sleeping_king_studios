@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher#matches?
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-writer-matcher
+signature: matches? actual
+slug: matches?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-writer-matcher/i-matches?
+metadata:
+  since:
+  - 1.0.0
+params:
+- description: the object to check
+  name: actual
+  type:
+  - name: Object
+returns:
+- description: |-
+    true if the object responds to :expected= and matches
+    the value expectation (if any); otherwise false
+  type:
+  - name: Boolean
+short_description: |-
+  Checks if the object responds to :expected=. Additionally, if a value
+  expectation is set, assigns the value via :expected= and compares the
+  subsequent value to the specified value using :expected or the block
+  provided to #with.
+version: '2.8'

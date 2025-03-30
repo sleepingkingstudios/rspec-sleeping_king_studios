@@ -1,0 +1,15 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Examples::ClassMethods#description
+parent_path: r-spec/sleeping-king-studios/deferred/examples/class-methods
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-description
+returns:
+- description: |-
+    the description for the deferred examples. By default,
+    formats the last segment of the module name in lowercase words,
+    excepting any trailing "Context" or "Examples".
+  type:
+  - name: String
+version: '2.8'

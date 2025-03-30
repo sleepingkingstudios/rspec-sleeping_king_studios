@@ -1,0 +1,38 @@
+---
+name: RSpec::SleepingKingStudios::Support::ValueSpy#initialize
+parent_path: r-spec/sleeping-king-studios/support/value-spy
+signature: initialize(receiver = nil, method_name = nil, &block)
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/support/value-spy/i-initialize
+overloads:
+- name: RSpec::SleepingKingStudios::Support::ValueSpy#initialize
+  parent_path: r-spec/sleeping-king-studios/support/value-spy
+  signature: initialize(receiver, method_name)
+  slug: initialize
+  constructor: true
+  params:
+  - description: The object to watch.
+    name: receiver
+    type:
+    - name: Object
+  - description: The name of the method to watch.
+    name: method_name
+    type:
+    - name: Symbol
+    - name: String
+- name: RSpec::SleepingKingStudios::Support::ValueSpy#initialize
+  parent_path: r-spec/sleeping-king-studios/support/value-spy
+  signature: initialize(&block)
+  slug: initialize
+  constructor: true
+  yields:
+  - description: |-
+      The value to watch. The block will be called each time the value
+      is requested, and the return value of the block will be given as the
+      current value.
+returns:
+- description: a new instance of ValueSpy
+  type:
+  - name: ValueSpy
+version: '2.8'

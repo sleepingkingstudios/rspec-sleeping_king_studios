@@ -1,0 +1,40 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::MemoizedHelpers
+slug: memoized-helpers
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dsl/memoized_helpers.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dsl
+short_description: DSL for defining memoized helpers for deferred examples.
+class_methods:
+- name: extended
+  path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/c-extended
+  slug: extended
+  inherited: false
+instance_methods:
+- name: call
+  path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/i-call
+  slug: call
+  inherited: false
+- name: let
+  path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/i-let
+  slug: let
+  inherited: false
+- name: let!
+  path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/i-let!
+  slug: let!
+  inherited: false
+- name: let?
+  path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/i-let?
+  slug: let?
+  inherited: false
+- name: subject
+  path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/i-subject
+  slug: subject
+  inherited: false
+- name: subject!
+  path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/i-subject!
+  slug: subject!
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers
+version: '2.8'

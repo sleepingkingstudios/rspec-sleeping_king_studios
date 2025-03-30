@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Call#==
+parent_path: r-spec/sleeping-king-studios/deferred/call
+signature: "==(other)"
+slug: "=="
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/call/i-==
+description: |-
+  Returns true if and only if:
+  - The other object is an instance of Deferred::Call.
+  - The other object's method name and type match the deferred call.
+  - The other object's arguments, keywords, and block all match the deferred
+    call.
+params:
+- description: the object to compare.
+  name: other
+  type:
+  - name: Object
+returns:
+- description: |-
+    true if the other matches the deferred call; otherwise
+    false.
+  type:
+  - name: Boolean
+short_description: Compares the other object with the deferred call.
+version: '2.8'
