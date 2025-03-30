@@ -34,7 +34,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
         'an item matching the block'
       when Hash
         item.inspect.gsub(/(\S)=>(\S)/, '\1 => \2')
-      when ->(item) { rspec_matcher?(item) }
+      when ->(maybe_matcher) { rspec_matcher?(maybe_matcher) }
         "(#{item.description})"
       else
         item.inspect
