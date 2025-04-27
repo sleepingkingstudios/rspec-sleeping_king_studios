@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher#does_not_match?
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-reader-matcher
+signature: does_not_match? actual
+slug: does-not-match?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-reader-matcher/i-does-not-match?
+metadata:
+  see:
+  - label: "#matches?"
+    path: r-spec/sleeping-king-studios/matchers/core/have-reader-matcher#instance-method-matches?
+    text:
+    type: reference
+  since:
+  - 1.0.0
+params:
+- description: the object to test against the matcher
+  name: actual
+  type:
+  - name: Object
+returns:
+- description: false if the object matches, otherwise true
+  type:
+  - name: Boolean
+short_description: 'Inverse of #matches? method.'
+version: 2-8-1

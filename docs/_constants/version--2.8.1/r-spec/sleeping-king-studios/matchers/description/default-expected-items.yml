@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Description::DEFAULT_EXPECTED_ITEMS
+parent_path: r-spec/sleeping-king-studios/matchers/description
+slug: default-expected-items
+short_description: ''
+value: Object.new
+data_path: r-spec/sleeping-king-studios/matchers/description/default-expected-items
+metadata:
+  api: private
+  since:
+  - 2.2.0
+version: 2.8.1

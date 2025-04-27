@@ -1,0 +1,21 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::FocusExamples
+slug: focus-examples
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns/focus_examples.rb
+parent_path: r-spec/sleeping-king-studios/concerns
+short_description: |-
+  Convenience methods for automatically focusing or skipping shared example
+  groups.
+instance_methods:
+- name: finclude_examples
+  path: r-spec/sleeping-king-studios/concerns/focus-examples/i-finclude-examples
+  slug: finclude-examples
+  inherited: false
+- name: xinclude_examples
+  path: r-spec/sleeping-king-studios/concerns/focus-examples/i-xinclude-examples
+  slug: xinclude-examples
+  inherited: false
+data_path: r-spec/sleeping-king-studios/concerns/focus-examples
+version: 2.8.1

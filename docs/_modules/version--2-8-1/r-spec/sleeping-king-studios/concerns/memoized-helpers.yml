@@ -1,0 +1,15 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::MemoizedHelpers
+slug: memoized-helpers
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns/memoized_helpers.rb
+parent_path: r-spec/sleeping-king-studios/concerns
+short_description: Methods for defining memoized helpers in example groups.
+instance_methods:
+- name: let?
+  path: r-spec/sleeping-king-studios/concerns/memoized-helpers/i-let?
+  slug: let?
+  inherited: false
+data_path: r-spec/sleeping-king-studios/concerns/memoized-helpers
+version: 2-8-1

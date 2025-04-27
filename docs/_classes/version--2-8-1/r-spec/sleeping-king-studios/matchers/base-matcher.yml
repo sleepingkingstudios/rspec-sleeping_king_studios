@@ -1,0 +1,91 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BaseMatcher
+slug: base-matcher
+type: class
+files:
+- lib/rspec/sleeping_king_studios/matchers/base_matcher.rb
+parent_path: r-spec/sleeping-king-studios/matchers
+short_description: Minimal implementation of the RSpec matcher interface.
+constants:
+- name: DEFAULT_EXPECTED_ITEMS
+  path: r-spec/sleeping-king-studios/matchers/description/default-expected-items
+  slug: default-expected-items
+  inherited: true
+instance_attributes:
+- name: actual
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-actual
+  slug: actual
+  inherited: false
+instance_methods:
+- name: description
+  path: r-spec/sleeping-king-studios/matchers/description/i-description
+  slug: description
+  inherited: true
+- name: does_not_match?
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-does-not-match?
+  slug: does-not-match?
+  inherited: false
+- name: failure_message
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-failure-message
+  slug: failure-message
+  inherited: false
+- name: failure_message_when_negated
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-failure-message-when-negated
+  slug: failure-message-when-negated
+  inherited: false
+- name: matches?
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-matches?
+  slug: matches?
+  inherited: false
+data_path: r-spec/sleeping-king-studios/matchers/base-matcher
+included_modules:
+- name: RSpec::SleepingKingStudios::Matchers::Description
+  slug: description
+  path: r-spec/sleeping-king-studios/matchers/description
+metadata:
+  since:
+  - 1.0.0
+constructor: false
+direct_subclasses:
+- name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher
+  slug: have-errors-matcher
+  path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::BeAUuidMatcher
+  slug: be-a-uuid-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/be-a-uuid-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher
+  slug: be-boolean-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/be-boolean-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher
+  slug: construct-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/construct-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher
+  slug: deep-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/deep-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
+  slug: delegate-method-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatcher
+  slug: have-aliased-method-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher
+  slug: have-changed-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::HaveConstantMatcher
+  slug: have-constant-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::HavePredicateMatcher
+  slug: have-predicate-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/have-predicate-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher
+  slug: have-property-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/have-property-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher
+  slug: have-reader-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/have-reader-matcher
+- name: RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher
+  slug: have-writer-matcher
+  path: r-spec/sleeping-king-studios/matchers/core/have-writer-matcher
+version: 2-8-1

@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher#by
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher
+signature: by(difference)
+slug: by
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher/i-by
+metadata:
+  since:
+  - 2.4.0
+params:
+- description: |-
+    The expected difference between the initial
+    value and the current value.
+  name: difference
+  type:
+  - name: Object
+returns:
+- description: the matcher instance.
+  type:
+  - name: HaveChangedMatcher
+short_description: |-
+  Creates an difference expectation between the initial and current values.
+  The matcher will subtract the current value from the initial value and
+  compare the result with the specified value.
+version: 2.8.1

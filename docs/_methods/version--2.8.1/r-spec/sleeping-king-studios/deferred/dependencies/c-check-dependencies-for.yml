@@ -1,0 +1,20 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dependencies.check_dependencies_for
+parent_path: r-spec/sleeping-king-studios/deferred/dependencies
+signature: check_dependencies_for(example)
+slug: check-dependencies-for
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dependencies/c-check-dependencies-for
+params:
+- description: the example to check.
+  name: example
+  type:
+  - name: RSpec::Core::Example
+raises:
+- description: |-
+    if there are any dependencies missing
+    for the given example.
+  type:
+  - name: MissingDependenciesError
+short_description: Checks for missing dependent methods for the given example.
+version: 2.8.1

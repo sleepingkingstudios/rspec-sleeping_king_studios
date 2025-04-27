@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Support::ValueSpy#current_value
+parent_path: r-spec/sleeping-king-studios/support/value-spy
+signature: current_value
+slug: current-value
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/value-spy/i-current-value
+returns:
+- description: 'the watched value when #current_value is called.'
+  type:
+  - name: Object
+version: 2.8.1

@@ -1,0 +1,8 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher#description
+parent_path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-description
+version: 2.8.1

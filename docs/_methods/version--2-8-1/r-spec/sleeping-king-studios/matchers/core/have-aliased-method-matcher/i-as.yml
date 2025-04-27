@@ -1,0 +1,22 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatcher#as
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher
+signature: as(aliased_name)
+slug: as
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher/i-as
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: The method name.
+  name: aliased_name
+  type:
+  - name: String
+  - name: Symbol
+returns:
+- description: self
+  type:
+  - name: AliasMethodMatcher
+short_description: Specifies the name of the new method.
+version: 2-8-1

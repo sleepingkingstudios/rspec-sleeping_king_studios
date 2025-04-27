@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#have_reader
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: 'have_reader expected, allow_private: false'
+slug: have-reader
+aliases:
+- define_reader
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-have-reader
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher#matches?
+    path: r-spec/sleeping-king-studios/matchers/core/have-reader-matcher#instance-method-matches?
+    text:
+    type: reference
+version: 2.8.1

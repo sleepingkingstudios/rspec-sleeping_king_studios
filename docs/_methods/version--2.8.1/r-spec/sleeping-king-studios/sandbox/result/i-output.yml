@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox::Result#output
+parent_path: r-spec/sleeping-king-studios/sandbox/result
+signature: output
+slug: output
+constructor: false
+data_path: r-spec/sleeping-king-studios/sandbox/result/i-output
+returns:
+- description: the current value of output
+  type:
+  - name: Object
+short_description: Returns the value of attribute output
+version: 2.8.1

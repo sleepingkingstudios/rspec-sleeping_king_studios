@@ -1,0 +1,18 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Calls::Example#call
+parent_path: r-spec/sleeping-king-studios/deferred/calls/example
+signature: call(receiver)
+slug: call
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/calls/example/i-call
+params:
+- description: the receiver for the method call.
+  name: receiver
+  type:
+  - name: Object
+returns:
+- description: the returned value of the method call.
+  type:
+  - name: Object
+short_description: Invokes the deferred method call on the receiver.
+version: 2-8-1

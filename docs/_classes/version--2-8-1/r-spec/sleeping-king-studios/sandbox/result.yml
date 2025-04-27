@@ -1,0 +1,60 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox::Result
+slug: result
+type: class
+files:
+- lib/rspec/sleeping_king_studios/sandbox.rb
+parent_path: r-spec/sleeping-king-studios/sandbox
+short_description: Value class for the result of calling a sandboxed spec file.
+instance_attributes:
+- name: errors
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/sandbox/result/i-errors
+  slug: errors
+  inherited: false
+- name: json
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/sandbox/result/i-json
+  slug: json
+  inherited: false
+- name: output
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/sandbox/result/i-output
+  slug: output
+  inherited: false
+- name: status
+  read: true
+  write: true
+  path: r-spec/sleeping-king-studios/sandbox/result/i-status
+  slug: status
+  inherited: false
+instance_methods:
+- name: example_descriptions
+  path: r-spec/sleeping-king-studios/sandbox/result/i-example-descriptions
+  slug: example-descriptions
+  inherited: false
+- name: failing_examples
+  path: r-spec/sleeping-king-studios/sandbox/result/i-failing-examples
+  slug: failing-examples
+  inherited: false
+- name: passing_examples
+  path: r-spec/sleeping-king-studios/sandbox/result/i-passing-examples
+  slug: passing-examples
+  inherited: false
+- name: pending_examples
+  path: r-spec/sleeping-king-studios/sandbox/result/i-pending-examples
+  slug: pending-examples
+  inherited: false
+- name: summary
+  path: r-spec/sleeping-king-studios/sandbox/result/i-summary
+  slug: summary
+  inherited: false
+data_path: r-spec/sleeping-king-studios/sandbox/result
+constructor: false
+inherited_classes:
+- name: Struct
+  slug: struct
+version: 2-8-1

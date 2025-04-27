@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#matches?
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+signature: matches? actual
+slug: matches?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/i-matches?
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: the object to test against the matcher
+  name: actual
+  type:
+  - name: Object
+raises:
+- description: ''
+  type:
+  - name: ArgumentError
+returns:
+- description: true if the object matches, otherwise false
+  type:
+  - name: Boolean
+short_description: |-
+  Tests the actual object to see if it matches the defined condition(s).
+  Invoked by RSpec expectations.
+version: 2-8-1

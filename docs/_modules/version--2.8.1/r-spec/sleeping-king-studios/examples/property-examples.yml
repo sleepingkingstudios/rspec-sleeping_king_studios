@@ -1,0 +1,66 @@
+---
+name: RSpec::SleepingKingStudios::Examples::PropertyExamples
+slug: property-examples
+type: module
+files:
+- lib/rspec/sleeping_king_studios/examples/property_examples.rb
+- lib/rspec/sleeping_king_studios/examples/property_examples/constants.rb
+- lib/rspec/sleeping_king_studios/examples/property_examples/predicates.rb
+- lib/rspec/sleeping_king_studios/examples/property_examples/properties.rb
+- lib/rspec/sleeping_king_studios/examples/property_examples/class_properties.rb
+- lib/rspec/sleeping_king_studios/examples/property_examples/private_properties.rb
+parent_path: r-spec/sleeping-king-studios/examples
+short_description: |-
+  Pregenerated example groups for testing the presence and value of reader and
+  writer methods.
+class_methods:
+- name: alias_shared_examples
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-alias-shared-examples
+  slug: alias-shared-examples
+  inherited: true
+- name: included
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-included
+  slug: included
+  inherited: true
+- name: shared_examples
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-shared-examples
+  slug: shared-examples
+  inherited: true
+constants:
+- name: UNDEFINED_VALUE_EXPECTATION
+  path: r-spec/sleeping-king-studios/examples/property-examples/undefined-value-expectation
+  slug: undefined-value-expectation
+  inherited: false
+defined_modules:
+- name: ClassProperties
+  slug: class-properties
+- name: Constants
+  slug: constants
+- name: Predicates
+  slug: predicates
+- name: PrivateProperties
+  slug: private-properties
+- name: Properties
+  slug: properties
+data_path: r-spec/sleeping-king-studios/examples/property-examples
+extended_modules:
+- name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
+  slug: shared-example-group
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group
+included_modules:
+- name: RSpec::SleepingKingStudios::Examples::PropertyExamples::ClassProperties
+  slug: class-properties
+  path: r-spec/sleeping-king-studios/examples/property-examples/class-properties
+- name: RSpec::SleepingKingStudios::Examples::PropertyExamples::Constants
+  slug: constants
+  path: r-spec/sleeping-king-studios/examples/property-examples/constants
+- name: RSpec::SleepingKingStudios::Examples::PropertyExamples::Predicates
+  slug: predicates
+  path: r-spec/sleeping-king-studios/examples/property-examples/predicates
+- name: RSpec::SleepingKingStudios::Examples::PropertyExamples::PrivateProperties
+  slug: private-properties
+  path: r-spec/sleeping-king-studios/examples/property-examples/private-properties
+- name: RSpec::SleepingKingStudios::Examples::PropertyExamples::Properties
+  slug: properties
+  path: r-spec/sleeping-king-studios/examples/property-examples/properties
+version: 2.8.1

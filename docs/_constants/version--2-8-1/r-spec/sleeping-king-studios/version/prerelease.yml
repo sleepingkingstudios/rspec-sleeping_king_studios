@@ -1,0 +1,10 @@
+---
+name: RSpec::SleepingKingStudios::Version::PRERELEASE
+parent_path: r-spec/sleeping-king-studios/version
+slug: prerelease
+short_description: Prerelease version.
+value: nil
+data_path: r-spec/sleeping-king-studios/version/prerelease
+metadata:
+  api: private
+version: 2-8-1

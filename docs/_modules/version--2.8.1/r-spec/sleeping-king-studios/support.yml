@@ -1,0 +1,22 @@
+---
+name: RSpec::SleepingKingStudios::Support
+slug: support
+type: module
+files:
+- lib/rspec/sleeping_king_studios/support.rb
+- lib/rspec/sleeping_king_studios/support/value_spy.rb
+- lib/rspec/sleeping_king_studios/support/method_signature.rb
+- lib/rspec/sleeping_king_studios/support/method_signature_expectation.rb
+parent_path: r-spec/sleeping-king-studios
+short_description: |-
+  Support classes and shared concerns for use with custom RSpec matchers and
+  examples.
+defined_classes:
+- name: MethodSignature
+  slug: method-signature
+- name: MethodSignatureExpectation
+  slug: method-signature-expectation
+- name: ValueSpy
+  slug: value-spy
+data_path: r-spec/sleeping-king-studios/support
+version: 2.8.1

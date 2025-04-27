@@ -1,0 +1,17 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::Toolbelt::ClassMethods
+slug: class-methods
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns/toolbelt.rb
+parent_path: r-spec/sleeping-king-studios/concerns/toolbelt
+short_description: |-
+  Class methods to define when including
+  RSpec::SleepingKingStudios::Concerns::Toolbelt in a class.
+instance_methods:
+- name: tools
+  path: r-spec/sleeping-king-studios/concerns/toolbelt/class-methods/i-tools
+  slug: tools
+  inherited: false
+data_path: r-spec/sleeping-king-studios/concerns/toolbelt/class-methods
+version: 2.8.1

@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatcher#description
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-aliased-method-matcher/i-description
+metadata:
+  since:
+  - 2.2.0
+version: 2-8-1

@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#to
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+signature: to target
+slug: to
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/i-to
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: The target object.
+  name: target
+  type:
+  - name: Object
+returns:
+- description: self
+  type:
+  - name: DelegateMethodMatcher
+short_description: |-
+  Specifies the target object. The expected methods should be delegated
+  from the actual object to the target.
+version: 2.8.1

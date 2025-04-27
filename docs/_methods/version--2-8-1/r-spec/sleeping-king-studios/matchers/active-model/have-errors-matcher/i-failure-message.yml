@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher#failure_message
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher
+signature: failure_message
+slug: failure-message
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher/i-failure-message
+metadata:
+  since:
+  - 1.0.0
+short_description: |-
+  Message for when the object does not match, but was expected to. Make
+  sure to always call #matches? first to set up the matcher state.
+version: 2-8-1

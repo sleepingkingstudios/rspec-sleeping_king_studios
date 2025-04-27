@@ -1,0 +1,8 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::ExampleConstants#example_class
+parent_path: r-spec/sleeping-king-studios/concerns/example-constants
+signature: example_class(class_name, base_class = nil, &block)
+slug: example-class
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/example-constants/i-example-class
+version: 2.8.1

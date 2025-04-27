@@ -1,0 +1,15 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::Examples::Macros
+slug: macros
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dsl/examples.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/examples
+short_description: Meta-methods for defining deferred examples.
+instance_methods:
+- name: define_example_method
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/macros/i-define-example-method
+  slug: define-example-method
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/examples/macros
+version: 2-8-1

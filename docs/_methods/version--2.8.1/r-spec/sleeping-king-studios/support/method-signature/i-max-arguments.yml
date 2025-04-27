@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignature#max_arguments
+parent_path: r-spec/sleeping-king-studios/support/method-signature
+signature: max_arguments
+slug: max-arguments
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/method-signature/i-max-arguments
+metadata:
+  api: private
+short_description: method initialize
+version: 2.8.1

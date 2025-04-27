@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Examples::ClassMethods#description=
+parent_path: r-spec/sleeping-king-studios/deferred/examples/class-methods
+signature: description=(value)
+slug: description=
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-description=
+params:
+- description: the description for the deferred examples.
+  name: value
+  type:
+  - name: String
+version: 2-8-1

@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::WrapExamples
+slug: wrap-examples
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns/wrap_examples.rb
+parent_path: r-spec/sleeping-king-studios/concerns
+short_description: |-
+  Methods for encapsulating shared example groups to include contexts or
+  examples without affecting the surrounding context.
+instance_methods:
+- name: fwrap_examples
+  path: r-spec/sleeping-king-studios/concerns/wrap-examples/i-fwrap-examples
+  slug: fwrap-examples
+  inherited: false
+- name: wrap_examples
+  path: r-spec/sleeping-king-studios/concerns/wrap-examples/i-wrap-examples
+  slug: wrap-examples
+  inherited: false
+- name: xwrap_examples
+  path: r-spec/sleeping-king-studios/concerns/wrap-examples/i-xwrap-examples
+  slug: xwrap-examples
+  inherited: false
+data_path: r-spec/sleeping-king-studios/concerns/wrap-examples
+version: 2.8.1

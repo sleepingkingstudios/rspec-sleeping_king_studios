@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Call#keywords
+parent_path: r-spec/sleeping-king-studios/deferred/call
+signature: keywords
+slug: keywords
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/call/i-keywords
+returns:
+- description: the keywords to pass to the method.
+  type:
+  - name: Hash
+version: 2-8-1

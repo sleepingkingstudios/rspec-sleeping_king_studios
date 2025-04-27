@@ -1,0 +1,38 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Calls::ExampleGroup#initialize
+parent_path: r-spec/sleeping-king-studios/deferred/calls/example-group
+signature: 'initialize(method_name, *arguments, deferred_example_group: nil, **keywords,
+  &block)'
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/deferred/calls/example-group/i-initialize
+params:
+- description: the name of the method to call.
+  name: method_name
+  type:
+  - name: String
+  - name: Symbol
+- description: the arguments to pass to the method.
+  name: arguments
+  type:
+  - name: Array
+- description: the keywords to pass to the method.
+  name: keywords
+  type:
+  - name: Hash
+- description: |-
+    the deferred example
+    group defining the deferred call.
+  name: deferred_example_group
+  type:
+  - name: Deferred::Examples
+  default: nil
+- description: the block to pass to the method.
+  name: block
+  type:
+  - name: Proc
+returns:
+- description: a new instance of ExampleGroup
+  type:
+  - name: ExampleGroup
+version: 2-8-1

@@ -1,0 +1,35 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::Hooks
+slug: hooks
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dsl/hooks.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dsl
+short_description: Domain-specific language for defining deferred hooks.
+instance_methods:
+- name: after
+  path: r-spec/sleeping-king-studios/deferred/dsl/hooks/i-after
+  slug: after
+  inherited: false
+- name: append_after
+  path: r-spec/sleeping-king-studios/deferred/dsl/hooks/i-append-after
+  slug: append-after
+  inherited: false
+- name: around
+  path: r-spec/sleeping-king-studios/deferred/dsl/hooks/i-around
+  slug: around
+  inherited: false
+- name: before
+  path: r-spec/sleeping-king-studios/deferred/dsl/hooks/i-before
+  slug: before
+  inherited: false
+- name: call
+  path: r-spec/sleeping-king-studios/deferred/dsl/hooks/i-call
+  slug: call
+  inherited: false
+- name: prepend_before
+  path: r-spec/sleeping-king-studios/deferred/dsl/hooks/i-prepend-before
+  slug: prepend-before
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/hooks
+version: 2-8-1

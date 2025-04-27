@@ -1,0 +1,17 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Examples::ClassMethods#source_location=
+parent_path: r-spec/sleeping-king-studios/deferred/examples/class-methods
+signature: source_location=(value)
+slug: source-location=
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-source-location=
+returns:
+- description: |-
+    the Ruby source filename and line
+    number where the deferred example group was defined.
+  type:
+  - name: Array
+    items:
+    - name: String
+    - name: Integer
+version: 2-8-1

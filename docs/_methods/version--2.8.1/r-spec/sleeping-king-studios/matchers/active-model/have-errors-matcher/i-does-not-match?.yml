@@ -1,0 +1,32 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher#does_not_match?
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher
+signature: does_not_match? actual
+slug: does-not-match?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher/i-does-not-match?
+metadata:
+  see:
+  - label: "#matches?"
+    path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher#instance-method-matches?
+    text:
+    type: reference
+  since:
+  - 1.0.0
+params:
+- description: The object to test against the matcher.
+  name: actual
+  type:
+  - name: Object
+returns:
+- description: |-
+    True if the object responds to :valid? and is valid
+    or object.errors does not match the specified errors and messages (if
+    any); otherwise false.
+  type:
+  - name: Boolean
+short_description: |-
+  Checks if the object can be validated, whether the object is valid, and
+  checks the errors on the object against the expected errors and messages
+  from #on and #with_message, if any.
+version: 2.8.1

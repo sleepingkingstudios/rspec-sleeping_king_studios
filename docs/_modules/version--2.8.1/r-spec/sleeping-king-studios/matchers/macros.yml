@@ -1,0 +1,117 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros
+slug: macros
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/macros.rb
+- lib/rspec/sleeping_king_studios/matchers/core/be_a_uuid.rb
+- lib/rspec/sleeping_king_studios/matchers/core/construct.rb
+- lib/rspec/sleeping_king_studios/matchers/core/be_boolean.rb
+- lib/rspec/sleeping_king_studios/matchers/core/deep_match.rb
+- lib/rspec/sleeping_king_studios/matchers/built_in/include.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_reader.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_writer.rb
+- lib/rspec/sleeping_king_studios/matchers/core/alias_method.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_changed.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_constant.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_property.rb
+- lib/rspec/sleeping_king_studios/matchers/built_in/be_kind_of.rb
+- lib/rspec/sleeping_king_studios/matchers/built_in/respond_to.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_predicate.rb
+- lib/rspec/sleeping_king_studios/matchers/core/delegate_method.rb
+- lib/rspec/sleeping_king_studios/matchers/active_model/have_errors.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_aliased_method.rb
+parent_path: r-spec/sleeping-king-studios/matchers
+short_description: ''
+class_methods:
+- name: alias_matcher
+  path: r-spec/sleeping-king-studios/matchers/macros/c-alias-matcher
+  slug: alias-matcher
+  inherited: false
+instance_methods:
+- name: a_boolean
+  path: r-spec/sleeping-king-studios/matchers/macros/i-a-boolean
+  slug: a-boolean
+  inherited: false
+- name: a_uuid
+  path: r-spec/sleeping-king-studios/matchers/macros/i-a-uuid
+  slug: a-uuid
+  inherited: false
+- name: alias_method
+  path: r-spec/sleeping-king-studios/matchers/macros/i-alias-method
+  slug: alias-method
+  inherited: false
+- name: be_a_uuid
+  path: r-spec/sleeping-king-studios/matchers/macros/i-be-a-uuid
+  slug: be-a-uuid
+  inherited: false
+- name: be_boolean
+  path: r-spec/sleeping-king-studios/matchers/macros/i-be-boolean
+  slug: be-boolean
+  inherited: false
+- name: be_kind_of
+  path: r-spec/sleeping-king-studios/matchers/macros/i-be-kind-of
+  slug: be-kind-of
+  inherited: false
+- name: construct
+  path: r-spec/sleeping-king-studios/matchers/macros/i-construct
+  slug: construct
+  inherited: false
+- name: deep_match
+  path: r-spec/sleeping-king-studios/matchers/macros/i-deep-match
+  slug: deep-match
+  inherited: false
+- name: delegate_method
+  path: r-spec/sleeping-king-studios/matchers/macros/i-delegate-method
+  slug: delegate-method
+  inherited: false
+- name: have_aliased_method
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-aliased-method
+  slug: have-aliased-method
+  inherited: false
+- name: have_changed
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-changed
+  slug: have-changed
+  inherited: false
+- name: have_constant
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-constant
+  slug: have-constant
+  inherited: false
+- name: have_errors
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-errors
+  slug: have-errors
+  inherited: false
+- name: have_immutable_constant
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-immutable-constant
+  slug: have-immutable-constant
+  inherited: false
+- name: have_predicate
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-predicate
+  slug: have-predicate
+  inherited: false
+- name: have_property
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-property
+  slug: have-property
+  inherited: false
+- name: have_reader
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-reader
+  slug: have-reader
+  inherited: false
+- name: have_writer
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-writer
+  slug: have-writer
+  inherited: false
+- name: include
+  path: r-spec/sleeping-king-studios/matchers/macros/i-include
+  slug: include
+  inherited: false
+- name: respond_to
+  path: r-spec/sleeping-king-studios/matchers/macros/i-respond-to
+  slug: respond-to
+  inherited: false
+- name: watch_value
+  path: r-spec/sleeping-king-studios/matchers/macros/i-watch-value
+  slug: watch-value
+  inherited: false
+data_path: r-spec/sleeping-king-studios/matchers/macros
+version: 2.8.1

@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters#with_arbitrary_keywords
+parent_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
+signature: with_arbitrary_keywords
+slug: with-arbitrary-keywords
+aliases:
+- and_arbitrary_keywords
+- with_any_keywords
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters/i-with-arbitrary-keywords
+short_description: |-
+  Adds an arbitrary keyword expectation, e.g. that the method supports
+  any keywords with splatted hash arguments of the form **kwargs.
+version: 2.8.1

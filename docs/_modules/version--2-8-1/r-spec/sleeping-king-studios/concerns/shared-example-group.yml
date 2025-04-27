@@ -1,0 +1,42 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
+slug: shared-example-group
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns/shared_example_group.rb
+parent_path: r-spec/sleeping-king-studios/concerns
+short_description: |-
+  Methods for creating reusable shared example groups and shared contexts in
+  a module that can be mixed into multiple RSpec example groups.
+instance_methods:
+- name: alias_shared_examples
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-alias-shared-examples
+  slug: alias-shared-examples
+  inherited: false
+- name: included
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-included
+  slug: included
+  inherited: false
+- name: shared_examples
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-shared-examples
+  slug: shared-examples
+  inherited: false
+data_path: r-spec/sleeping-king-studios/concerns/shared-example-group
+metadata:
+  examples:
+  - name: ''
+    text: |-
+      module MySharedExamples
+        extend RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
+
+        shared_examples 'my examples' do
+          # Define shared examples here.
+        end # shared_examples
+      end # module
+
+      RSpec.describe MyObject do
+        include MySharedExamples
+
+        include_examples 'my examples'
+      end # describe
+version: 2-8-1

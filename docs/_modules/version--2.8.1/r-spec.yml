@@ -1,0 +1,14 @@
+---
+name: RSpec
+slug: r-spec
+type: module
+files:
+- lib/rspec/sleeping_king_studios.rb
+- lib/rspec/sleeping_king_studios/version.rb
+parent_path: ''
+short_description: ''
+defined_modules:
+- name: SleepingKingStudios
+  slug: sleeping-king-studios
+data_path: r-spec
+version: 2.8.1

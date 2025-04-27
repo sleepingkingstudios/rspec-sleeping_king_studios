@@ -1,0 +1,29 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher#with_messages
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher
+signature: with_messages
+slug: with-messages
+aliases:
+- with
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher/i-with-messages
+metadata:
+  see:
+  - label: "#with_message"
+    path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher#instance-method-with-message
+    text:
+    type: reference
+  since:
+  - 1.0.0
+params:
+- description:
+  name: messages
+  type:
+  - name: Array
+    items:
+    - name: String
+    - name: Regexp
+short_description: |-
+  Adds a set of message expectations for the most recently added error
+  attribute.
+version: 2-8-1

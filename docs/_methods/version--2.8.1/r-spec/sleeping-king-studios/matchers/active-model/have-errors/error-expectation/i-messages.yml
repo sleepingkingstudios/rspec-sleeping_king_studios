@@ -1,0 +1,33 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation#messages
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation
+signature: messages
+slug: messages
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/i-messages
+metadata:
+  see:
+  - label: MessagesMethods#expected
+    path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods#instance-method-expected
+    text:
+    type: reference
+  - label: MessagesMethods#missing
+    path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods#instance-method-missing
+    text:
+    type: reference
+  - label: MessagesMethods#received
+    path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods#instance-method-received
+    text:
+    type: reference
+  since:
+  - 1.0.0
+returns:
+- description: ''
+  type:
+  - name: Array
+    items:
+    - name: MessageExpectation
+short_description: |-
+  The message expectations for the specified attribute. The returned array
+  supports several additional methods: #expected, #missing, and #received.
+version: 2.8.1

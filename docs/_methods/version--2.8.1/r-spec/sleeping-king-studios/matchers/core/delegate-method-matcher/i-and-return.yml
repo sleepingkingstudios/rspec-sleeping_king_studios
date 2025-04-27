@@ -1,0 +1,28 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#and_return
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+signature: and_return
+slug: and-return
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/i-and-return
+description: from calling the method on the actual object.
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: The expected values to be returned
+  name: return_values
+  type:
+  - name: Array
+    items:
+    - name: Object
+returns:
+- description: self
+  type:
+  - name: DelegateMethodMatcher
+short_description: |-
+  Specifies that the actual method, when called, will return the specified
+  value. If more than one return value is specified, the method will be
+  called one time for each return value, and on the Nth call must return
+  the Nth specified return value.
+version: 2.8.1

@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveReaderMatcher#with
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-reader-matcher
+signature: with value
+slug: with
+aliases:
+- with_value
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-reader-matcher/i-with
+metadata:
+  since:
+  - 1.0.0
+params:
+- description: The value to compare.
+  name: value
+  type:
+  - name: Object
+returns:
+- description: self
+  type:
+  - name: HaveReaderMatcher
+short_description: |-
+  Sets a value expectation. The matcher will compare the value from
+  #property with the specified value.
+version: 2.8.1

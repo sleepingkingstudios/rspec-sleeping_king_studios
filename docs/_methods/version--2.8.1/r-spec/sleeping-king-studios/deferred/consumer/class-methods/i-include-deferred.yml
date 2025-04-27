@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Consumer::ClassMethods#include_deferred
+parent_path: r-spec/sleeping-king-studios/deferred/consumer/class-methods
+signature: include_deferred(description, *arguments, **keywords, &block)
+slug: include-deferred
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/consumer/class-methods/i-include-deferred
+params:
+- description: the name of the deferred examples.
+  name: description
+  type:
+  - name: String
+- description: arguments passed to the deferred examples.
+  name: arguments
+  type:
+  - name: Array
+- description: keywords passed to the deferred examples.
+  name: keywords
+  type:
+  - name: Hash
+- description: a block passed to the deferred examples.
+  name: block
+  type:
+  - name: Block
+short_description: Includes the deferred examples with the given definition.
+version: 2.8.1

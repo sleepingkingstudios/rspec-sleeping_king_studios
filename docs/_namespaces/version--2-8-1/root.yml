@@ -1,0 +1,8 @@
+---
+name: root
+slug: root
+type: namespace
+defined_modules:
+- name: RSpec
+  slug: r-spec
+version: 2-8-1

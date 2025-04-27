@@ -1,0 +1,58 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Calls::IncludedExamples
+slug: included-examples
+type: class
+files:
+- lib/rspec/sleeping_king_studios/deferred/calls/included_examples.rb
+parent_path: r-spec/sleeping-king-studios/deferred/calls
+short_description: Value object representing a deferred RSpec included example group.
+instance_attributes:
+- name: arguments
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/deferred/call/i-arguments
+  slug: arguments
+  inherited: true
+- name: block
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/deferred/call/i-block
+  slug: block
+  inherited: true
+- name: keywords
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/deferred/call/i-keywords
+  slug: keywords
+  inherited: true
+- name: method_name
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/deferred/call/i-method-name
+  slug: method-name
+  inherited: true
+instance_methods:
+- name: "=="
+  path: r-spec/sleeping-king-studios/deferred/call/i-==
+  slug: "=="
+  inherited: true
+- name: call
+  path: r-spec/sleeping-king-studios/deferred/call/i-call
+  slug: call
+  inherited: true
+- name: initialize
+  path: r-spec/sleeping-king-studios/deferred/call/i-initialize
+  slug: initialize
+  inherited: true
+  constructor: true
+- name: name
+  path: r-spec/sleeping-king-studios/deferred/calls/included-examples/i-name
+  slug: name
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/calls/included-examples
+constructor: true
+inherited_classes:
+- name: RSpec::SleepingKingStudios::Deferred::Call
+  slug: call
+  path: r-spec/sleeping-king-studios/deferred/call
+version: 2-8-1

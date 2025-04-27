@@ -1,0 +1,50 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core
+slug: core
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/core.rb
+- lib/rspec/sleeping_king_studios/matchers/core/deep_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/be_a_uuid_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/construct_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/be_boolean_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_reader_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_writer_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/alias_method_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_changed_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_constant_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_property_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_predicate_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/delegate_method_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/core/have_aliased_method_matcher.rb
+parent_path: r-spec/sleeping-king-studios/matchers
+short_description: All-purpose matchers for use with objects and built-in types.
+defined_classes:
+- name: AliasMethodMatcher
+  slug: alias-method-matcher
+- name: BeAUuidMatcher
+  slug: be-a-uuid-matcher
+- name: BeBooleanMatcher
+  slug: be-boolean-matcher
+- name: ConstructMatcher
+  slug: construct-matcher
+- name: DeepMatcher
+  slug: deep-matcher
+- name: DelegateMethodMatcher
+  slug: delegate-method-matcher
+- name: HaveAliasedMethodMatcher
+  slug: have-aliased-method-matcher
+- name: HaveChangedMatcher
+  slug: have-changed-matcher
+- name: HaveConstantMatcher
+  slug: have-constant-matcher
+- name: HavePredicateMatcher
+  slug: have-predicate-matcher
+- name: HavePropertyMatcher
+  slug: have-property-matcher
+- name: HaveReaderMatcher
+  slug: have-reader-matcher
+- name: HaveWriterMatcher
+  slug: have-writer-matcher
+data_path: r-spec/sleeping-king-studios/matchers/core
+version: 2.8.1

@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox::Result#summary
+parent_path: r-spec/sleeping-king-studios/sandbox/result
+signature: summary
+slug: summary
+constructor: false
+data_path: r-spec/sleeping-king-studios/sandbox/result/i-summary
+returns:
+- description: the summary of the sandboxed spec run.
+  type:
+  - name: String
+version: 2-8-1
