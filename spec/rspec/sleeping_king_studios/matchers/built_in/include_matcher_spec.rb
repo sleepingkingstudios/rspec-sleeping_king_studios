@@ -52,6 +52,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
     hash.to_a.sort_by { |(key, _)| key }.to_h
   end
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '::new' do
     describe 'with no arguments' do
       context 'when the configuration option is set to true' do

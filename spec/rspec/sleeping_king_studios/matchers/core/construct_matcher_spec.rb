@@ -12,6 +12,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher do
 
   let(:instance) { described_class.new }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#description' do
     let(:expected) { 'construct' }
 

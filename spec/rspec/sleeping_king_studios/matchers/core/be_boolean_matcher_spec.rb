@@ -9,6 +9,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::BeBooleanMatcher do
 
   let(:instance) { described_class.new }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#description' do
     it { expect(instance).to respond_to(:description).with(0).arguments }
 

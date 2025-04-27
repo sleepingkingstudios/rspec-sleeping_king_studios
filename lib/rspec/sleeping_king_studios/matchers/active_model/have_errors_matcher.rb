@@ -10,6 +10,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
   #
   # @since 1.0.0
   class HaveErrorsMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::Matchers::Composable
     include RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors
 
     def initialize

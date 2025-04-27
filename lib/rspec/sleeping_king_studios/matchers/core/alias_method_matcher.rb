@@ -9,6 +9,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 2.2.0
   class AliasMethodMatcher < RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatcher
+    include RSpec::Matchers::Composable
+
     # (see BaseMatcher#matches?)
     def matches?(actual)
       SleepingKingStudios::Tools::CoreTools.deprecate(

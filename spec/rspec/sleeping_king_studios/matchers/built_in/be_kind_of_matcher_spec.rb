@@ -7,6 +7,8 @@ require 'rspec/sleeping_king_studios/matchers/built_in/be_kind_of_matcher'
 RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher do
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   let(:instance) { described_class.new type }
 
   describe '#description' do

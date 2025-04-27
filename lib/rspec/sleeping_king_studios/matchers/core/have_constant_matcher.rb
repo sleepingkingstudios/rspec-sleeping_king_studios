@@ -11,6 +11,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 2.2.0
   class HaveConstantMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::Matchers::Composable
+
     # @param [String, Symbol] expected The name of the constant to check for on
     #   the actual object.
     def initialize expected

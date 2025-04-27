@@ -15,6 +15,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher do
 
   let(:expected) { expected }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '::new' do
     it { expect(described_class).to be_constructible.with(1).argument }
   end

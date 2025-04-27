@@ -44,6 +44,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HavePredicateMatcher 
   let(:property) { :foo }
   let(:instance) { described_class.new property }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#description' do
     it { expect(instance).to respond_to(:description).with(0).arguments }
 

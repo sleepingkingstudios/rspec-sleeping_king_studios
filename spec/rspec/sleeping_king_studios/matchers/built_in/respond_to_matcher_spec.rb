@@ -13,6 +13,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher d
   let(:method_name) { :foo }
   let(:instance)    { described_class.new method_name }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#description' do
     let(:expected) { "respond to ##{method_name}" }
 

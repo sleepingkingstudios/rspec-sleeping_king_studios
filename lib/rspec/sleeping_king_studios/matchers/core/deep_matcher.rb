@@ -10,6 +10,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 2.5.0
   class DeepMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher # rubocop:disable Metrics/ClassLength
+    include RSpec::Matchers::Composable
+
     # @param [Object] expected the expected object.
     def initialize(expected)
       super()

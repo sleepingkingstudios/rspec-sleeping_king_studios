@@ -12,6 +12,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 2.4.0
   class HaveChangedMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::Matchers::Composable
+
     def initialize
       super
 
