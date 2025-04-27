@@ -1,0 +1,58 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Provider::ClassMethods#deferred_examples
+parent_path: r-spec/sleeping-king-studios/deferred/provider/class-methods
+signature: deferred_examples(description, &block)
+slug: deferred-examples
+aliases:
+- deferred_context
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/provider/class-methods/i-deferred-examples
+metadata:
+  examples:
+  - name: Defining Deferred Examples
+    text: |-
+      deferred_examples 'should be a Rocket' do
+        it { expect(subject).to be_a Rocket }
+      end
+  - name: Defining Parameterized Examples
+    text: |-
+      deferred_examples 'should be a Vehicle' do |expected_type:|
+        it { expect(subject).to be_a Vehicle }
+
+        it { expect(subject.tyoe).to be == expected_type }
+      end
+params:
+- description: the name of the deferred examples.
+  name: description
+  type:
+  - name: String
+raises:
+- description: ''
+  type:
+  - name: ArgumentError
+short_description: Defines deferred examples in the current context.
+yield_params:
+- description: arguments passed to the deferred examples.
+  name: arguments
+  type:
+  - name: Array
+- description: keywords passed to the deferred examples.
+  name: keywords
+  type:
+  - name: Hash
+- description: a block passed to the deferred examples.
+  name: block
+  type:
+  - name: Block
+yields:
+- description: |-
+    the definition for the deferred
+    examples. Supports the same DSL as an RSpec::Core::ExampleGroup. If
+    the block takes parameters, these can be used to customize the
+    behavior of the deferred examples when they are included in an example
+    group.
+  parameters:
+  - "*arguments"
+  - "**keywords"
+  - "&block"
+version: 2.8.1

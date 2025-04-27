@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::WrapEnv
+slug: wrap-env
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns/wrap_env.rb
+parent_path: r-spec/sleeping-king-studios/concerns
+short_description: |-
+  Methods for temporarily overwriting values in the environment, which are
+  safely and automatically reset after the block or example.
+defined_modules:
+- name: ClassMethods
+  slug: class-methods
+instance_methods:
+- name: wrap_env
+  path: r-spec/sleeping-king-studios/concerns/wrap-env/i-wrap-env
+  slug: wrap-env
+  inherited: false
+data_path: r-spec/sleeping-king-studios/concerns/wrap-env
+extended_modules:
+- name: SleepingKingStudios::Tools::Toolbox::Mixin
+  slug: mixin
+version: 2-8-1

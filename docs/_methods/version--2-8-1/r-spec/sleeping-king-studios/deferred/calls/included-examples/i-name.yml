@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Calls::IncludedExamples#name
+parent_path: r-spec/sleeping-king-studios/deferred/calls/included-examples
+signature: name
+slug: name
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/calls/included-examples/i-name
+returns:
+- description: the description for the shared example group.
+  type:
+  - name: String
+version: 2-8-1

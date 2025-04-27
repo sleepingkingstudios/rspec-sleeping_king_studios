@@ -1,0 +1,54 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dependencies
+slug: dependencies
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dependencies.rb
+parent_path: r-spec/sleeping-king-studios/deferred
+short_description: Mixin for declaring dependent methods for deferred example groups.
+class_methods:
+- name: check_dependencies_for
+  path: r-spec/sleeping-king-studios/deferred/dependencies/c-check-dependencies-for
+  slug: check-dependencies-for
+  inherited: false
+defined_classes:
+- name: MissingDependenciesError
+  slug: missing-dependencies-error
+defined_modules:
+- name: ClassMethods
+  slug: class-methods
+data_path: r-spec/sleeping-king-studios/deferred/dependencies
+description: |-
+  Each dependent method is expected to have a definition, either as a direct
+  method definition (using the `def` keyword or `define_method`), or via  a
+  memoized helper (such as `let`).
+
+  When the deferred examples are included in an example group and that example
+  group is run, a before(:context) hook will check for all of the declared
+  dependencies of that example group. If any of the expected dependencies are
+  not defined, the hook will raise an exception listing the missing methods,
+  the deferred examples that expect that method, and the description provided.
+extended_modules:
+- name: SleepingKingStudios::Tools::Toolbox::Mixin
+  slug: mixin
+metadata:
+  examples:
+  - name: ''
+    text: |-
+      module RocketExamples
+        include RSpec::SleepingKingStudios::Deferred::Provider
+
+        deferred_examples 'should launch the rocket' do
+          include RSpec::SleepingKingStudios::Deferred::Dependencies
+
+          depends_on :rocket,
+            'an instance of Rocket where #launched? returns false'
+
+          describe '#launch' do
+            it 'should launch the rocket' do
+              expect { rocket.launch }.to change(rocket, :launched?).to be true
+            end
+          end
+        end
+      end
+version: 2-8-1

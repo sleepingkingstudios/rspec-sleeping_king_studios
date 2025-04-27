@@ -1,0 +1,20 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#with_a_block
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+signature: with_a_block
+slug: with-a-block
+aliases:
+- and_a_block
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/i-with-a-block
+metadata:
+  since:
+  - 2.2.0
+returns:
+- description: self
+  type:
+  - name: DelegateMethodMatcher
+short_description: |-
+  Specifies that a block argument must be passed in to the target when
+  calling the method on the actual object.
+version: 2.8.1

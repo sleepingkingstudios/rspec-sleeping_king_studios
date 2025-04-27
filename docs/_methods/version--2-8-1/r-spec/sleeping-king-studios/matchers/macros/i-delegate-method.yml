@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#delegate_method
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: delegate_method
+slug: delegate-method
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-delegate-method
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#matches?
+    path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher#instance-method-matches?
+    text:
+    type: reference
+version: 2-8-1

@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#have_immutable_constant
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: have_immutable_constant expected
+slug: have-immutable-constant
+aliases:
+- define_immutable_constant
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-have-immutable-constant
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::Core::HaveConstantMatcher#immutable
+    path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher#instance-method-immutable
+    text:
+    type: reference
+version: 2.8.1

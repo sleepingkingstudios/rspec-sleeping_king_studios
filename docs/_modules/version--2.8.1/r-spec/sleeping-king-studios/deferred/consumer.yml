@@ -1,0 +1,20 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Consumer
+slug: consumer
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/consumer.rb
+parent_path: r-spec/sleeping-king-studios/deferred
+short_description: Methods for including deferred examples.
+defined_modules:
+- name: ClassMethods
+  slug: class-methods
+data_path: r-spec/sleeping-king-studios/deferred/consumer
+extended_modules:
+- name: SleepingKingStudios::Tools::Toolbox::Mixin
+  slug: mixin
+included_modules:
+- name: RSpec::SleepingKingStudios::Deferred::Provider
+  slug: provider
+  path: r-spec/sleeping-king-studios/deferred/provider
+version: 2.8.1

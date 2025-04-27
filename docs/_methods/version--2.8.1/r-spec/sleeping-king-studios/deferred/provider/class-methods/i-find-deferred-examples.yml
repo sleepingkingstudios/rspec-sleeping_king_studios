@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Provider::ClassMethods#find_deferred_examples
+parent_path: r-spec/sleeping-king-studios/deferred/provider/class-methods
+signature: find_deferred_examples(description)
+slug: find-deferred-examples
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/provider/class-methods/i-find-deferred-examples
+metadata:
+  api: private
+raises:
+- description: ''
+  type:
+  - name: DeferredExamplesNotFoundError
+version: 2.8.1

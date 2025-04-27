@@ -1,0 +1,17 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher#allow_private?
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-writer-matcher
+signature: allow_private?
+slug: allow-private?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-writer-matcher/i-allow-private?
+metadata:
+  since:
+  - 1.0.0
+returns:
+- description: |-
+    True if the matcher matches private reader methods,
+    otherwise false.
+  type:
+  - name: Boolean
+version: 2-8-1

@@ -1,0 +1,60 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignature
+slug: method-signature
+type: class
+files:
+- lib/rspec/sleeping_king_studios/support/method_signature.rb
+parent_path: r-spec/sleeping-king-studios/support
+short_description: ''
+instance_attributes:
+- name: max_arguments
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/support/method-signature/i-max-arguments
+  slug: max-arguments
+  inherited: false
+- name: min_arguments
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/support/method-signature/i-min-arguments
+  slug: min-arguments
+  inherited: false
+- name: optional_keywords
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/support/method-signature/i-optional-keywords
+  slug: optional-keywords
+  inherited: false
+- name: required_keywords
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/support/method-signature/i-required-keywords
+  slug: required-keywords
+  inherited: false
+instance_methods:
+- name: any_keywords?
+  path: r-spec/sleeping-king-studios/support/method-signature/i-any-keywords?
+  slug: any-keywords?
+  inherited: false
+- name: block_argument?
+  path: r-spec/sleeping-king-studios/support/method-signature/i-block-argument?
+  slug: block-argument?
+  inherited: false
+- name: initialize
+  path: r-spec/sleeping-king-studios/support/method-signature/i-initialize
+  slug: initialize
+  inherited: false
+  constructor: true
+- name: keywords
+  path: r-spec/sleeping-king-studios/support/method-signature/i-keywords
+  slug: keywords
+  inherited: false
+- name: unlimited_arguments?
+  path: r-spec/sleeping-king-studios/support/method-signature/i-unlimited-arguments?
+  slug: unlimited-arguments?
+  inherited: false
+data_path: r-spec/sleeping-king-studios/support/method-signature
+metadata:
+  api: private
+constructor: true
+version: 2-8-1

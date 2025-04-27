@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::MemoizedHelpers#let?
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers
+signature: let?(helper_name, &block)
+slug: let?
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/memoized-helpers/i-let?
+description: |-
+  The helper will use the parent value if defined; otherwise, will use the
+  given value.
+params:
+- description: the name of the helper method.
+  name: helper_name
+  type:
+  - name: String
+  - name: Symbol
+- description: the implementation of the helper method.
+  name: block
+  type:
+  - name: Block
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Defines an optional memoized helper.
+version: 2-8-1

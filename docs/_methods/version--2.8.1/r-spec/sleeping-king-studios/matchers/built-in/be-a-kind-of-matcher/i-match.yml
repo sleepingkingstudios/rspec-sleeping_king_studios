@@ -1,0 +1,34 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn::BeAKindOfMatcher#match
+parent_path: r-spec/sleeping-king-studios/matchers/built-in/be-a-kind-of-matcher
+signature: match expected, actual
+slug: match
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/built-in/be-a-kind-of-matcher/i-match
+params:
+- description: |-
+    The type or types to
+    check the object against.
+  name: expected
+  type:
+  - name: Module
+  - name: nil
+  - name: Array
+    items:
+    - name: Module
+    - name: nil
+- description: The object to check.
+  name: actual
+  type:
+  - name: Object
+returns:
+- description: |-
+    True if the object matches one of the specified types,
+    otherwise false.
+  type:
+  - name: Boolean
+short_description: |-
+  Checks if the object matches one of the specified types. Allows an
+  expected value of nil as a shortcut for expecting an instance of
+  NilClass.
+version: 2.8.1

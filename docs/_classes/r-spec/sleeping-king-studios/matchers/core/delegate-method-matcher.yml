@@ -78,6 +78,8 @@ instance_methods:
   inherited: false
 data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
 included_modules:
+- name: RSpec::Matchers::Composable
+  slug: composable
 - name: RSpec::Mocks::ExampleMethods
   slug: example-methods
 metadata:

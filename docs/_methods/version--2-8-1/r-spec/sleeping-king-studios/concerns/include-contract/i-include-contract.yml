@@ -1,0 +1,60 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::IncludeContract#include_contract
+parent_path: r-spec/sleeping-king-studios/concerns/include-contract
+signature: include_contract(contract_or_name, *arguments, **keywords, &block)
+slug: include-contract
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/include-contract/i-include-contract
+overloads:
+- name: RSpec::SleepingKingStudios::Concerns::IncludeContract#include_contract
+  parent_path: r-spec/sleeping-king-studios/concerns/include-contract
+  signature: include_contract(contract, *arguments, **keywords, &block)
+  slug: include-contract
+  constructor: false
+  params:
+  - description: The contract to include.
+    name: contract
+    type:
+    - name: "#to_proc"
+  - description: The arguments to pass to the contract.
+    name: arguments
+    type:
+    - name: Array
+  - description: The keywords to pass to the contract.
+    name: keywords
+    type:
+    - name: Hash
+  yields:
+  - description: A block passed to the contract.
+- name: RSpec::SleepingKingStudios::Concerns::IncludeContract#include_contract
+  parent_path: r-spec/sleeping-king-studios/concerns/include-contract
+  signature: include_contract(contract_name, *arguments, **keywords, &block)
+  slug: include-contract
+  constructor: false
+  params:
+  - description: |-
+      The name of contract to include.
+      The contract must be defined as a Class or constant in the same scope,
+      e.g. include_contract('does something') expects the example group to
+      define either a DoSomething class or a DO_SOMETHING constant. The name
+      can optionally be suffixed with "contract", so it will also match a
+      DoSomethingContract class or a DO_SOMETHING_CONTRACT constant.
+    name: contract_name
+    type:
+    - name: String
+    - name: Symbol
+  - description: The arguments to pass to the contract.
+    name: arguments
+    type:
+    - name: Array
+  - description: The keywords to pass to the contract.
+    name: keywords
+    type:
+    - name: Hash
+  raises:
+  - description: ArgumentError
+    type: []
+  yields:
+  - description: A block passed to the contract.
+short_description: Adds the contract to the example group with the given parameters.
+version: 2-8-1

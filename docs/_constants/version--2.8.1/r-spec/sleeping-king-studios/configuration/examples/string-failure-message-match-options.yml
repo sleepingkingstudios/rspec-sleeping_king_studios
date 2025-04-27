@@ -1,0 +1,8 @@
+---
+name: RSpec::SleepingKingStudios::Configuration::Examples::STRING_FAILURE_MESSAGE_MATCH_OPTIONS
+parent_path: r-spec/sleeping-king-studios/configuration/examples
+slug: string-failure-message-match-options
+short_description: Options for matching failure messages to strings.
+value: "%i[exact substring].freeze"
+data_path: r-spec/sleeping-king-studios/configuration/examples/string-failure-message-match-options
+version: 2.8.1

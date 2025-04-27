@@ -1,0 +1,32 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::Hooks#prepend_before
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/hooks
+signature: prepend_before(scope, *flags, **conditions, &block)
+slug: prepend-before
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/hooks/i-prepend-before
+params:
+- description: |-
+    the scope for the hook. Must be one of :context,
+    :each, or :example.
+  name: scope
+  type:
+  - name: Symbol
+- description: |-
+    condition flags for the hook. Will be
+    transformed into conditions entries with true values.
+  name: flags
+  type:
+  - name: Array
+    items:
+    - name: Symbol
+- description: the implementation of the hook.
+  name: block
+  type:
+  - name: Proc
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: 'Defines a deferred hook using the #prepend_before method.'
+version: 2-8-1

@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Configuration
+slug: configuration
+type: class
+files:
+- lib/rspec/sleeping_king_studios/configuration.rb
+parent_path: r-spec/sleeping-king-studios
+short_description: Configuration options for RSpec::SleepingKingStudios.
+defined_classes:
+- name: Examples
+  slug: examples
+- name: Matchers
+  slug: matchers
+instance_methods:
+- name: examples
+  path: r-spec/sleeping-king-studios/configuration/i-examples
+  slug: examples
+  inherited: false
+- name: matchers
+  path: r-spec/sleeping-king-studios/configuration/i-matchers
+  slug: matchers
+  inherited: false
+data_path: r-spec/sleeping-king-studios/configuration
+constructor: false
+version: 2.8.1

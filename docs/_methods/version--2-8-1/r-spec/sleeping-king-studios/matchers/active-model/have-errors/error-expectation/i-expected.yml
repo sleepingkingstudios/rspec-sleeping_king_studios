@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation#expected
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation
+signature: expected
+slug: expected
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/i-expected
+returns:
+- description: the current value of expected
+  type:
+  - name: Object
+short_description: Returns the value of attribute expected
+version: 2-8-1

@@ -1,0 +1,15 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Examples::ClassMethods#parent_group
+parent_path: r-spec/sleeping-king-studios/deferred/examples/class-methods
+signature: parent_group
+slug: parent-group
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/examples/class-methods/i-parent-group
+returns:
+- description: |-
+    the deferred
+    example group where this example group was included, if any.
+  type:
+  - name: RSpec::SleepingKingStudios::Deferred::Examples
+    path: r-spec/sleeping-king-studios/deferred/examples
+version: 2-8-1

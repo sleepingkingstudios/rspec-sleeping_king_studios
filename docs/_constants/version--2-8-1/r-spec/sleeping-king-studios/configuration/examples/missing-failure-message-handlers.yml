@@ -1,0 +1,8 @@
+---
+name: RSpec::SleepingKingStudios::Configuration::Examples::MISSING_FAILURE_MESSAGE_HANDLERS
+parent_path: r-spec/sleeping-king-studios/configuration/examples
+slug: missing-failure-message-handlers
+short_description: Permitted options for :handle_missing_failure_message_with.
+value: "%i[ignore pending exception].freeze"
+data_path: r-spec/sleeping-king-studios/configuration/examples/missing-failure-message-handlers
+version: 2-8-1

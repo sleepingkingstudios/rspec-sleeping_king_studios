@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#include
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: include
+slug: include
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-include
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher#matches?
+    path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher#instance-method-matches?
+    text:
+    type: reference
+version: 2.8.1

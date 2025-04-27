@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Configuration#matchers
+parent_path: r-spec/sleeping-king-studios/configuration
+signature: matchers(&)
+slug: matchers
+constructor: false
+data_path: r-spec/sleeping-king-studios/configuration/i-matchers
+short_description: |-
+  Get or set the configuration options for
+  RSpec::SleepingKingStudios::Matchers.
+version: 2.8.1

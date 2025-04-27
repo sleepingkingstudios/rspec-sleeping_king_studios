@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher#matches?
+parent_path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher
+signature: matches?(actual)
+slug: matches?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-matches?
+metadata:
+  api: private
+returns:
+- description: ''
+  type:
+  - name: Boolean
+version: 2.8.1

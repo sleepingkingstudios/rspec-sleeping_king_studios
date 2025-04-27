@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Configuration::Matchers#allow_empty_include_matchers=
+parent_path: r-spec/sleeping-king-studios/configuration/matchers
+signature: allow_empty_include_matchers=(value)
+slug: allow-empty-include-matchers=
+constructor: false
+data_path: r-spec/sleeping-king-studios/configuration/matchers/i-allow-empty-include-matchers=
+description: |-
+  This prevents an insidious bug when using the do..end block syntax to
+  create a block expectation while the matcher macro is itself an argument
+  to another function, such as ExpectationTarget#to. This bug causes the
+  block to be silently ignored and any enumerable object to match against
+  the matcher, even an empty object.
+metadata:
+  deprecated: "[3.0] Will be removed in version 3.0."
+returns:
+- description: |-
+    True if the empty include matchers are permitted,
+    otherwise false.
+  type:
+  - name: Boolean
+short_description: |-
+  Sets whether the #include matcher can be instantiated without an
+  expectation object or block. If this option is set to false, an
+  ArgumentError will be raised when attempting to instantiate an
+  IncludeMatcher without any expectations.
+version: 2.8.1

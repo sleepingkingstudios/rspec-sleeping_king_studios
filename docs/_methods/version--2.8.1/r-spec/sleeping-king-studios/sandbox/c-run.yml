@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox.run
+parent_path: r-spec/sleeping-king-studios/sandbox
+signature: run(*files)
+slug: run
+constructor: false
+data_path: r-spec/sleeping-king-studios/sandbox/c-run
+description: |-
+  The examples and other RSpec code in the files will *not* be added to
+  the current RSpec process.
+params:
+- description: |-
+    the file names or patterns for the spec
+    files to run.
+  name: files
+  type:
+  - name: Array
+    items:
+    - name: String
+returns:
+- description: |-
+    the status and output of
+    the spec run.
+  type:
+  - name: RSpec::SleepingKingStudios::Result
+short_description: Runs the specified spec files in a sandbox.
+version: 2.8.1

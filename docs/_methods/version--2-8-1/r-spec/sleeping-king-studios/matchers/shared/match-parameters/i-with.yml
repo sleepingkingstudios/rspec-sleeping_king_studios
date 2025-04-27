@@ -1,0 +1,79 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters#with
+parent_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
+signature: with
+slug: with
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters/i-with
+overloads:
+- name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters#with
+  parent_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
+  signature: with count
+  slug: with
+  constructor: false
+  params:
+  - description: |-
+      (optional) The number of expected
+      parameters.
+    name: count
+    type:
+    - name: Integer
+    - name: Range
+    - name: nil
+  returns:
+  - description: self
+    type:
+    - name: RespondToMatcher
+  short_description: Adds a parameter count expectation.
+- name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters#with
+  parent_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
+  signature: with *keywords
+  slug: with
+  constructor: false
+  params:
+  - description: |-
+      List of keyword arguments
+      accepted by the method.
+    name: keywords
+    type:
+    - name: Array
+      items:
+      - name: String
+      - name: Symbol
+  returns:
+  - description: self
+    type: []
+  short_description: Adds one or more keyword expectations.
+- name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters#with
+  parent_path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
+  signature: with count, *keywords
+  slug: with
+  constructor: false
+  params:
+  - description: |-
+      (optional) The number of expected
+      parameters.
+    name: count
+    type:
+    - name: Integer
+    - name: Range
+    - name: nil
+  - description: |-
+      List of keyword arguments
+      accepted by the method.
+    name: keywords
+    type:
+    - name: Array
+      items:
+      - name: String
+      - name: Symbol
+  returns:
+  - description: self
+    type: []
+  short_description: |-
+    Adds a parameter count expectation and one or more keyword
+    expectations.
+short_description: |-
+  Adds a parameter count expectation and/or one or more keyword
+  expectations.
+version: 2-8-1

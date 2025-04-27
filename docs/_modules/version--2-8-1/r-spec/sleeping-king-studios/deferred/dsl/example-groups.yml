@@ -1,0 +1,51 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleGroups
+slug: example-groups
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dsl/example_groups.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dsl
+short_description: Methods for defining deferred example groups.
+class_methods:
+- name: define_example_group_method
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/macros/i-define-example-group-method
+  slug: define-example-group-method
+  inherited: true
+defined_modules:
+- name: Macros
+  slug: macros
+instance_methods:
+- name: context
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/i-context
+  slug: context
+  inherited: false
+- name: describe
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/i-describe
+  slug: describe
+  inherited: false
+- name: example_group
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/i-example-group
+  slug: example-group
+  inherited: false
+- name: fcontext
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/i-fcontext
+  slug: fcontext
+  inherited: false
+- name: fdescribe
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/i-fdescribe
+  slug: fdescribe
+  inherited: false
+- name: xcontext
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/i-xcontext
+  slug: xcontext
+  inherited: false
+- name: xdescribe
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/i-xdescribe
+  slug: xdescribe
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/example-groups
+extended_modules:
+- name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleGroups::Macros
+  slug: macros
+  path: r-spec/sleeping-king-studios/deferred/dsl/example-groups/macros
+version: 2-8-1

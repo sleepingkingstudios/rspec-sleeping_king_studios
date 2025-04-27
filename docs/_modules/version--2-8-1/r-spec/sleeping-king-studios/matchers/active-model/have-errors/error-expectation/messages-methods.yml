@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation::MessagesMethods
+slug: messages-methods
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/active_model/have_errors/error_expectation.rb
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation
+short_description: Extra instance methods for the :messages array.
+instance_methods:
+- name: expected
+  path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods/i-expected
+  slug: expected
+  inherited: false
+- name: missing
+  path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods/i-missing
+  slug: missing
+  inherited: false
+- name: received
+  path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods/i-received
+  slug: received
+  inherited: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/messages-methods
+metadata:
+  api: private
+  since:
+  - 1.0.0
+version: 2-8-1

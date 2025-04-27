@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveConstantMatcher#immutable
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher
+signature: immutable
+slug: immutable
+aliases:
+- frozen
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher/i-immutable
+metadata:
+  since:
+  - 2.2.0
+returns:
+- description: self
+  type:
+  - name: HaveConstantMatcher
+short_description: |-
+  Sets a mutability expectation. The matcher will determine whether the
+  value of the constant is mutable. Values of `nil`, `false`, `true` are
+  always immutable, as are `Numeric` and `Symbol` primitives. `Array`
+  values must be frozen and all array items must be immutable. `Hash`
+  values must be frozen and all hash keys and values must be immutable.
+version: 2-8-1

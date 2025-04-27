@@ -1,0 +1,15 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher
+signature: initialize
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher/i-initialize
+metadata:
+  since:
+  - 2.4.0
+returns:
+- description: a new instance of HaveChangedMatcher
+  type:
+  - name: HaveChangedMatcher
+version: 2-8-1

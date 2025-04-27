@@ -1,0 +1,121 @@
+---
+name: RSpec::SleepingKingStudios::Matchers
+slug: matchers
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers.rb
+- lib/rspec/sleeping_king_studios/matchers/core.rb
+- lib/rspec/sleeping_king_studios/matchers/macros.rb
+- lib/rspec/sleeping_king_studios/matchers/built_in.rb
+- lib/rspec/sleeping_king_studios/matchers/description.rb
+- lib/rspec/sleeping_king_studios/matchers/active_model.rb
+- lib/rspec/sleeping_king_studios/matchers/base_matcher.rb
+parent_path: r-spec/sleeping-king-studios
+short_description: Custom matchers for use with RSpec::Expectations.
+defined_classes:
+- name: BaseMatcher
+  slug: base-matcher
+defined_modules:
+- name: ActiveModel
+  slug: active-model
+- name: BuiltIn
+  slug: built-in
+- name: Core
+  slug: core
+- name: Description
+  slug: description
+- name: Macros
+  slug: macros
+- name: Shared
+  slug: shared
+instance_methods:
+- name: a_boolean
+  path: r-spec/sleeping-king-studios/matchers/macros/i-a-boolean
+  slug: a-boolean
+  inherited: true
+- name: a_uuid
+  path: r-spec/sleeping-king-studios/matchers/macros/i-a-uuid
+  slug: a-uuid
+  inherited: true
+- name: alias_method
+  path: r-spec/sleeping-king-studios/matchers/macros/i-alias-method
+  slug: alias-method
+  inherited: true
+- name: be_a_uuid
+  path: r-spec/sleeping-king-studios/matchers/macros/i-be-a-uuid
+  slug: be-a-uuid
+  inherited: true
+- name: be_boolean
+  path: r-spec/sleeping-king-studios/matchers/macros/i-be-boolean
+  slug: be-boolean
+  inherited: true
+- name: be_kind_of
+  path: r-spec/sleeping-king-studios/matchers/macros/i-be-kind-of
+  slug: be-kind-of
+  inherited: true
+- name: construct
+  path: r-spec/sleeping-king-studios/matchers/macros/i-construct
+  slug: construct
+  inherited: true
+- name: deep_match
+  path: r-spec/sleeping-king-studios/matchers/macros/i-deep-match
+  slug: deep-match
+  inherited: true
+- name: delegate_method
+  path: r-spec/sleeping-king-studios/matchers/macros/i-delegate-method
+  slug: delegate-method
+  inherited: true
+- name: have_aliased_method
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-aliased-method
+  slug: have-aliased-method
+  inherited: true
+- name: have_changed
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-changed
+  slug: have-changed
+  inherited: true
+- name: have_constant
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-constant
+  slug: have-constant
+  inherited: true
+- name: have_errors
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-errors
+  slug: have-errors
+  inherited: true
+- name: have_immutable_constant
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-immutable-constant
+  slug: have-immutable-constant
+  inherited: true
+- name: have_predicate
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-predicate
+  slug: have-predicate
+  inherited: true
+- name: have_property
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-property
+  slug: have-property
+  inherited: true
+- name: have_reader
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-reader
+  slug: have-reader
+  inherited: true
+- name: have_writer
+  path: r-spec/sleeping-king-studios/matchers/macros/i-have-writer
+  slug: have-writer
+  inherited: true
+- name: include
+  path: r-spec/sleeping-king-studios/matchers/macros/i-include
+  slug: include
+  inherited: true
+- name: respond_to
+  path: r-spec/sleeping-king-studios/matchers/macros/i-respond-to
+  slug: respond-to
+  inherited: true
+- name: watch_value
+  path: r-spec/sleeping-king-studios/matchers/macros/i-watch-value
+  slug: watch-value
+  inherited: true
+data_path: r-spec/sleeping-king-studios/matchers
+included_modules:
+- name: RSpec::SleepingKingStudios::Matchers::Macros
+  slug: macros
+  path: r-spec/sleeping-king-studios/matchers/macros
+version: 2.8.1

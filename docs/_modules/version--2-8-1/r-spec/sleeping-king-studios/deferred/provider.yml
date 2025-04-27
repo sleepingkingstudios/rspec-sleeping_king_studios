@@ -1,0 +1,19 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Provider
+slug: provider
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/provider.rb
+parent_path: r-spec/sleeping-king-studios/deferred
+short_description: Methods for registering deferred examples.
+defined_classes:
+- name: DeferredExamplesNotFoundError
+  slug: deferred-examples-not-found-error
+defined_modules:
+- name: ClassMethods
+  slug: class-methods
+data_path: r-spec/sleeping-king-studios/deferred/provider
+extended_modules:
+- name: SleepingKingStudios::Tools::Toolbox::Mixin
+  slug: mixin
+version: 2-8-1

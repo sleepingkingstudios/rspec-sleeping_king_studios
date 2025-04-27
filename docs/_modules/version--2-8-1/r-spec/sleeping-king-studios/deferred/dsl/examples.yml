@@ -1,0 +1,71 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::Examples
+slug: examples
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/dsl/examples.rb
+parent_path: r-spec/sleeping-king-studios/deferred/dsl
+short_description: Methods for defining deferred examples.
+class_methods:
+- name: define_example_method
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/macros/i-define-example-method
+  slug: define-example-method
+  inherited: true
+defined_modules:
+- name: Macros
+  slug: macros
+instance_methods:
+- name: example
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-example
+  slug: example
+  inherited: false
+- name: fexample
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-fexample
+  slug: fexample
+  inherited: false
+- name: fit
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-fit
+  slug: fit
+  inherited: false
+- name: focus
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-focus
+  slug: focus
+  inherited: false
+- name: fspecify
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-fspecify
+  slug: fspecify
+  inherited: false
+- name: it
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-it
+  slug: it
+  inherited: false
+- name: pending
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-pending
+  slug: pending
+  inherited: false
+- name: skip
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-skip
+  slug: skip
+  inherited: false
+- name: specify
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-specify
+  slug: specify
+  inherited: false
+- name: xexample
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-xexample
+  slug: xexample
+  inherited: false
+- name: xit
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-xit
+  slug: xit
+  inherited: false
+- name: xspecify
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-xspecify
+  slug: xspecify
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/examples
+extended_modules:
+- name: RSpec::SleepingKingStudios::Deferred::Dsl::Examples::Macros
+  slug: macros
+  path: r-spec/sleeping-king-studios/deferred/dsl/examples/macros
+version: 2-8-1

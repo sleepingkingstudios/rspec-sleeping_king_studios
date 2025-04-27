@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveConstantMatcher#matches?
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher
+signature: matches? actual
+slug: matches?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher/i-matches?
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: The object to check.
+  name: actual
+  type:
+  - name: Object
+returns:
+- description: |-
+    true If the object has a constant :expected and matches
+    the value and mutability expectations (if any); otherwise false.
+  type:
+  - name: Boolean
+short_description: |-
+  Checks if the object has a constant :expected. Additionally, if a
+  value expectation is set, compares the value of #expected to the
+  specified value and checks the mutability of the constant.
+version: 2-8-1

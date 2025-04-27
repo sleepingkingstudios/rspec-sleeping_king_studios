@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox::Result#pending_examples
+parent_path: r-spec/sleeping-king-studios/sandbox/result
+signature: pending_examples
+slug: pending-examples
+constructor: false
+data_path: r-spec/sleeping-king-studios/sandbox/result/i-pending-examples
+returns:
+- description: |-
+    the full description for each run example with
+    status "pending".
+  type:
+  - name: Array
+    items:
+    - name: String
+version: 2-8-1

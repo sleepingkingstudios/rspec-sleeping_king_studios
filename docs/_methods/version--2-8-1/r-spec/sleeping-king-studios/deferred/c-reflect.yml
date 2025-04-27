@@ -1,0 +1,54 @@
+---
+name: RSpec::SleepingKingStudios::Deferred.reflect
+parent_path: r-spec/sleeping-king-studios/deferred
+signature: 'reflect(example, source_locations: false)'
+slug: reflect
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/c-reflect
+description: |-
+  By default, returns the path in a single-line format similar to an
+  example group description. Deferred example groups are parenthesized.
+  When the :source_locations flag is set to true, it instead returns each
+  example group or deferred group on its own line, along with the source
+  location for that group.
+metadata:
+  examples:
+  - name: 'Displaying the full path of failing specs:'
+    text: |-
+      config.after(:example) do |example|
+        next unless ENV['REFLECT_ON_FAILURE']
+        next unless example.metadata[:last_run_status] == 'failed'
+
+        STDERR.puts "\nFailing spec at:"
+
+        path =
+          RSpec::SleepingKingStudios::Deferred
+            .reflect(example, source_locations: true)
+        path =
+          SleepingKingStudios::Tools::Toolbelt
+            .instance
+            .string_tools
+            .indent(path)
+
+        STDERR.puts path
+      end
+params:
+- description: the example to examine.
+  name: example
+  type:
+  - name: RSpec::Core::Example
+- description: |-
+    if true, returns the path in a
+    multi-line format including the source location for each group.
+  name: source_locations
+  type:
+  - name: 'true'
+  - name: 'false'
+  default: 'false'
+returns:
+- description: the generated example path.
+  type:
+  - name: String
+short_description: Returns the full path of an example, including deferred example
+  groups.
+version: 2-8-1

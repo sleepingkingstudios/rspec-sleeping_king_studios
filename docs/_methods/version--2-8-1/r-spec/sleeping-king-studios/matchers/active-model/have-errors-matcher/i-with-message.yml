@@ -1,0 +1,40 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher#with_message
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher
+signature: with_message message
+slug: with-message
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher/i-with-message
+metadata:
+  examples:
+  - name: Setting an error and a message expectation
+    text: expect(actual).to have_errors.on(:foo).with("can't be blank")
+  see:
+  - label: "#on"
+    path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher#instance-method-on
+    text:
+    type: reference
+  since:
+  - 1.0.0
+params:
+- description: |-
+    The expected error message. If a string,
+    matcher will check for an exact match; if a regular expression, matcher
+    will check if the message matches the regexp.
+  name: message
+  type:
+  - name: String
+  - name: Regexp
+raises:
+- description: If no error attribute has been added.
+  type:
+  - name: ArgumentError
+returns:
+- description: self
+  type:
+  - name: HaveErrorsMatcher
+short_description: |-
+  Adds a message expectation for the most recently added error attribute.
+  If the actual object does not have an error on the that attribute with
+  the specified message, #matches? will return false.
+version: 2-8-1

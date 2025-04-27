@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Missing::ClassMethods
+slug: class-methods
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/missing.rb
+parent_path: r-spec/sleeping-king-studios/deferred/missing
+short_description: Methods extended into the class when included in a class or module.
+instance_methods:
+- name: call
+  path: r-spec/sleeping-king-studios/deferred/definitions/i-call
+  slug: call
+  inherited: true
+- name: included
+  path: r-spec/sleeping-king-studios/deferred/definitions/i-included
+  slug: included
+  inherited: true
+data_path: r-spec/sleeping-king-studios/deferred/missing/class-methods
+included_modules:
+- name: RSpec::SleepingKingStudios::Deferred::Definitions
+  slug: definitions
+  path: r-spec/sleeping-king-studios/deferred/definitions
+version: 2-8-1

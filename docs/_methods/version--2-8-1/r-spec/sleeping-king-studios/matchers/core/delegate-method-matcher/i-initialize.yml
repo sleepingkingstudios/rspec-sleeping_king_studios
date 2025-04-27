@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+signature: initialize expected
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/i-initialize
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: |-
+    The names of the methods that
+    should be delegated to the target.
+  name: expected
+  type:
+  - name: Array
+    items:
+    - name: String
+    - name: Symbol
+returns:
+- description: a new instance of DelegateMethodMatcher
+  type:
+  - name: DelegateMethodMatcher
+version: 2-8-1

@@ -1,0 +1,10 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::ExampleConstants.define_class
+parent_path: r-spec/sleeping-king-studios/concerns/example-constants
+signature: 'define_class(class_name:, example:, base_class: nil, &block)'
+slug: define-class
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/example-constants/c-define-class
+metadata:
+  api: private
+version: 2-8-1

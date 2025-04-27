@@ -1,0 +1,18 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Examples
+slug: examples
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/examples.rb
+parent_path: r-spec/sleeping-king-studios/deferred
+short_description: Defines a deferred example group for declaring shared tests.
+class_methods:
+- name: included
+  path: r-spec/sleeping-king-studios/deferred/examples/c-included
+  slug: included
+  inherited: false
+defined_modules:
+- name: ClassMethods
+  slug: class-methods
+data_path: r-spec/sleeping-king-studios/deferred/examples
+version: 2.8.1
