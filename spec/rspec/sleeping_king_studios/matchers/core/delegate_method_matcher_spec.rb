@@ -50,6 +50,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher
     normalized.join ', '
   end # method build_method_parameters
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#and_return' do
     it { expect(instance).to respond_to(:and_return).with_unlimited_arguments }
 

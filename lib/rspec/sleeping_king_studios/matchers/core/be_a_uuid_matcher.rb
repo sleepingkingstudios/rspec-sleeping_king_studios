@@ -8,6 +8,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 2.5.0
   class BeAUuidMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::Matchers::Composable
+
     # (see BaseMatcher#description)
     def description
       'be a UUID'

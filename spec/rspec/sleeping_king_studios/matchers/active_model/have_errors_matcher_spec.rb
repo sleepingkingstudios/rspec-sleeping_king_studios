@@ -13,6 +13,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatc
 
   let(:instance) { described_class.new }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#description' do
     let(:expected) { 'have errors' }
 

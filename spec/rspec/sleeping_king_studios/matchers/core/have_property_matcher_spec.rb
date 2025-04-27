@@ -13,6 +13,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher d
   let(:property) { :foo }
   let(:instance) { described_class.new property }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '::new' do
     it 'should define the constructor' do
       expect(described_class).

@@ -11,6 +11,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 2.2.0
   class HavePredicateMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::Matchers::Composable
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchProperty
 
     # Generates a description of the matcher expectation.

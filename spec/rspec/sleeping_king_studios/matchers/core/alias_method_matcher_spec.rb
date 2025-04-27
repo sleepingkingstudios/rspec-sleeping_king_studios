@@ -17,6 +17,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::AliasMethodMatcher do
   let(:old_method_name) { :old_method }
   let(:instance)        { described_class.new old_method_name }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#as' do
     let(:new_method_name) { :new_method }
 

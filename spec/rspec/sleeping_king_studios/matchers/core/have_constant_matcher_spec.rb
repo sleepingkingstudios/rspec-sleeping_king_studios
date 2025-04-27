@@ -11,6 +11,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveConstantMatcher d
   let(:constant_name) { :FOO }
   let(:instance)      { described_class.new constant_name }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#description' do
     let(:immutable) { false }
     let(:expected) do

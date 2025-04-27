@@ -8,6 +8,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 1.0.0
   class BeBooleanMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::Matchers::Composable
+
     # (see BaseMatcher#description)
     def description
       'be true or false'

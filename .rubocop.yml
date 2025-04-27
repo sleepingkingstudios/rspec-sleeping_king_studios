@@ -99,6 +99,9 @@ RSpec/ExampleWording:
 RSpec/HookArgument:
   EnforcedStyle: example
 
+RSpec/IncludeExamples:
+  Enabled: false
+
 RSpec/NamedSubject:
   Exclude:
     - '**/*_examples.rb'

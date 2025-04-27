@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.8.1
+
+### Matchers
+
+Added `RSpec::Matchers::Composable` support to all matchers.
+
+- Adds the `#and`, `#or` methods for chaining matchers.
+- Adds support for matching using the `#===` method, including in nested data structure comparisons such as the built-in `#match` matcher.
+
 ## 2.8.0
 
 Updated minimum `Hashdiff` version to `~> 1.1`.

@@ -11,6 +11,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @note Prior to 2.7.0, this was named AliasMethodMatcher.
   class HaveAliasedMethodMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::Matchers::Composable
+
     # @param [String, Symbol] original_name The name of the method that is
     #   expected to have an alias.
     def initialize(original_name)

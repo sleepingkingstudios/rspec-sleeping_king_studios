@@ -10,6 +10,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
   #
   # @since 1.0.0
   class ConstructMatcher < RSpec::SleepingKingStudios::Matchers::BaseMatcher
+    include RSpec::Matchers::Composable
     include RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
 
     # (see BaseMatcher#description)

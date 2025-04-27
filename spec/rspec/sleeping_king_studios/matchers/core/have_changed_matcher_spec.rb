@@ -141,6 +141,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher do
 
   subject(:instance) { described_class.new }
 
+  it { expect(described_class).to be < RSpec::Matchers::Composable }
+
   describe '#by' do
     it { expect(instance).to respond_to(:by).with(1).argument }
 
