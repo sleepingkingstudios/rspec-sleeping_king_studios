@@ -45,6 +45,9 @@ instance_methods:
   slug: matches?
   inherited: false
 data_path: r-spec/sleeping-king-studios/matchers/core/deep-matcher
+included_modules:
+- name: RSpec::Matchers::Composable
+  slug: composable
 metadata:
   since:
   - 2.5.0

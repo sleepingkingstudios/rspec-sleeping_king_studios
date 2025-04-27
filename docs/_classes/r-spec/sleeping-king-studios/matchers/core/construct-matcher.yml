@@ -67,6 +67,8 @@ instance_methods:
   inherited: true
 data_path: r-spec/sleeping-king-studios/matchers/core/construct-matcher
 included_modules:
+- name: RSpec::Matchers::Composable
+  slug: composable
 - name: RSpec::SleepingKingStudios::Matchers::Shared::MatchParameters
   slug: match-parameters
   path: r-spec/sleeping-king-studios/matchers/shared/match-parameters
