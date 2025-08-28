@@ -87,6 +87,10 @@ instance_methods:
   path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-fexample
   slug: fexample
   inherited: true
+- name: finclude_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-finclude-deferred
+  slug: finclude-deferred
+  inherited: true
 - name: finclude_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-finclude-examples
   slug: finclude-examples
@@ -107,6 +111,10 @@ instance_methods:
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-fwrap-context
   slug: fwrap-context
   inherited: true
+- name: fwrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-fwrap-deferred
+  slug: fwrap-deferred
+  inherited: true
 - name: fwrap_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-fwrap-examples
   slug: fwrap-examples
@@ -114,6 +122,10 @@ instance_methods:
 - name: include_context
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-include-context
   slug: include-context
+  inherited: true
+- name: include_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-include-deferred
+  slug: include-deferred
   inherited: true
 - name: include_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-include-examples
@@ -183,6 +195,10 @@ instance_methods:
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-wrap-context
   slug: wrap-context
   inherited: true
+- name: wrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-wrap-deferred
+  slug: wrap-deferred
+  inherited: true
 - name: wrap_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-wrap-examples
   slug: wrap-examples
@@ -199,6 +215,10 @@ instance_methods:
   path: r-spec/sleeping-king-studios/deferred/dsl/examples/i-xexample
   slug: xexample
   inherited: true
+- name: xinclude_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xinclude-deferred
+  slug: xinclude-deferred
+  inherited: true
 - name: xinclude_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xinclude-examples
   slug: xinclude-examples
@@ -214,6 +234,10 @@ instance_methods:
 - name: xwrap_context
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xwrap-context
   slug: xwrap-context
+  inherited: true
+- name: xwrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xwrap-deferred
+  slug: xwrap-deferred
   inherited: true
 - name: xwrap_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xwrap-examples
