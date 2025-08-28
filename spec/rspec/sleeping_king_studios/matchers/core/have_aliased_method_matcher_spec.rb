@@ -4,7 +4,9 @@ require 'rspec/sleeping_king_studios/concerns/wrap_examples'
 require 'rspec/sleeping_king_studios/examples/rspec_matcher_examples'
 require 'rspec/sleeping_king_studios/matchers/core/have_aliased_method_matcher'
 
-RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatcher do
+RSpec.describe \
+  RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatcher \
+do
   extend  RSpec::SleepingKingStudios::Concerns::WrapExamples
   include RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
 
@@ -46,9 +48,8 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatc
   describe '#matches?' do
     shared_examples 'should require a new method name' do
       it 'should raise an error' do
-        expect {
-          instance.matches? actual
-        }.to raise_error ArgumentError, 'must specify a new method name'
+        expect { instance.matches?(actual) }
+          .to raise_error ArgumentError, 'must specify a new method name'
       end
     end
 
@@ -66,13 +67,13 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatc
 
     include_examples 'should require a new method name'
 
-    describe 'with an actual that does not respond to the old method' do
+    describe 'with an object that does not respond to the old method' do
       include_examples 'should require a new method name'
 
       wrap_context 'with a new method name' do
         let(:failure_message) do
-          "expected #{actual.inspect} to alias :#{old_method_name} as "\
-          ":#{new_method_name}, but did not respond to :#{old_method_name}"
+          "expected #{actual.inspect} to alias :#{old_method_name} as " \
+            ":#{new_method_name}, but did not respond to :#{old_method_name}"
         end
 
         include_examples 'should fail with a positive expectation'
@@ -81,19 +82,19 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatc
       end
     end
 
-    describe 'with an actual that responds to the old method' do
+    describe 'with an object that responds to the old method' do
       before(:example) do
         old_name = old_method_name
 
-        actual_class.send :define_method, old_name, ->() {}
+        actual_class.send :define_method, old_name, -> {}
       end
 
       include_examples 'should require a new method name'
 
       wrap_context 'with a new method name' do
         let(:failure_message) do
-          "expected #{actual.inspect} to alias :#{old_method_name} as "\
-          ":#{new_method_name}, but did not respond to :#{new_method_name}"
+          "expected #{actual.inspect} to alias :#{old_method_name} as " \
+            ":#{new_method_name}, but did not respond to :#{new_method_name}"
         end
 
         include_examples 'should fail with a positive expectation'
@@ -102,24 +103,24 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatc
       end
     end
 
-    describe 'with an actual that responds to the old method and the new method' do
+    describe 'with an object that responds to both methods' do
       let(:new_method_name) { :new_method }
 
       before(:example) do
         old_name = old_method_name
         new_name = new_method_name
 
-        actual_class.send :define_method, old_name, ->() {}
-        actual_class.send :define_method, new_name, ->() {}
+        actual_class.send :define_method, old_name, -> {}
+        actual_class.send :define_method, new_name, -> {}
       end
 
       include_examples 'should require a new method name'
 
       wrap_context 'with a new method name' do
         let(:failure_message) do
-          "expected #{actual.inspect} to alias :#{old_method_name} as "\
-          ":#{new_method_name}, but :#{old_method_name} and "\
-          ":#{new_method_name} are different methods"
+          "expected #{actual.inspect} to alias :#{old_method_name} as " \
+            ":#{new_method_name}, but :#{old_method_name} and " \
+            ":#{new_method_name} are different methods"
         end
 
         include_examples 'should fail with a positive expectation'
@@ -128,28 +129,148 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::Core::HaveAliasedMethodMatc
       end
     end
 
-    describe 'with an actual that aliases the old method as the new method' do
-      let(:new_method_name) { :new_method }
-
+    describe 'with an object that aliases the method' do
       before(:example) do
-        old_name = old_method_name
-        new_name = new_method_name
-
-        actual_class.send :define_method, old_name, ->() {}
-        actual_class.send :alias_method,  new_name, old_name
+        actual_class.send :define_method, old_method_name, -> {}
       end
 
-      include_examples 'should require a new method name'
-
-      wrap_context 'with a new method name' do
-        let(:failure_message_when_negated) do
-          "expected #{actual.inspect} not to alias :#{old_method_name} as "\
-          ":#{new_method_name}"
+      describe 'with alias' do
+        before(:example) do
+          actual_class.class_exec { alias new_method old_method } # rubocop:disable Style/Alias
         end
 
-        include_examples 'should pass with a positive expectation'
+        include_examples 'should require a new method name'
 
-        include_examples 'should fail with a negative expectation'
+        wrap_context 'with a new method name' do
+          let(:failure_message_when_negated) do
+            "expected #{actual.inspect} not to alias :#{old_method_name} as " \
+              ":#{new_method_name}"
+          end
+
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+        end
+      end
+
+      describe 'with alias_method' do
+        let(:new_method_name) { :new_method }
+
+        before(:example) do
+          actual_class.send :alias_method, new_method_name, old_method_name
+        end
+
+        include_examples 'should require a new method name'
+
+        wrap_context 'with a new method name' do
+          let(:failure_message_when_negated) do
+            "expected #{actual.inspect} not to alias :#{old_method_name} as " \
+              ":#{new_method_name}"
+          end
+
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+        end
+      end
+    end
+
+    describe 'with an object that aliases the method from a parent class' do
+      let(:actual_subclass) { Class.new(actual_class) }
+      let(:actual)          { actual_subclass.new }
+
+      before(:example) do
+        actual_class.send :define_method, old_method_name, -> {}
+      end
+
+      describe 'with alias' do
+        before(:example) do
+          actual_subclass.class_exec { alias new_method old_method } # rubocop:disable Style/Alias
+        end
+
+        include_examples 'should require a new method name'
+
+        wrap_context 'with a new method name' do
+          let(:failure_message_when_negated) do
+            "expected #{actual.inspect} not to alias :#{old_method_name} as " \
+              ":#{new_method_name}"
+          end
+
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+        end
+      end
+
+      describe 'with alias_method' do
+        let(:new_method_name) { :new_method }
+
+        before(:example) do
+          actual_subclass.send :alias_method, new_method_name, old_method_name
+        end
+
+        include_examples 'should require a new method name'
+
+        wrap_context 'with a new method name' do
+          let(:failure_message_when_negated) do
+            "expected #{actual.inspect} not to alias :#{old_method_name} as " \
+              ":#{new_method_name}"
+          end
+
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+        end
+      end
+    end
+
+    describe 'with an object that aliases the method from an included module' do
+      let(:included_module) { Module.new }
+
+      before(:example) do
+        included_module.send :define_method, old_method_name, -> {}
+
+        actual_class.include(included_module)
+      end
+
+      describe 'with alias' do
+        before(:example) do
+          actual_class.class_exec { alias new_method old_method } # rubocop:disable Style/Alias
+        end
+
+        include_examples 'should require a new method name'
+
+        wrap_context 'with a new method name' do
+          let(:failure_message_when_negated) do
+            "expected #{actual.inspect} not to alias :#{old_method_name} as " \
+              ":#{new_method_name}"
+          end
+
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+        end
+      end
+
+      describe 'with alias_method' do
+        let(:new_method_name) { :new_method }
+
+        before(:example) do
+          actual_class.send :alias_method, new_method_name, old_method_name
+        end
+
+        include_examples 'should require a new method name'
+
+        wrap_context 'with a new method name' do
+          let(:failure_message_when_negated) do
+            "expected #{actual.inspect} not to alias :#{old_method_name} as " \
+              ":#{new_method_name}"
+          end
+
+          include_examples 'should pass with a positive expectation'
+
+          include_examples 'should fail with a negative expectation'
+        end
       end
     end
   end
