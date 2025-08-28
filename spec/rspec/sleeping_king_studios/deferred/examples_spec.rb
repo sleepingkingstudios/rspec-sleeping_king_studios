@@ -204,6 +204,4 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
   include_examples 'should define memoized helpers'
 
   include_examples 'should define a registry for deferred examples'
-
-  include_examples 'should implement including deferred examples'
 end

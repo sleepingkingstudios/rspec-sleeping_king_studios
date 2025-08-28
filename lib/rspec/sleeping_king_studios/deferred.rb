@@ -71,7 +71,7 @@ module RSpec::SleepingKingStudios
         return false unless example_group.is_a?(Module)
         return false if example_group.is_a?(Class)
 
-        example_group < RSpec::SleepingKingStudios::Deferred::Consumer
+        example_group < RSpec::SleepingKingStudios::Deferred::Examples
       end
 
       def each_ancestor_group_for(example, &) # rubocop:disable Metrics/MethodLength

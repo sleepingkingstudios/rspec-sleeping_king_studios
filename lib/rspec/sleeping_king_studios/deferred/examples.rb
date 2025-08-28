@@ -73,7 +73,6 @@ module RSpec::SleepingKingStudios::Deferred
       other.extend  RSpec::SleepingKingStudios::Deferred::Definitions
       other.extend  RSpec::SleepingKingStudios::Deferred::Dsl
       other.include RSpec::SleepingKingStudios::Deferred::Provider
-      other.include RSpec::SleepingKingStudios::Deferred::Consumer
 
       location = caller_locations(1, 1).first
 

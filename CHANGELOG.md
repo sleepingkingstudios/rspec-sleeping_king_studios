@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.8.2
+
+### Deferred Examples
+
+Fixed behavior of deferred examples when defining and including deferred examples in the same scope.
+
 ## 2.8.1
 
 ### Matchers

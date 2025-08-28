@@ -733,6 +733,11 @@ module Spec::Support::SharedExamples
         end
       end
 
+      describe '.finclude_deferred' do
+        include_examples 'should define an include examples macro',
+          :finclude_deferred
+      end
+
       describe '.finclude_examples' do
         include_examples 'should define an include examples macro',
           :finclude_examples
@@ -743,14 +748,24 @@ module Spec::Support::SharedExamples
           :fwrap_context
       end
 
+      describe '.fwrap_deferred' do
+        include_examples 'should define an include examples macro',
+          :fwrap_deferred
+      end
+
       describe '.fwrap_examples' do
         include_examples 'should define an include examples macro',
-          :fwrap_context
+          :fwrap_examples
       end
 
       describe '.include_context' do
         include_examples 'should define an include examples macro',
           :include_context
+      end
+
+      describe '.include_deferred' do
+        include_examples 'should define an include examples macro',
+          :include_deferred
       end
 
       describe '.include_examples' do
@@ -788,9 +803,19 @@ module Spec::Support::SharedExamples
           :wrap_context
       end
 
+      describe '.wrap_deferred' do
+        include_examples 'should define an include examples macro',
+          :wrap_deferred
+      end
+
       describe '.wrap_examples' do
         include_examples 'should define an include examples macro',
           :wrap_examples
+      end
+
+      describe '.xinclude_deferred' do
+        include_examples 'should define an include examples macro',
+          :xinclude_deferred
       end
 
       describe '.xinclude_examples' do
@@ -798,12 +823,17 @@ module Spec::Support::SharedExamples
           :xinclude_examples
       end
 
-      describe '.fwrap_context' do
+      describe '.xwrap_context' do
         include_examples 'should define an include examples macro',
           :xwrap_context
       end
 
-      describe '.fwrap_examples' do
+      describe '.xwrap_deferred' do
+        include_examples 'should define an include examples macro',
+          :xwrap_deferred
+      end
+
+      describe '.xwrap_examples' do
         include_examples 'should define an include examples macro',
           :xwrap_context
       end
