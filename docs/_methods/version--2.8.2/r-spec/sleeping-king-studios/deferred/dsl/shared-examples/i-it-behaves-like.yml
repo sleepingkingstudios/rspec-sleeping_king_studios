@@ -1,0 +1,39 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::SharedExamples#it_behaves_like
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples
+signature: it_behaves_like(name, *flags, **metadata, &block)
+slug: it-behaves-like
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-it-behaves-like
+params:
+- description: |-
+    the name for the included example
+    group.
+  name: name
+  type:
+  - name: String
+  - name: Symbol
+  - name: Module
+- description: |-
+    metadata flags for the included example
+    group.
+  name: flags
+  type:
+  - name: Array
+    items:
+    - name: Symbol
+- description: metadata for the included example group.
+  name: metadata
+  type:
+  - name: Hash
+- description: the implementation of the included example group.
+  name: block
+  type:
+  - name: Proc
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Defines a deferred included example group using the it_behaves_like
+  method.
+version: 2.8.2

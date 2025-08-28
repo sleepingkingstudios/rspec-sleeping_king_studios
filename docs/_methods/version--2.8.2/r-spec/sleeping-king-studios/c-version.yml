@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios.version
+parent_path: r-spec/sleeping-king-studios
+signature: version
+slug: version
+constructor: false
+data_path: r-spec/sleeping-king-studios/c-version
+returns:
+- description: the gem version.
+  type:
+  - name: String
+version: 2.8.2

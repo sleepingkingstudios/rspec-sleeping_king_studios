@@ -1,0 +1,21 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox
+slug: sandbox
+type: module
+files:
+- lib/rspec/sleeping_king_studios/sandbox.rb
+parent_path: r-spec/sleeping-king-studios
+short_description: Helper for running RSpec files in isolation.
+class_methods:
+- name: run
+  path: r-spec/sleeping-king-studios/sandbox/c-run
+  slug: run
+  inherited: false
+defined_classes:
+- name: Result
+  slug: result
+data_path: r-spec/sleeping-king-studios/sandbox
+description: |-
+  Sandboxed files can be used to test enhancements to RSpec itself, such as
+  custom matchers or shared or deferred example groups.
+version: 2.8.2

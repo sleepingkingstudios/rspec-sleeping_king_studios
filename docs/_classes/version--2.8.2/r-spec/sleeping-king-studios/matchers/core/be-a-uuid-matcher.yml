@@ -1,0 +1,54 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::BeAUuidMatcher
+slug: be-a-uuid-matcher
+type: class
+files:
+- lib/rspec/sleeping_king_studios/matchers/core/be_a_uuid_matcher.rb
+parent_path: r-spec/sleeping-king-studios/matchers/core
+short_description: Matcher for testing whether an object is a UUID string.
+constants:
+- name: DEFAULT_EXPECTED_ITEMS
+  path: r-spec/sleeping-king-studios/matchers/description/default-expected-items
+  slug: default-expected-items
+  inherited: true
+instance_attributes:
+- name: actual
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-actual
+  slug: actual
+  inherited: true
+instance_methods:
+- name: description
+  path: r-spec/sleeping-king-studios/matchers/core/be-a-uuid-matcher/i-description
+  slug: description
+  inherited: false
+- name: does_not_match?
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-does-not-match?
+  slug: does-not-match?
+  inherited: true
+- name: failure_message
+  path: r-spec/sleeping-king-studios/matchers/core/be-a-uuid-matcher/i-failure-message
+  slug: failure-message
+  inherited: false
+- name: failure_message_when_negated
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-failure-message-when-negated
+  slug: failure-message-when-negated
+  inherited: true
+- name: matches?
+  path: r-spec/sleeping-king-studios/matchers/core/be-a-uuid-matcher/i-matches?
+  slug: matches?
+  inherited: false
+data_path: r-spec/sleeping-king-studios/matchers/core/be-a-uuid-matcher
+included_modules:
+- name: RSpec::Matchers::Composable
+  slug: composable
+metadata:
+  since:
+  - 2.5.0
+constructor: false
+inherited_classes:
+- name: RSpec::SleepingKingStudios::Matchers::BaseMatcher
+  slug: base-matcher
+  path: r-spec/sleeping-king-studios/matchers/base-matcher
+version: 2.8.2

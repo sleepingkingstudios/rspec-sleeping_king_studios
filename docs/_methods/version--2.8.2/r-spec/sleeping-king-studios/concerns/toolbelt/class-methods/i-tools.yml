@@ -1,0 +1,8 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::Toolbelt::ClassMethods#tools
+parent_path: r-spec/sleeping-king-studios/concerns/toolbelt/class-methods
+signature: tools
+slug: tools
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/toolbelt/class-methods/i-tools
+version: 2.8.2

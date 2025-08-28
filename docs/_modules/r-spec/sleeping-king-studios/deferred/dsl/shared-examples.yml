@@ -19,6 +19,10 @@ defined_modules:
 - name: Macros
   slug: macros
 instance_methods:
+- name: finclude_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-finclude-deferred
+  slug: finclude-deferred
+  inherited: false
 - name: finclude_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-finclude-examples
   slug: finclude-examples
@@ -27,6 +31,10 @@ instance_methods:
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-fwrap-context
   slug: fwrap-context
   inherited: false
+- name: fwrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-fwrap-deferred
+  slug: fwrap-deferred
+  inherited: false
 - name: fwrap_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-fwrap-examples
   slug: fwrap-examples
@@ -34,6 +42,10 @@ instance_methods:
 - name: include_context
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-include-context
   slug: include-context
+  inherited: false
+- name: include_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-include-deferred
+  slug: include-deferred
   inherited: false
 - name: include_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-include-examples
@@ -63,9 +75,17 @@ instance_methods:
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-wrap-context
   slug: wrap-context
   inherited: false
+- name: wrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-wrap-deferred
+  slug: wrap-deferred
+  inherited: false
 - name: wrap_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-wrap-examples
   slug: wrap-examples
+  inherited: false
+- name: xinclude_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xinclude-deferred
+  slug: xinclude-deferred
   inherited: false
 - name: xinclude_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xinclude-examples
@@ -74,6 +94,10 @@ instance_methods:
 - name: xwrap_context
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xwrap-context
   slug: xwrap-context
+  inherited: false
+- name: xwrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xwrap-deferred
+  slug: xwrap-deferred
   inherited: false
 - name: xwrap_examples
   path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xwrap-examples

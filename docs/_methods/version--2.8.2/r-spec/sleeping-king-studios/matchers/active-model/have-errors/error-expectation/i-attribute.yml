@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::ErrorExpectation#attribute
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation
+signature: attribute
+slug: attribute
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/error-expectation/i-attribute
+returns:
+- description: the current value of attribute
+  type:
+  - name: Object
+short_description: Returns the value of attribute attribute
+version: 2.8.2

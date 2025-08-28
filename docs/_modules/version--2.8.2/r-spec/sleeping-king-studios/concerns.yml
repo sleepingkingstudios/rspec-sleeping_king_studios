@@ -1,0 +1,35 @@
+---
+name: RSpec::SleepingKingStudios::Concerns
+slug: concerns
+type: module
+files:
+- lib/rspec/sleeping_king_studios/concerns.rb
+- lib/rspec/sleeping_king_studios/concerns/toolbelt.rb
+- lib/rspec/sleeping_king_studios/concerns/wrap_env.rb
+- lib/rspec/sleeping_king_studios/concerns/wrap_examples.rb
+- lib/rspec/sleeping_king_studios/concerns/focus_examples.rb
+- lib/rspec/sleeping_king_studios/concerns/include_contract.rb
+- lib/rspec/sleeping_king_studios/concerns/memoized_helpers.rb
+- lib/rspec/sleeping_king_studios/concerns/example_constants.rb
+- lib/rspec/sleeping_king_studios/concerns/shared_example_group.rb
+parent_path: r-spec/sleeping-king-studios
+short_description: RSpec-related concerns to mix into classes or objects.
+defined_modules:
+- name: ExampleConstants
+  slug: example-constants
+- name: FocusExamples
+  slug: focus-examples
+- name: IncludeContract
+  slug: include-contract
+- name: MemoizedHelpers
+  slug: memoized-helpers
+- name: SharedExampleGroup
+  slug: shared-example-group
+- name: Toolbelt
+  slug: toolbelt
+- name: WrapEnv
+  slug: wrap-env
+- name: WrapExamples
+  slug: wrap-examples
+data_path: r-spec/sleeping-king-studios/concerns
+version: 2.8.2

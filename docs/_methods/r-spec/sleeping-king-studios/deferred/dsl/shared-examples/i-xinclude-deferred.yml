@@ -1,0 +1,39 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::SharedExamples#xinclude_deferred
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples
+signature: xinclude_deferred(name, *flags, **metadata, &block)
+slug: xinclude-deferred
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/shared-examples/i-xinclude-deferred
+params:
+- description: |-
+    the name for the included example
+    group.
+  name: name
+  type:
+  - name: String
+  - name: Symbol
+  - name: Module
+- description: |-
+    metadata flags for the included example
+    group.
+  name: flags
+  type:
+  - name: Array
+    items:
+    - name: Symbol
+- description: metadata for the included example group.
+  name: metadata
+  type:
+  - name: Hash
+- description: the implementation of the included example group.
+  name: block
+  type:
+  - name: Proc
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Defines a deferred included example group using the xinclude_deferred
+  method.
+version: "*"

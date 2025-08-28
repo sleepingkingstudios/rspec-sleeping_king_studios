@@ -1,0 +1,35 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Consumer::ClassMethods
+slug: class-methods
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred/consumer.rb
+parent_path: r-spec/sleeping-king-studios/deferred/consumer
+short_description: Class methods for registering deferred examples.
+instance_methods:
+- name: finclude_deferred
+  path: r-spec/sleeping-king-studios/deferred/consumer/class-methods/i-finclude-deferred
+  slug: finclude-deferred
+  inherited: false
+- name: fwrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/consumer/class-methods/i-fwrap-deferred
+  slug: fwrap-deferred
+  inherited: false
+- name: include_deferred
+  path: r-spec/sleeping-king-studios/deferred/consumer/class-methods/i-include-deferred
+  slug: include-deferred
+  inherited: false
+- name: wrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/consumer/class-methods/i-wrap-deferred
+  slug: wrap-deferred
+  inherited: false
+- name: xinclude_deferred
+  path: r-spec/sleeping-king-studios/deferred/consumer/class-methods/i-xinclude-deferred
+  slug: xinclude-deferred
+  inherited: false
+- name: xwrap_deferred
+  path: r-spec/sleeping-king-studios/deferred/consumer/class-methods/i-xwrap-deferred
+  slug: xwrap-deferred
+  inherited: false
+data_path: r-spec/sleeping-king-studios/deferred/consumer/class-methods
+version: 2.8.2

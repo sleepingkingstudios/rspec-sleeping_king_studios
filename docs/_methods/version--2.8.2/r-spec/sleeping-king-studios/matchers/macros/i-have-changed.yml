@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Macros#have_changed
+parent_path: r-spec/sleeping-king-studios/matchers/macros
+signature: have_changed
+slug: have-changed
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/macros/i-have-changed
+metadata:
+  see:
+  - label: RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher#matches?
+    path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher#instance-method-matches?
+    text:
+    type: reference
+version: 2.8.2

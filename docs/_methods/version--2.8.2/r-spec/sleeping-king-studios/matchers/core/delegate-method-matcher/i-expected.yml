@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#expected
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+signature: expected
+slug: expected
+aliases:
+- method_name
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/i-expected
+metadata:
+  since:
+  - 2.2.0
+short_description: method initialize
+version: 2.8.2

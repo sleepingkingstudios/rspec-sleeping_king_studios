@@ -1,0 +1,35 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher
+signature: initialize(*expected, &block)
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/built-in/include-matcher/i-initialize
+params:
+- description: |-
+    the items expected to be
+    matched by the actual object
+  name: expected
+  type:
+  - name: Array
+    items:
+    - name: Hash
+    - name: Proc
+    - name: Object
+returns:
+- description: a new instance of IncludeMatcher
+  type:
+  - name: IncludeMatcher
+yield_params:
+- description: |-
+    An item from the actual object; yield(item)
+    should return true if and only if the item matches the desired
+    predicate.
+  name: item
+  type:
+  - name: Object
+yields:
+- description: |-
+    If a block is provided, the block is converted to a proc and
+    appended to the item expectations.
+version: 2.8.2

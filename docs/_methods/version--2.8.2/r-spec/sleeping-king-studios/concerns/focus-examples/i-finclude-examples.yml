@@ -1,0 +1,43 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::FocusExamples#finclude_examples
+parent_path: r-spec/sleeping-king-studios/concerns/focus-examples
+signature: finclude_examples name, *args, **kwargs, &block
+slug: finclude-examples
+aliases:
+- finclude_context
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/focus-examples/i-finclude-examples
+metadata:
+  notes:
+  - |-
+    Do not use this method with example groups that have side effects,
+    e.g. define a memoized `#let` helper or a `#before` block that is
+    intended to modify the behavior of sibling examples. Wrapping the
+    example group in a `describe` block breaks that relationship. Best
+    practice is to use the `#wrap_examples` method to safely encapsulate
+    example groups with side effects, and the `#fwrap_examples` method to
+    automatically focus such groups.
+params:
+- description: The name of the shared example group to be wrapped.
+  name: name
+  type:
+  - name: String
+- description: |-
+    Optional array of arguments that are passed on to
+    the shared example group.
+  name: args
+  type:
+  - name: Array
+- description: |-
+    Optional hash of keyword arguments that are passed
+    on to the shared example group.
+  name: kwargs
+  type:
+  - name: Hash
+short_description: |-
+  Includes the specified shared example group and wraps it inside an
+  `fdescribe` block named "(focused)". If the spec runner is set to run only
+  focused specs, this will ensure that the wrapped example group is run.
+yields:
+- description: Optional block that is passed on to the shared example group.
+version: 2.8.2

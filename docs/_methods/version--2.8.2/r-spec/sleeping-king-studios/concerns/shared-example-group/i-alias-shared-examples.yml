@@ -1,0 +1,34 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup#alias_shared_examples
+parent_path: r-spec/sleeping-king-studios/concerns/shared-example-group
+signature: alias_shared_examples new_name, old_name
+slug: alias-shared-examples
+aliases:
+- alias_shared_context
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-alias-shared-examples
+params:
+- description: |-
+    The new name to alias the shared example group
+    as.
+  name: new_name
+  type:
+  - name: String
+- description: |-
+    The name under which the shared example group is
+    currently defined.
+  name: old_name
+  type:
+  - name: String
+raises:
+- description: |-
+    ArgumentError If the referenced shared example group does not
+    exist.
+  type: []
+short_description: |-
+  Aliases a defined shared example group, allowing it to be accessed using
+  a new name. The example group must be defined in the current context
+  using `shared_examples`. The aliases must be defined before including the
+  module into an example group, or they will not be available in the
+  example group.
+version: 2.8.2

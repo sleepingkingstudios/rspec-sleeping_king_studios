@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Support::ValueSpy#initial_hash
+parent_path: r-spec/sleeping-king-studios/support/value-spy
+signature: initial_hash
+slug: initial-hash
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/value-spy/i-initial-hash
+returns:
+- description: |-
+    the hash of the watched value at the time the spy was
+    initialized.
+  type:
+  - name: Integer
+version: 2.8.2

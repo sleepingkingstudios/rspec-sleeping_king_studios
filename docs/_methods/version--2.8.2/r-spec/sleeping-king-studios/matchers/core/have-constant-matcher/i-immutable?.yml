@@ -1,0 +1,19 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveConstantMatcher#immutable?
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher
+signature: immutable?
+slug: immutable?
+aliases:
+- frozen?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-constant-matcher/i-immutable?
+metadata:
+  since:
+  - 2.2.0
+returns:
+- description: |-
+    True if a mutability expectation is set, otherwise
+    false.
+  type:
+  - name: Boolean
+version: 2.8.2

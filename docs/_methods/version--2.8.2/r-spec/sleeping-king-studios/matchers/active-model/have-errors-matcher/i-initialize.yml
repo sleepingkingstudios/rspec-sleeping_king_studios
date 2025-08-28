@@ -1,0 +1,15 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrorsMatcher#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher
+signature: initialize
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors-matcher/i-initialize
+metadata:
+  since:
+  - 1.0.0
+returns:
+- description: a new instance of HaveErrorsMatcher
+  type:
+  - name: HaveErrorsMatcher
+version: 2.8.2

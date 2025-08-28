@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Description
+slug: description
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/description.rb
+parent_path: r-spec/sleeping-king-studios/matchers
+short_description: |-
+  Reusable logic for building a matcher description across different versions
+  of the base RSpec library.
+constants:
+- name: DEFAULT_EXPECTED_ITEMS
+  path: r-spec/sleeping-king-studios/matchers/description/default-expected-items
+  slug: default-expected-items
+  inherited: false
+instance_methods:
+- name: description
+  path: r-spec/sleeping-king-studios/matchers/description/i-description
+  slug: description
+  inherited: false
+data_path: r-spec/sleeping-king-studios/matchers/description
+metadata:
+  since:
+  - 2.2.0
+version: 2.8.2
