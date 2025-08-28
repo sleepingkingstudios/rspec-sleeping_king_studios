@@ -1,7 +1,9 @@
 ---
 breadcrumbs:
   - name: Documentation
-    path: './'
+    path: '../../'
+  - name: Versions
+    path: '../'
 ---
 
 # RSpec::SleepingKingStudios
@@ -10,9 +12,9 @@ RSpec::SleepingKingStudios provides tools for writing and running RSpec tests.
 
 ## Documentation
 
-This is the documentation for the [current development build](https://github.com/sleepingkingstudios/rspec-sleeping_king_studios) of RSpec::SleepingKingStudios.
+This is the documentation for Version 2.8.2 of RSpec::SleepingKingStudios.
 
-- For the most recent release, see [Version 2.8.2]({{site.baseurl}}/versions/2.8.2).
+- For the current development build, see [Documentation]({{site.baseurl}}/).
 - For previous releases, see the [Versions]({{site.baseurl}}/versions) page.
 
 ## Reference

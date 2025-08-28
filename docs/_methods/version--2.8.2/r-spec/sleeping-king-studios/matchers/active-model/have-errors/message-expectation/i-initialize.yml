@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::ActiveModel::HaveErrors::MessageExpectation#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation
+signature: initialize message, expected = true, received = false
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/active-model/have-errors/message-expectation/i-initialize
+params:
+- description: |-
+    The message which is expected to be or has been
+    received.
+  name: message
+  type:
+  - name: String
+- description: Whether the message is expected.
+  name: expected
+  type:
+  - name: Boolean
+- description: Whether the message has been received.
+  name: received
+  type:
+  - name: Boolean
+returns:
+- description: a new instance of MessageExpectation
+  type:
+  - name: MessageExpectation
+version: 2.8.2

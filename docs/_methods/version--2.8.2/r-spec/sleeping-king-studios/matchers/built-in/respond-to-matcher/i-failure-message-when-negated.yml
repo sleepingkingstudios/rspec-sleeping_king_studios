@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#failure_message_when_negated
+parent_path: r-spec/sleeping-king-studios/matchers/built-in/respond-to-matcher
+signature: failure_message_when_negated
+slug: failure-message-when-negated
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/built-in/respond-to-matcher/i-failure-message-when-negated
+short_description: |-
+  Message for when the object matches, but was expected not to. Make sure
+  to always call #matches? first to set up the matcher state.
+version: 2.8.2

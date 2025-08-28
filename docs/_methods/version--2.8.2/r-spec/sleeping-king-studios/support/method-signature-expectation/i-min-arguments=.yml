@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignatureExpectation#min_arguments=
+parent_path: r-spec/sleeping-king-studios/support/method-signature-expectation
+signature: min_arguments=(value)
+slug: min-arguments=
+constructor: false
+data_path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-min-arguments=
+metadata:
+  api: private
+short_description: method initialize
+version: 2.8.2

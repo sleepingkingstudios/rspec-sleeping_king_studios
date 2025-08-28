@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveChangedMatcher#from
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher
+signature: from(value)
+slug: from
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-changed-matcher/i-from
+metadata:
+  since:
+  - 2.4.0
+params:
+- description: The expected initial value.
+  name: value
+  type:
+  - name: Object
+returns:
+- description: the matcher instance.
+  type:
+  - name: HaveChangedMatcher
+short_description: |-
+  Creates an expectation on the initial value. The matcher will compare the
+  initial value from the value spy with the specified value.
+version: 2.8.2

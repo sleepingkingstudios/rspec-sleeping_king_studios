@@ -1,0 +1,30 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#with_arguments
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+signature: with_arguments
+slug: with-arguments
+aliases:
+- and_arguments
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/i-with-arguments
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: |-
+    The arguments to be passed in to the
+    method and which must be forwarded to the target.
+  name: arguments
+  type:
+  - name: Array
+    items:
+    - name: Object
+returns:
+- description: self
+  type:
+  - name: DelegateMethodMatcher
+short_description: |-
+  Specifies a list of arguments. The provided arguments are passed in to the
+  method call when calling the method on the actual object, and must be
+  passed on to the target.
+version: 2.8.2

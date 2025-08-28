@@ -1,0 +1,59 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher
+slug: deep-matcher
+type: class
+files:
+- lib/rspec/sleeping_king_studios/matchers/core/deep_matcher.rb
+parent_path: r-spec/sleeping-king-studios/matchers/core
+short_description: Matcher for performing a deep comparison between two objects.
+constants:
+- name: DEFAULT_EXPECTED_ITEMS
+  path: r-spec/sleeping-king-studios/matchers/description/default-expected-items
+  slug: default-expected-items
+  inherited: true
+instance_attributes:
+- name: actual
+  read: true
+  write: false
+  path: r-spec/sleeping-king-studios/matchers/base-matcher/i-actual
+  slug: actual
+  inherited: true
+instance_methods:
+- name: description
+  path: r-spec/sleeping-king-studios/matchers/core/deep-matcher/i-description
+  slug: description
+  inherited: false
+- name: does_not_match?
+  path: r-spec/sleeping-king-studios/matchers/core/deep-matcher/i-does-not-match?
+  slug: does-not-match?
+  inherited: false
+- name: failure_message
+  path: r-spec/sleeping-king-studios/matchers/core/deep-matcher/i-failure-message
+  slug: failure-message
+  inherited: false
+- name: failure_message_when_negated
+  path: r-spec/sleeping-king-studios/matchers/core/deep-matcher/i-failure-message-when-negated
+  slug: failure-message-when-negated
+  inherited: false
+- name: initialize
+  path: r-spec/sleeping-king-studios/matchers/core/deep-matcher/i-initialize
+  slug: initialize
+  inherited: false
+  constructor: true
+- name: matches?
+  path: r-spec/sleeping-king-studios/matchers/core/deep-matcher/i-matches?
+  slug: matches?
+  inherited: false
+data_path: r-spec/sleeping-king-studios/matchers/core/deep-matcher
+included_modules:
+- name: RSpec::Matchers::Composable
+  slug: composable
+metadata:
+  since:
+  - 2.5.0
+constructor: true
+inherited_classes:
+- name: RSpec::SleepingKingStudios::Matchers::BaseMatcher
+  slug: base-matcher
+  path: r-spec/sleeping-king-studios/matchers/base-matcher
+version: 2.8.2

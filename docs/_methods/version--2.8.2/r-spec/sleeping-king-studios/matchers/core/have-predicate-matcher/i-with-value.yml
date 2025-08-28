@@ -1,0 +1,25 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HavePredicateMatcher#with_value
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-predicate-matcher
+signature: with_value value
+slug: with-value
+aliases:
+- with
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-predicate-matcher/i-with-value
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: The value to compare.
+  name: value
+  type:
+  - name: Object
+returns:
+- description: self
+  type:
+  - name: HaveReaderMatcher
+short_description: |-
+  Sets a value expectation. The matcher will compare the value from
+  #property? with the specified value.
+version: 2.8.2

@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Support::MethodSignature#initialize
+parent_path: r-spec/sleeping-king-studios/support/method-signature
+signature: initialize method
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/support/method-signature/i-initialize
+metadata:
+  api: private
+returns:
+- description: a new instance of MethodSignature
+  type:
+  - name: MethodSignature
+version: 2.8.2

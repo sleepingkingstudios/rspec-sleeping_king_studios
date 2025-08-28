@@ -1,0 +1,9 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::Toolbelt#tools
+parent_path: r-spec/sleeping-king-studios/concerns/toolbelt
+signature: tools
+slug: tools
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/toolbelt/i-tools
+short_description: module
+version: 2.8.2

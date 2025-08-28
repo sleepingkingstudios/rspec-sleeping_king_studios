@@ -1,0 +1,28 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DelegateMethodMatcher#with_keywords
+parent_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher
+signature: with_keywords
+slug: with-keywords
+aliases:
+- and_keywords
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/delegate-method-matcher/i-with-keywords
+metadata:
+  since:
+  - 2.2.0
+params:
+- description: |-
+    The keywords to be passed in to the
+    method and which must be forwarded to the target.
+  name: keywords
+  type:
+  - name: Hash
+returns:
+- description: self
+  type:
+  - name: DelegateMethodMatcher
+short_description: |-
+  Specifies a hash of keywords and values. The provided keywords are passed
+  in to the method call when calling the method on the actual object, and
+  must be passed on to the target.
+version: 2.8.2

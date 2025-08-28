@@ -1,0 +1,14 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox::Result#example_descriptions
+parent_path: r-spec/sleeping-king-studios/sandbox/result
+signature: example_descriptions
+slug: example-descriptions
+constructor: false
+data_path: r-spec/sleeping-king-studios/sandbox/result/i-example-descriptions
+returns:
+- description: the full description for each run example.
+  type:
+  - name: Array
+    items:
+    - name: String
+version: 2.8.2

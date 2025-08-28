@@ -1,0 +1,20 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn
+slug: built-in
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/built_in.rb
+- lib/rspec/sleeping_king_studios/matchers/built_in/include_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/built_in/be_kind_of_matcher.rb
+- lib/rspec/sleeping_king_studios/matchers/built_in/respond_to_matcher.rb
+parent_path: r-spec/sleeping-king-studios/matchers
+short_description: Extensions to the built-in RSpec matchers.
+defined_classes:
+- name: BeAKindOfMatcher
+  slug: be-a-kind-of-matcher
+- name: IncludeMatcher
+  slug: include-matcher
+- name: RespondToMatcher
+  slug: respond-to-matcher
+data_path: r-spec/sleeping-king-studios/matchers/built-in
+version: 2.8.2

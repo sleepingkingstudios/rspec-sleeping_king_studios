@@ -1,0 +1,27 @@
+---
+name: RSpec::SleepingKingStudios::Examples::RSpecMatcherExamples
+slug: r-spec-matcher-examples
+type: module
+files:
+- lib/rspec/sleeping_king_studios/examples/rspec_matcher_examples.rb
+parent_path: r-spec/sleeping-king-studios/examples
+short_description: Pregenerated example groups for testing RSpec matchers.
+class_methods:
+- name: alias_shared_examples
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-alias-shared-examples
+  slug: alias-shared-examples
+  inherited: true
+- name: included
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-included
+  slug: included
+  inherited: true
+- name: shared_examples
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group/i-shared-examples
+  slug: shared-examples
+  inherited: true
+data_path: r-spec/sleeping-king-studios/examples/r-spec-matcher-examples
+extended_modules:
+- name: RSpec::SleepingKingStudios::Concerns::SharedExampleGroup
+  slug: shared-example-group
+  path: r-spec/sleeping-king-studios/concerns/shared-example-group
+version: 2.8.2

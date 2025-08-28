@@ -1,0 +1,23 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HaveWriterMatcher#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-writer-matcher
+signature: 'initialize expected, allow_private: false'
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/core/have-writer-matcher/i-initialize
+metadata:
+  since:
+  - 1.0.0
+params:
+- description: |-
+    the property to check for on the actual
+    object
+  name: expected
+  type:
+  - name: String
+  - name: Symbol
+returns:
+- description: a new instance of HaveWriterMatcher
+  type:
+  - name: HaveWriterMatcher
+version: 2.8.2

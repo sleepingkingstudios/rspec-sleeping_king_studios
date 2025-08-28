@@ -1,0 +1,44 @@
+---
+name: RSpec::SleepingKingStudios::Deferred
+slug: deferred
+type: module
+files:
+- lib/rspec/sleeping_king_studios/deferred.rb
+- lib/rspec/sleeping_king_studios/deferred/dsl.rb
+- lib/rspec/sleeping_king_studios/deferred/call.rb
+- lib/rspec/sleeping_king_studios/deferred/calls.rb
+- lib/rspec/sleeping_king_studios/deferred/missing.rb
+- lib/rspec/sleeping_king_studios/deferred/consumer.rb
+- lib/rspec/sleeping_king_studios/deferred/examples.rb
+- lib/rspec/sleeping_king_studios/deferred/provider.rb
+- lib/rspec/sleeping_king_studios/deferred/definitions.rb
+- lib/rspec/sleeping_king_studios/deferred/dependencies.rb
+parent_path: r-spec/sleeping-king-studios
+short_description: Namespace for deferred example functionality.
+class_methods:
+- name: reflect
+  path: r-spec/sleeping-king-studios/deferred/c-reflect
+  slug: reflect
+  inherited: false
+defined_classes:
+- name: Call
+  slug: call
+defined_modules:
+- name: Calls
+  slug: calls
+- name: Consumer
+  slug: consumer
+- name: Definitions
+  slug: definitions
+- name: Dependencies
+  slug: dependencies
+- name: Dsl
+  slug: dsl
+- name: Examples
+  slug: examples
+- name: Missing
+  slug: missing
+- name: Provider
+  slug: provider
+data_path: r-spec/sleeping-king-studios/deferred
+version: 2.8.2

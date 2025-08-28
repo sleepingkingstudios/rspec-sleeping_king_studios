@@ -1,0 +1,11 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::ConstructMatcher#description
+parent_path: r-spec/sleeping-king-studios/matchers/core/construct-matcher
+signature: description
+slug: description
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/construct-matcher/i-description
+metadata:
+  since:
+  - 1.0.0
+version: 2.8.2

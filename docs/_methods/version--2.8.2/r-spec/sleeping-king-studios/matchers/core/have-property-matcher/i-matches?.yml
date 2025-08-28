@@ -1,0 +1,26 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::HavePropertyMatcher#matches?
+parent_path: r-spec/sleeping-king-studios/matchers/core/have-property-matcher
+signature: matches? actual
+slug: matches?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/have-property-matcher/i-matches?
+metadata:
+  since:
+  - 1.0.0
+params:
+- description: The object to check.
+  name: actual
+  type:
+  - name: Object
+returns:
+- description: |-
+    true If the object responds to #expected and
+    #expected= and matches the value expectation (if any); otherwise false.
+  type:
+  - name: Boolean
+short_description: |-
+  Checks if the object responds to #expected and #expected=. Additionally,
+  if a value expectation is set, compares the result of calling :expected
+  to the value.
+version: 2.8.2

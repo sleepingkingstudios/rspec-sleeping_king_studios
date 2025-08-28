@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios.gem_path
+parent_path: r-spec/sleeping-king-studios
+signature: gem_path
+slug: gem-path
+constructor: false
+data_path: r-spec/sleeping-king-studios/c-gem-path
+returns:
+- description: the path to the installed gem.
+  type:
+  - name: String
+version: 2.8.2

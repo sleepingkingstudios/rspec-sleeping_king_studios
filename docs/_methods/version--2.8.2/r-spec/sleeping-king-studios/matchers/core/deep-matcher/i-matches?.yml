@@ -1,0 +1,33 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Core::DeepMatcher#matches?
+parent_path: r-spec/sleeping-king-studios/matchers/core/deep-matcher
+signature: matches?(actual)
+slug: matches?
+constructor: false
+data_path: r-spec/sleeping-king-studios/matchers/core/deep-matcher/i-matches?
+description: |-
+  - If the expected object is an RSpec matcher, the #matches? method on the
+    matcher is called with the expected object.
+  - If the expected object is an Array, then each item is compared based on
+    the type of the expected item.
+  - If the expected object is a Hash, then the keys must match and each
+    value is compared based on the type of the expected value.
+  - Otherwise, the two objects are compared using an equality comparison.
+metadata:
+  since:
+  - 2.5.0
+params:
+- description: the object to check.
+  name: actual
+  type:
+  - name: Object
+returns:
+- description: |-
+    true if the actual object matches the expectation,
+    otherwise false.
+  type:
+  - name: Boolean
+short_description: |-
+  Performs a deep comparison between the actual object and the expected
+  object. The type of comparison depends on the type of the expected object:
+version: 2.8.2

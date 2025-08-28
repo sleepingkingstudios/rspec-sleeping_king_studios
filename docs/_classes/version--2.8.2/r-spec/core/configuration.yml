@@ -1,0 +1,16 @@
+---
+name: RSpec::Core::Configuration
+slug: configuration
+type: class
+files:
+- lib/rspec/sleeping_king_studios/configuration.rb
+parent_path: r-spec/core
+short_description: rubocop:disable Style/Documentation
+instance_methods:
+- name: sleeping_king_studios
+  path: r-spec/core/configuration/i-sleeping-king-studios
+  slug: sleeping-king-studios
+  inherited: false
+data_path: r-spec/core/configuration
+constructor: false
+version: 2.8.2

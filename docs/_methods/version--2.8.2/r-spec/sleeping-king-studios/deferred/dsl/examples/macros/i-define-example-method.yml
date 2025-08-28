@@ -1,0 +1,19 @@
+---
+name: RSpec::SleepingKingStudios::Deferred::Dsl::Examples::Macros#define_example_method
+parent_path: r-spec/sleeping-king-studios/deferred/dsl/examples/macros
+signature: define_example_method(method_name)
+slug: define-example-method
+constructor: false
+data_path: r-spec/sleeping-king-studios/deferred/dsl/examples/macros/i-define-example-method
+params:
+- description: the name of the deferred method.
+  name: method_name
+  type:
+  - name: String
+  - name: Symbol
+returns:
+- description: ''
+  type:
+  - name: void
+short_description: Registers a method for deferring an example.
+version: 2.8.2

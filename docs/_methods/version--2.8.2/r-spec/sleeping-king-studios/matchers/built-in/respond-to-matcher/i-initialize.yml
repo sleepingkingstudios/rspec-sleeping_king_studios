@@ -1,0 +1,12 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::BuiltIn::RespondToMatcher#initialize
+parent_path: r-spec/sleeping-king-studios/matchers/built-in/respond-to-matcher
+signature: initialize
+slug: initialize
+constructor: true
+data_path: r-spec/sleeping-king-studios/matchers/built-in/respond-to-matcher/i-initialize
+returns:
+- description: a new instance of RespondToMatcher
+  type:
+  - name: RespondToMatcher
+version: 2.8.2

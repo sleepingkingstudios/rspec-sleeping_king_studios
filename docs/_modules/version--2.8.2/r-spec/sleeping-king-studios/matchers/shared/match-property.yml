@@ -1,0 +1,10 @@
+---
+name: RSpec::SleepingKingStudios::Matchers::Shared::MatchProperty
+slug: match-property
+type: module
+files:
+- lib/rspec/sleeping_king_studios/matchers/shared/match_property.rb
+parent_path: r-spec/sleeping-king-studios/matchers/shared
+short_description: Helper methods for checking reader and writer methods and values.
+data_path: r-spec/sleeping-king-studios/matchers/shared/match-property
+version: 2.8.2

@@ -1,0 +1,16 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox::Result#passing_examples
+parent_path: r-spec/sleeping-king-studios/sandbox/result
+signature: passing_examples
+slug: passing-examples
+constructor: false
+data_path: r-spec/sleeping-king-studios/sandbox/result/i-passing-examples
+returns:
+- description: |-
+    the full description for each run example with
+    status "passed".
+  type:
+  - name: Array
+    items:
+    - name: String
+version: 2.8.2

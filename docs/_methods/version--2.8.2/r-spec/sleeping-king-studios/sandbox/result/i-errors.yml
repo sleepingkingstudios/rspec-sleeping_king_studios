@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Sandbox::Result#errors
+parent_path: r-spec/sleeping-king-studios/sandbox/result
+signature: errors
+slug: errors
+constructor: false
+data_path: r-spec/sleeping-king-studios/sandbox/result/i-errors
+returns:
+- description: the current value of errors
+  type:
+  - name: Object
+short_description: Returns the value of attribute errors
+version: 2.8.2
