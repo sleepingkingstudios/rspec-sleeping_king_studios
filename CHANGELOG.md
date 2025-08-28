@@ -6,6 +6,10 @@
 
 Fixed behavior of deferred examples when defining and including deferred examples in the same scope.
 
+### Matchers
+
+Fixed `HaveAliasedMethod` matching when the original method is from an included module.
+
 ## 2.8.1
 
 ### Matchers

@@ -88,13 +88,18 @@ module RSpec::SleepingKingStudios::Matchers::Core
       :original_name
 
     def aliases_method?
-      unless @actual.method(original_name) == @actual.method(aliased_name)
-        @errors[:does_not_alias_method] = true
+      original_method = @actual.method(original_name)
+      aliased_method  = @actual.method(aliased_name)
 
-        return false
+      return true if original_method == aliased_method
+
+      if original_method.source_location == aliased_method.source_location
+        return true
       end
 
-      true
+      @errors[:does_not_alias_method] = true
+
+      false
     end
 
     def responds_to_methods?
