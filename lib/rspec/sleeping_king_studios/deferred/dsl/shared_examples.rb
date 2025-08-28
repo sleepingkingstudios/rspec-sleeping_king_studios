@@ -79,16 +79,25 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
     #     @return [void]
 
     # @!macro define_included_examples_method
+    define_included_examples_method :finclude_deferred
+
+    # @!macro define_included_examples_method
     define_included_examples_method :finclude_examples
 
     # @!macro define_included_examples_method
     define_included_examples_method :fwrap_context
 
     # @!macro define_included_examples_method
+    define_included_examples_method :fwrap_deferred
+
+    # @!macro define_included_examples_method
     define_included_examples_method :fwrap_examples
 
     # @!macro define_included_examples_method
     define_included_examples_method :include_context
+
+    # @!macro define_included_examples_method
+    define_included_examples_method :include_deferred
 
     # @!macro define_included_examples_method
     define_included_examples_method :include_examples
@@ -112,13 +121,22 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
     define_included_examples_method :wrap_context
 
     # @!macro define_included_examples_method
+    define_included_examples_method :wrap_deferred
+
+    # @!macro define_included_examples_method
     define_included_examples_method :wrap_examples
+
+    # @!macro define_included_examples_method
+    define_included_examples_method :xinclude_deferred
 
     # @!macro define_included_examples_method
     define_included_examples_method :xinclude_examples
 
     # @!macro define_included_examples_method
     define_included_examples_method :xwrap_context
+
+    # @!macro define_included_examples_method
+    define_included_examples_method :xwrap_deferred
 
     # @!macro define_included_examples_method
     define_included_examples_method :xwrap_examples
