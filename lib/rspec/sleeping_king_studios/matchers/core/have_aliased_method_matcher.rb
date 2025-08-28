@@ -16,6 +16,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
     # @param [String, Symbol] original_name The name of the method that is
     #   expected to have an alias.
     def initialize(original_name)
+      super()
+
       @original_name = original_name.intern
     end
 
@@ -40,7 +42,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     end
 
     # (see BaseMatcher#failure_message)
-    def failure_message
+    def failure_message # rubocop:disable Metrics/MethodLength
       message = "expected #{@actual.inspect} to alias :#{original_name}"
 
       message += " as #{aliased_name.inspect}" if aliased_name
@@ -59,8 +61,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
       if @errors[:does_not_alias_method]
         message +=
-          ", but :#{original_name} and :#{aliased_name} are different "\
-          "methods"
+          ", but :#{original_name} and :#{aliased_name} are different " \
+          'methods'
 
         return message
       end
@@ -74,18 +76,16 @@ module RSpec::SleepingKingStudios::Matchers::Core
 
       @errors = {}
 
-      if aliased_name.nil?
-        raise ArgumentError.new('must specify a new method name')
-      end
+      raise ArgumentError, 'must specify a new method name' if aliased_name.nil?
 
       responds_to_methods? && aliases_method?
     end
 
     private
 
-    attr_reader :aliased_name
-
-    attr_reader :original_name
+    attr_reader \
+      :aliased_name,
+      :original_name
 
     def aliases_method?
       unless @actual.method(original_name) == @actual.method(aliased_name)
