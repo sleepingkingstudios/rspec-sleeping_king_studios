@@ -53,7 +53,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     # @api private
     #
     # @return [Boolean]
-    def does_not_match?(actual) # rubocop:disable Naming/PredicateName
+    def does_not_match?(actual) # rubocop:disable Naming/PredicatePrefix
       @actual = actual
 
       perform_match(actual, &:!)
@@ -159,7 +159,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
       excluded_items << expected_item
     end
 
-    def perform_match(actual, &)
+    def perform_match(actual, &) # rubocop:disable Naming/PredicateMethod
       @actual = actual
       @divergent_items = find_excluded_items(&)
       actual.respond_to?(:include?) && @divergent_items.empty?

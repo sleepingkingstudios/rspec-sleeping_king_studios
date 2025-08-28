@@ -32,7 +32,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     #   expectation, otherwise true.
     #
     # @see #matches?
-    def does_not_match?(actual) # rubocop:disable Metrics/MethodLength, Naming/PredicateName
+    def does_not_match?(actual) # rubocop:disable Metrics/MethodLength, Naming/PredicatePrefix
       super
 
       if matcher?(@expected)
@@ -159,7 +159,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
         "#{format_expected(@actual)}`"
     end
 
-    def equality_matcher
+    def equality_matcher # rubocop:disable Naming/PredicateMethod
       matchers_delegate.be == @expected
     end
 
