@@ -10,7 +10,7 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Missing do
   extend RSpec::SleepingKingStudios::Concerns::ExampleConstants
 
   shared_context 'when there are missing calls' do
-    example_implementations = [
+    example_implementations = [ # rubocop:disable RSpec/LeakyLocalVariable
       -> { expect(1).to be_a Integer }, # rubocop:disable RSpec/ExpectActual
       -> { it { expect(Object.new.freeze).to be_a Object } }
     ]
