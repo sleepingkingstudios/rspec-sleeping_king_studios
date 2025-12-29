@@ -25,5 +25,3 @@ RSpec::SleepingKingStudios defines the following tools for writing tests:
   libraries or projects.
 
 For a full list of defined classes and objects, see [Reference](./reference).
-
-{% include breadcrumbs.md %}
