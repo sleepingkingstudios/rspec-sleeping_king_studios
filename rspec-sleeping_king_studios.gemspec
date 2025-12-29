@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift File.expand_path('./lib')
-
-require 'rspec/sleeping_king_studios/version'
+require_relative 'lib/rspec/sleeping_king_studios/version'
 
 Gem::Specification.new do |gem|
   gem.name        = 'rspec-sleeping_king_studios'
@@ -24,7 +22,7 @@ Gem::Specification.new do |gem|
     'rubygems_mfa_required' => 'true'
   }
 
-  gem.required_ruby_version = ['>= 3.1', '< 4.0']
+  gem.required_ruby_version = ['>= 3.1', '< 5']
   gem.require_path          = 'lib'
   gem.files                 =
     Dir['config/rubocop-rspec.yml', 'lib/**/*.rb', 'LICENSE', '*.md']
