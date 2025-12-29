@@ -8,9 +8,7 @@ gem 'activemodel', '~> 8.0'
 
 gem 'sleeping_king_studios-tasks', '~> 0.4', '>= 0.4.1'
 
-gem 'sleeping_king_studios-tools',
-  branch: 'chore/ruby-4-0',
-  git:    'https://github.com/sleepingkingstudios/sleeping_king_studios-tools'
+gem 'sleeping_king_studios-tools', '~> 1.2', '>= 1.2.1'
 
 group :development, :test do
   gem 'appraisal', '~> 2.5'
@@ -31,7 +29,9 @@ group :docs do
   # Use Kramdown to parse GFM-dialect Markdown.
   gem 'kramdown-parser-gfm', '~> 1.1'
 
-  gem 'sleeping_king_studios-docs', '~> 0.2'
+  gem 'sleeping_king_studios-docs',
+    branch: 'chore/ruby-4-0',
+    git:    'https://github.com/sleepingkingstudios/sleeping_king_studios-docs'
   gem 'webrick', '~> 1.8' # Use Webrick as local content server.
   gem 'yard', '~> 0.9', require: false
 end
