@@ -1,0 +1,13 @@
+---
+name: RSpec::SleepingKingStudios::Concerns::IncludeContract#xinclude_contract
+parent_path: r-spec/sleeping-king-studios/concerns/include-contract
+signature: xinclude_contract(contract_or_name, *arguments, **keywords, &block)
+slug: xinclude-contract
+constructor: false
+data_path: r-spec/sleeping-king-studios/concerns/include-contract/i-xinclude-contract
+metadata:
+  see:
+  - text: include_contract.
+short_description: 'As #include_contract, but wraps the contract in a skipped example
+  group.'
+version: "*"
