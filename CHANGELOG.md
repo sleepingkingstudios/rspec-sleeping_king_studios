@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.3
+
+Added support for Ruby 4.0.
+
 ## 2.8.2
 
 ### Deferred Examples
