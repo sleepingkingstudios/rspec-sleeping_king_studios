@@ -17,6 +17,7 @@ AllCops:
     - lib/rspec/sleeping_king_studios/configuration.rb
     - lib/rspec/sleeping_king_studios/deferred.rb
     - lib/rspec/sleeping_king_studios/deferred/**/*
+    - lib/rspec/sleeping_king_studios/examples/property_examples.rb
     - lib/rspec/sleeping_king_studios/matchers/built_in/include_matcher.rb
     - lib/rspec/sleeping_king_studios/matchers/core/deep_matcher.rb
     - lib/rspec/sleeping_king_studios/matchers/core/have_aliased_method_matcher.rb
