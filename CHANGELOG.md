@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.4
+
+Fixed deprecated direct reference to `SleepingKingStudios::Tools::ObjectTools` method.
+
 ## 2.8.3
 
 Added support for Ruby 4.0.

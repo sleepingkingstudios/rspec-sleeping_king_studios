@@ -23,6 +23,8 @@ group :development, :test do
 end
 
 group :docs do
+  gem 'irb', '~> 1.16'
+
   gem 'jekyll', '~> 4.3'
   gem 'jekyll-theme-dinky', '~> 0.2'
 
