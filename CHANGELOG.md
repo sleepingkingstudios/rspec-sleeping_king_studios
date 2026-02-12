@@ -2,7 +2,7 @@
 
 ## 2.8.4
 
-Fixed deprecated direct reference to `SleepingKingStudios::Tools::ObjectTools` method.
+Fixed deprecated direct reference to `SleepingKingStudios::Tools` methods.
 
 ## 2.8.3
 

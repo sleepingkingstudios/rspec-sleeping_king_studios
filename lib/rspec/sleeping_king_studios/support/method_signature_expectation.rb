@@ -1,12 +1,12 @@
-# lib/rspec/sleeping_king_studios/support/method_signature_expectation.rb
+# frozen_string_literal: true
+
+require 'sleeping_king_studios/tools/toolbelt'
 
 require 'rspec/sleeping_king_studios/support/method_signature'
 
-require 'sleeping_king_studios/tools/array_tools'
-
 module RSpec::SleepingKingStudios::Support
   # @api private
-  class MethodSignatureExpectation
+  class MethodSignatureExpectation # rubocop:disable Metrics/ClassLength
     def initialize
       @min_arguments       = 0
       @max_arguments       = 0
@@ -15,7 +15,7 @@ module RSpec::SleepingKingStudios::Support
       @any_keywords        = false
       @block_argument      = false
       @errors              = {}
-    end # method initialize
+    end
 
     attr_accessor :min_arguments, :max_arguments, :keywords
 
@@ -23,30 +23,31 @@ module RSpec::SleepingKingStudios::Support
 
     attr_reader :errors
 
-    def description
+    def description # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
       messages = []
 
-      if min_arguments == max_arguments
-        messages << "#{min_arguments} argument#{1 == min_arguments ? '' : 's'}"
-      else
-        messages << "#{min_arguments}..#{max_arguments} arguments"
-      end # if-else
+      messages <<
+        if min_arguments == max_arguments
+          "#{min_arguments} argument#{'s' unless min_arguments == 1}"
+        else
+          "#{min_arguments}..#{max_arguments} arguments"
+        end
 
       messages << 'unlimited arguments' if unlimited_arguments?
 
       unless keywords.empty?
         keywords_list = array_tools.humanize_list keywords.map(&:inspect)
-        messages << "keyword#{1 == keywords.count ? '' : 's'} #{keywords_list}"
-      end # if
+        messages << "keyword#{'s' unless keywords.one?} #{keywords_list}"
+      end
 
       messages << 'arbitrary keywords' if any_keywords?
 
       messages << 'a block' if block_argument?
 
       "with #{array_tools.humanize_list messages}"
-    end # method description
+    end
 
-    def matches? method
+    def matches?(method)
       @signature = MethodSignature.new(method)
       @errors    = {}
 
@@ -55,63 +56,59 @@ module RSpec::SleepingKingStudios::Support
       match = false unless matches_keywords?
       match = false unless matches_block?
       match
-    end # method matches?
+    end
 
     def any_keywords?
       !!@any_keywords
-    end # method any_keywords?
+    end
 
     def block_argument?
       !!@block_argument
-    end # method block_argument?
+    end
 
     def unlimited_arguments?
       !!@unlimited_arguments
-    end # method unlimited_arguments?
+    end
 
     private
 
     attr_reader :signature
 
     def array_tools
-      ::SleepingKingStudios::Tools::ArrayTools
-    end # method array_tools
+      ::SleepingKingStudios::Tools::Toolbelt.instance.array_tools
+    end
 
-    def matches_arity?
+    def matches_arity? # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       match = true
 
       if min_arguments < signature.min_arguments
         match = false
 
         @errors[:not_enough_args] = {
-          :expected => signature.min_arguments,
-          :received => min_arguments
-        } # end hash
-      end # if
+          expected: signature.min_arguments,
+          received: min_arguments
+        }
+      end
 
-      if signature.unlimited_arguments?
+      return match if signature.unlimited_arguments?
 
-      else
-        if max_arguments > signature.max_arguments
-          match = false
+      if max_arguments > signature.max_arguments
+        match = false
 
-          @errors[:too_many_args] = {
-            :expected => signature.max_arguments,
-            :received => max_arguments
-          } # end hash
-        end # if-else
+        @errors[:too_many_args] = {
+          expected: signature.max_arguments,
+          received: max_arguments
+        }
+      end
 
-        if unlimited_arguments?
-          match = false
+      if unlimited_arguments?
+        match = false
 
-          @errors[:no_variadic_args] = {
-            :expected => signature.max_arguments
-          } # end hash
-        end # if
-      end # if-else
+        @errors[:no_variadic_args] = { expected: signature.max_arguments }
+      end
 
       match
-    end # method matches_arity?
+    end
 
     def matches_block?
       match = true
@@ -120,12 +117,12 @@ module RSpec::SleepingKingStudios::Support
         match = false
 
         @errors[:no_block_argument] = true
-      end # if
+      end
 
       match
-    end # method matches_block?
+    end
 
-    def matches_keywords?
+    def matches_keywords? # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       match = true
 
       missing_keywords = signature.required_keywords - keywords
@@ -133,26 +130,24 @@ module RSpec::SleepingKingStudios::Support
         match = false
 
         @errors[:missing_keywords] = missing_keywords
-      end # unless
+      end
 
-      if signature.any_keywords?
+      return match if signature.any_keywords?
 
-      else
-        unexpected_keywords = keywords - signature.keywords
-        unless unexpected_keywords.empty?
-          match = false
+      unexpected_keywords = keywords - signature.keywords
+      unless unexpected_keywords.empty?
+        match = false
 
-          @errors[:unexpected_keywords] = unexpected_keywords
-        end # unless
+        @errors[:unexpected_keywords] = unexpected_keywords
+      end
 
-        if any_keywords?
-          match = false
+      if any_keywords?
+        match = false
 
-          @errors[:no_variadic_keywords] = true
-        end # if
-      end # if-else
+        @errors[:no_variadic_keywords] = true
+      end
 
       match
-    end # method matches_keywords?
-  end # class
-end # module
+    end
+  end
+end

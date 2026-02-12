@@ -22,6 +22,7 @@ AllCops:
     - lib/rspec/sleeping_king_studios/matchers/core/deep_matcher.rb
     - lib/rspec/sleeping_king_studios/matchers/core/have_aliased_method_matcher.rb
     - lib/rspec/sleeping_king_studios/sandbox.rb
+    - lib/rspec/sleeping_king_studios/support/method_signature_expectation.rb
     - lib/rspec/sleeping_king_studios/version.rb
     - spec/rspec/configuration_spec.rb
     - spec/integration/concerns/**/*
