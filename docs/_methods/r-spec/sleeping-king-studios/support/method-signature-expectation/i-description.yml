@@ -7,4 +7,6 @@ constructor: false
 data_path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-description
 metadata:
   api: private
+short_description: rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity,
+  Metrics/MethodLength, Metrics/PerceivedComplexity
 version: "*"

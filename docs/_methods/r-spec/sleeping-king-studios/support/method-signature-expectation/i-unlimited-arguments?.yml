@@ -11,5 +11,4 @@ returns:
 - description: ''
   type:
   - name: Boolean
-short_description: method block_argument?
 version: "*"

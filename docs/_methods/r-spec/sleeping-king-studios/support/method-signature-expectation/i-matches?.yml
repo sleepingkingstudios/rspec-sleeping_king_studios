@@ -1,7 +1,7 @@
 ---
 name: RSpec::SleepingKingStudios::Support::MethodSignatureExpectation#matches?
 parent_path: r-spec/sleeping-king-studios/support/method-signature-expectation
-signature: matches? method
+signature: matches?(method)
 slug: matches?
 constructor: false
 data_path: r-spec/sleeping-king-studios/support/method-signature-expectation/i-matches?
@@ -11,5 +11,4 @@ returns:
 - description: ''
   type:
   - name: Boolean
-short_description: method description
 version: "*"

@@ -11,4 +11,5 @@ returns:
 - description: a new instance of MethodSignatureExpectation
   type:
   - name: MethodSignatureExpectation
+short_description: rubocop:disable Metrics/ClassLength
 version: "*"
