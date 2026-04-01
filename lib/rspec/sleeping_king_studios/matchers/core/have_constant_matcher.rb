@@ -17,7 +17,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
     #   the actual object.
     def initialize expected
       @expected = expected.intern
-    end # method initialize
+    end
 
     # (see BaseMatcher#description)
     def description
@@ -27,7 +27,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
       message << ' with value ' << value_to_string if @value_set
 
       message
-    end # method description
+    end
 
     # (see BaseMatcher#does_not_match?)
     def does_not_match? actual
@@ -36,7 +36,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @errors = {}
 
       !has_constant?
-    end # method does_not_match?
+    end
 
     # (see BaseMatcher#failure_message)
     def failure_message
@@ -49,33 +49,33 @@ module RSpec::SleepingKingStudios::Matchers::Core
           ", but #{@actual.inspect} does not respond to ::const_defined?"
 
         return message
-      end # if
+      end
 
       if @errors[:constant_is_not_defined]
         message <<
           ", but #{@actual.inspect} does not define constant #{@expected.inspect}"
 
         return message
-      end # if
+      end
 
       if hsh = @errors[:value_does_not_match]
         messages <<
           "constant #{@expected.inspect} has value #{hsh[:received].inspect}"
-      end # if
+      end
 
       if hsh = @errors[:value_is_mutable]
         messages <<
           "the value of #{@expected.inspect} was mutable"
-      end # if
+      end
 
       unless messages.empty?
-        tools = ::SleepingKingStudios::Tools::ArrayTools
+        tools = SleepingKingStudios::Tools::Toolbelt.instance
 
-        message << ', but ' << tools.humanize_list(messages)
-      end # unless
+        message << ', but ' << tools.array_tools.humanize_list(messages)
+      end
 
       message
-    end # method failure_message
+    end
 
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
@@ -86,7 +86,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
         "value #{actual.const_get(@expected).inspect}"
 
       message
-    end # method failure_message
+    end
 
     # Sets a mutability expectation. The matcher will determine whether the
     # value of the constant is mutable. Values of `nil`, `false`, `true` are
@@ -99,14 +99,14 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @immutable = true
 
       self
-    end # method immutable
+    end
     alias_method :frozen, :immutable
 
     # @return [Boolean] True if a mutability expectation is set, otherwise
     #   false.
     def immutable?
       !!@immutable
-    end # method immutable
+    end
     alias_method :frozen?, :immutable?
 
     # Checks if the object has a constant :expected. Additionally, if a
@@ -125,7 +125,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
       return false unless has_constant?
 
       matches_constant? :all?
-    end # method matches?
+    end
 
     # Sets a value expectation. The matcher will compare the value of the
     # constant with the specified value.
@@ -137,7 +137,7 @@ module RSpec::SleepingKingStudios::Matchers::Core
       @value     = value
       @value_set = true
       self
-    end # method with
+    end
     alias_method :with_value, :with
 
     private
@@ -147,16 +147,16 @@ module RSpec::SleepingKingStudios::Matchers::Core
         @errors[:does_not_define_constants] = true
 
         return false
-      end # unless
+      end
 
       unless actual.const_defined?(@expected)
         @errors[:constant_is_not_defined] = true
 
         return false
-      end # unless
+      end
 
       true
-    end # method has_constant?
+    end
 
     def immutable_value?
       return true unless @immutable
@@ -167,16 +167,16 @@ module RSpec::SleepingKingStudios::Matchers::Core
         @errors[:value_is_mutable] = true
 
         return false
-      end # if
+      end
 
       true
-    end # method immutable_value
+    end
 
     def matches_constant? filter
       [ matches_constant_value?,
         immutable_value?
       ].send(filter) { |bool| bool }
-    end # method matches_constant?
+    end
 
     def matches_constant_value?
       return true unless @value_set
@@ -193,10 +193,10 @@ module RSpec::SleepingKingStudios::Matchers::Core
         } # end hash
 
         return false
-      end # unless
+      end
 
       true
-    end # method matches_constant_value?
+    end
 
     def mutable? value
       case value
@@ -212,8 +212,8 @@ module RSpec::SleepingKingStudios::Matchers::Core
         (value.keys + value.values).reduce(false) { |memo, item| memo || mutable?(item) }
       else
         !value.frozen?
-      end # case
-    end # method mutable?
+      end
+    end
 
     # Formats the expected value as a human-readable string. If the value looks
     # like an RSpec matcher (it responds to :matches? and :description), calls
@@ -224,6 +224,6 @@ module RSpec::SleepingKingStudios::Matchers::Core
       return @value.description if @value.respond_to?(:matches?) && @value.respond_to?(:description)
 
       @value.inspect
-    end # method value_to_string
-  end # class
-end # module
+    end
+  end
+end

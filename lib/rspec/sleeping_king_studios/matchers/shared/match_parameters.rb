@@ -1,19 +1,18 @@
-# lib/rspec/sleeping_king_studios/matchers/shared/parameters_matcher.rb
+# frozen_string_literal: true
 
 require 'rspec/sleeping_king_studios/matchers'
 require 'sleeping_king_studios/tools/array_tools'
 require 'rspec/sleeping_king_studios/support/method_signature_expectation'
 
 module RSpec::SleepingKingStudios::Matchers::Shared
-  # Helper methods for checking the parameters and keywords (Ruby 2.0 only) of
-  # a method.
+  # Helper methods for checking the arguments and keywords of a method.
   module MatchParameters
     # Convenience method for more fluent specs. Does nothing and returns self.
     #
     # @return self
     def argument
       self
-    end # method argument
+    end
     alias_method :arguments, :argument
 
     # Adds a parameter count expectation and/or one or more keyword
@@ -55,12 +54,12 @@ module RSpec::SleepingKingStudios::Matchers::Shared
 
         method_signature_expectation.min_arguments = arity
         method_signature_expectation.max_arguments = arity
-      end # case
+      end
 
       method_signature_expectation.keywords = keywords
 
       self
-    end # method with
+    end
 
     # Adds a block expectation. The actual object will only match a block
     # expectation if it expects a parameter of the form &block.
@@ -70,7 +69,7 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       method_signature_expectation.block_argument = true
 
       self
-    end # method with_a_block
+    end
     alias_method :and_a_block, :with_a_block
 
     # Adds an arbitrary keyword expectation, e.g. that the method supports
@@ -79,7 +78,7 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       method_signature_expectation.any_keywords = true
 
       self
-    end # method with_arbitrary_keywords
+    end
     alias_method :and_arbitrary_keywords, :with_arbitrary_keywords
     alias_method :with_any_keywords,      :with_arbitrary_keywords
     alias_method :and_any_keywords,       :with_any_keywords
@@ -94,7 +93,7 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       method_signature_expectation.keywords = keywords
 
       self
-    end # method with_keywords
+    end
     alias_method :and_keywords, :with_keywords
 
     # Adds an unlimited parameter count expectation, e.g. that the method
@@ -105,17 +104,15 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       method_signature_expectation.unlimited_arguments = true
 
       self
-    end # method with_unlimited_arguments
+    end
     alias_method :and_unlimited_arguments, :with_unlimited_arguments
 
     private
 
-    # @api private
     def check_method_signature method
       method_signature_expectation.matches?(method)
-    end # method check_method_signature
+    end
 
-    # @api private
     def format_errors errors
       messages = []
 
@@ -127,17 +124,17 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       # - at least :min (for methods with variadic params)
       if hsh = errors.fetch(:not_enough_args, false)
         messages << "  expected at least #{hsh[:expected]} arguments, but received #{hsh[:received]}"
-      end # if
+      end
 
       if hsh = errors.fetch(:too_many_args, false)
         messages << "  expected at most #{hsh[:expected]} arguments, but received #{hsh[:received]}"
-      end # if
+      end
 
       # TODO: Replace this with "  expected method to receive unlimited "\
       # "arguments, but method can receive at most :max arguments"
       if hsh = errors.fetch(:no_variadic_args, false)
         messages << "  expected at most #{hsh[:expected]} arguments, but received unlimited arguments"
-      end # if
+      end
 
       # TODO: Replace this with "  expected method to receive arbitrary "\
       # "keywords, but the method can receive :keyword_list", with
@@ -146,46 +143,44 @@ module RSpec::SleepingKingStudios::Matchers::Shared
       # " receive keywords"
       if errors.fetch(:no_variadic_keywords, false)
         messages << "  expected arbitrary keywords"
-      end # if
+      end
 
       # TODO: Replace this with "  expected method to receive keywords "\
       # ":received_list, but the method requires keywords :required_list"
       if ary = errors.fetch(:missing_keywords, false)
-        tools = ::SleepingKingStudios::Tools::ArrayTools
-
         messages <<
           "  missing keyword#{ary.count == 1 ? '' : 's'} "\
-          "#{tools.humanize_list ary.map(&:inspect)}"
-      end # if
+          "#{tools.array_tools.humanize_list ary.map(&:inspect)}"
+      end
 
       # TODO: Replace this with "  expected method to receive keywords "\
       # ":received_list, but the method can receive :keyword_list"
       if ary = errors.fetch(:unexpected_keywords, false)
-        tools = ::SleepingKingStudios::Tools::ArrayTools
-
         messages <<
           "  unexpected keyword#{ary.count == 1 ? '' : 's'} "\
-          "#{tools.humanize_list ary.map(&:inspect)}"
-      end # if
+          "#{tools.array_tools.humanize_list ary.map(&:inspect)}"
+      end
 
       # TODO: Replace this with "  expected method to receive a block "\
       # "argument, but the method signature does not specify a block argument"
       if errors.fetch(:no_block_argument, false)
         messages << "  unexpected block"
-      end # if
+      end
 
       messages.join "\n"
-    end # method format_errors
+    end
 
-    # @api private
     def method_signature_expectation
       @method_signature_expectation ||=
         ::RSpec::SleepingKingStudios::Support::MethodSignatureExpectation.new
-    end # method_signature_expectation
+    end
 
-    # @api private
     def method_signature_expectation?
       !!@method_signature_expectation
-    end # method_signature_expectation
-  end # module
-end # module
+    end
+
+    def tools
+      SleepingKingStudios::Tools::Toolbelt.instance
+    end
+  end
+end
