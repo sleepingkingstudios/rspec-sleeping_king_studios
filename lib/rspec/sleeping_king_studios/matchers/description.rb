@@ -23,13 +23,13 @@ module RSpec::SleepingKingStudios::Matchers
       desc << format_expected_items
 
       desc
-    end # method description
+    end
 
     private
 
     def expected_items_for_description
       defined?(@expected) ? @expected : DEFAULT_EXPECTED_ITEMS
-    end # method expected_items_for_description
+    end
 
     def format_expected_items
       expected_items = expected_items_for_description
@@ -43,20 +43,25 @@ module RSpec::SleepingKingStudios::Matchers
         # RSpec 3.0-3.3
         to_sentence(expected_items)
       else
-        array_tools = ::SleepingKingStudios::Tools::ArrayTools
-        processed   = [expected_items].flatten.map(&:inspect)
+        processed =
+          tools
+          .array_tools
+          .humanize_list([expected_items].flatten.map(&:inspect))
 
         ' ' << array_tools.humanize_list(processed)
-      end # if-elsif-else
-    end # method format_expected_items
+      end
+    end
 
     def matcher_name
       return @matcher_name if @matcher_name
 
-      string_tools = ::SleepingKingStudios::Tools::StringTools
-      name         = string_tools.underscore(self.class.name.split('::').last)
+      name = tools.string_tools.underscore(self.class.name.split('::').last)
 
       @matcher_name = name.tr('_', ' ').sub(/ matcher\z/, '')
-    end # method matcher_name
-  end # module
-end # module
+    end
+
+    def tools
+      SleepingKingStudios::Tools::Toolbelt.instance
+    end
+  end
+end

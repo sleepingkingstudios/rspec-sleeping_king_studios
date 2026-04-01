@@ -9,7 +9,7 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     # (see BaseMatcher#description)
     def description
       message = "be #{type_string}"
-    end # method description
+    end
 
     # Checks if the object matches one of the specified types. Allows an
     # expected value of nil as a shortcut for expecting an instance of
@@ -23,17 +23,17 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
     #   otherwise false.
     def match expected, actual
       match_type? expected
-    end # method match
+    end
 
     # (see BaseMatcher#failure_message)
     def failure_message
       "expected #{@actual.inspect} to be #{type_string}"
-    end # method failure_message
+    end
 
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
       "expected #{@actual.inspect} not to be #{type_string}"
-    end # method failure_message_when_negated
+    end
 
     private
 
@@ -45,21 +45,21 @@ module RSpec::SleepingKingStudios::Matchers::BuiltIn
         expected.reduce(false) { |memo, obj| memo || match_type?(obj) }
       else
         @actual.kind_of? expected
-      end # case
-    end # method match_type?
+      end
+    end
 
     def type_string
       case
       when @expected.nil?
         @expected.inspect
       when @expected.is_a?(Enumerable) && 1 < @expected.count
-        tools = ::SleepingKingStudios::Tools::ArrayTools
+        tools = SleepingKingStudios::Tools::Toolbelt.instance
         items = @expected.map { |value| value.nil? ? 'nil' : value }
 
-        "a #{tools.humanize_list items, :last_separator => ' or '}"
+        "a #{tools.array_tools.humanize_list items, :last_separator => ' or '}"
       else
         "a #{expected}"
-      end # case
-    end # method type_string
-  end # class
-end # module
+      end
+    end
+  end
+end

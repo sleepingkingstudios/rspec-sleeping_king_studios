@@ -85,8 +85,17 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
   describe '.description=' do
     it { expect(described_class).to respond_to(:description=).with(1).argument }
 
+    define_method :tools do
+      SleepingKingStudios::Tools::Toolbelt.instance
+    end
+
     describe 'with nil' do
-      let(:error_message) { "description can't be blank" }
+      let(:error_message) do
+        tools.assertions.error_message_for(
+          'sleeping_king_studios.tools.assertions.presence',
+          as: 'description'
+        )
+      end
 
       it 'should raise an exception' do
         expect { described_class.description = nil }
@@ -95,7 +104,12 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
 
     describe 'with an Object' do
-      let(:error_message) { 'description is not a String or a Symbol' }
+      let(:error_message) do
+        tools.assertions.error_message_for(
+          'sleeping_king_studios.tools.assertions.name',
+          as: 'description'
+        )
+      end
 
       it 'should raise an exception' do
         expect { described_class.description = Object.new.freeze }
@@ -104,7 +118,12 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
 
     describe 'with an empty String' do
-      let(:error_message) { "description can't be blank" }
+      let(:error_message) do
+        tools.assertions.error_message_for(
+          'sleeping_king_studios.tools.assertions.presence',
+          as: 'description'
+        )
+      end
 
       it 'should raise an exception' do
         expect { described_class.description = '' }
@@ -113,7 +132,12 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Examples do
     end
 
     describe 'with an empty Symbol' do
-      let(:error_message) { "description can't be blank" }
+      let(:error_message) do
+        tools.assertions.error_message_for(
+          'sleeping_king_studios.tools.assertions.presence',
+          as: 'description'
+        )
+      end
 
       it 'should raise an exception' do
         expect { described_class.description = :'' }

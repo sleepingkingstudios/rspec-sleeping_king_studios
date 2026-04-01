@@ -12,20 +12,22 @@ module Spec::Support::SharedExamples::Matchers
     shared_examples 'should respond to method with signature' do |**signature|
       let(:with_arguments_message) { ' with arguments:' }
 
-      private def count_arguments arity
+      define_method :count_arguments do |arity|
         "#{arity} arguments"
-      end # method count_arguments
+      end
 
-      private def list_keywords keywords
-        tools  = ::SleepingKingStudios::Tools::ArrayTools
-        tools.humanize_list(keywords.map(&:inspect))
-      end # method list_keywords
+      define_method :list_keywords do |keywords|
+        SleepingKingStudios::Tools::Toolbelt
+          .instance
+          .array_tools
+          .humanize_list(keywords.map(&:inspect))
+      end
 
       describe 'with no argument expectation' do
         include_examples 'should pass with a positive expectation'
 
         include_examples 'should fail with a negative expectation'
-      end # describe
+      end
 
       min_arguments       = signature.fetch(:min_arguments, 0)
       max_arguments       = signature.fetch(:max_arguments, min_arguments)
@@ -50,22 +52,22 @@ module Spec::Support::SharedExamples::Matchers
               "expected at least #{min_arguments} arguments, but received "\
               "#{insufficient_count}"
             ) # end include
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with(insufficient_count).arguments
-          end # let
+          end
 
           include_examples 'should fail with a positive expectation'
 
           include_examples 'should pass with a negative expectation'
-        end # describe
-      end # if-else
+        end
+      end
 
       describe 'with a valid number of arguments' do
         let(:failure_message_when_negated) do
@@ -75,10 +77,10 @@ module Spec::Support::SharedExamples::Matchers
 
           unless required_keywords.empty?
             message << " and keywords #{list_keywords required_keywords}"
-          end # unless
+          end
 
           message
-        end # let
+        end
         let(:instance) do
           matcher = super()
 
@@ -86,15 +88,15 @@ module Spec::Support::SharedExamples::Matchers
 
           unless required_keywords.empty?
             matcher.with_keywords(*required_keywords)
-          end # unless
+          end
 
           matcher
-        end # let
+        end
 
         include_examples 'should pass with a positive expectation'
 
         include_examples 'should fail with a negative expectation'
-      end # describe
+      end
 
       if unlimited_arguments
         excessive_count = 9001
@@ -102,21 +104,21 @@ module Spec::Support::SharedExamples::Matchers
         describe 'with an excessive number of arguments' do
           let(:failure_message_when_negated) do
             super() << " with #{excessive_count} arguments"
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with(excessive_count).arguments
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
 
         if min_arguments > 0
           describe 'with unlimited arguments' do
@@ -127,60 +129,60 @@ module Spec::Support::SharedExamples::Matchers
                 "expected at least #{min_arguments} arguments, but received "\
                 "#{insufficient_count}"
               ) # end include
-            end # let
+            end
             let(:instance) do
               matcher = super()
 
               unless required_keywords.empty?
                 matcher.with_keywords(*required_keywords)
-              end # unless
+              end
 
               matcher.with_unlimited_arguments
-            end # let
+            end
 
             include_examples 'should fail with a positive expectation'
 
             include_examples 'should pass with a negative expectation'
-          end # describe
+          end
         else
           describe 'with unlimited arguments' do
             let(:failure_message_when_negated) do
               super() << ' with unlimited arguments'
-            end # let
+            end
             let(:instance) do
               matcher = super()
 
               unless required_keywords.empty?
                 matcher.with_keywords(*required_keywords)
-              end # unless
+              end
 
               matcher.with_unlimited_arguments
-            end # let
+            end
 
             include_examples 'should pass with a positive expectation'
 
             include_examples 'should fail with a negative expectation'
-          end # describe
-        end # if-else
+          end
+        end
 
         describe 'with a valid number of arguments and unlimited arguments' do
           let(:failure_message_when_negated) do
             super() << " with #{valid_count} arguments and unlimited arguments"
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with(valid_count).arguments.and_unlimited_arguments
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
       else
         excessive_count = max_arguments + 2
 
@@ -192,21 +194,21 @@ module Spec::Support::SharedExamples::Matchers
               "expected at most #{max_arguments} arguments, but received "\
               "#{excessive_count}"
             ) # end include
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with(excessive_count).arguments
-          end # let
+          end
 
           include_examples 'should fail with a positive expectation'
 
           include_examples 'should pass with a negative expectation'
-        end # describe
+        end
 
         describe 'with unlimited arguments' do
           let(:failure_message) do
@@ -216,21 +218,21 @@ module Spec::Support::SharedExamples::Matchers
               "expected at most #{max_arguments} arguments, but received "\
               "unlimited arguments"
             ) # end include
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with_unlimited_arguments
-          end # let
+          end
 
           include_examples 'should fail with a positive expectation'
 
           include_examples 'should pass with a negative expectation'
-        end # describe
+        end
 
         describe 'with a valid number of arguments and unlimited_arguments' do
           let(:failure_message) do
@@ -240,18 +242,18 @@ module Spec::Support::SharedExamples::Matchers
               "expected at most #{max_arguments} arguments, but received "\
               "unlimited arguments"
             ) # end include
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with(valid_count).arguments.and_unlimited_arguments
-          end # let
-        end # describe
-      end # if-else
+          end
+        end
+      end
 
       unless optional_keywords.empty?
         describe 'with valid keywords' do
@@ -264,19 +266,19 @@ module Spec::Support::SharedExamples::Matchers
             message << " keywords #{list_keywords keywords}"
 
             message
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*keywords)
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
 
         describe 'with valid keywords using the deprecated syntax' do
           let(:keywords) { required_keywords + optional_keywords }
@@ -288,20 +290,20 @@ module Spec::Support::SharedExamples::Matchers
             message << " keywords #{list_keywords keywords}"
 
             message
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*keywords)
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
-      end # unless
+        end
+      end
 
       unless required_keywords.empty?
         describe 'with required keywords' do
@@ -313,19 +315,19 @@ module Spec::Support::SharedExamples::Matchers
             message << " keywords #{list_keywords required_keywords}"
 
             message
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*required_keywords)
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
 
         describe 'with required keywords using the deprecated syntax' do
           let(:failure_message_when_negated) do
@@ -336,19 +338,19 @@ module Spec::Support::SharedExamples::Matchers
             message << " keywords #{list_keywords required_keywords}"
 
             message
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*required_keywords)
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
 
         describe 'with missing keywords' do
           let(:failure_message) do
@@ -357,20 +359,20 @@ module Spec::Support::SharedExamples::Matchers
             ).and include(
               "missing keywords #{list_keywords required_keywords}"
             ) # end include
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*optional_keywords)
-          end # let
+          end
 
           include_examples 'should fail with a positive expectation'
 
           include_examples 'should pass with a negative expectation'
-        end # describe
-      end # unless
+        end
+      end
 
       if arbitrary_keywords
         describe 'with unexpected keywords' do
@@ -383,19 +385,19 @@ module Spec::Support::SharedExamples::Matchers
             message << " keywords #{list_keywords keywords}"
 
             message
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*keywords)
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
 
         describe 'with arbitrary keywords' do
           let(:failure_message_when_negated) do
@@ -406,15 +408,15 @@ module Spec::Support::SharedExamples::Matchers
 
             unless required_keywords.empty?
               messages << "keywords #{list_keywords required_keywords}"
-            end # unless
+            end
 
             messages << 'arbitrary keywords'
 
-            tools = ::SleepingKingStudios::Tools::ArrayTools
-            message << tools.humanize_list(messages)
+            tools = SleepingKingStudios::Tools::Toolbelt.instance
+            message << tools.array_tools.humanize_list(messages)
 
             message
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
@@ -422,15 +424,15 @@ module Spec::Support::SharedExamples::Matchers
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with_arbitrary_keywords
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
 
         describe 'with unexpected and arbitrary keywords' do
           let(:keywords) { required_keywords + invalid_keywords }
@@ -444,19 +446,19 @@ module Spec::Support::SharedExamples::Matchers
             message << ' and arbitrary keywords'
 
             message
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*keywords).and_arbitrary_keywords
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
       else
         describe 'with unexpected keywords' do
           let(:keywords) { required_keywords + invalid_keywords }
@@ -466,19 +468,19 @@ module Spec::Support::SharedExamples::Matchers
             ).and include(
               "unexpected keywords #{list_keywords invalid_keywords}"
             ) # end include
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*keywords)
-          end # let
+          end
 
           include_examples 'should fail with a positive expectation'
 
           include_examples 'should pass with a negative expectation'
-        end # describe
+        end
 
         describe 'with arbitrary keywords' do
           let(:failure_message) do
@@ -487,7 +489,7 @@ module Spec::Support::SharedExamples::Matchers
             ).and include(
               'expected arbitrary keywords'
             ) # end include
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
@@ -495,15 +497,15 @@ module Spec::Support::SharedExamples::Matchers
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with_arbitrary_keywords
-          end # let
+          end
 
           include_examples 'should fail with a positive expectation'
 
           include_examples 'should pass with a negative expectation'
-        end # describe
+        end
 
         describe 'with unexpected keywords and arbitrary keywords' do
           let(:keywords) { required_keywords + invalid_keywords }
@@ -515,27 +517,27 @@ module Spec::Support::SharedExamples::Matchers
             ).and include(
               'expected arbitrary keywords'
             ) # end include
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
             matcher.with(min_arguments).arguments if min_arguments > 0
 
             matcher.with_keywords(*keywords).and_arbitrary_keywords
-          end # let
+          end
 
           include_examples 'should fail with a positive expectation'
 
           include_examples 'should pass with a negative expectation'
-        end # describe
-      end # if-else
+        end
+      end
 
       if block_argument
         describe 'without a block' do
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
 
         describe 'with a block' do
           let(:failure_message_when_negated) do
@@ -546,15 +548,15 @@ module Spec::Support::SharedExamples::Matchers
 
             unless required_keywords.empty?
               messages << "keywords #{list_keywords required_keywords}"
-            end # unless
+            end
 
             messages << 'a block'
 
-            tools = ::SleepingKingStudios::Tools::ArrayTools
-            message << tools.humanize_list(messages)
+            tools = SleepingKingStudios::Tools::Toolbelt.instance
+            message << tools.array_tools.humanize_list(messages)
 
             message
-          end # let
+          end
           let(:instance) do
             matcher = super()
 
@@ -562,15 +564,15 @@ module Spec::Support::SharedExamples::Matchers
 
             unless required_keywords.empty?
               matcher.with_keywords(*required_keywords)
-            end # unless
+            end
 
             matcher.with_a_block
-          end # let
+          end
 
           include_examples 'should pass with a positive expectation'
 
           include_examples 'should fail with a negative expectation'
-        end # describe
+        end
       else
         describe 'with a block' do
           let(:failure_message) do
@@ -579,14 +581,14 @@ module Spec::Support::SharedExamples::Matchers
             ).and include(
               'unexpected block'
             ) # end include
-          end # let
+          end
           let(:instance) { super().with_a_block }
 
           include_examples 'should fail with a positive expectation'
 
           include_examples 'should pass with a negative expectation'
-        end # describe
-      end # if-else
-    end # shared_examples
-  end # module
-end # module
+        end
+      end
+    end
+  end
+end

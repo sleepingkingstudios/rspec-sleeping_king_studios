@@ -3,6 +3,7 @@
 require 'rspec'
 require 'byebug'
 
+require 'sleeping_king_studios/tools'
 require 'rspec/sleeping_king_studios'
 
 module Spec
@@ -30,6 +31,11 @@ module Spec
   end
 
   RSPEC_VERSION = Spec::GemVersion.new(RSpec::Version::STRING)
+end
+
+# @todo: v2.9 Remove conditional check, require Tools version 1.3 or above.
+if SleepingKingStudios::Tools.method_defined?(:initializer)
+  SleepingKingStudios::Tools.initializer.call
 end
 
 # Require Factories, Custom Matchers, &c

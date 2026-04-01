@@ -19,7 +19,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       # The error and message expectations are set up through #on and
       # #with_message.
       @error_expectations = []
-    end # constructor
+    end
 
     # (see BaseMatcher#description)
     def description
@@ -30,22 +30,22 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
 
         error_messages = expectation.messages.select(&:expected).map do |message_expectation|
           %{"#{message_expectation.message}"}
-        end # map
+        end
 
         unless error_messages.empty?
-          tools = ::SleepingKingStudios::Tools::ArrayTools
+          tools = SleepingKingStudios::Tools::Toolbelt.instance
 
           attribute_message <<
             " with message#{error_messages.count == 1 ? '' : 's'} "\
-            "#{tools.humanize_list error_messages}"
-        end # unless
+            "#{tools.array_tools.humanize_list error_messages}"
+        end
 
         attribute_message
-      end # each
+      end
       message << " on #{attribute_messages.join(", and on ")}" unless attribute_messages.empty?
 
       message
-    end # method description
+    end
 
     # Checks if the object can be validated, whether the object is valid, and
     # checks the errors on the object against the expected errors and messages
@@ -66,7 +66,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       return false unless @validates = actual.respond_to?(:valid?)
 
       !matches?(actual)
-    end # method does_not_match?
+    end
 
     # Checks if the object can be validated, whether the object is valid, and
     # checks the errors on the object against the expected errors and messages
@@ -85,7 +85,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       return false unless @validates = actual.respond_to?(:valid?)
 
       !@actual.valid? && attributes_have_errors?
-    end # method matches?
+    end
 
     # Adds an error expectation. If the actual object does not have an error on
     # the specified attribute, #matches? will return false.
@@ -100,7 +100,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       @error_expectations << ErrorExpectation.new(attribute)
 
       self
-    end # method on
+    end
 
     # Adds a message expectation for the most recently added error attribute.
     # If the actual object does not have an error on the that attribute with
@@ -125,7 +125,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       @error_expectations.last.messages << MessageExpectation.new(message)
 
       self
-    end # method with_message
+    end
 
     # Adds a set of message expectations for the most recently added error
     # attribute.
@@ -137,7 +137,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       messages.each do |message| self.with_message(message); end
 
       self
-    end # method with_message
+    end
     alias_method :with, :with_messages
 
     # (see BaseMatcher#failure_message)
@@ -154,8 +154,8 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
         "expected #{@actual.inspect} to have errors"
       else
         "expected #{@actual.inspect} to have errors#{expected_errors_message}#{received_errors_message}"
-      end # if-elsif-else
-    end # method failure_message
+      end
+    end
 
     # (see BaseMatcher#failure_message_when_negated)
     def failure_message_when_negated
@@ -174,8 +174,8 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
         return "expected #{@actual.inspect} not to have errors#{received_errors_message}"
       else
         return "expected #{@actual.inspect} not to have errors#{expected_errors_message}#{received_errors_message}"
-      end # if-else
-    end # method failure_message_when_negated
+      end
+    end
 
     private
 
@@ -186,7 +186,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
         # Find the matching error expectation, if any.
         error_expectation = @error_expectations.detect do |error_expectation|
           error_expectation.attribute == attribute
-        end # detect
+        end
 
         if error_expectation
           error_expectation.received = true
@@ -201,52 +201,52 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
                   message =~ message_expectation.message
                 else
                   message == message_expectation.message
-                end # if-else
-              end # detect
+                end
+              end
 
               if message_expectation
                 message_expectation.received = true
               else
                 error_expectation.messages << MessageExpectation.new(message, false, true)
-              end # if-else
-            end # each
-          end # unless
+              end
+            end
+          end
         else
           error_expectation = ErrorExpectation.new attribute, false, true
           messages.each do |message|
             error_expectation.messages << MessageExpectation.new(message, false, true)
-          end # each
+          end
 
           @error_expectations << error_expectation
-        end # if-else
-      end # each
+        end
+      end
 
       missing_errors.empty? && missing_messages.empty?
-    end # method attributes_have_errors
+    end
 
     def expected_errors
       @error_expectations.select do |error_expectation|
         error_expectation.expected
-      end # select
-    end # method expected_errors
+      end
+    end
 
     def missing_errors
       @error_expectations.select do |error_expectation|
         error_expectation.expected && !error_expectation.received
-      end # select
-    end # method missing_errors
+      end
+    end
 
     def missing_messages
       @error_expectations.select do |error_expectation|
         !error_expectation.messages.missing.empty?
-      end # select
-    end # method missing_messages
+      end
+    end
 
     def unexpected_errors
       @error_expectations.select do |error_expectation|
         !error_expectation.expected && error_expectation.received
-      end # select
-    end # method unexpected_errors
+      end
+    end
 
     def expected_errors_message
       "\n  expected errors:" + expected_errors.map do |error_expectation|
@@ -254,7 +254,7 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
           "(#{@negative_expectation ? 'none' : 'any'})" :
           error_expectation.messages.expected.map(&:message).map(&:inspect).join(", "))
       end.join # map
-    end # method expected_errors_message
+    end
 
     def received_errors_message
       return "" unless @validates
@@ -264,6 +264,6 @@ module RSpec::SleepingKingStudios::Matchers::ActiveModel
       "\n  received errors:" + @actual.errors.messages.map do |attr, ary|
         "\n    #{attr}: " + ary.map(&:inspect).join(", ")
       end.join # map
-    end # method received_errors_message
-  end # class
-end # module
+    end
+  end
+end

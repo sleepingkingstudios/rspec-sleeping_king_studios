@@ -27,7 +27,7 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
     "expected #{actual_string} not to include #{expected}"
   end
 
-  def format_expected_items(items) # rubocop:disable Metrics/MethodLength
+  define_method :format_expected_items do |items| # rubocop:disable Metrics/MethodLength
     items = items.map do |item|
       case item
       when Proc
@@ -41,7 +41,10 @@ RSpec.describe RSpec::SleepingKingStudios::Matchers::BuiltIn::IncludeMatcher do
       end
     end
 
-    SleepingKingStudios::Tools::ArrayTools.humanize_list(items)
+    SleepingKingStudios::Tools::Toolbelt
+      .instance
+      .array_tools
+      .humanize_list(items)
   end
 
   def rspec_matcher?(item)

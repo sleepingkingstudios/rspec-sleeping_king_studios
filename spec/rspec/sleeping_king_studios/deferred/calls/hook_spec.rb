@@ -29,6 +29,10 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Calls::Hook do
     other_method_name: :after
 
   describe '.new' do
+    define_method :tools do
+      SleepingKingStudios::Tools::Toolbelt.instance
+    end
+
     describe 'with method_name: :around and scope: :context' do
       let(:method_name) { :around }
       let(:arguments)   { %i[context] }
@@ -61,7 +65,10 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Calls::Hook do
     describe 'with scope: nil' do
       let(:arguments) { [] }
       let(:error_message) do
-        "scope can't be blank"
+        tools.assertions.error_message_for(
+          'sleeping_king_studios.tools.assertions.presence',
+          as: 'scope'
+        )
       end
 
       it 'should raise an exception' do
@@ -75,7 +82,10 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Calls::Hook do
     describe 'with scope: an Object' do
       let(:arguments) { [Object.new.freeze] }
       let(:error_message) do
-        'scope is not a String or a Symbol'
+        tools.assertions.error_message_for(
+          'sleeping_king_studios.tools.assertions.name',
+          as: 'scope'
+        )
       end
 
       it 'should raise an exception' do
@@ -89,7 +99,10 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Calls::Hook do
     describe 'with scope: an empty String' do
       let(:arguments) { [''] }
       let(:error_message) do
-        "scope can't be blank"
+        tools.assertions.error_message_for(
+          'sleeping_king_studios.tools.assertions.presence',
+          as: 'scope'
+        )
       end
 
       it 'should raise an exception' do
@@ -103,7 +116,10 @@ RSpec.describe RSpec::SleepingKingStudios::Deferred::Calls::Hook do
     describe 'with scope: an empty Symbol' do
       let(:arguments) { [:''] }
       let(:error_message) do
-        "scope can't be blank"
+        tools.assertions.error_message_for(
+          'sleeping_king_studios.tools.assertions.presence',
+          as: 'scope'
+        )
       end
 
       it 'should raise an exception' do
