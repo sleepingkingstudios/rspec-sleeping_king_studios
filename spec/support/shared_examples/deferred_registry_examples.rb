@@ -84,6 +84,10 @@ module Spec::Support::SharedExamples
         let(:description) { 'should do something' }
         let(:block)       { -> {} }
 
+        define_method :tools do
+          SleepingKingStudios::Tools::Toolbelt.instance
+        end
+
         it 'should define the class method' do
           expect(described_class)
             .to respond_to(:deferred_examples)
@@ -110,7 +114,10 @@ module Spec::Support::SharedExamples
 
         describe 'with description: nil' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -122,7 +129,10 @@ module Spec::Support::SharedExamples
         describe 'with description: an Object' do
           let(:description) { Object.new.freeze }
           let(:error_message) do
-            'description is not a String or a Symbol'
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.name',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -135,7 +145,10 @@ module Spec::Support::SharedExamples
 
         describe 'with description: an empty String' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -146,7 +159,10 @@ module Spec::Support::SharedExamples
 
         describe 'with description: an empty Symbol' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -297,9 +313,16 @@ module Spec::Support::SharedExamples
             .with(1).argument
         end
 
+        define_method :tools do
+          SleepingKingStudios::Tools::Toolbelt.instance
+        end
+
         describe 'with nil' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -311,7 +334,10 @@ module Spec::Support::SharedExamples
         describe 'with an Object' do
           let(:description) { Object.new.freeze }
           let(:error_message) do
-            'description is not a String or a Symbol'
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.name',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -322,7 +348,10 @@ module Spec::Support::SharedExamples
 
         describe 'with an empty String' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -333,7 +362,10 @@ module Spec::Support::SharedExamples
 
         describe 'with an empty Symbol' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -880,6 +912,10 @@ module Spec::Support::SharedExamples
           end
         end
 
+        define_method :tools do
+          SleepingKingStudios::Tools::Toolbelt.instance
+        end
+
         it 'should define the class method' do
           expect(described_class)
             .to respond_to(:include_deferred)
@@ -891,7 +927,10 @@ module Spec::Support::SharedExamples
 
         describe 'with nil' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -902,7 +941,10 @@ module Spec::Support::SharedExamples
 
         describe 'with an Object' do
           let(:error_message) do
-            'description is not a String or a Symbol'
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.name',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -913,7 +955,10 @@ module Spec::Support::SharedExamples
 
         describe 'with an empty String' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do
@@ -924,7 +969,10 @@ module Spec::Support::SharedExamples
 
         describe 'with an empty Symbol' do
           let(:error_message) do
-            "description can't be blank"
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'description'
+            )
           end
 
           it 'should raise an exception' do

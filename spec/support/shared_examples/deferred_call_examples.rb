@@ -38,8 +38,17 @@ module Spec::Support::SharedExamples
             .and_a_block
         end
 
+        define_method :tools do
+          SleepingKingStudios::Tools::Toolbelt.instance
+        end
+
         describe 'with method_name: nil' do
-          let(:error_message) { "method_name can't be blank" }
+          let(:error_message) do
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'method_name'
+            )
+          end
 
           it 'should raise an exception' do
             expect { described_class.new(nil) }
@@ -48,7 +57,12 @@ module Spec::Support::SharedExamples
         end
 
         describe 'with method_name: an Object' do
-          let(:error_message) { 'method_name is not a String or a Symbol' }
+          let(:error_message) do
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.name',
+              as: 'method_name'
+            )
+          end
 
           it 'should raise an exception' do
             expect { described_class.new(Object.new.freeze) }
@@ -57,7 +71,12 @@ module Spec::Support::SharedExamples
         end
 
         describe 'with method_name: an empty String' do
-          let(:error_message) { "method_name can't be blank" }
+          let(:error_message) do
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'method_name'
+            )
+          end
 
           it 'should raise an exception' do
             expect { described_class.new('') }
@@ -66,7 +85,12 @@ module Spec::Support::SharedExamples
         end
 
         describe 'with method_name: an empty Symbol' do
-          let(:error_message) { "method_name can't be blank" }
+          let(:error_message) do
+            tools.assertions.error_message_for(
+              'sleeping_king_studios.tools.assertions.presence',
+              as: 'method_name'
+            )
+          end
 
           it 'should raise an exception' do
             expect { described_class.new(:'') }
