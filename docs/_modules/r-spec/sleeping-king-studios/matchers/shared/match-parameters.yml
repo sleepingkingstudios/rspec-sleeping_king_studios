@@ -5,9 +5,7 @@ type: module
 files:
 - lib/rspec/sleeping_king_studios/matchers/shared/match_parameters.rb
 parent_path: r-spec/sleeping-king-studios/matchers/shared
-short_description: |-
-  Helper methods for checking the parameters and keywords (Ruby 2.0 only) of
-  a method.
+short_description: Helper methods for checking the arguments and keywords of a method.
 instance_methods:
 - name: argument
   path: r-spec/sleeping-king-studios/matchers/shared/match-parameters/i-argument

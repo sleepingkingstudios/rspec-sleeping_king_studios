@@ -13,7 +13,7 @@ module RSpec
       # Minor version.
       MINOR = 8
       # Patch version.
-      PATCH = 4
+      PATCH = 5
       # Prerelease version.
       PRERELEASE = nil
       # Build metadata.
