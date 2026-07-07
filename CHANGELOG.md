@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.5
+
+Fixed remaining direct references to `SleepingKingStudios::Tools` methods.
+
 ## 2.8.4
 
 Fixed deprecated direct reference to `SleepingKingStudios::Tools` methods.
