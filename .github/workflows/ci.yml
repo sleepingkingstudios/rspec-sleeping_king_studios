@@ -29,14 +29,12 @@ jobs:
           - '3.4'
           - '4.0'
         include:
-          - gemfile: activemodel_6_1
-            ruby-version: '3.1'
-          - gemfile: activemodel_7_0
-            ruby-version: '3.1'
           - gemfile: activemodel_7_1
             ruby-version: '3.2'
           - gemfile: activemodel_7_2
             ruby-version: '3.3'
+          - gemfile: activemodel_8_0
+            ruby-version: '4.0'
           - gemfile: rspec_3_9
             ruby-version: '3.3'
           - gemfile: rspec_3_10

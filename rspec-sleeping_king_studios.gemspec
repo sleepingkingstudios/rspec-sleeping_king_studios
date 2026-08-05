@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
     'rubygems_mfa_required' => 'true'
   }
 
-  gem.required_ruby_version = ['>= 3.1', '< 5']
+  gem.required_ruby_version = ['>= 3.2', '< 5']
   gem.require_path          = 'lib'
   gem.files                 =
     Dir['config/rubocop-rspec.yml', 'lib/**/*.rb', 'LICENSE', '*.md']

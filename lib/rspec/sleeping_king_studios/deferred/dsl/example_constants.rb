@@ -53,7 +53,7 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
       qualified_name,
       constant_value = nil,
       force: false,
-      &block
+      &
     )
       deferred_calls <<
         RSpec::SleepingKingStudios::Deferred::Call.new(
@@ -61,7 +61,7 @@ module RSpec::SleepingKingStudios::Deferred::Dsl # rubocop:disable Style/Documen
           qualified_name,
           *(constant_value.nil? ? [] : [constant_value]),
           force:,
-          &block
+          &
         )
 
       nil

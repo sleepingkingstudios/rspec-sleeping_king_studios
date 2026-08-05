@@ -10,14 +10,14 @@ module RSpec::SleepingKingStudios::Concerns
 
     class << self
       # @api private
-      def define_class(class_name:, example:, base_class: nil, &block)
+      def define_class(class_name:, example:, base_class: nil, &)
         klass = Class.new(resolve_base_class(base_class))
 
         klass.define_singleton_method(:name) { class_name }
         klass.singleton_class.send(:alias_method, :inspect, :name)
         klass.singleton_class.send(:alias_method, :to_s,    :name)
 
-        example.instance_exec(klass, &block) if block_given?
+        example.instance_exec(klass, &) if block_given?
 
         klass
       end
@@ -94,7 +94,7 @@ module RSpec::SleepingKingStudios::Concerns
       end
     end
 
-    def example_class(class_name, base_class = nil, &block)
+    def example_class(class_name, base_class = nil, &)
       class_name = class_name.to_s if class_name.is_a?(Symbol)
 
       example_constant(class_name) do
@@ -102,7 +102,7 @@ module RSpec::SleepingKingStudios::Concerns
           base_class:,
           class_name:,
           example:    self,
-          &block
+          &
         )
       end
     end
@@ -111,12 +111,12 @@ module RSpec::SleepingKingStudios::Concerns
       qualified_name,
       constant_value = DEFAULT_VALUE,
       force: false,
-      &block
+      &
     )
       around(:example) do |wrapped_example|
         resolved_value =
           if constant_value == DEFAULT_VALUE && block_given?
-            wrapped_example.example.instance_exec(&block)
+            wrapped_example.example.instance_exec(&)
           else
             constant_value
           end

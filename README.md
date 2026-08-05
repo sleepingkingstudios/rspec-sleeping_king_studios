@@ -24,9 +24,9 @@ inherit_gem:
 
 RSpec::SleepingKingStudios is tested against the following dependencies:
 
-- Ruby (MRI) 3.1 through 3.4
+- Ruby (MRI) 3.4 through 4.0
 - RSpec versions 3.9 through 3.13
-- ActiveModel versions 6.1 through 8.0
+- ActiveModel versions 6.1 through 8.1
 
 ### Documentation
 

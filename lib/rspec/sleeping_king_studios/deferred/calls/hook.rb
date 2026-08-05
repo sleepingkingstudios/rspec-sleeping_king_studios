@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'set'
-
 require 'rspec/sleeping_king_studios/deferred/call'
 require 'rspec/sleeping_king_studios/deferred/calls'
 
