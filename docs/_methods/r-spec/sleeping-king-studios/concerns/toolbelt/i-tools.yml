@@ -5,5 +5,10 @@ signature: tools
 slug: tools
 constructor: false
 data_path: r-spec/sleeping-king-studios/concerns/toolbelt/i-tools
-short_description: module
+returns:
+- description: |-
+    the shared toolbelt
+    instance.
+  type:
+  - name: SleepingKingStudios::Tools::Toolbelt
 version: "*"

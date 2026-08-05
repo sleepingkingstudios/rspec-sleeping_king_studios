@@ -5,9 +5,7 @@ type: module
 files:
 - lib/rspec/sleeping_king_studios/concerns/toolbelt.rb
 parent_path: r-spec/sleeping-king-studios/concerns
-short_description: |-
-  Defines ::tools and #tools methods for example groups and examples, exposing
-  an instance of SleepingKingStudios::Tools::Toolbelt.
+short_description: 'Defines ::tools and #tools methods for example groups and examples.'
 defined_modules:
 - name: ClassMethods
   slug: class-methods

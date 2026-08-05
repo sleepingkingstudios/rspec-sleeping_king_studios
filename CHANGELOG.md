@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.6
+
+Fixed `WrongScopeError` when calling the `Toolbelt` concern.
+
 ## 2.8.5
 
 Fixed remaining direct references to `SleepingKingStudios::Tools` methods.

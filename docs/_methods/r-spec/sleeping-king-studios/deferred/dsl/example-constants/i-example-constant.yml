@@ -1,7 +1,7 @@
 ---
 name: RSpec::SleepingKingStudios::Deferred::Dsl::ExampleConstants#example_constant
 parent_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants
-signature: 'example_constant(qualified_name, constant_value = nil, force: false, &block)'
+signature: 'example_constant(qualified_name, constant_value = nil, force: false, &)'
 slug: example-constant
 constructor: false
 data_path: r-spec/sleeping-king-studios/deferred/dsl/example-constants/i-example-constant
