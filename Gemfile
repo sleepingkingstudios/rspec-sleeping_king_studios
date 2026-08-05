@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'activemodel', '~> 8.0'
+gem 'activemodel', '~> 8.1'
 
 gem 'cuprum-cli', '~> 0.1'
 

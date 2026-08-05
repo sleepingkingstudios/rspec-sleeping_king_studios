@@ -95,3 +95,11 @@ appraise 'activemodel-7-2' do
     gem 'rspec', '~> 3.13.0'
   end
 end
+
+appraise 'activemodel-8-0' do
+  gem 'activemodel', '~> 8.0.0'
+
+  group :development, :test do
+    gem 'rspec', '~> 3.13.0'
+  end
+end
