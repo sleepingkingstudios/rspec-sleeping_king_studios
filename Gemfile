@@ -6,9 +6,7 @@ gemspec
 
 gem 'activemodel', '~> 8.0'
 
-gem 'sleeping_king_studios-tasks', '~> 0.4', '>= 0.4.1'
-
-gem 'sleeping_king_studios-tools', '~> 1.2', '>= 1.2.1'
+gem 'cuprum-cli', '~> 0.1'
 
 group :development, :test do
   gem 'appraisal', '~> 2.5'
