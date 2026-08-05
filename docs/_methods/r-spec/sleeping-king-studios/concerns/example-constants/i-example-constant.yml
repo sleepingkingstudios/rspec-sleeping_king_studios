@@ -2,7 +2,7 @@
 name: RSpec::SleepingKingStudios::Concerns::ExampleConstants#example_constant
 parent_path: r-spec/sleeping-king-studios/concerns/example-constants
 signature: 'example_constant(qualified_name, constant_value = DEFAULT_VALUE, force:
-  false, &block)'
+  false, &)'
 slug: example-constant
 constructor: false
 data_path: r-spec/sleeping-king-studios/concerns/example-constants/i-example-constant
