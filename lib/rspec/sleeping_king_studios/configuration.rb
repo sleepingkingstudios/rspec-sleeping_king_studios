@@ -150,7 +150,7 @@ module RSpec::SleepingKingStudios
   end
 end
 
-class RSpec::Core::Configuration # rubocop:disable Style/Documentation
+RSpec::Core::Configuration.class_eval do
   # Get or set the configuration options for RSpec::SleepingKingStudios.
   def sleeping_king_studios(&)
     @sleeping_king_studios ||= RSpec::SleepingKingStudios::Configuration.new

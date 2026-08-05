@@ -14,11 +14,12 @@ group :development, :test do
   gem 'appraisal', '~> 2.5'
   gem 'aruba',     '~> 0.14'
   gem 'byebug',    '~> 11.1'
+  gem 'readline'
 
   gem 'cucumber',      '~> 3.1'
   gem 'rspec',         '~> 3.13'
-  gem 'rubocop',       '~> 1.82.0' # Avoid fatal error in v1.84.
-  gem 'rubocop-rspec', '~> 3.9'
+  gem 'rubocop',       '~> 1.89'
+  gem 'rubocop-rspec', '~> 3.10'
   gem 'simplecov',     '~> 0.22'
 end
 
