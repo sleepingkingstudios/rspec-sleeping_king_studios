@@ -14,6 +14,7 @@ group :development, :test do
   gem 'appraisal', '~> 2.5'
   gem 'aruba',     '~> 0.14'
   gem 'byebug',    '~> 11.1'
+  gem 'readline'
 
   gem 'cucumber',      '~> 3.1'
   gem 'rspec',         '~> 3.13'

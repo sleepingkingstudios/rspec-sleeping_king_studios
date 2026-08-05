@@ -14,6 +14,7 @@ AllCops:
     - lib/rspec/sleeping_king_studios/concerns.rb
     - lib/rspec/sleeping_king_studios/concerns/example_constants.rb
     - lib/rspec/sleeping_king_studios/concerns/memoized_helpers.rb
+    - lib/rspec/sleeping_king_studios/concerns/toolbelt.rb
     - lib/rspec/sleeping_king_studios/configuration.rb
     - lib/rspec/sleeping_king_studios/deferred.rb
     - lib/rspec/sleeping_king_studios/deferred/**/*
@@ -30,6 +31,7 @@ AllCops:
     - spec/rspec/sleeping_king_studios_spec.rb
     - spec/rspec/sleeping_king_studios/concerns/example_constants_spec.rb
     - spec/rspec/sleeping_king_studios/concerns/memoized_helpers_spec.rb
+    - spec/rspec/sleeping_king_studios/concerns/toolbelt_spec.rb
     - spec/rspec/sleeping_king_studios/configuration_spec.rb
     - spec/rspec/sleeping_king_studios/deferred/**/*
     - spec/rspec/sleeping_king_studios/matchers/built_in/include_matcher_spec.rb
