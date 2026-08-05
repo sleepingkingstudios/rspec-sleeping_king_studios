@@ -8,7 +8,7 @@ RSpec.describe RSpec::SleepingKingStudios::Concerns::Toolbelt do
   let(:described_class) do
     Class
       .new
-      .include RSpec::SleepingKingStudios::Concerns::Toolbelt
+      .include RSpec::SleepingKingStudios::Concerns::Toolbelt # rubocop:disable RSpec/DescribedClass
   end
 
   describe '::tools' do
